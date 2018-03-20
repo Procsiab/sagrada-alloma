@@ -2,6 +2,7 @@
   <component name="UISettings">
     <option name="ANIMATE_WINDOWS" value="false" />
     <option name="FONT_FACE" value="Cantarell Regular" />
+    <option name="HIDE_TOOL_STRIPES" value="false" />
     <option name="USE_SMALL_LABELS_ON_TABS" value="true" />
   </component>
 </application>
