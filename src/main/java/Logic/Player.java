@@ -8,6 +8,7 @@ public class Player {
     private Frame f;
     private Integer favorToken
     private Card privateObjective;
+    private Integer Turno;
 
     Integer getScore();
     Integer getIdPlayer();
@@ -19,5 +20,6 @@ public class Player {
     void setFavorToken(Integer i);
     Card getPrivateObjective();
     void setPrivateObjective(Card po);
-
+    void setTurno(Frame f);
+    Integer getTurno();
 }
