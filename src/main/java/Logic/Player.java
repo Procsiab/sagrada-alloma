@@ -10,16 +10,16 @@ public class Player {
     private Card privateObjective;
     private Integer Turno;
 
-    Integer getScore();
-    Integer getIdPlayer();
-    Integer getIDMatch();
-    String getName();
-    Frame getFrame();
-    void setFrame(Frame f);
-    Integer getFavorToken();
-    void setFavorToken(Integer i);
-    Card getPrivateObjective();
-    void setPrivateObjective(Card po);
-    void setTurno(Frame f);
-    Integer getTurno();
+    public Integer getScore();
+    public Integer getIdPlayer();
+    public Integer getIDMatch();
+    public String getName();
+    public Frame getFrame();
+    public void setFrame(Frame f);
+    public Integer getFavorToken();
+    public void setFavorToken(Integer i);
+    public Card getPrivateObjective();
+    public void setPrivateObjective(Card po);
+    public void setTurno(Frame f);
+    public Integer getTurno();
 }
