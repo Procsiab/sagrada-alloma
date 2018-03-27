@@ -1,8 +1,6 @@
 package Logic;
 
-import java.util.Random;
-
-public class Dice {
+public class Cell {
 
     private Integer value;
     private char color;
@@ -16,8 +14,7 @@ public class Dice {
         return color;
     }
 
-    public void shuffle(){
-        Random r = new Random();
-         value = r.nextInt(6);
+    public void throw(){
+
     }
 }

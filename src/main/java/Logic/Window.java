@@ -2,7 +2,18 @@ package Logic;
 
 public class Window {
 
-    private final char[][] feature = new char[4][5];
+    private final Cell[][] feature = new Cell[4][5];
     private Integer IDMatch;
 
+    public void setIDMatch(Integer IDMatch) {
+        this.IDMatch = IDMatch;
+    }
+
+    public Cell[][] getFeature() {
+        return feature;
+    }
+
+    public Integer getIDMatch() {
+        return IDMatch;
+    }
 }

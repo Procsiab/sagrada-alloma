@@ -8,9 +8,12 @@ public class Frame {
     private Window window;
     private Dice[][] dicePositions;
 
-    public Dice[][] getDicePositions();
+    public Dice[][] getDicePositions() {
+        return dicePositions;
+    }
+
     boolean setDicePositions(Dice dice, Position position, Integer IDPlayer) {
-        boolean ESITO = false;
+        Integer ESITO = 1;
 
         //check if position is on edge
         if (mainServer.getP().get(IDPlayer).getTurno() == 1) {
@@ -18,21 +21,72 @@ public class Frame {
                 return false;
         }
 
-        //check whether in some adjacent positions there is a previously placed dice or not
+        //check whether in some adjacent positions there is a previously placed dice or not complying specifics
+        if(position.getRaw() >= 0 && position.getColumn()-1 >= 0)
+            if(dicePositions[position.getRaw()][position.getColumn()-1]!= null)
+                if(dice.getColor() != dicePositions[position.getRaw()][position.getColumn()-1].getColor()&&
+                        dice.getValue()!= dicePositions[position.getRaw()][position.getColumn()-1].getValue())
+                    return false;
+                else
+                    ESITO = 0*ESITO;
+
         if(position.getRaw()-1 >= 0 && position.getColumn()-1 >= 0)
             if(dicePositions[position.getRaw()-1][position.getColumn()-1]!= null)
-                if(dice.getColor() != dicePositions[position.getRaw()-1][position.getColumn()-1].getColor())
+                ESITO = 0*ESITO;
 
+        if(position.getRaw()-1 >= 0 && position.getColumn() >= 0)
+            if(dicePositions[position.getRaw()-1][position.getColumn()]!= null)
+                if(dice.getColor() != dicePositions[position.getRaw()-1][position.getColumn()].getColor()&&
+                        dice.getValue()!= dicePositions[position.getRaw()-1][position.getColumn()].getValue())
+                    return false;
+                else
+                    ESITO = 0*ESITO;
 
+        if(position.getRaw()-1 >= 0 && position.getColumn()+1 >= 0)
+            if(dicePositions[position.getRaw()-1][position.getColumn()+1]!= null)
+                ESITO = 0*ESITO;
 
+        if(position.getRaw() >= 0 && position.getColumn()+1 >= 0)
+            if(dicePositions[position.getRaw()][position.getColumn()+1]!= null)
+                if(dice.getColor() != dicePositions[position.getRaw()][position.getColumn()+1].getColor()&&
+                        dice.getValue()!= dicePositions[position.getRaw()][position.getColumn()+1].getValue())
+                    return false;
+                else
+                    ESITO = 0*ESITO;
 
+        if(position.getRaw()+1 >= 0 && position.getColumn()+1 >= 0)
+            if(dicePositions[position.getRaw()+1][position.getColumn()+1]!= null)
+                ESITO = 0*ESITO;
+
+        if(position.getRaw()+1 >= 0 && position.getColumn() >= 0)
+            if(dicePositions[position.getRaw()+1][position.getColumn()]!= null)
+                if(dice.getColor() != dicePositions[position.getRaw()+1][position.getColumn()].getColor()&&
+                        dice.getValue()!= dicePositions[position.getRaw()+1][position.getColumn()].getValue())
+                    return false;
+                else
+                    ESITO = 0*ESITO;
+
+        if(position.getRaw()+1 >= 0 && position.getColumn()-1 >= 0)
+            if(dicePositions[position.getRaw()+1][position.getColumn()-1]!= null)
+                ESITO = 0*ESITO;
 
         //check if value or color fulfil place requirements
+        if(dice.getValue() != window.getFeature()[position.getRaw()][position.getColumn()].getValue() ||
+                dice.getColor() != window.getFeature()[position.getRaw()][position.getColumn()].getColor()){
+            return false;
+        }
 
-        //check if an orthogonally adjacent dice has same value or same color
+
+
+        //end
+        if (ESITO == 1)
+            return false;
+        else
+            return true;
 
     }
-    public Window getWindow(){
 
+    public Window getWindow() {
+        return window;
     }
 }
