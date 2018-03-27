@@ -16,7 +16,7 @@ public class mainServer {
     private Integer IDMatch = -1;
     private static Vector<Player> p;
     private static Vector<Match> m;
-    private static String[][] bindingConf = new bindingConf[maxActivePlayers][4];
+    private static String[][] bindingConf = new String[maxActivePlayers][4];
 
     public void acceptIncomingConnections(){
 
