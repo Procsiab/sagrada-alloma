@@ -1,10 +1,10 @@
 package Logic;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 public class Match {
 
-    private ArrayList<Player> p;
+    private Vector<Player> p;
     private Card[][] ToolCards;
     private Dice[][] RoundTrack;
     private Card[] PublicObjective;

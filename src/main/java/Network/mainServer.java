@@ -3,26 +3,26 @@ package Network;
 import Logic.Match;
 import Logic.Player;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 public class mainServer {
 
 
-    private ArrayList<Player> pp2;
-    private ArrayList<Player> pp3;
-    private ArrayList<Player> pp4;
-    private static ArrayList<Player> p;
-    private static ArrayList<Match> m;
+    private Vector<Player> pp2;
+    private Vector<Player> pp3;
+    private Vector<Player> pp4;
+    private static Vector<Player> p;
+    private static Vector<Match> m;
 
     public void acceptIncomingConnections(){
 
     }
 
-    public static ArrayList<Player> getP() {
+    public static Vector<Player> getP() {
         return p;
     }
 
-    private boolean tryStartMatch(ArrayList <Player>){
+    private synchronized boolean tryStartMatch(Vector <Player>){
 
     }
 

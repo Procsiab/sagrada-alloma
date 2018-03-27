@@ -1,8 +1,8 @@
 package Logic;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Vector;
 
 public class PoolOfDices {
-    private ArrayList <Dice> bag;
+    private Vector <Dice> bag;
 }

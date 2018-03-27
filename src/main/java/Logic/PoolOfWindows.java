@@ -1,8 +1,8 @@
 package Logic;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Vector;
 
 public class PoolOfWindows {
-    private ArrayList <Window> deck;
+    private Vector <Window> deck;
 }
