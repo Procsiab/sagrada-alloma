@@ -13,8 +13,13 @@ public class Frame {
         boolean ESITO = false;
 
         //check if position is on edge
-        if (mainServer.get.get(IDPlayer) == 1) {
-            //check
+        if (mainServer.getP().get(IDPlayer).getTurno() == 1) {
+            if(position.getColumn()==0 || position.getColumn()==4){
+                if(position.getRaw()==0)
+                    ESITO = true;
+                if
+            }
+
         }
 
         //check whether in any adjacent position there is a previously placed dice or not
