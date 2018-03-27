@@ -52,11 +52,11 @@ public class Frame {
                 else
                     ESITO = 0*ESITO;
 
-        if(position.getRaw()-1 >= 0 && position.getColumn()+1 >= 0)
+        if(position.getRaw()-1 >= 0 && position.getColumn()+1 <= 4)
             if(dicePositions[position.getRaw()-1][position.getColumn()+1]!= null)
                 ESITO = 0*ESITO;
 
-        if(position.getRaw() >= 0 && position.getColumn()+1 >= 0)
+        if(position.getRaw() >= 0 && position.getColumn()+1 <= 4)
             if(dicePositions[position.getRaw()][position.getColumn()+1]!= null)
                 if(dice.getColor() != dicePositions[position.getRaw()][position.getColumn()+1].getColor()&&
                         dice.getValue()!= dicePositions[position.getRaw()][position.getColumn()+1].getValue())
@@ -64,11 +64,11 @@ public class Frame {
                 else
                     ESITO = 0*ESITO;
 
-        if(position.getRaw()+1 >= 0 && position.getColumn()+1 >= 0)
+        if(position.getRaw()+1 <= 3 && position.getColumn()+1 <= 4)
             if(dicePositions[position.getRaw()+1][position.getColumn()+1]!= null)
                 ESITO = 0*ESITO;
 
-        if(position.getRaw()+1 >= 0 && position.getColumn() >= 0)
+        if(position.getRaw()+1 <= 3 && position.getColumn() >= 0)
             if(dicePositions[position.getRaw()+1][position.getColumn()]!= null)
                 if(dice.getColor() != dicePositions[position.getRaw()+1][position.getColumn()].getColor()&&
                         dice.getValue()!= dicePositions[position.getRaw()+1][position.getColumn()].getValue())
@@ -76,7 +76,7 @@ public class Frame {
                 else
                     ESITO = 0*ESITO;
 
-        if(position.getRaw()+1 >= 0 && position.getColumn()-1 >= 0)
+        if(position.getRaw()+1 <= 3 && position.getColumn()-1 >= 0)
             if(dicePositions[position.getRaw()+1][position.getColumn()-1]!= null)
                 ESITO = 0*ESITO;
 
