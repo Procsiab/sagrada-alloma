@@ -1,6 +1,7 @@
 package Logic;
 
 
+import Network.mainServer;
 
 public class Frame {
 
@@ -12,7 +13,7 @@ public class Frame {
         boolean ESITO = false;
 
         //check if position is on edge
-        if (p.get(IDPlayer) == 1) {
+        if (mainServer.get.get(IDPlayer) == 1) {
             //check
         }
 

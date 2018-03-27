@@ -17,6 +17,11 @@ public class mainServer {
     public void acceptIncomingConnections(){
 
     }
+
+    public static ArrayList<Player> getP() {
+        return p;
+    }
+
     private boolean tryStartMatch(ArrayList <Player>){
 
     }
