@@ -12,7 +12,17 @@ public class Frame {
         return dicePositions;
     }
 
-    boolean setDicePositions(Dice dice, Position position, Integer IDPlayer) {
+    public void setDicePositions(Dice dice, Position position, Integer IDPlayer){
+        if(!checkDicePositions(dice, position, IDPlayer)) {
+            //dice is not placed and player loses a chance
+            return ;
+        }
+
+        //put new dice in the final configuration
+            dicePositions[position.getRaw()][position.getColumn()] = dice;
+    }
+
+    boolean checkDicePositions(Dice dice, Position position, Integer IDPlayer) {
         Integer ESITO = 1;
 
         //check if position is on edge
@@ -75,7 +85,6 @@ public class Frame {
                 dice.getColor() != window.getFeature()[position.getRaw()][position.getColumn()].getColor()){
             return false;
         }
-
 
 
         //end
