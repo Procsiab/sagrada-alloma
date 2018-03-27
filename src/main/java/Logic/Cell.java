@@ -14,7 +14,4 @@ public class Cell {
         return color;
     }
 
-    public void throw(){
-
-    }
 }
