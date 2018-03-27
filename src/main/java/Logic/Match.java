@@ -8,7 +8,7 @@ public class Match {
     private Card[][] ToolCards;
     private Dice[][] RoundTrack;
     private Card[] PublicObjective;
-    private PoolOfDices Pool;;
+    private PoolOfDices Pool;
 
     public Player getPlayers(){
         return p;
