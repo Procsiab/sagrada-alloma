@@ -14,15 +14,18 @@ public class Frame {
 
         //check if position is on edge
         if (mainServer.getP().get(IDPlayer).getTurno() == 1) {
-            if(position.getColumn()==0 || position.getColumn()==4){
-                if(position.getRaw()==0)
-                    ESITO = true;
-                if
-            }
-
+            if(position.getRaw()!=0 || position.getRaw()!=3 || position.getColumn()!=0 || position.getColumn()!=4)
+                return false;
         }
 
-        //check whether in any adjacent position there is a previously placed dice or not
+        //check whether in some adjacent positions there is a previously placed dice or not
+        if(position.getRaw()-1 >= 0 && position.getColumn()-1 >= 0)
+            if(dicePositions[position.getRaw()-1][position.getColumn()-1]!= null)
+                if(dice.getColor() != dicePositions[position.getRaw()-1][position.getColumn()-1].getColor())
+
+
+
+
 
         //check if value or color fulfil place requirements
 
