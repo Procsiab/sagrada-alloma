@@ -23,5 +23,7 @@ public class Frame {
         //check if an orthogonally adjacent dice has same value or same color
 
     }
-    public Window getWindow();
+    public Window getWindow(){
+
+    }
 }
