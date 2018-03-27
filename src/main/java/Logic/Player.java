@@ -11,15 +11,48 @@ public class Player {
     private Integer Turno;
 
     public Integer getScore();
-    public Integer getIdPlayer();
-    public Integer getIDMatch();
-    public String getName();
-    public Frame getFrame();
-    public void setFrame(Frame f);
-    public Integer getFavorToken();
-    public void setFavorToken(Integer i);
-    public Card getPrivateObjective();
-    public void setPrivateObjective(Card po);
-    public void setTurno(Frame f);
-    public Integer getTurno();
+
+    public Integer getIDPlayer() {
+        return IDPlayer;
+    }
+
+    public Integer getIDMatch() {
+        return IDMatch;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setFrame(Frame f){
+
+    }
+
+    public Frame getF() {
+        return f;
+    }
+
+    public void setFavorToken(Integer i){
+
+    }
+
+    public Integer getFavorToken() {
+        return favorToken;
+    }
+
+    public void setPrivateObjective(Card po){
+
+    }
+
+    public Card getPrivateObjective() {
+        return privateObjective;
+    }
+
+    public void setTurno(Frame f){
+
+    }
+
+    public Integer getTurno() {
+        return Turno;
+    }
 }
