@@ -97,7 +97,7 @@ public class mainServer {
     public static void main(String[] args) {
 
         while (true) {
-            while (activePlayers == maxActivePlayers) {
+            while (this.activePlayers == maxActivePlayers) {
                 this.wait();
             }
         //acceptIncomingConections then createAndBind, propEnqueueUpd, and activePlayers++
