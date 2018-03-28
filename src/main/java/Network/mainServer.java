@@ -27,7 +27,7 @@ public class mainServer {
 
     }
 
-    private void createAndBind(String MAC, String IP, String Port){
+    private synchronized void createAndBind(String MAC, String IP, String Port){
 
         Player newPlayer = new Player(IDPlayer.get());
         //fill in first empty space
