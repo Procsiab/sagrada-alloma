@@ -2,13 +2,27 @@ package Logic;
 
 public class Player {
 
-    private Integer IDPlayer;
-    private Integer IDMatch;
-    private String Name;
-    private Frame f;
+    private final Integer IDPlayer;
+    private final Integer IDMatch;
+    private final String Name;
+    private final Frame f;
     private Integer favorToken
     private Card privateObjective;
     private Integer Turno;
+
+
+    Player(Integer IDPlayer, Integer IDMatch, String Name, Frame f){
+        this.IDPlayer = IDPlayer;
+        this.IDMatch = IDMatch;
+        this.Name = Name;
+        this.f = f;
+    }
+
+
+    public void quit(){
+        //declare all winners;
+        notifyAll();
+    }
 
     public Integer getScore();
 

@@ -1,11 +1,22 @@
 package Logic;
 
 public class Position {
-    private Integer raw;
+    private Integer row;
     private Integer column;
 
-    public Integer getRaw();
-    public void setRaw();
-    public Integer getColumn();
-    public void setColumn();
+    public Integer getRow() {
+        return row;
+    }
+
+    public Integer getColumn() {
+        return column;
+    }
+
+    public void setRow(Integer row) {
+        this.row = row;
+    }
+
+    public void setColumn(Integer column) {
+        this.column = column;
+    }
 }

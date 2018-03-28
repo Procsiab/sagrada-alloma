@@ -4,13 +4,22 @@ import java.util.Vector;
 
 public class Match {
 
+    private final Integer IDMatch;
     private Vector<Player> p;
-    private Card[][] ToolCards;
+    private Card[] ToolCards;
     private Dice[][] RoundTrack;
     private Card[] PublicObjective;
     private PoolOfDices Pool;
 
-    public Player getPlayers(){
+
+    Match(Integer IDMatch){
+        this.IDMatch = IDMatch;
+    }
+
+
+
+
+    public Vector<Player> getPlayers(){
         return p;
     }
 

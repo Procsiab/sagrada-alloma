@@ -5,6 +5,7 @@ import Logic.Player;
 
 import java.util.Queue;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class mainServer {
     final static Integer maxActivePlayers = 250;
@@ -12,11 +13,14 @@ public class mainServer {
     private Queue<Player> pp2;
     private Queue<Player> pp3;
     private Queue<Player> pp4;
-    private Integer IDPlayer = -1;
-    private Integer IDMatch = -1;
-    private static Vector<Player> p;
-    private static Vector<Match> m;
+    private AtomicInteger IDPlayer = -1;
+    private AtomicInteger IDMatch = -1;
+    private static Vector<Player> p = new Vector<Player>();
+    private static Vector<Match> m = new Vector<Match>();
     private static String[][] bindingConf = new String[maxActivePlayers][4];
+
+
+
 
     public void acceptIncomingConnections(){
 
@@ -72,9 +76,11 @@ public class mainServer {
 
     public static void main(String[] args) {
         int activePlayers = 0;
-        while (activePlayers <= maxActivePlayers) {
-            //acceptIncomingConections then create new Player, call Bind, propEnqueueUpd, and activePlayers++
+        while (true) {
+            while (activePlayers == maxActivePlayers) {
+                this.wait();
+            }
+        //acceptIncomingConections then create new Player, call Bind, propEnqueueUpd, and activePlayers++
         }
-
     }
 }

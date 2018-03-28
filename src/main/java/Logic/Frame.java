@@ -8,6 +8,10 @@ public class Frame {
     private Window window;
     private Dice[][] dicePositions;
 
+    Frame(Window window){
+        this.window = window;
+    }
+
     public Dice[][] getDicePositions() {
         return dicePositions;
     }
@@ -19,76 +23,76 @@ public class Frame {
         }
 
         //put new dice in the final configuration
-            dicePositions[position.getRaw()][position.getColumn()] = dice;
+            dicePositions[position.getRow()][position.getColumn()] = dice;
     }
 
     boolean checkDicePositions(Dice dice, Position position, Integer IDPlayer) {
-        Integer ESITO = 1;
+        Integer ESITO = 0;
 
         //check if position is on edge
         if (mainServer.getP().get(IDPlayer).getTurno() == 1) {
-            if(position.getRaw()!=0 || position.getRaw()!=3 || position.getColumn()!=0 || position.getColumn()!=4)
+            if(position.getRow()!=0 || position.getRow()!=3 || position.getColumn()!=0 || position.getColumn()!=4)
                 return false;
         }
 
         //check whether in some adjacent positions there is a previously placed dice or not complying specifics
-        if(position.getRaw() >= 0 && position.getColumn()-1 >= 0)
-            if(dicePositions[position.getRaw()][position.getColumn()-1]!= null)
-                if(dice.getColor() != dicePositions[position.getRaw()][position.getColumn()-1].getColor()&&
-                        dice.getValue()!= dicePositions[position.getRaw()][position.getColumn()-1].getValue())
+        if(position.getRow() >= 0 && position.getColumn()-1 >= 0)
+            if(dicePositions[position.getRow()][position.getColumn()-1]!= null)
+                if(dice.getColor() != dicePositions[position.getRow()][position.getColumn()-1].getColor()&&
+                        dice.getValue()!= dicePositions[position.getRow()][position.getColumn()-1].getValue())
                     return false;
                 else
-                    ESITO = 0*ESITO;
+                    ESITO = 1;
 
-        if(position.getRaw()-1 >= 0 && position.getColumn()-1 >= 0)
-            if(dicePositions[position.getRaw()-1][position.getColumn()-1]!= null)
-                ESITO = 0*ESITO;
+        if(position.getRow()-1 >= 0 && position.getColumn()-1 >= 0)
+            if(dicePositions[position.getRow()-1][position.getColumn()-1]!= null)
+                ESITO = 1;
 
-        if(position.getRaw()-1 >= 0 && position.getColumn() >= 0)
-            if(dicePositions[position.getRaw()-1][position.getColumn()]!= null)
-                if(dice.getColor() != dicePositions[position.getRaw()-1][position.getColumn()].getColor()&&
-                        dice.getValue()!= dicePositions[position.getRaw()-1][position.getColumn()].getValue())
+        if(position.getRow()-1 >= 0 && position.getColumn() >= 0)
+            if(dicePositions[position.getRow()-1][position.getColumn()]!= null)
+                if(dice.getColor() != dicePositions[position.getRow()-1][position.getColumn()].getColor()&&
+                        dice.getValue()!= dicePositions[position.getRow()-1][position.getColumn()].getValue())
                     return false;
                 else
-                    ESITO = 0*ESITO;
+                    ESITO = 1;
 
-        if(position.getRaw()-1 >= 0 && position.getColumn()+1 <= 4)
-            if(dicePositions[position.getRaw()-1][position.getColumn()+1]!= null)
-                ESITO = 0*ESITO;
+        if(position.getRow()-1 >= 0 && position.getColumn()+1 <= 4)
+            if(dicePositions[position.getRow()-1][position.getColumn()+1]!= null)
+                ESITO = 1;
 
-        if(position.getRaw() >= 0 && position.getColumn()+1 <= 4)
-            if(dicePositions[position.getRaw()][position.getColumn()+1]!= null)
-                if(dice.getColor() != dicePositions[position.getRaw()][position.getColumn()+1].getColor()&&
-                        dice.getValue()!= dicePositions[position.getRaw()][position.getColumn()+1].getValue())
+        if(position.getRow() >= 0 && position.getColumn()+1 <= 4)
+            if(dicePositions[position.getRow()][position.getColumn()+1]!= null)
+                if(dice.getColor() != dicePositions[position.getRow()][position.getColumn()+1].getColor()&&
+                        dice.getValue()!= dicePositions[position.getRow()][position.getColumn()+1].getValue())
                     return false;
                 else
-                    ESITO = 0*ESITO;
+                    ESITO = 1;
 
-        if(position.getRaw()+1 <= 3 && position.getColumn()+1 <= 4)
-            if(dicePositions[position.getRaw()+1][position.getColumn()+1]!= null)
-                ESITO = 0*ESITO;
+        if(position.getRow()+1 <= 3 && position.getColumn()+1 <= 4)
+            if(dicePositions[position.getRow()+1][position.getColumn()+1]!= null)
+                ESITO = 1;
 
-        if(position.getRaw()+1 <= 3 && position.getColumn() >= 0)
-            if(dicePositions[position.getRaw()+1][position.getColumn()]!= null)
-                if(dice.getColor() != dicePositions[position.getRaw()+1][position.getColumn()].getColor()&&
-                        dice.getValue()!= dicePositions[position.getRaw()+1][position.getColumn()].getValue())
+        if(position.getRow()+1 <= 3 && position.getColumn() >= 0)
+            if(dicePositions[position.getRow()+1][position.getColumn()]!= null)
+                if(dice.getColor() != dicePositions[position.getRow()+1][position.getColumn()].getColor()&&
+                        dice.getValue()!= dicePositions[position.getRow()+1][position.getColumn()].getValue())
                     return false;
                 else
-                    ESITO = 0*ESITO;
+                    ESITO = 1;
 
-        if(position.getRaw()+1 <= 3 && position.getColumn()-1 >= 0)
-            if(dicePositions[position.getRaw()+1][position.getColumn()-1]!= null)
-                ESITO = 0*ESITO;
+        if(position.getRow()+1 <= 3 && position.getColumn()-1 >= 0)
+            if(dicePositions[position.getRow()+1][position.getColumn()-1]!= null)
+                ESITO = 1;
 
         //check if value or color fulfil place requirements
-        if(dice.getValue() != window.getFeature()[position.getRaw()][position.getColumn()].getValue() ||
-                dice.getColor() != window.getFeature()[position.getRaw()][position.getColumn()].getColor()){
+        if(dice.getValue() != window.getFeature()[position.getRow()][position.getColumn()].getValue() ||
+                dice.getColor() != window.getFeature()[position.getRow()][position.getColumn()].getColor()){
             return false;
         }
 
 
         //end
-        if (ESITO == 1)
+        if (ESITO == 0)
             return false;
         else
             return true;
