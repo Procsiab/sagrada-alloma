@@ -18,6 +18,7 @@ public class mainServer {
     private static Vector<Player> p = new Vector<Player>();
     private static Vector<Match> m = new Vector<Match>();
     private static String[][] bindingConf = new String[maxActivePlayers][4];
+    private AtomicInteger activePlayers = new AtomicInteger(0);
 
 
 
@@ -35,7 +36,7 @@ public class mainServer {
             k++;
         }
         p.add(k,newPlayer);
-
+        activePlayers.incrementAndGet();
         IDPlayer.set(k);
 
         this.bindingConf[IDPlayer.get()][0] = MAC;
@@ -94,7 +95,7 @@ public class mainServer {
 
 
     public static void main(String[] args) {
-        AtomicInteger activePlayers = new AtomicInteger(0);
+
         while (true) {
             while (activePlayers == maxActivePlayers) {
                 this.wait();
