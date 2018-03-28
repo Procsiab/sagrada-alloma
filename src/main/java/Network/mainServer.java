@@ -27,7 +27,6 @@ public class mainServer {
     }
 
     private void createAndBind(String MAC, String IP, String Port){
-        IDPlayer.incrementAndGet();
 
         Player newPlayer = new Player(IDPlayer.get());
         //fill in first empty space
@@ -36,6 +35,8 @@ public class mainServer {
             if(p.get(k) == null)
                 p.add(k,newPlayer);
         }
+
+        IDPlayer.set(k);
 
         this.bindingConf[IDPlayer.get()][0] = MAC;
         this.bindingConf[IDPlayer.get()][1] = IP;
