@@ -5,9 +5,8 @@ import java.util.Vector;
 public class Match {
 
     private final Integer IDMatch;
-    private Integer nParticipants;
     private Integer action = 0;
-    private Vector<Player> p;
+    private Vector<Player> players;
     private Card[] ToolCards;
     private Dice[][] RoundTrack;
     private Card[] PublicObjective;
@@ -24,7 +23,7 @@ public class Match {
 
 
     public Vector<Player> getPlayers(){
-        return p;
+        return players;
     }
 
     public Card getToolCards(){
@@ -55,19 +54,19 @@ public class Match {
     public void turnManager(){
         int i = 1;
         for(Turno = 1; Turno<=10; Turno++){
-            while(i<= nParticipants){
-                listen(p.get(i-1));
+            while(i<= players.size()){
+                listen(players.get(i-1));
                 while(action == 0)
                     this.wait();
-                    //enabled by notify in setDicePositions
+                    //enabled by notify in setDicePositions, not needed in other invocations
                 action = 0;
                 i++;
             }
             while (i>=1){
-                listen(p.get(i-1));
+                listen(players.get(i-1));
                 while(action == 0)
                     this.wait();
-                    //enabled by notify in setDicePositions
+                    //enabled by notify in setDicePositions, not needed in other invocations
                 action = 0;
                 i--;
             }
