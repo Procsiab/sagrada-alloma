@@ -26,17 +26,36 @@ public class mainServer {
 
     }
 
-    private void Bind(String MAC, String IP, String Port, Player player){
+    private void createAndBind(String MAC, String IP, String Port){
         IDPlayer.incrementAndGet();
 
-        this.bindingConf[IDPlayer][0] = MAC;
-        this.bindingConf[IDPlayer][1] = IP;
-        this.bindingConf[IDPlayer][2] = Port;
-        p.add(player);
+        Player newPlayer = new Player(IDPlayer.get());
+        //fill in first empty space
+        int k = 0;
+        while(k <p.size()){
+            if(p.get(k) == null)
+                p.add(k,newPlayer);
+        }
+
+        this.bindingConf[IDPlayer.get()][0] = MAC;
+        this.bindingConf[IDPlayer.get()][1] = IP;
+        this.bindingConf[IDPlayer.get()][2] = Port;
     }
 
     public static Vector<Player> getP() {
         return p;
+    }
+
+    public static Vector<Match> getM() {
+        return m;
+    }
+
+    public static void setP(Vector<Player> p) {
+        mainServer.p = p;
+    }
+
+    public static void setM(Vector<Match> m) {
+        mainServer.m = m;
     }
 
     public void propEnqueueUpd(Player player, Integer nMates){
@@ -73,14 +92,13 @@ public class mainServer {
 
 
 
-
     public static void main(String[] args) {
         AtomicInteger activePlayers = new AtomicInteger(0);
         while (true) {
             while (activePlayers == maxActivePlayers) {
                 this.wait();
             }
-        //acceptIncomingConections then create new Player, call Bind, propEnqueueUpd, and activePlayers++
+        //acceptIncomingConections then createAndBind, propEnqueueUpd, and activePlayers++
         }
     }
 }

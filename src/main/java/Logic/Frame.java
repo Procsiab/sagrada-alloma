@@ -5,6 +5,7 @@ import Network.mainServer;
 
 public class Frame {
 
+    private Integer IDPlayer;
     private Window window;
     private Dice[][] dicePositions;
 
@@ -19,11 +20,16 @@ public class Frame {
     public void setDicePositions(Dice dice, Position position, Integer IDPlayer){
         if(!checkDicePositions(dice, position, IDPlayer)) {
             //dice is not placed and player loses a chance
+            mainServer.getP().get(IDPlayer).getMatch().setAction(1);
+            notifyAll();
             return ;
         }
 
         //put new dice in the final configuration
-            dicePositions[position.getRow()][position.getColumn()] = dice;
+        dicePositions[position.getRow()][position.getColumn()] = dice;
+        mainServer.getP().get(IDPlayer).getMatch().setAction(1);
+        notifyAll();
+        return ;
     }
 
     boolean checkDicePositions(Dice dice, Position position, Integer IDPlayer) {
@@ -92,10 +98,9 @@ public class Frame {
 
 
         //end
-        if (ESITO == 0)
-            return false;
-        else
+        if (ESITO == 1)
             return true;
+        return false;
 
     }
 

@@ -6,22 +6,23 @@ public class Player {
     private final Integer IDMatch;
     private final String Name;
     private final Frame f;
+    private Match match;
     private Integer favorToken
     private Card privateObjective;
     private Integer Turno;
 
 
-    Player(Integer IDPlayer, Integer IDMatch, String Name, Frame f){
+    Player(Integer IDPlayer, Integer IDMatch, String Name, Frame f, Integer Turno){
         this.IDPlayer = IDPlayer;
         this.IDMatch = IDMatch;
         this.Name = Name;
         this.f = f;
+        this.Turno = Turno;
     }
 
 
-    public void quit(){
-        //declare all winners;
-        notifyAll();
+    public Match getMatch() {
+        return match;
     }
 
     public Integer getScore();
