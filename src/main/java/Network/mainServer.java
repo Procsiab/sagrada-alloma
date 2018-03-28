@@ -31,7 +31,7 @@ public class mainServer {
         Player newPlayer = new Player(IDPlayer.get());
         //fill in first empty space
         int k = 0;
-        while(k <p.size()){
+        while(k <p.size()+1){
             if(p.get(k) == null)
                 p.add(k,newPlayer);
         }
