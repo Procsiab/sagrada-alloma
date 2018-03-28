@@ -13,8 +13,8 @@ public class mainServer {
     private Queue<Player> pp2;
     private Queue<Player> pp3;
     private Queue<Player> pp4;
-    private AtomicInteger IDPlayer = -1;
-    private AtomicInteger IDMatch = -1;
+    private AtomicInteger IDPlayer = new AtomicInteger(-1);
+    private AtomicInteger IDMatch = new AtomicInteger(-1);
     private static Vector<Player> p = new Vector<Player>();
     private static Vector<Match> m = new Vector<Match>();
     private static String[][] bindingConf = new String[maxActivePlayers][4];
@@ -27,7 +27,7 @@ public class mainServer {
     }
 
     private void Bind(String MAC, String IP, String Port, Player player){
-        IDPlayer++;
+        IDPlayer.incrementAndGet();
 
         this.bindingConf[IDPlayer][0] = MAC;
         this.bindingConf[IDPlayer][1] = IP;
@@ -75,7 +75,7 @@ public class mainServer {
 
 
     public static void main(String[] args) {
-        int activePlayers = 0;
+        AtomicInteger activePlayers = new AtomicInteger(0);
         while (true) {
             while (activePlayers == maxActivePlayers) {
                 this.wait();
