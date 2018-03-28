@@ -100,7 +100,7 @@ public class mainServer {
             while (this.activePlayers == maxActivePlayers) {
                 this.wait();
             }
-        //acceptIncomingConections then createAndBind, propEnqueueUpd, and activePlayers++
+        //acceptIncomingConections then createAndBind, propEnqueueUpd
         }
     }
 }
