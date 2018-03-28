@@ -22,7 +22,7 @@ public class Interface extends Application {
 
         primaryStage.setTitle(TITLE);
 
-        Image image = new Image(new FileInputStream("C:\\Users\\Mattia\\IdeaProjects\\ids-2018\\src\\main\\java\\Interface\\Sagrada.png"));
+        Image image = new Image(new FileInputStream("Sagrada.png"));
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(350);
         imageView.setFitWidth(550);

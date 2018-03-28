@@ -7,7 +7,7 @@ public class Player {
     private final String Name;
     private final Frame f;
     private Match match;
-    private Integer favorToken
+    private Integer favorToken;
     private Card privateObjective;
     private Integer Turno;
 
