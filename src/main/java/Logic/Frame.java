@@ -9,6 +9,7 @@ public class Frame {
     private Window window;
     private Dice[][] dicePositions;
 
+
     public Frame(Window window){
         this.window = window;
     }
@@ -29,6 +30,7 @@ public class Frame {
         dicePositions[position.getRow()][position.getColumn()] = dice;
         mainServer.getP().get(IDPlayer).getMatch().setAction(1);
         notifyAll();
+        return ;
     }
 
     boolean checkDicePositions(Dice dice, Position position, Integer IDPlayer) {

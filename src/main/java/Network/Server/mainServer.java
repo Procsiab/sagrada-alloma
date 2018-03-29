@@ -51,16 +51,18 @@ public class mainServer {
         }
     }
 
-    private synchronized void createAndBind(String MAC, String IP, String Port, String Name){
+    private void createAndBind(String MAC, String IP, String Port, String Name){
         //fill in first empty space
         int k = 0;
         while(k <p.size() && p.get(k)!=null) {
             k++;
         }
+
+        IDPlayer.set(k);
         Player newPlayer = new Player(IDPlayer.get(), IDMatch.get(), Name, new Frame(new Window()), 0);
         p.add(k,newPlayer);
         activePlayers.incrementAndGet();
-        IDPlayer.set(k);
+
 
         mainServer.bindingConf[IDPlayer.get()][0] = MAC;
         mainServer.bindingConf[IDPlayer.get()][1] = IP;
@@ -106,13 +108,13 @@ public class mainServer {
         tryStartMatch();
     }
 
-    private synchronized boolean tryStartMatch(){
+    private boolean tryStartMatch(){
         //check if size of each queue is multiple of its own spec. value and start match in case
         return false;
     }
 
     @SuppressWarnings("InfiniteLoopStatement") // Stop up the fu*** warnings about non-ending loop
-    private synchronized void start() throws InterruptedException {
+    private void start() throws InterruptedException {
         while (true) {
             while (this.activePlayers.get() == maxActivePlayers) {
                 this.wait();
