@@ -1,11 +1,12 @@
 package Logic;
 
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Match {
 
     private final Integer IDMatch;
-    private Integer action = 0;
+    private AtomicInteger action = new AtomicInteger(0);
     private Vector<Player> players;
     private Card[] ToolCards;
     private Dice[][] RoundTrack;
@@ -56,18 +57,18 @@ public class Match {
         for(Turno = 1; Turno<=10; Turno++){
             while(i<= players.size()){
                 listen(players.get(i-1));
-                while(action == 0)
+                while(action.get() == 0)
                     this.wait();
                     //enabled by notify in setDicePositions, not needed in other invocations
-                action = 0;
+                action.set(0);
                 i++;
             }
             while (i>=1){
                 listen(players.get(i-1));
-                while(action == 0)
+                while(action.get() == 0)
                     this.wait();
                     //enabled by notify in setDicePositions, not needed in other invocations
-                action = 0;
+                action.set(0);
                 i--;
             }
         }
@@ -77,7 +78,7 @@ public class Match {
         return IDMatch;
     }
 
-    public Integer getAction() {
+    public AtomicInteger getAction() {
         return action;
     }
 
