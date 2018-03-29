@@ -14,24 +14,20 @@ public class Match {
     private PoolOfDices Pool;
     private Integer Turno;
 
-
     Match(Integer IDMatch){
         this.IDMatch = IDMatch;
         this.Turno = 1;
     }
 
-
-
-
     public Vector<Player> getPlayers(){
         return players;
     }
 
-    public Card getToolCards(){
+    public Card[] getToolCards(){
         return ToolCards;
     }
 
-    public Card getPublicObjectives(){
+    public Card[] getPublicObjectives(){
         return PublicObjective;
     }
 
@@ -43,7 +39,7 @@ public class Match {
         return RoundTrack;
     }
 
-    public void quit(){
+    public synchronized void quit(){
         //declare all winners;
         notifyAll();
     }
@@ -52,7 +48,7 @@ public class Match {
         //send enable signal to player p and shut all others
     }
 
-    public void turnManager(){
+    public synchronized void turnManager() throws InterruptedException {
         int i = 1;
         for(Turno = 1; Turno<=10; Turno++){
             while(i<= players.size()){
@@ -83,13 +79,10 @@ public class Match {
     }
 
     public void setAction(Integer action) {
-        this.action = action;
+        this.action.set(action);
     }
 
     public Player getScoreboard(){
-
+        return null;
     }
-
-
-
 }

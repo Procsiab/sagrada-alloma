@@ -11,8 +11,7 @@ public class Player {
     private Card privateObjective;
     private Integer Turno;
 
-
-    Player(Integer IDPlayer, Integer IDMatch, String Name, Frame f, Integer Turno){
+    public Player(Integer IDPlayer, Integer IDMatch, String Name, Frame f, Integer Turno){
         this.IDPlayer = IDPlayer;
         this.IDMatch = IDMatch;
         this.Name = Name;
@@ -25,7 +24,7 @@ public class Player {
         return match;
     }
 
-    public Integer getScore();
+    public Integer getScore() { return 0; }
 
     public Integer getIDPlayer() {
         return IDPlayer;
