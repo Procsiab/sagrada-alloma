@@ -1,132 +1,104 @@
 package Network.Server;
 
-import Logic.Frame;
 import Logic.Match;
 import Logic.Player;
-import Logic.Window;
+import Logic.PlayerRef;
 import Network.Network;
 
+import java.io.*;
 import java.rmi.Naming;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Vector;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class mainServer {
-    private final static Integer maxActivePlayers = 250;
-    private Queue<Player> pp2;
-    private Queue<Player> pp3;
-    private Queue<Player> pp4;
-    private AtomicInteger IDPlayer;
-    private AtomicInteger IDMatch;
-    private static Vector<Player> p = new Vector<Player>();
-    private static Vector<Match> m = new Vector<Match>();
-    private static String[][] bindingConf = new String[maxActivePlayers][4];
-    private AtomicInteger activePlayers;
 
-    public mainServer() {
-        this.pp2 = new LinkedList<Player>();
-        this.pp3 = new LinkedList<Player>();
-        this.pp4 = new LinkedList<Player>();
-        this.IDPlayer = new AtomicInteger(-1);
-        this.IDMatch = new AtomicInteger(-1);
-        this.activePlayers = new AtomicInteger(0);
+
+    //create an object of mainServer
+    private static final mainServer Instance = new mainServer();
+    private static final Integer maxActivePlayer = 250;
+    private static String[][] bindingConfig = new String[maxActivePlayer][3];
+    private LinkedList<PlayerRef> pR = new LinkedList<PlayerRef>();
+    private LinkedList<Player> p = new LinkedList<Player>();
+    private LinkedList<Match> m = new LinkedList<Match>();
+    private Queue<PlayerRef> pp1 = new LinkedList<PlayerRef>();
+    private Queue<PlayerRef> pp2 = new LinkedList<PlayerRef>();
+    private Queue<PlayerRef> pp3 = new LinkedList<PlayerRef>();
+    private Queue<PlayerRef> pp4 = new LinkedList<PlayerRef>();
+    private Integer ActivePLayer = 0;
+
+
+    //make the constructor private so that this class cannot be instantiated
+    private mainServer() {
+        //should be empty
+        System.out.println("Greetings from Server :)");
     }
 
-    public void acceptIncomingConnections() {
-        //TODO Open a service socket and wait for clients (should start a thread)
-        //TODO Obtain these values from client
-        String mac = "DE:AD:BE:EF", ip = "1.1.1.1", port = "666", mates = "6", name = "Asdrubale";
-
-        this.createAndBind(mac, ip, port, name);
-        this.propEnqueueUpd(p.get(IDPlayer.get()), Integer.parseInt(mates));
-        System.out.printf("Il giocatore %s si è connesso (ID: %d)\n", p.get(IDPlayer.get()).getName(), IDPlayer.get());
-
-        //TODO Remove this sleep, for debug purpose only
-        try {
-            TimeUnit.MILLISECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    //Get the only object available
+    public static mainServer getInstance() {
+        return Instance;
     }
 
-    private void createAndBind(String MAC, String IP, String Port, String Name){
-        //fill in first empty space
-        int k = 0;
-        while(k <p.size() && p.get(k)!=null) {
-            k++;
-        }
-
-        IDPlayer.set(k);
-        Player newPlayer = new Player(IDPlayer.get(), IDMatch.get(), Name, new Frame(new Window()), 0);
-        p.add(k,newPlayer);
-        activePlayers.incrementAndGet();
-
-
-        mainServer.bindingConf[IDPlayer.get()][0] = MAC;
-        mainServer.bindingConf[IDPlayer.get()][1] = IP;
-        mainServer.bindingConf[IDPlayer.get()][2] = Port;
+    public LinkedList<PlayerRef> getpR(){
+        return pR;
     }
 
-    public static Vector<Player> getP() {
+    public LinkedList<Player> getP() {
         return p;
     }
 
-    public static Vector<Match> getM() {
+    public LinkedList<Match> getM() {
         return m;
     }
 
-    public static void setP(Vector<Player> p) {
-        mainServer.p = p;
-    }
+    public void createAndBindUpd(String MAC, String IP, String Port, String Name, Integer nMates) {
+        //this is called from ListeningChannel on new player request and create a temporary player reference
 
-    public static void setM(Vector<Match> m) {
-        mainServer.m = m;
-    }
+        //fill in the first empty place
+        Integer k = 0;
+        while (k < p.size() && p.get(k) != null)
+            k++;
+        PlayerRef playerRef = new PlayerRef(k, Name, nMates); //send IDPlayer to player. He will use that to introduce himself.
+        pR.add(k,playerRef);
 
-    public void propEnqueueUpd(Player player, Integer nMates){
-        if(nMates == 1){
-            //start new solo game
-            return ;
+        bindingConfig[k][0] = MAC;
+        bindingConfig[k][1] = IP;
+        bindingConfig[k][2] = Port;
+
+        if (nMates == 1) {
+            pp1.add(playerRef);
+        } else if (nMates == 2) {
+            pp2.add(playerRef);
+        } else if (nMates == 3) {
+            pp3.add(playerRef);
+        } else if (nMates == 4) {
+            pp4.add(playerRef);
         }
-        if(nMates == 2) {
-            synchronized (pp2) {
-                pp2.add(player);
-            }
-        }
-        if(nMates == 3) {
-            synchronized (pp3) {
-                pp3.add(player);
-            }
-        }
-        if(nMates == 4) {
-            synchronized (pp4) {
-                pp4.add(player);
-            }
-        }
+
         tryStartMatch();
     }
 
-    private boolean tryStartMatch(){
-        //check if size of each queue is multiple of its own spec. value and start match in case
-        return false;
+    public void cancelAndUnbind(Integer IDPlayer){
+        //remove playerRef from pR and from queue
+
     }
 
-    @SuppressWarnings("InfiniteLoopStatement") // Stop up the fu*** warnings about non-ending loop
-    private void start() throws InterruptedException {
-        while (true) {
-            while (this.activePlayers.get() == maxActivePlayers) {
-                this.wait();
+    public void tryStartMatch(){
+        //check if there is a chance to play
+    }
+
+        public static void main(String args[]) {
+
+            mainServer Server = mainServer.getInstance();
+
+            //start ListeningChannel
+            int port = Integer.parseInt(args[0]);
+            try {
+                Thread t = new ListeningChannel(port);
+                t.start();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            //acceptIncomingConections then createAndBind, propEnqueueUpd
-            this.acceptIncomingConnections();
-        }
-    }
 
-    public static void main(String[] args) {
-        mainServer server = new mainServer();
-        try {
             try {
                 // Create an instance of Network, which will have the role of server's interface
 
@@ -137,12 +109,10 @@ public class mainServer {
                 // Bind the interface to that symbolic URL in the RMI registry
                 Naming.rebind(rmiUrl, netIface);
 
-            } catch (Exception e) { //TODO: Better exception handling
+            } catch (Exception e) { //TODO Better exception handling
                 e.printStackTrace();
             }
-            server.start();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
-    }
+
+
 }
