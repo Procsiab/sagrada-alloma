@@ -1,19 +1,19 @@
 package Network.Server;
 
-import Logic.Match;
-import Logic.Player;
-import Logic.PlayerRef;
+import Logic.*;
 import Network.Network;
 
 import java.io.*;
 import java.rmi.Naming;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class mainServer {
     //create an object of mainServer
     private static final mainServer Instance = new mainServer();
     private static final Integer maxActivePlayer = 250;
+    private final Locker Safe = Locker.getSafe();
     private static String[][] bindingConfig = new String[maxActivePlayer][3];
     private LinkedList<PlayerRef> pR = new LinkedList<PlayerRef>();
     private LinkedList<Player> p = new LinkedList<Player>();
@@ -22,7 +22,7 @@ public class mainServer {
     private Queue<PlayerRef> pp2 = new LinkedList<PlayerRef>();
     private Queue<PlayerRef> pp3 = new LinkedList<PlayerRef>();
     private Queue<PlayerRef> pp4 = new LinkedList<PlayerRef>();
-    private Integer ActivePlayer = 0;
+    private AtomicInteger activePlayerRef = new AtomicInteger(0);
 
     //make the constructor private so that this class cannot be instantiated
     private mainServer() {
@@ -51,11 +51,18 @@ public class mainServer {
         //this is called from ListeningChannel on new player request and create a temporary player reference
 
         //fill in the first empty place
+
         Integer k = 0;
-        while (k < pR.size() && pR.get(k) != null)
-            k++;
-        PlayerRef playerRef = new PlayerRef(k, Name, nMates); //send IDPlayer to player. He will use that to introduce himself.
-        pR.add(k,playerRef);
+        PlayerRef playerRef;
+
+        synchronized (Safe.pR) {
+
+            while (k < pR.size() && pR.get(k) != null)
+                k++;
+            playerRef = new PlayerRef(k, Name, nMates); //send IDPlayer to playerRef. He will use that to introduce himself.
+            pR.add(k, playerRef);
+        }
+        activePlayerRef.incrementAndGet();
 
         bindingConfig[k][0] = MAC;
         bindingConfig[k][1] = IP;
@@ -63,13 +70,21 @@ public class mainServer {
         System.out.println("Bound queued player to ID " + k.toString());
 
         if (nMates == 1) {
-            pp1.add(playerRef);
+            synchronized (Safe.pp1) {
+                pp1.add(playerRef);
+            }
         } else if (nMates == 2) {
-            pp2.add(playerRef);
+            synchronized (Safe.pp2) {
+                pp2.add(playerRef);
+            }
         } else if (nMates == 3) {
-            pp3.add(playerRef);
+            synchronized (Safe.pp3) {
+                pp3.add(playerRef);
+            }
         } else if (nMates == 4) {
-            pp4.add(playerRef);
+            synchronized (Safe.pp4) {
+                pp4.add(playerRef);
+            }
         }
 
         tryStartMatch();
@@ -85,8 +100,9 @@ public class mainServer {
     }
 
     public static void main(String args[]) throws IOException {
-        // Create singleton instance
+        // Create singleton pointer, Instance is already enabled
         mainServer server = mainServer.getInstance();
+
         try {
             // Create an instance of Network, which will have the role of server's interface
             Network netIface = new Network(server);
@@ -111,5 +127,7 @@ public class mainServer {
         } finally {
             listener.close();
         }
+
+        ConcurrencyManager.getManager().ThreadManager.shutdown();
     }
 }

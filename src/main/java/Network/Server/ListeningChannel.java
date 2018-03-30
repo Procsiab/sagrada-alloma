@@ -17,6 +17,7 @@ public class ListeningChannel {
 
     private void handleClient(Socket s) throws IOException, ClassNotFoundException {
         // Initialize input and output streams
+        // Revise communication method, more flexibility than an Array can be required
         ObjectOutputStream objectOut = new ObjectOutputStream(s.getOutputStream());
         objectOut.flush();
         ObjectInputStream objectIn = new ObjectInputStream(s.getInputStream());
