@@ -12,4 +12,7 @@ public class PlayerRef {
     }
 
 
+    public Integer getnMates() {
+        return nMates;
+    }
 }

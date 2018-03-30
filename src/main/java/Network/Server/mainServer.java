@@ -92,11 +92,29 @@ public class mainServer {
     }
 
     public void cancelAndUnbind(Integer IDPlayer){
-        //remove playerRef from pR and from queue
+        synchronized (Safe.pR) {
+            if (pR.get(IDPlayer).getnMates() == 1)
+                synchronized (Safe.pp1) {
+                    pp1.remove(pR.get(IDPlayer));
+                }
+            if (pR.get(IDPlayer).getnMates() == 2)
+                synchronized (Safe.pp2) {
+                    pp2.remove(pR.get(IDPlayer));
+                }
+            if (pR.get(IDPlayer).getnMates() == 3)
+                synchronized (Safe.pp3) {
+                    pp3.remove(pR.get(IDPlayer));
+                }
+            if (pR.get(IDPlayer).getnMates() == 4)
+                synchronized (Safe.pp4) {
+                    pp4.remove(pR.get(IDPlayer));
+                }
+            pR.remove(IDPlayer);
+        }
     }
 
     public void tryStartMatch(){
-        //check if there is a chance to play
+
     }
 
     public static void main(String args[]) throws IOException {
