@@ -24,11 +24,11 @@ public class Match {
     }
 
     public Card[] getToolCards(){
-        return ToolCards;
+        return toolCards;
     }
 
     public Card[] getPublicObjectives(){
-        return PublicObjective;
+        return publicObjective;
     }
 
     public void setRoundTrack(Dice[][] d){
@@ -37,7 +37,7 @@ public class Match {
 
 
     public Dice[][] getRoundTrack(){
-        return RoundTrack;
+        return roundTrack;
     }
 
     public void quit(){

@@ -1,4 +1,6 @@
-package Network.Server;
+package Logic.Concurrency;
+
+import Network.Server.mainServer;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -6,7 +8,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ListeningChannel {
+    public class ListeningChannel {
     private final ServerSocket mySocket;
     private final ExecutorService myPool;
 
