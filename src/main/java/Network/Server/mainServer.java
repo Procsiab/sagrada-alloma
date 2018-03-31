@@ -137,7 +137,7 @@ public class mainServer {
     public static void main(String args[]) throws IOException {
         // Create singleton pointer, Instance is already enabled
         mainServer server = mainServer.getInstance();
-324
+
         try {
             // Create an instance of Network, which will have the role of server's interface
             Network netIface = new Network(server);
