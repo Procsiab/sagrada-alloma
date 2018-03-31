@@ -28,7 +28,7 @@ public class TurnManager extends GeneralTask {
 
     public void enable(Player player){
         //enable selected player, by invoking method on the client which lead to P2P architecture.
-        // As other methods invoked from server may be needed, P2P appear to be the most efficient idea.
+        //As other methods invoked from server may be needed, P2P appear to be the most efficient idea.
     }
 
 
