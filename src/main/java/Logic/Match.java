@@ -7,10 +7,10 @@ public class Match {
 
     private final Integer IDMatch;
     private final LinkedList<Player> players;
-    private Card[] ToolCards;
-    private Dice[][] RoundTrack;
-    private Card[] PublicObjective;
-    private PoolOfDices Pool;
+    private Card[] toolCards;
+    private Dice[][] roundTrack;
+    private Card[] publicObjective;
+    private PoolOfDices pool;
     private Integer action = 0;
     private Integer turno;
 

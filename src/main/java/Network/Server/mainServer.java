@@ -8,7 +8,6 @@ import sun.awt.image.ImageWatched;
 import java.io.*;
 import java.rmi.Naming;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class mainServer {
@@ -137,7 +136,7 @@ public class mainServer {
     public static void main(String args[]) throws IOException {
         // Create singleton pointer, Instance is already enabled
         mainServer server = mainServer.getInstance();
-324
+
         try {
             // Create an instance of Network, which will have the role of server's interface
             Network netIface = new Network(server);
@@ -153,16 +152,24 @@ public class mainServer {
             e.printStackTrace();
         }
 
-        // Start connection handling socket
+
+
+
+
+        // Spostare e predisporre ListeningChannel per eventuale chat di gruppo;
+
         ListeningChannel listener = new ListeningChannel(Network.SOCKET_PORT);
         try {
-            listener.run();
+            ConcurrencyManager.submit(listener);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             listener.close();
         }
 
+
+
+        System.out.println("Press any key to teardown");
         ConcurrencyManager.ThreadManager.shutdown();
     }
 }
