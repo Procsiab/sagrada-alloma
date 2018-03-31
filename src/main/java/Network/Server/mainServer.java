@@ -2,6 +2,8 @@ package Network.Server;
 
 import Logic.*;
 import Network.Network;
+import com.sun.javafx.beans.IDProperty;
+import sun.awt.image.ImageWatched;
 
 import java.io.*;
 import java.rmi.Naming;
@@ -17,11 +19,11 @@ public class mainServer {
     private static String[][] bindingConfig = new String[maxActivePlayer][3];
     private LinkedList<PlayerRef> pR = new LinkedList<PlayerRef>();
     private LinkedList<Player> p = new LinkedList<Player>();
-    @Deprecated LinkedList<Match> m = new LinkedList<Match>();
-    private Queue<PlayerRef> pp1 = new LinkedList<PlayerRef>();
-    private Queue<PlayerRef> pp2 = new LinkedList<PlayerRef>();
-    private Queue<PlayerRef> pp3 = new LinkedList<PlayerRef>();
-    private Queue<PlayerRef> pp4 = new LinkedList<PlayerRef>();
+    private LinkedList<Match> m = new LinkedList<Match>();
+    private LinkedList<PlayerRef> pp1 = new LinkedList<PlayerRef>();
+    private LinkedList<PlayerRef> pp2 = new LinkedList<PlayerRef>();
+    private LinkedList<PlayerRef> pp3 = new LinkedList<PlayerRef>();
+    private LinkedList<PlayerRef> pp4 = new LinkedList<PlayerRef>();
     private AtomicInteger activePlayerRef = new AtomicInteger(0);
 
     //make the constructor private so that this class cannot be instantiated
@@ -55,72 +57,87 @@ public class mainServer {
         Integer k = 0;
         PlayerRef playerRef;
 
-        synchronized (Safe.pR) {
+        synchronized (Safe.mainServer) {
 
             while (k < pR.size() && pR.get(k) != null)
                 k++;
             playerRef = new PlayerRef(k, Name, nMates); //send IDPlayer to playerRef. He will use that to introduce himself.
             pR.add(k, playerRef);
+
+            activePlayerRef.incrementAndGet();
+
+            bindingConfig[k][0] = MAC;
+            bindingConfig[k][1] = IP;
+            bindingConfig[k][2] = Port;
+            System.out.println("Bound queued player to ID " + k.toString());
+
+            if (nMates == 1) {
+                    pp1.add(playerRef);
+            } else if (nMates == 2) {
+                    pp2.add(playerRef);
+            } else if (nMates == 3) {
+                    pp3.add(playerRef);
+            } else if (nMates == 4) {
+                    pp4.add(playerRef);
+            }
+
         }
-        activePlayerRef.incrementAndGet();
-
-        bindingConfig[k][0] = MAC;
-        bindingConfig[k][1] = IP;
-        bindingConfig[k][2] = Port;
-        System.out.println("Bound queued player to ID " + k.toString());
-
-        if (nMates == 1) {
-            synchronized (Safe.pp1) {
-                pp1.add(playerRef);
-            }
-        } else if (nMates == 2) {
-            synchronized (Safe.pp2) {
-                pp2.add(playerRef);
-            }
-        } else if (nMates == 3) {
-            synchronized (Safe.pp3) {
-                pp3.add(playerRef);
-            }
-        } else if (nMates == 4) {
-            synchronized (Safe.pp4) {
-                pp4.add(playerRef);
-            }
-        }
-
         tryStartMatch();
         return k;
     }
 
-    public void cancelAndUnbind(Integer IDPlayer){
-        synchronized (Safe.pR) {
-            if (pR.get(IDPlayer).getnMates() == 1)
-                synchronized (Safe.pp1) {
-                    pp1.remove(pR.get(IDPlayer));
+    public void tryStartMatch() {
+
+        PlayerRef p1, p2, p3, p4;
+        int i = 0;
+        int count = 0;
+        LinkedList<PlayerRef> arr = new LinkedList<>();
+
+        synchronized (Safe.mainServer) {
+            while(i<pp1.size()){
+                if(pp1.get(i)!= null){
+                    //add new player, match bla bla
                 }
-            if (pR.get(IDPlayer).getnMates() == 2)
-                synchronized (Safe.pp2) {
-                    pp2.remove(pR.get(IDPlayer));
+                i++;
+            }
+            i = 0;
+
+            while (i<pp2.size()){
+                if(pp2.get(i)!= null){
+                    count++;
+                    arr.add(pp2.get(i));
                 }
-            if (pR.get(IDPlayer).getnMates() == 3)
-                synchronized (Safe.pp3) {
-                    pp3.remove(pR.get(IDPlayer));
+                if(count == 2){
+                    //istanzia giocatori nuovo match invia arr, nuovo thread TurnManager
                 }
-            if (pR.get(IDPlayer).getnMates() == 4)
-                synchronized (Safe.pp4) {
-                    pp4.remove(pR.get(IDPlayer));
+            }
+
+            while (i<pp2.size()){
+                if(pp2.get(i)!= null){
+                    count++;
+                    arr.add(pp2.get(i));
                 }
-            pR.remove(IDPlayer);
+                if(count == 2){
+                    //istanzia giocatori nuovo match invia arr, nuovo thread TurnManager
+                }
+            }
+
+            while (i<pp2.size()){
+                if(pp2.get(i)!= null){
+                    count++;
+                    arr.add(pp2.get(i));
+                }
+                if(count == 2){
+                    //istanzia giocatori nuovo match invia arr, nuovo thread TurnManager
+                }
+            }
         }
-    }
-
-    public void tryStartMatch(){
-
     }
 
     public static void main(String args[]) throws IOException {
         // Create singleton pointer, Instance is already enabled
         mainServer server = mainServer.getInstance();
-
+324
         try {
             // Create an instance of Network, which will have the role of server's interface
             Network netIface = new Network(server);
@@ -146,6 +163,6 @@ public class mainServer {
             listener.close();
         }
 
-        ConcurrencyManager.getManager().ThreadManager.shutdown();
+        ConcurrencyManager.ThreadManager.shutdown();
     }
 }

@@ -17,8 +17,10 @@ public class Locker {
     public final ReentrantLock pp2 = new ReentrantLock();
     public final ReentrantLock pp3 = new ReentrantLock();
     public final ReentrantLock pp4 = new ReentrantLock();
-    public final ReentrantLock action = new ReentrantLock();
-    public final LinkedList<ReentrantLock> lockA = new LinkedList<ReentrantLock>();
+    public final ReentrantLock p = new ReentrantLock();
+    public final ReentrantLock m = new ReentrantLock();
+    public final ReentrantLock mainServer = new ReentrantLock();
+    public final LinkedList<ReentrantLock> action = new LinkedList<ReentrantLock>();
     public final LinkedList<ReentrantLock> lockB = new LinkedList<ReentrantLock>();
     public final LinkedList<ReentrantLock> lockC = new LinkedList<ReentrantLock>();
 
@@ -29,15 +31,4 @@ public class Locker {
         return Safe;
     }
 
-    public void setLockA(Integer IDPlayer){
-        lockA.add(IDPlayer, new ReentrantLock());
-    }
-
-    public void setLockB(Integer IDPlayer){
-        lockB.add(IDPlayer, new ReentrantLock());
-    }
-
-    public void setLockC(Integer IDPlayer){
-        lockC.add(IDPlayer, new ReentrantLock());
-    }
 }
