@@ -3,8 +3,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LogInScreenController">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.LogInScreenController">
    <children>
       <ImageView fitHeight="1280.0" fitWidth="800.0" pickOnBounds="true" rotate="90.0" smooth="false" StackPane.alignment="CENTER">
          <image>
@@ -18,7 +20,7 @@
                   <Image url="@Sagrada.png" />
                </image>
             </ImageView>
-            <Button fx:id="StartButton" layoutX="614.0" layoutY="578.0" mnemonicParsing="false" text="Button" />
+            <Button fx:id="StartButton" layoutX="614.0" layoutY="578.0" mnemonicParsing="false" onAction="#LogIn" text="Button" />
          </children>
       </AnchorPane>
    </children>
