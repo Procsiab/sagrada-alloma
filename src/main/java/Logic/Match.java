@@ -14,7 +14,7 @@ public class Match {
     private Integer action = 0;
     private Integer turno;
 
-    Match(Integer IDMatch, LinkedList<Player> players){
+    public Match(Integer IDMatch, LinkedList<Player> players){
         this.IDMatch = IDMatch;
         this.players = players;
     }

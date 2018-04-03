@@ -21,14 +21,14 @@ public class Frame {
     public void setDicePositions(Dice dice, Position position, Integer IDPlayer){
         if(!checkDicePositions(dice, position, IDPlayer)) {
             //dice is not placed and player loses a chance
-            mainServer.getInstance().getP().get(IDPlayer).getMatch().setAction(1);
+            MatchManager.getInstance().getP().get(IDPlayer).getMatch().setAction(1);
             notifyAll();
             return ;
         }
 
         //put new dice in the final configuration
         dicePositions[position.getRow()][position.getColumn()] = dice;
-        mainServer.getInstance().getP().get(IDPlayer).getMatch().setAction(1);
+        MatchManager.getInstance().getP().get(IDPlayer).getMatch().setAction(1);
         notifyAll();
         return ;
     }
@@ -37,7 +37,7 @@ public class Frame {
         Integer ESITO = 0;
 
         //check if position is on edge
-        if (mainServer.getInstance().getP().get(IDPlayer).getTurno() == 1) {
+        if (MatchManager.getInstance().getP().get(IDPlayer).getTurno() == 1) {
             if(position.getRow()!=0 || position.getRow()!=3 || position.getColumn()!=0 || position.getColumn()!=4)
                 return false;
         }
