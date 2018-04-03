@@ -49,9 +49,11 @@ public class MatchManager {
         return 0;
     }
 
-    public void createAndBindUpd(String MAC, String IP, String Port, String Name, Integer nMates) {
+    public Integer createAndBindUpd(String MAC, String IP, String Port, String Name, Integer nMates) {
 
+        Integer IDP = getAvailableIDPlayer();
         tryStartMatch();
+        return IDP;
     }
 
     public void tryStartMatch() {
