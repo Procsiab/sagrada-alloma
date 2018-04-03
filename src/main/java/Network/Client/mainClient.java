@@ -9,11 +9,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class mainClient {
-    private static final String SERVER_IP = "localhost";
+    private static final String SERVER_IP = "fantasyshop.ddns.net";
     public static final Integer RMI_PORT = 1099;
     public static final Integer SOCKET_PORT = 1101;
     public static final String RMI_IFACE_NAME = "Network";
 
+    // Open a socket, send an object, then close it
     private static String[] SocketSend(String[] message) throws IOException, ClassNotFoundException {
         Socket myClient = null;
         String[] answer = {""};
@@ -69,11 +70,9 @@ public class mainClient {
         }
         // Create a socket and try to open it towards server
         String[] authResponse = SocketSend(clientInfo);
+        System.out.println(authResponse[0]);
 
-        //Decode the String[] message to obtain following values
-        Integer playerId = Integer.parseInt(authResponse[0]);
-
-        System.out.println("PlayerID: " + playerId.toString());
-        System.out.println("Contents of LinkedList<PlayerRef>:\n" + netIface.getPlayerRefList());
+        // Connect through RMI call
+        netIface.createAndBindUpd(clientInfo[0], clientInfo[1], clientInfo[2], clientInfo[3], Integer.parseInt(clientInfo[4]));
     }
 }

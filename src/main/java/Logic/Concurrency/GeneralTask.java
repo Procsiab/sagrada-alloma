@@ -2,7 +2,7 @@ package Logic.Concurrency;
 
 
 
-public abstract class GeneralTask implements Runnable{
+public abstract class GeneralTask implements Runnable {
 
     /*
     private Object att1;

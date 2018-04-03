@@ -11,6 +11,5 @@ import java.rmi.registry.Registry;
 
 public interface SharedNetwork extends Remote {
     String getServerIp() throws RemoteException;
-    String getPlayerName(Integer id) throws RemoteException;
-    String getPlayerRefList() throws RemoteException;
+    Integer createAndBindUpd(String ip, String mac, String port, String name, Integer mates) throws RemoteException;
 }

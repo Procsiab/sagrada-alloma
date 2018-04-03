@@ -42,11 +42,11 @@ public class MatchManager {
     }
 
     public Integer getAvailableIDPlayer(){
-
+        return 0;
     }
 
     public Integer getAvailableIDMatch(){
-
+        return 0;
     }
 
     public void createAndBindUpd(String MAC, String IP, String Port, String Name, Integer nMates) {

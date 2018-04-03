@@ -1,5 +1,6 @@
 package Network;
 
+import Logic.MatchManager;
 import Network.Server.mainServer;
 import Network.Shared.SharedNetwork;
 
@@ -9,7 +10,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Arrays;
 
 // The server's implementation of the network interface:
 // should implement the shared interface
@@ -23,7 +23,7 @@ public class Network implements SharedNetwork {
 
     // The constructor creates an instance for the RMI
     // registry and gets server's LAN IP into local attribute
-    public Network(mainServer server) throws RemoteException, UnknownHostException {
+    public Network() throws RemoteException, UnknownHostException {
         this.rmiRegistry = LocateRegistry.createRegistry(Network.RMI_PORT);
         this.serverIp = InetAddress.getLocalHost().getHostAddress();
         // Export the object listener on specific server port
@@ -34,11 +34,8 @@ public class Network implements SharedNetwork {
         return serverIp;
     }
 
-    public String getPlayerName(Integer id) {
-        return mainServer.getInstance().getP().get(id).getName();
-    }
-
-    public String getPlayerRefList() {
-        return Arrays.toString(mainServer.getInstance().getpR().toArray());
+    public Integer createAndBindUpd(String ip, String mac, String port, String name, Integer mates) {
+        // Return PlayerID at some point!
+        return MatchManager.getInstance().createAndBindUpd(mac, ip, port, name, mates);
     }
 }
