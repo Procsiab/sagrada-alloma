@@ -30,16 +30,16 @@ public class ListeningChannel extends GeneralTask {
                     e.printStackTrace();
                 }
 
-            }
-            while (true) {
-                try {
-                    // Wait until someone connects
-                    Socket clientSocket = mySocket.accept();
-                    // Start client handling
-                    ConcurrencyManager.submit(new SerializedSocket(clientSocket));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    break;
+                while (true) {
+                    try {
+                        // Wait until someone connects
+                        Socket clientSocket = mySocket.accept();
+                        // Start client handling
+                        ConcurrencyManager.submit(new SerializedSocket(clientSocket));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        break;
+                    }
                 }
             }
         }
