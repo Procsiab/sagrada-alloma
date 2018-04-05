@@ -1,5 +1,6 @@
 package Logic;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,9 +21,8 @@ public class Locker {
     public final ReentrantLock p = new ReentrantLock();
     public final ReentrantLock m = new ReentrantLock();
     public final ReentrantLock mainServer = new ReentrantLock();
-    public final LinkedList<ReentrantLock> action = new LinkedList<ReentrantLock>();
-    public final LinkedList<ReentrantLock> lockB = new LinkedList<ReentrantLock>();
-    public final LinkedList<ReentrantLock> lockC = new LinkedList<ReentrantLock>();
+    public final ReentrantLock activePlayerRefs = new ReentrantLock(); //MatchManager.activePlayerRefs
+    public final ArrayList<ReentrantLock> actionL = new ArrayList<>();//Match.action AND Match.loser
 
     private Locker(){}
 

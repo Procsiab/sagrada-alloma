@@ -34,8 +34,10 @@ public class Network implements SharedNetwork {
         return serverIp;
     }
 
-    public Integer createAndBindUpd(String ip, String mac, String port, String name, Integer mates) {
-        // Return PlayerID at some point!
-        return MatchManager.getInstance().createAndBindUpd(mac, ip, port, name, mates);
+    public boolean createAndBindUpd(String ip, String mac, String port, String name, Integer mates) {
+        if(mates < 1 || mates >4)
+            return false;//or return a String with error description
+        MatchManager.getInstance().createAndBindUpd(mac, ip, port, name, mates);
+        return true;
     }
 }

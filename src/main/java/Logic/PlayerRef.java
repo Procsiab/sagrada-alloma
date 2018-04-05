@@ -12,7 +12,16 @@ public class PlayerRef {
     }
 
 
+    public String getName() {
+        return Name;
+    }
+
+    public Integer getID() {
+        return IDPlayer;
+    }
+
     public Integer getnMates() {
+
         return nMates;
     }
 }

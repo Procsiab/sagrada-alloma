@@ -1,12 +1,10 @@
 package Logic;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class Match {
-
+public class MatchSolo {
     private final Integer IDMatch;
-    private final ArrayList<Player> players;
+    private final Player player;
     private Card[] toolCards;
     private Dice[][] roundTrack;
     private Card[] publicObjective;
@@ -15,13 +13,13 @@ public class Match {
     private Integer turno;
     private Player loser = null;
 
-    public Match(Integer IDMatch, ArrayList<Player> players){
+    public MatchSolo(Integer IDMatch, Player player){
         this.IDMatch = IDMatch;
-        this.players = players;
+        this.player = player;
     }
 
-    public ArrayList<Player> getPlayers(){
-        return players;
+    public Player getPlayers(){
+        return player;
     }
 
     public Card[] getToolCards(){

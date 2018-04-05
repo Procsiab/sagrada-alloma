@@ -1,67 +1,156 @@
 package Logic;
 
 import Logic.Concurrency.TurnManager;
+import Logic.Concurrency.TurnManagerSolo;
 import Network.Server.mainServer;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MatchManager {
 
     private static final MatchManager Instance = new MatchManager();
-    private static final Integer maxActivePlayer = 250;
+    private static final Integer maxActivePlayerRefs = 250;
     private final Locker Safe = Locker.getSafe();
-    private static String[][] bindingConfig = new String[maxActivePlayer][3];
-    private LinkedList<PlayerRef> pR = new LinkedList<PlayerRef>();
-    private LinkedList<Player> p = new LinkedList<Player>();
-    private LinkedList<Match> m = new LinkedList<Match>();
+    private static String[][] bindingConfig = new String[maxActivePlayerRefs][3];
+    private ArrayList<PlayerRef> pR = new ArrayList<PlayerRef>();
+    private ArrayList<Player> p = new ArrayList<Player>();
+    private ArrayList<Match> m = new ArrayList<Match>();
     private LinkedList<PlayerRef> pp1 = new LinkedList<PlayerRef>();
     private LinkedList<PlayerRef> pp2 = new LinkedList<PlayerRef>();
     private LinkedList<PlayerRef> pp3 = new LinkedList<PlayerRef>();
     private LinkedList<PlayerRef> pp4 = new LinkedList<PlayerRef>();
-    private AtomicInteger activePlayerRef = new AtomicInteger(0);
+    private AtomicInteger activePlayerRefs = new AtomicInteger(0);
 
     //make the constructor private so that this class cannot be instantiated from outer classes
     private MatchManager() {}
 
-        //Get the only object available
-        public static MatchManager getInstance() {
+    //Get the only object available
+    public static MatchManager getInstance() {
             return Instance;
         }
 
-        public LinkedList<PlayerRef> getpR(){
+    public ArrayList<PlayerRef> getpR(){
             return pR;
         }
 
-        public LinkedList<Player> getP() {
+    public ArrayList<Player> getP() {
             return p;
         }
 
-        public LinkedList<Match> getM() {
+    public ArrayList<Match> getM() {
             return m;
     }
 
+    public Integer getActivePlayerRefs(){
+        return activePlayerRefs.get();
+    }
+
+    public Integer getMaxActivePlayerRefs(){
+        return maxActivePlayerRefs;
+    }
+
     public Integer getAvailableIDPlayer(){
-        return 0;
+        Integer k = 0;
+        while (k<p.size() && p.get(k)!=null){
+            k++;
+        }
+
+        return k;
     }
 
     public Integer getAvailableIDMatch(){
-        return 0;
+        Integer k = 0;
+        while (k<m.size() && m.get(k)!=null){
+            k++;
+        }
+
+        return k;
     }
 
-    public Integer createAndBindUpd(String MAC, String IP, String Port, String Name, Integer nMates) {
+    public void createAndBindUpd(String MAC, String IP, String Port, String Name, Integer nMates) {
 
         Integer IDP = getAvailableIDPlayer();
+
+        bindingConfig[IDP][0] = MAC;
+        bindingConfig[IDP][1] = IP;
+        bindingConfig[IDP][2] = Port;
+
+        PlayerRef newPlayerRef = new PlayerRef(IDP, Name, nMates);
+        pR.add(IDP,newPlayerRef);
+        activePlayerRefs.getAndIncrement();
+
+        if (nMates == 1)
+            pp1.add(newPlayerRef);
+        else if (nMates == 2)
+            pp2.add(newPlayerRef);
+        else if (nMates == 3)
+            pp3.add(newPlayerRef);
+        else if (nMates == 4)
+            pp4.add(newPlayerRef);
+
         tryStartMatch();
-        return IDP;
     }
 
     public void tryStartMatch() {
-        LinkedList<Player> players= new LinkedList<>();
-        Integer IDMatch = getAvailableIDMatch();
-        Match match = new Match(IDMatch, players);
+        Integer k;
 
-        ConcurrencyManager.submit(new TurnManager(IDMatch, match, players));
+        if (pp1.size() % 1 == 0) {
+            k = getAvailableIDMatch();
+            PlayerRef playR = pp1.remove(0);
+            Player player1 = new Player(playR.getID(), k, playR.getName());
+            MatchSolo m = new MatchSolo(k, player1);
+            ConcurrencyManager.submit(new TurnManagerSolo());
+        }
+
+        if (pp2.size() % 2 == 0) {
+            k = getAvailableIDMatch();
+            PlayerRef playR1 = pp2.remove(0);
+            PlayerRef playR2 = pp2.remove(0);
+            Player player1 = new Player(playR1.getID(), k, playR1.getName());
+            Player player2 = new Player(playR2.getID(), k, playR1.getName());
+            ArrayList<Player> players = new ArrayList<Player>();
+            players.add(player1);
+            players.add(player2);
+            Match m2 = new Match(k, players);
+            ConcurrencyManager.submit(new TurnManager(k, m2, players));
+        }
+
+        if (pp3.size() % 3 == 0) {
+            k = getAvailableIDMatch();
+            PlayerRef playR1 = pp3.remove();
+            PlayerRef playR2 = pp3.remove();
+            PlayerRef playR3 = pp3.remove();
+            Player player1 = new Player(playR1.getID(), k, playR1.getName());
+            Player player2 = new Player(playR2.getID(), k, playR1.getName());
+            Player player3 = new Player(playR3.getID(), k, playR3.getName());
+            ArrayList<Player> players = new ArrayList<Player>();
+            players.add(player1);
+            players.add(player2);
+            players.add(player3);
+            Match m3 = new Match(k, players);
+            ConcurrencyManager.submit(new TurnManager(k, m3, players));
+        }
+
+        if (pp4.size() % 4 == 0) {
+            k = getAvailableIDMatch();
+            PlayerRef playR1 = pp3.remove();
+            PlayerRef playR2 = pp3.remove();
+            PlayerRef playR3 = pp3.remove();
+            PlayerRef playR4 = pp4.remove();
+            Player player1 = new Player(playR1.getID(), k, playR1.getName());
+            Player player2 = new Player(playR2.getID(), k, playR1.getName());
+            Player player3 = new Player(playR3.getID(), k, playR3.getName());
+            Player player4 = new Player(playR4.getID(), k, playR4.getName());
+            ArrayList<Player> players = new ArrayList<Player>();
+            players.add(player1);
+            players.add(player2);
+            players.add(player3);
+            players.add(player4);
+            Match m4 = new Match(k, players);
+            ConcurrencyManager.submit(new TurnManager(k, m4, players));
+        }
     }
 
 

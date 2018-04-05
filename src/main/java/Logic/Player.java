@@ -5,24 +5,18 @@ public class Player {
     private final Integer IDPlayer;
     private final Integer IDMatch;
     private final String Name;
-    private final Frame f;
-    private Match match;
+    private Frame f;
     private Integer favorToken;
     private Card privateObjective;
     private Integer Turno;
 
-    public Player(Integer IDPlayer, Integer IDMatch, String Name, Frame f, Integer Turno){
+    public Player(Integer IDPlayer, Integer IDMatch, String Name){
         this.IDPlayer = IDPlayer;
         this.IDMatch = IDMatch;
         this.Name = Name;
-        this.f = f;
-        this.Turno = Turno;
     }
 
 
-    public Match getMatch() {
-        return match;
-    }
 
     public Integer getScore() { return 0; }
 
