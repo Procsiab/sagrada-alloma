@@ -46,7 +46,7 @@ public class TurnManager extends GeneralTask {
         int j = 1;
         int i = 1;
         while(j<=10){
-            while(i<= players.size()){// not need to sync as players is final
+            while(i<= players.size()){// not need to sync players as they are a copy and not accessed elsewhere
                 enable(players.get(i-1));
                 synchronized (Safe.actionL.get(IDMatch)) {
                     while (match.getAction() == 0)
@@ -78,7 +78,9 @@ public class TurnManager extends GeneralTask {
                 }
                 i--;
             }
+            //players.shift();
             j++;
         }
     }
+    //scoring phase then call a method each player giving the score
 }

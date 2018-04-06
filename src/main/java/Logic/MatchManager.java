@@ -53,7 +53,7 @@ public class MatchManager {
 
     public Integer getAvailableIDPlayer(){
         Integer k = 0;
-        while (k<p.size() && p.get(k)!=null){
+        while (k<pR.size() && pR.get(k)!=null){
             k++;
         }
 
@@ -71,87 +71,105 @@ public class MatchManager {
 
     public void createAndBindUpd(String MAC, String IP, String Port, String Name, Integer nMates) {
 
-        Integer IDP = getAvailableIDPlayer();
+        synchronized (Safe.allQPPM) {
+            Integer IDP = getAvailableIDPlayer();
 
-        bindingConfig[IDP][0] = MAC;
-        bindingConfig[IDP][1] = IP;
-        bindingConfig[IDP][2] = Port;
+            bindingConfig[IDP][0] = MAC;
+            bindingConfig[IDP][1] = IP;
+            bindingConfig[IDP][2] = Port;
 
-        PlayerRef newPlayerRef = new PlayerRef(IDP, Name, nMates);
-        pR.add(IDP,newPlayerRef);
-        activePlayerRefs.getAndIncrement();
+            PlayerRef newPlayerRef = new PlayerRef(IDP, Name, nMates);
+            pR.add(IDP, newPlayerRef);
+            activePlayerRefs.getAndIncrement();
 
-        if (nMates == 1)
-            pp1.add(newPlayerRef);
-        else if (nMates == 2)
-            pp2.add(newPlayerRef);
-        else if (nMates == 3)
-            pp3.add(newPlayerRef);
-        else if (nMates == 4)
-            pp4.add(newPlayerRef);
-
+            if (nMates == 1)
+                pp1.add(newPlayerRef);
+            else if (nMates == 2)
+                pp2.add(newPlayerRef);
+            else if (nMates == 3)
+                pp3.add(newPlayerRef);
+            else if (nMates == 4)
+                pp4.add(newPlayerRef);
+        }
         tryStartMatch();
     }
 
     public void tryStartMatch() {
         Integer k;
 
-        if (pp1.size() % 1 == 0) {
-            k = getAvailableIDMatch();
-            PlayerRef playR = pp1.remove(0);
-            Player player1 = new Player(playR.getID(), k, playR.getName());
-            MatchSolo m = new MatchSolo(k, player1);
-            ConcurrencyManager.submit(new TurnManagerSolo());
-        }
+        synchronized (Safe.allQPPM) {
+            if (pp1.size() % 1 == 0) {
+                k = getAvailableIDMatch();
+                PlayerRef playR = pp1.remove(0);
+                Player player1 = new Player(playR.getID(), k, playR.getName());
+                ArrayList<Player> players = new ArrayList<Player>();
+                players.add(player1);
+                p.add(player1.getIDPlayer(),player1);
+                Match m1 = new Match(k, players);
+                m.add(k,m1);
+                ConcurrencyManager.submit(new TurnManagerSolo());
+            }
 
-        if (pp2.size() % 2 == 0) {
-            k = getAvailableIDMatch();
-            PlayerRef playR1 = pp2.remove(0);
-            PlayerRef playR2 = pp2.remove(0);
-            Player player1 = new Player(playR1.getID(), k, playR1.getName());
-            Player player2 = new Player(playR2.getID(), k, playR1.getName());
-            ArrayList<Player> players = new ArrayList<Player>();
-            players.add(player1);
-            players.add(player2);
-            Match m2 = new Match(k, players);
-            ConcurrencyManager.submit(new TurnManager(k, m2, players));
-        }
+            if (pp2.size() % 2 == 0) {
+                k = getAvailableIDMatch();
+                PlayerRef playR1 = pp2.remove(0);
+                PlayerRef playR2 = pp2.remove(0);
+                Player player1 = new Player(playR1.getID(), k, playR1.getName());
+                Player player2 = new Player(playR2.getID(), k, playR1.getName());
+                ArrayList<Player> players = new ArrayList<Player>();
+                p.add(player1.getIDPlayer(),player1);
+                p.add(player2.getIDPlayer(),player2);
+                players.add(player1);
+                players.add(player2);
+                Match m2 = new Match(k, players);
+                m.add(k,m2);
+                ConcurrencyManager.submit(new TurnManager(k, m2, players));
+            }
 
-        if (pp3.size() % 3 == 0) {
-            k = getAvailableIDMatch();
-            PlayerRef playR1 = pp3.remove();
-            PlayerRef playR2 = pp3.remove();
-            PlayerRef playR3 = pp3.remove();
-            Player player1 = new Player(playR1.getID(), k, playR1.getName());
-            Player player2 = new Player(playR2.getID(), k, playR1.getName());
-            Player player3 = new Player(playR3.getID(), k, playR3.getName());
-            ArrayList<Player> players = new ArrayList<Player>();
-            players.add(player1);
-            players.add(player2);
-            players.add(player3);
-            Match m3 = new Match(k, players);
-            ConcurrencyManager.submit(new TurnManager(k, m3, players));
-        }
+            if (pp3.size() % 3 == 0) {
+                k = getAvailableIDMatch();
+                PlayerRef playR1 = pp3.remove();
+                PlayerRef playR2 = pp3.remove();
+                PlayerRef playR3 = pp3.remove();
+                Player player1 = new Player(playR1.getID(), k, playR1.getName());
+                Player player2 = new Player(playR2.getID(), k, playR1.getName());
+                Player player3 = new Player(playR3.getID(), k, playR3.getName());
+                ArrayList<Player> players = new ArrayList<Player>();
+                p.add(player1.getIDPlayer(),player1);
+                p.add(player2.getIDPlayer(),player2);
+                p.add(player3.getIDPlayer(),player3);
+                players.add(player1);
+                players.add(player2);
+                players.add(player3);
+                Match m3 = new Match(k, players);
+                m.add(k,m3);
+                ConcurrencyManager.submit(new TurnManager(k, m3, players));
+            }
 
-        if (pp4.size() % 4 == 0) {
-            k = getAvailableIDMatch();
-            PlayerRef playR1 = pp3.remove();
-            PlayerRef playR2 = pp3.remove();
-            PlayerRef playR3 = pp3.remove();
-            PlayerRef playR4 = pp4.remove();
-            Player player1 = new Player(playR1.getID(), k, playR1.getName());
-            Player player2 = new Player(playR2.getID(), k, playR1.getName());
-            Player player3 = new Player(playR3.getID(), k, playR3.getName());
-            Player player4 = new Player(playR4.getID(), k, playR4.getName());
-            ArrayList<Player> players = new ArrayList<Player>();
-            players.add(player1);
-            players.add(player2);
-            players.add(player3);
-            players.add(player4);
-            Match m4 = new Match(k, players);
-            ConcurrencyManager.submit(new TurnManager(k, m4, players));
+            if (pp4.size() % 4 == 0) {
+                k = getAvailableIDMatch();
+                PlayerRef playR1 = pp3.remove();
+                PlayerRef playR2 = pp3.remove();
+                PlayerRef playR3 = pp3.remove();
+                PlayerRef playR4 = pp4.remove();
+                Player player1 = new Player(playR1.getID(), k, playR1.getName());
+                Player player2 = new Player(playR2.getID(), k, playR1.getName());
+                Player player3 = new Player(playR3.getID(), k, playR3.getName());
+                Player player4 = new Player(playR4.getID(), k, playR4.getName());
+                ArrayList<Player> players = new ArrayList<Player>();
+                p.add(player1.getIDPlayer(),player1);
+                p.add(player2.getIDPlayer(),player2);
+                p.add(player3.getIDPlayer(),player3);
+                p.add(player4.getIDPlayer(),player4);
+                players.add(player1);
+                players.add(player2);
+                players.add(player3);
+                players.add(player4);
+                Match m4 = new Match(k, players);
+                m.add(k,m4);
+                ConcurrencyManager.submit(new TurnManager(k, m4, players));
+            }
         }
     }
-
 
 }
