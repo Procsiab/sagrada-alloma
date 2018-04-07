@@ -3,19 +3,31 @@ package Network.Server;
 import Logic.Concurrency.ListeningChannel;
 import Logic.*;
 import Network.Network;
+import Network.Shared.SharedMainClient;
 
 import java.io.*;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.util.Scanner;
+import java.util.Vector;
 
 public class mainServer {
     //create an object of mainServer
     private static final mainServer Instance = new mainServer();
+    // List of players connected
+    private static Vector<SharedMainClient> clients;
 
     public static mainServer getInstance() {
         return Instance;
     }
 
     private mainServer(){}
+
+    public static void connect(SharedMainClient c) throws RemoteException {
+        System.out.println("Someone connected, I'm not alone! =)");
+        clients.add(c);
+        c.printMessage("SERVER: Th4t w4z bl4ck mag1c!");
+    }
 
     public static void main(String args[]) throws IOException {
         try {
@@ -33,12 +45,14 @@ public class mainServer {
             e.printStackTrace();
         }
         // Summon a ListeningChannel type thread
-        ConcurrencyManager.submit(new ListeningChannel(Network.SOCKET_PORT));
+        //ConcurrencyManager.submit(new ListeningChannel(Network.SOCKET_PORT));
 
-
-        System.out.println("Press any key to teardown...");
-        System.in.read(); // Hold on until a key press
+        System.out.println("Send 'exit' command to teardown...");
+        Scanner scan = new Scanner(System.in);
+        while (!scan.nextLine().equals("exit")) {
+            //
+        }
         ConcurrencyManager.ThreadManager.shutdown();
-
+        System.exit(0);
     }
 }

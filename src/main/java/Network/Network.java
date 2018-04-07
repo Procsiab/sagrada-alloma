@@ -2,6 +2,7 @@ package Network;
 
 import Logic.MatchManager;
 import Network.Server.mainServer;
+import Network.Shared.SharedMainClient;
 import Network.Shared.SharedNetwork;
 
 import java.net.InetAddress;
@@ -34,10 +35,12 @@ public class Network implements SharedNetwork {
         return serverIp;
     }
 
-    public boolean createAndBindUpd(String ip, String mac, String port, String name, Integer mates) {
-        if(mates < 1 || mates >4)
-            return false;//or return a String with error description
-        MatchManager.getInstance().createAndBindUpd(mac, ip, port, name, mates);
-        return true;
+    public void connect(SharedMainClient c) throws RemoteException {
+        mainServer.getInstance().connect(c);
+    }
+
+    public Integer createAndBindUpd(String ip, String mac, String port, String name, Integer mates) {
+        // Return PlayerID at some point!
+        return MatchManager.getInstance().createAndBindUpd(mac, ip, port, name, mates);
     }
 }
