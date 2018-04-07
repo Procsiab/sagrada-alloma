@@ -25,7 +25,7 @@ public class mainServer {
 
     public static void connect(SharedMainClient c) throws RemoteException {
         System.out.println("Someone connected, I'm not alone! =)");
-        clients.add(c);
+        // Call method on the client: u w8 m8?!
         c.printMessage("SERVER: Th4t w4z bl4ck mag1c!");
     }
 
@@ -44,8 +44,6 @@ public class mainServer {
         } catch (Exception e) { // Better exception handling
             e.printStackTrace();
         }
-        // Summon a ListeningChannel type thread
-        //ConcurrencyManager.submit(new ListeningChannel(Network.SOCKET_PORT));
 
         System.out.println("Send 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);

@@ -11,5 +11,4 @@ import java.rmi.RemoteException;
 public interface SharedNetwork extends Remote {
     void connect(SharedMainClient c) throws RemoteException;
     String getServerIp() throws RemoteException;
-    boolean createAndBindUpd(String ip, String mac, String port, String name, Integer mates) throws RemoteException;
 }

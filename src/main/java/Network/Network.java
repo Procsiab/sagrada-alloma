@@ -36,12 +36,8 @@ public class Network implements SharedNetwork {
     }
 
     public void connect(SharedMainClient c) throws RemoteException {
+        // Call corresponding server's method
         mainServer.getInstance().connect(c);
     }
 
-    public boolean createAndBindUpd(String ip, String mac, String port, String name, Integer mates) {
-        // Return PlayerID at some point!
-        MatchManager.getInstance().createAndBindUpd(mac, ip, port, name, mates);
-        return false;
-    }
 }
