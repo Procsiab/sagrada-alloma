@@ -52,6 +52,7 @@ public class TurnManager extends GeneralTask {
                     while (match.getAction() == 0)
                         try{
                         Safe.actionL.get(IDMatch).wait(sleepTime);
+                        match.setAction(1);
                         }catch (InterruptedException e){
                             e.printStackTrace();
                         }
@@ -68,6 +69,7 @@ public class TurnManager extends GeneralTask {
                     while (match.getAction() == 0)
                         try {
                             Safe.actionL.get(IDMatch).wait(sleepTime);
+                            match.setAction(1);
                         }catch(InterruptedException e){
                             e.printStackTrace();
                         }
