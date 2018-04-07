@@ -56,11 +56,9 @@ public class TurnManager extends GeneralTask {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    synchronized (Safe.allQPPMA) {
-                        while (match.getLoser() == null) {
-                            //print on client's screen who is the loser and close game
-                            //enabled by notify in setDicePositions, not needed in other invocations
-                        }
+                    while (match.getLoser() == null) {
+                        //print on client's screen who is the loser and close game
+                        //enabled with passaturno called from client, not needed in other invocations
                     }
                     match.setAction(0);
                 }
@@ -76,11 +74,9 @@ public class TurnManager extends GeneralTask {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    synchronized (Safe.allQPPMA) {
-                        while (match.getLoser() == null) {
-                            //print on client's screen who is the loser and close game
-                            //enabled by notify in setDicePositions, not needed in other invocations
-                        }
+                    while (match.getLoser() == null) {
+                        //print on client's screen who is the loser and close game
+                        //enabled with passaturno called from client, not needed in other invocations
                     }
                     match.setAction(0);
                 }

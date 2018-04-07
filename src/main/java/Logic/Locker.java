@@ -32,6 +32,3 @@ public class Locker {
     }
 
 }
-
-//TODO DEADLOCK THREAT: (verify not each one included in other)
-//    allQPPMA, actionL

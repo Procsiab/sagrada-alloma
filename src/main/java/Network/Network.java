@@ -39,8 +39,9 @@ public class Network implements SharedNetwork {
         mainServer.getInstance().connect(c);
     }
 
-    public Integer createAndBindUpd(String ip, String mac, String port, String name, Integer mates) {
+    public boolean createAndBindUpd(String ip, String mac, String port, String name, Integer mates) {
         // Return PlayerID at some point!
-        return MatchManager.getInstance().createAndBindUpd(mac, ip, port, name, mates);
+        MatchManager.getInstance().createAndBindUpd(mac, ip, port, name, mates);
+        return false;
     }
 }

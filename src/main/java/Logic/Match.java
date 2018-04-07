@@ -14,6 +14,7 @@ public class Match {
     private Integer action = 0;
     private Integer turno;
     private Player loser = null;
+    private Integer toDelete = 0;
 
     public Match(Integer IDMatch, ArrayList<Player> players){
         this.IDMatch = IDMatch;
@@ -40,6 +41,9 @@ public class Match {
 
     }
 
+    public Integer getToDelete() {
+        return toDelete;
+    }
 
     public Dice[][] getRoundTrack(){
         return roundTrack;

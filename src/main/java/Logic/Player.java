@@ -8,7 +8,8 @@ public class Player {
     private Frame f;
     private Integer favorToken;
     private Card privateObjective;
-    private Integer Turno;
+    private Integer toDelete = 0;
+    private Integer turno = 1;
 
     public Player(Integer IDPlayer, Integer IDMatch, String Name){
         this.IDPlayer = IDPlayer;
@@ -60,7 +61,11 @@ public class Player {
 
     }
 
+    public Integer getToDelete() {
+        return toDelete;
+    }
+
     public Integer getTurno() {
-        return Turno;
+        return turno;
     }
 }
