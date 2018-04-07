@@ -71,7 +71,7 @@ public class MatchManager {
 
     public void createAndBindUpd(String MAC, String IP, String Port, String Name, Integer nMates) {
 
-        synchronized (Safe.allQPPM) {
+        synchronized (Safe.allQPPMA) {
             Integer IDP = getAvailableIDPlayer();
 
             bindingConfig[IDP][0] = MAC;
@@ -81,7 +81,7 @@ public class MatchManager {
             PlayerRef newPlayerRef = new PlayerRef(IDP, Name, nMates);
             pR.add(IDP, newPlayerRef);
             activePlayerRefs.getAndIncrement();
-
+            //synchronize network to deny access when maxActivePlayRef is reached
             if (nMates == 1)
                 pp1.add(newPlayerRef);
             else if (nMates == 2)
@@ -94,10 +94,30 @@ public class MatchManager {
         tryStartMatch();
     }
 
+    public void deletePlayer(Integer IDPlayer){
+        synchronized (Safe.allQPPMA){
+            if(p.get(IDPlayer) == null){
+                PlayerRef current = pR.get(IDPlayer);
+                if(current.getnMates() == 1)
+                    pp1.remove(IDPlayer);
+                if(current.getnMates() == 2)
+                    pp2.remove(IDPlayer);
+                if(current.getnMates() == 3)
+                    pp3.remove(IDPlayer);
+                if(current.getnMates() == 4)
+                    pp4.remove(IDPlayer);
+                pR.remove(IDPlayer);
+            }
+            else
+                MatchManager.getInstance().getM().get(MatchManager.getInstance().
+                        getP().get(IDPlayer).getIDMatch()).quit(IDPlayer);
+        }
+    }
+
     public void tryStartMatch() {
         Integer k;
 
-        synchronized (Safe.allQPPM) {
+        synchronized (Safe.allQPPMA) {
             if (pp1.size() % 1 == 0) {
                 k = getAvailableIDMatch();
                 PlayerRef playR = pp1.remove(0);

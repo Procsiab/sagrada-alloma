@@ -10,7 +10,7 @@ public class Match {
     private Card[] toolCards;
     private Dice[][] roundTrack;
     private Card[] publicObjective;
-    private PoolOfDices pool;
+    private Locker Safe = Locker.getSafe();
     private Integer action = 0;
     private Integer turno;
     private Player loser = null;
@@ -45,9 +45,10 @@ public class Match {
         return roundTrack;
     }
 
-    public void quit(){
-        //declare all winners except who quit
-        notifyAll();
+    public void quit(Integer IDPlayer){
+        synchronized (Safe.allQPPMA) {
+            //declare all winners except who quit
+        }
     }
 
     public void listen(Player p){

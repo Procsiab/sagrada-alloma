@@ -8,6 +8,7 @@ public class Frame {
     private Integer IDPlayer;
     private Window window;
     private Dice[][] dicePositions;
+    private Locker Safe = Locker.getSafe();
 
 
     public Frame(Window window){
@@ -18,19 +19,21 @@ public class Frame {
         return dicePositions;
     }
 
-    public void setDicePositions(Dice dice, Position position, Integer IDPlayer){
-        if(!checkDicePositions(dice, position, IDPlayer)) {
-            //dice is not placed and player loses a chance
-            MatchManager.getInstance().getP().get(IDPlayer).getMatch().setAction(1);
-            notifyAll();
-            return ;
-        }
+    public void setDicePositions(Dice dice, Position position, Integer IDPlayer) {
+        synchronized (Safe.actionL) {
+            Integer IDMatch = MatchManager.getInstance().getP().get(IDPlayer).getIDMatch();
 
-        //put new dice in the final configuration
-        dicePositions[position.getRow()][position.getColumn()] = dice;
-        MatchManager.getInstance().getP().get(IDPlayer).getMatch().setAction(1);
-        notifyAll();
-        return ;
+            if (!checkDicePositions(dice, position, IDPlayer)) {
+                //dice is not placed and player loses a chance
+                MatchManager.getInstance().getM().get(IDMatch).setAction(1);
+                return;
+            }
+
+            //put new dice in the final configuration
+            dicePositions[position.getRow()][position.getColumn()] = dice;
+            MatchManager.getInstance().getM().get(IDMatch).setAction(1);
+            return;
+        }
     }
 
     boolean checkDicePositions(Dice dice, Position position, Integer IDPlayer) {

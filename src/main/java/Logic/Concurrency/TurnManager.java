@@ -50,15 +50,18 @@ public class TurnManager extends GeneralTask {
                 enable(players.get(i-1));
                 synchronized (Safe.actionL.get(IDMatch)) {
                     while (match.getAction() == 0)
-                        try{
-                        Safe.actionL.get(IDMatch).wait(sleepTime);
-                        match.setAction(1);
-                        }catch (InterruptedException e){
+                        try {
+                            Safe.actionL.get(IDMatch).wait(sleepTime);
+                            match.setAction(1);
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    while (match.getLoser() == null)
+                    synchronized (Safe.allQPPMA) {
+                        while (match.getLoser() == null) {
                             //print on client's screen who is the loser and close game
-                    //enabled by notify in setDicePositions, not needed in other invocations
+                            //enabled by notify in setDicePositions, not needed in other invocations
+                        }
+                    }
                     match.setAction(0);
                 }
                 i++;
@@ -70,12 +73,15 @@ public class TurnManager extends GeneralTask {
                         try {
                             Safe.actionL.get(IDMatch).wait(sleepTime);
                             match.setAction(1);
-                        }catch(InterruptedException e){
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    while (match.getLoser() == null)
-                        //print on client's screen who is the loser and close game
-                    //enabled by notify in setDicePositions, not needed in other invocations
+                    synchronized (Safe.allQPPMA) {
+                        while (match.getLoser() == null) {
+                            //print on client's screen who is the loser and close game
+                            //enabled by notify in setDicePositions, not needed in other invocations
+                        }
+                    }
                     match.setAction(0);
                 }
                 i--;

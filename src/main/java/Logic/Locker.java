@@ -20,9 +20,8 @@ public class Locker {
     public final ReentrantLock pp4 = new ReentrantLock();
     public final ReentrantLock p = new ReentrantLock();
     public final ReentrantLock m = new ReentrantLock();
-    public final ReentrantLock allQPPM = new ReentrantLock(); //pR, pp1, pp2, pp3, pp4, p, m
+    public final ReentrantLock allQPPMA = new ReentrantLock(); //pR, pp1, pp2, pp3, pp4, p, m, activePlayerRefs
     public final ReentrantLock mainServer = new ReentrantLock();
-    public final ReentrantLock activePlayerRefs = new ReentrantLock(); //MatchManager.activePlayerRefs
     public final ArrayList<ReentrantLock> actionL = new ArrayList<>();//Match.action, Match.loser
 
     private Locker(){}
@@ -33,3 +32,6 @@ public class Locker {
     }
 
 }
+
+//TODO DEADLOCK THREAT: (verify not each one included in other)
+//    allQPPMA, actionL
