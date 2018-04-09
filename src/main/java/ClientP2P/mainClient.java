@@ -2,6 +2,11 @@ package ClientP2P;
 
 import ServerP2P.Network.Shared.SharedMainClient;
 import ServerP2P.Network.Shared.SharedNetwork;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -12,20 +17,30 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class mainClient implements SharedMainClient {
+public class mainClient extends Application implements SharedMainClient {
     private static final String SERVER_IP = "localhost";
     private String CLIENT_IP;
     public static final Integer RMI_PORT = 1099;
     public static final Integer SOCKET_PORT = 1101;
     public static final String RMI_IFACE_NAME = "ServerP2P/Network";
 
-    public mainClient() {
+    public mainClient(String[] args) {
         super();
         try {
             this.CLIENT_IP = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("LogInScreen.fxml"));
+        Scene LogIn = new Scene(root);
+        primaryStage.setScene(LogIn);
+        primaryStage.show();
     }
 
     public String getClientIp() {
@@ -44,7 +59,7 @@ public class mainClient implements SharedMainClient {
         System.out.println("Connecting...");
 
         // Create instance of client from its shared interface
-        SharedMainClient myClient = new mainClient();
+        SharedMainClient myClient = new mainClient(args);
         // Inform the registry about symbolic server name
         System.setProperty("java.rmi.server.hostname", myClient.getClientIp());
         // Setup permissive security policy - yay haxorz come in
