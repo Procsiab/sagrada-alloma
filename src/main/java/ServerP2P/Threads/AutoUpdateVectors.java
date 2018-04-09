@@ -1,4 +1,4 @@
-package ClientP2P.Concurrency;
+package ServerP2P.Threads;
 
 import ClientP2P.Logic.Locker;
 import ClientP2P.Logic.Match;

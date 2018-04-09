@@ -1,7 +1,7 @@
 package ClientP2P.Logic;
 
-import ClientP2P.Concurrency.TurnManager;
-import ClientP2P.Concurrency.TurnManagerSolo;
+import ClientP2P.Threads.TurnManager;
+import ClientP2P.Threads.TurnManagerSolo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

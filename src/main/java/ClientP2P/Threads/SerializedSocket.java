@@ -1,4 +1,4 @@
-package ClientP2P.Concurrency;
+package ClientP2P.Threads;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

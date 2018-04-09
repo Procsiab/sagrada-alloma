@@ -1,4 +1,4 @@
-package ServerP2P.Concurrency;
+package ClientP2P.Threads;
 
 public class TurnManagerSolo extends GeneralTask {
 

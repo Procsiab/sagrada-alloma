@@ -1,6 +1,6 @@
 package ServerP2P.Logic;
 
-import ClientP2P.Concurrency.GeneralTask;
+import ClientP2P.Threads.GeneralTask;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
