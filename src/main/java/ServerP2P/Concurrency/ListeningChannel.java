@@ -14,7 +14,7 @@ public class ListeningChannel extends GeneralTask {
         this.mySocket = new ServerSocket(port);
     }
 
-    //@SuppressWarnings("InfiniteLoopStatement")
+    @SuppressWarnings("InfiniteLoopStatement")
     @Override
     public void run() {
         System.out.println("Listener started");
