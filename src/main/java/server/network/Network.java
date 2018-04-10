@@ -16,7 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class Network implements SharedNetwork {
     private static final String SERVER_IP = "localhost";
     public static final Integer RMI_PORT = 1099;
-    public static final String RMI_IFACE_NAME = "ServerP2P/Network";
+    public static final String RMI_IFACE_NAME = "Network";
     public static final Integer RMI_IFACE_PORT = 1100;
     public static final Integer SOCKET_PORT = 1101;
     private String serverIp;

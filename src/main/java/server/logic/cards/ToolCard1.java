@@ -5,21 +5,22 @@ import client.logic.MatchManager;
 
 public class ToolCard1 extends Card {
 
-    private String nome = "1";
-    private String descrizione;
+    private String name = "1";
+    private String description = null;
 
     @Override
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
     @Override
-    public String getDescrizione() {
-        return null;
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public boolean use(Integer idPlayer, Integer idMatch) {
         MatchManager.getInstance().getM();
+        return true; //Should implement true method
     }
 }

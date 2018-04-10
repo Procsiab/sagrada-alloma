@@ -19,10 +19,10 @@ import java.util.Scanner;
 
 public class MainClient extends Application implements SharedMainClient {
     private static final String SERVER_IP = "localhost";
+    private static final String RMI_IFACE_NAME = "Network";
+    private static final Integer RMI_PORT = 1099;
     private String clientIp;
-    public static final Integer RMI_PORT = 1099;
     public static final Integer SOCKET_PORT = 1101;
-    public static final String RMI_IFACE_NAME = "ServerP2P/Network";
 
     public MainClient(String[] args) {
         super();

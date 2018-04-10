@@ -2,10 +2,10 @@ package server.logic;
 
 public abstract class Card {
 
-    private String nome;
-    private String descrizione;
+    private String name;
+    private String description;
 
-    public abstract String getNome();
-    public abstract String getDescrizione();
+    public abstract String getName();
+    public abstract String getDescription();
     public abstract boolean use(Integer idPlayer, Integer idMatch);
 }
