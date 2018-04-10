@@ -1,10 +1,10 @@
 package client;
 
-import javafx.application.Application;
+/*import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.stage.Stage;*/
 import shared.SharedMainClient;
 import shared.SharedNetwork;
 
@@ -17,7 +17,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class MainClient extends Application implements SharedMainClient {
+public class MainClient /*extends Application*/ implements SharedMainClient {
     private static final String SERVER_IP = "localhost";
     private static final String RMI_IFACE_NAME = "Network";
     private static final Integer RMI_PORT = 1099;
@@ -32,16 +32,16 @@ public class MainClient extends Application implements SharedMainClient {
             e.printStackTrace();
         }
 
-        launch(args);
+        //launch(args);
     }
 
-    @Override
+    /*@Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("LogInScreen.fxml"));
         Scene logIn = new Scene(root);
         primaryStage.setScene(logIn);
         primaryStage.show();
-    }
+    }*/
 
     public String getClientIp() {
         return clientIp;
