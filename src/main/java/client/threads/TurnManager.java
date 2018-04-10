@@ -3,22 +3,20 @@ package client.threads;
 import client.logic.Locker;
 import client.logic.Match;
 import client.logic.Player;
-import client.threads.GeneralTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TurnManager extends GeneralTask {
 
-    private final Integer IDMatch;
+    private final Integer idMatch;
     private final Match match;
     private final List<Player> players;
     private final Integer sleepTime;
 
-    private Locker Safe = Locker.getSafe();
+    private Locker safe = Locker.getSafe();
 
-    public TurnManager(Integer IDMatch, Match match, List<Player> players){
-        this.IDMatch = IDMatch;
+    public TurnManager(Integer idMatch, Match match, List<Player> players){
+        this.idMatch = idMatch;
         this.match = match;
         this.players = players;
         this.sleepTime = 10000;
@@ -49,10 +47,10 @@ public class TurnManager extends GeneralTask {
         while(j<=10){
             while(i<= players.size()){// not need to sync players as they are a copy and not accessed elsewhere
                 enable(players.get(i-1));
-                synchronized (Safe.actionL.get(IDMatch)) {
+                synchronized (safe.actionL.get(idMatch)) {
                     while (match.getAction() == 0)
                         try {
-                            Safe.actionL.get(IDMatch).wait(sleepTime);
+                            safe.actionL.get(idMatch).wait(sleepTime);
                             match.setAction(1);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -67,10 +65,10 @@ public class TurnManager extends GeneralTask {
             }
             while (i>=1){
                 enable(players.get(i-1));
-                synchronized (Safe.actionL.get(IDMatch)) {
+                synchronized (safe.actionL.get(idMatch)) {
                     while (match.getAction() == 0)
                         try {
-                            Safe.actionL.get(IDMatch).wait(sleepTime);
+                            safe.actionL.get(idMatch).wait(sleepTime);
                             match.setAction(1);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
