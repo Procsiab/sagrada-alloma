@@ -8,7 +8,8 @@ import java.rmi.RemoteException;
 // of this interface; it should extend Remote and have all
 // the class' methods you want to be RMI
 
-public interface SharedNetwork extends Remote {
-    void connect(SharedMainClient c) throws RemoteException;
+public interface SharedNetworkServer extends Remote {
+    void connect(SharedNetworkClient c) throws RemoteException;
+    String startGame(SharedNetworkClient c, Integer nMates) throws RemoteException;
     String getServerIp() throws RemoteException;
 }

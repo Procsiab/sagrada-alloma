@@ -5,11 +5,11 @@ package server.threads;
 public abstract class GeneralTask implements Runnable {
 
     /*
-    private Object att1;
-    private Object att2;
-    private Object att3;
-    private Object att4;
-    private Object att5;
+    public Object att1;
+    public Object att2;
+    public Object att3;
+    public Object att4;
+    public Object att5;
 
     public GeneralTask(){
 

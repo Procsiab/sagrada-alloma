@@ -9,12 +9,12 @@ import java.util.List;
 
 public class TurnManager extends GeneralTask {
 
-    private final Integer idMatch;
-    private final Match match;
-    private final List<Player> players;
-    private final Integer sleepTime;
+    public final Integer idMatch;
+    public final Match match;
+    public final List<Player> players;
+    public final Integer sleepTime;
 
-    private Locker safe = Locker.getSafe();
+    public Locker safe = Locker.getSafe();
 
     public TurnManager(Integer idMatch, Match match, List<Player> players){
         this.idMatch = idMatch;
@@ -35,8 +35,8 @@ public class TurnManager extends GeneralTask {
     @Override
     public void run() {
 
-        //show shuffle Private Objective Card animation on all clients
-        //show 4 private objective cards and 1 window frame player board. Player will choose only 1 card.
+        //show shuffle public Objective Card animation on all clients
+        //show 4 public objective cards and 1 window frame player board. Player will choose only 1 card.
         //give each player the number of favor Tokens indicated on their card
         //give each player the appropriate score marker
         //place 3 tool cards in the center face up

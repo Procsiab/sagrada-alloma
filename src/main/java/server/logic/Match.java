@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Match {
 
-    private final Integer idMatch;
-    private final List<Player> players;
-    private Card[] toolCards;
-    private Dice[][] roundTrack;
-    private Card[] publicObjective;
-    private Locker safe = Locker.getSafe();
-    private Integer action = 0;
-    private Integer turno;
-    private Player loser = null;
-    private Integer toDelete = 0;
+    public final Integer idMatch;
+    public final List<Player> players;
+    public Card[] toolCards;
+    public Dice[][] roundTrack;
+    public Card[] publicObjective;
+    public Locker safe = Locker.getSafe();
+    public Integer action = 0;
+    public Integer turno;
+    public Player loser = null;
+    public Integer toDelete = 0;
 
     public Match(Integer idMatch, List<Player> players){
         this.idMatch = idMatch;

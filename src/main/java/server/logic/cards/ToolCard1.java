@@ -5,8 +5,8 @@ import client.logic.MatchManager;
 
 public class ToolCard1 extends Card {
 
-    private String name = "1";
-    private String description = null;
+    public String name = "1";
+    public String description = null;
 
     @Override
     public String getName() {

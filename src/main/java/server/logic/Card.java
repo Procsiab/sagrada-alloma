@@ -2,8 +2,8 @@ package server.logic;
 
 public abstract class Card {
 
-    private String name;
-    private String description;
+    public String name;
+    public String description;
 
     public abstract String getName();
     public abstract String getDescription();

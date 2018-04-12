@@ -1,8 +1,9 @@
 package server.network;
 
 import server.MainServer;
-import shared.SharedMainClient;
-import shared.SharedNetwork;
+import server.logic.MatchManager;
+import shared.SharedNetworkClient;
+import shared.SharedNetworkServer;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -13,14 +14,14 @@ import java.rmi.server.UnicastRemoteObject;
 
 // The server's implementation of the network interface:
 // should implement the shared interface
-public class Network implements SharedNetwork {
-    private static final String SERVER_IP = "localhost";
+public class Network implements SharedNetworkServer {
+    public static final String SERVER_IP = "localhost";
     public static final Integer RMI_PORT = 1099;
     public static final String RMI_IFACE_NAME = "Network";
     public static final Integer RMI_IFACE_PORT = 1100;
     public static final Integer SOCKET_PORT = 1101;
-    private String serverIp;
-    private Registry rmiRegistry;
+    public String serverIp;
+    public Registry rmiRegistry;
 
     // The constructor creates an instance for the RMI
     // registry and gets server's LAN IP into local attribute
@@ -35,13 +36,20 @@ public class Network implements SharedNetwork {
         UnicastRemoteObject.exportObject(this, RMI_IFACE_PORT);
     }
 
+    public void connect(SharedNetworkClient c) throws RemoteException{
+        MainServer.getInstance().connect(c);
+    }
+
     public String getServerIp() {
         return serverIp;
     }
 
-    public void connect(SharedMainClient c) throws RemoteException {
+    public String startGame(SharedNetworkClient c, Integer nMates) throws RemoteException {
         // Call corresponding server's method
-        MainServer.getInstance().connect(c);
+        if(MatchManager.getInstance().startGame(c,nMates)) {
+            return "Connection successful. Please wait for other players to connect";
+        }
+        return "Too many incoming requests, please try again later. Sorry for that.";
     }
 
 }

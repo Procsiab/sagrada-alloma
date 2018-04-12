@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Dice {
 
-    private Integer value;
-    private char color;
+    public Integer value;
+    public char color;
     Integer idDice;
 
 

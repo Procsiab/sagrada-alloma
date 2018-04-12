@@ -1,12 +1,13 @@
 package client;
 
-/*import javafx.application.Application;
+import client.network.Network;
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;*/
-import shared.SharedMainClient;
-import shared.SharedNetwork;
+import javafx.stage.Stage;
+import shared.SharedNetworkClient;
+import shared.SharedNetworkServer;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -17,12 +18,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class MainClient /*extends Application*/ implements SharedMainClient {
-    private static final String SERVER_IP = "localhost";
-    private static final String RMI_IFACE_NAME = "Network";
-    private static final Integer RMI_PORT = 1099;
-    private String clientIp;
-    public static final Integer SOCKET_PORT = 1101;
+public class MainClient extends Application {
+
 
     public MainClient(String[] args) {
         super();
@@ -35,31 +32,29 @@ public class MainClient /*extends Application*/ implements SharedMainClient {
         //launch(args);
     }
 
-    /*@Override
+    @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("LogInScreen.fxml"));
         Scene logIn = new Scene(root);
         primaryStage.setScene(logIn);
         primaryStage.show();
-    }*/
-
-    public String getClientIp() {
-        return clientIp;
     }
 
-    public void printMessage(String s) {
+    public static void printMessage(String s) {
         System.out.println(s);
     }
 
     public static void main(String [] args) throws NotBoundException, RemoteException {
+
+        /*
         // Look for the RMI registry on specific server port
         Registry rmiRegistry = LocateRegistry.getRegistry(SERVER_IP, RMI_PORT);
-        // Get a reference to the remote instance of ServerP2P.Network, through SharedNetwork interface
-        SharedNetwork netIface = (SharedNetwork) rmiRegistry.lookup(RMI_IFACE_NAME);
+        // Get a reference to the remote instance of ServerP2P.Network, through SharedNetworkServer interface
+        SharedNetworkServer netIface = (SharedNetworkServer) rmiRegistry.lookup(RMI_IFACE_NAME);
         System.out.println("Connecting...");
 
         // Create instance of client from its shared interface
-        SharedMainClient myClient = new MainClient(args);
+        SharedNetworkClient myClient = new MainClient(args);
         // Inform the registry about symbolic server name
         System.setProperty("java.rmi.server.hostname", myClient.getClientIp());
         // Setup permissive security policy - yay haxorz come in
@@ -67,7 +62,7 @@ public class MainClient /*extends Application*/ implements SharedMainClient {
         // Export the object listener on anonymous port
         UnicastRemoteObject.exportObject(myClient,0);
         // Call method on remote object passing the local reference
-        netIface.connect(myClient);
+        netIface.connect(myClient);*/
 
         // Close connection on command
         Scanner scan = new Scanner(System.in);

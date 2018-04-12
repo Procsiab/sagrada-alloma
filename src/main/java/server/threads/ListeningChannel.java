@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class ListeningChannel extends GeneralTask {
 
-    private final ServerSocket mySocket;
+    public final ServerSocket mySocket;
 
     public ListeningChannel(int port) throws IOException {
         this.mySocket = new ServerSocket(port);

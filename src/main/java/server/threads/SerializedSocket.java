@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.Arrays;
 
 public class SerializedSocket extends GeneralTask {
-    private Socket s;
+    public Socket s;
 
     public SerializedSocket(Socket s) {
         this.s = s;

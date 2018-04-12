@@ -1,8 +1,8 @@
 package server.logic;
 
 public class Position {
-    private Integer row;
-    private Integer column;
+    public Integer row;
+    public Integer column;
 
     public Integer getRow() {
         return row;

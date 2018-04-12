@@ -2,7 +2,7 @@ package server;
 
 import server.logic.*;
 import server.network.Network;
-import shared.SharedMainClient;
+import shared.SharedNetworkClient;
 
 import java.io.*;
 import java.rmi.Naming;
@@ -14,7 +14,7 @@ public class MainServer {
     //create an object of MainServer
     private static final MainServer Instance = new MainServer();
     // List of players connected
-    private static Vector<SharedMainClient> clients;
+    private static Vector<SharedNetworkClient> clients;
 
     public static MainServer getInstance() {
         return Instance;
@@ -22,7 +22,7 @@ public class MainServer {
 
     private MainServer(){}
 
-    public static void connect(SharedMainClient c) throws RemoteException {
+    public static void connect(SharedNetworkClient c) throws RemoteException {
         System.out.println("Someone connected, I'm not alone! =)");
         // Call method on the client: u w8 m8?!
         c.printMessage("SERVER: Th4t w4z bl4ck mag1c!");
@@ -49,7 +49,7 @@ public class MainServer {
         while (!scan.nextLine().equals("exit")) {
             //
         }
-        ConcurrencyManager.ThreadManager.shutdown();
+        ConcurrencyManager.shutdown();
         System.exit(0);
     }
 }

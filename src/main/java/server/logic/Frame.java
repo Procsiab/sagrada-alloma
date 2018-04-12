@@ -3,11 +3,11 @@ package server.logic;
 
 public class Frame {
 
-    private Integer player;
-    private Window window;
-    private Dice[][] dicePositions;
-    private Locker safe = Locker.getSafe();
-    private Position lastPlaced;
+    public Integer player;
+    public Window window;
+    public Dice[][] dicePositions;
+    public Locker safe = Locker.getSafe();
+    public Position lastPlaced;
 
 
     public Frame(Window window){

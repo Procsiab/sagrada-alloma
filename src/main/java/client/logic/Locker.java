@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Locker {
 
-    private static Locker safe = new Locker();
+    public static Locker safe = new Locker();
     public final ReentrantLock lock1 = new ReentrantLock();
     public final ReentrantLock lock2 = new ReentrantLock();
     public final ReentrantLock lock3 = new ReentrantLock();
@@ -23,7 +23,7 @@ public class Locker {
     public final ReentrantLock mainServer = new ReentrantLock();
     public final List<ReentrantLock> actionL = new ArrayList<>();//Match.action, Match.loser
 
-    private Locker(){}
+    public Locker(){}
 
 
     public static Locker getSafe() {

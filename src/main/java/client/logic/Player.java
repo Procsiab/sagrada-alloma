@@ -2,14 +2,14 @@ package client.logic;
 
 public class Player {
 
-    private final Integer idPlayer;
-    private final Integer idMatch;
-    private final String name;
-    private Frame frame;
-    private Integer favorToken;
-    private Card privateObjective;
-    private Integer toDelete = 0;
-    private Integer turno = 1;
+    public final Integer idPlayer;
+    public final Integer idMatch;
+    public final String name;
+    public Frame frame;
+    public Integer favorToken;
+    public Card publicObjective;
+    public Integer toDelete = 0;
+    public Integer turno = 1;
 
     public Player(Integer idPlayer, Integer idMatch, String name){
         this.idPlayer = idPlayer;
@@ -49,12 +49,12 @@ public class Player {
         return favorToken;
     }
 
-    public void setPrivateObjective(Card po){
+    public void setpublicObjective(Card po){
 
     }
 
-    public Card getPrivateObjective() {
-        return privateObjective;
+    public Card getpublicObjective() {
+        return publicObjective;
     }
 
     public void setTurno(Frame f){

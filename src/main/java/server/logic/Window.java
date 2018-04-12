@@ -2,8 +2,8 @@ package server.logic;
 
 public class Window {
 
-    private final Cell[][] feature = new Cell[4][5];
-    private Integer idMatch;
+    public final Cell[][] feature = new Cell[4][5];
+    public Integer idMatch;
 
     public void setIdMatch(Integer idMatch) {
         this.idMatch = idMatch;
