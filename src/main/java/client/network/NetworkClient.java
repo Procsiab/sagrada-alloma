@@ -6,8 +6,6 @@ import shared.SharedNetworkClient;
 import shared.SharedNetworkServer;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -19,38 +17,56 @@ public class NetworkClient implements SharedNetworkClient {
     public static final String RMI_IFACE_NAME = "NetworkServer";
     public static final Integer RMI_IFACE_PORT = 1100;
     public static final Integer SOCKET_PORT = 1101;
-    private String clientIp;
-    private Registry rmiRegistry;
-    private SharedNetworkServer netServer;
-    private static final NetworkClient instance = new NetworkClient();
+    private static String clientIp;
+    private static Registry rmiRegistry;
+    private static SharedNetworkServer netServer;
+    private static NetworkClient instance = null;
+    //TODO private Game game = new Game();
 
-    public NetworkClient getInstance() {
+
+    public static NetworkClient getInstance() {
         return instance;
     }
 
-    private NetworkClient() throws RemoteException, UnknownHostException, NotBoundException {
-        // Look for the RMI registry on specific server port
-        this.rmiRegistry = LocateRegistry.getRegistry(SERVER_IP, RMI_PORT);
-        // get local IP
-        this.clientIp = InetAddress.getLocalHost().getHostAddress();
-        // Get a reference to the remote instance of NetworkClient, through SharedNetworkServer interface
-        this.netServer = (SharedNetworkServer) rmiRegistry.lookup(RMI_IFACE_NAME);
-
-        // Inform the registry about symbolic server name
-        System.setProperty("java.rmi.server.hostname", this.clientIp);
-        // Setup permissive security policy
-        System.setProperty("java.rmi.server.useCodebaseOnly", "false");
-        // Export the object listener on specific server port
-        UnicastRemoteObject.exportObject(this, 0);
+    public static void setInstance() {
+        if(instance == null) {
+            instance = new NetworkClient();
+        }
     }
 
-    private Game game = new Game();
+    private NetworkClient() {
+        try {
+            // Look for the RMI registry on specific server port
+            this.rmiRegistry = LocateRegistry.getRegistry(SERVER_IP, RMI_PORT);
+            // get local IP
+            this.clientIp = InetAddress.getLocalHost().getHostAddress();
+            // Get a reference to the remote instance of NetworkClient, through SharedNetworkServer interface
+            this.netServer = (SharedNetworkServer) rmiRegistry.lookup(RMI_IFACE_NAME);
 
-    public void printMessage(String s) throws RemoteException{
+            // Inform the registry about symbolic server name
+            System.setProperty("java.rmi.server.hostname", this.clientIp);
+            // Setup permissive security policy
+            System.setProperty("java.rmi.server.useCodebaseOnly", "false");
+            // Export the object listener on specific server port
+            UnicastRemoteObject.exportObject(this, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* Local */
+    public void printMessage(String s) {
         MainClient.printMessage(s);
     }
 
-    public String getClientIp() throws RemoteException{
+    /* Local */
+
+    public String getClientIp() {
         return clientIp;
+    }
+
+    /* Remote */
+    public void connect(Integer nMates) throws RemoteException {
+        netServer.connect(instance, nMates);
     }
 }

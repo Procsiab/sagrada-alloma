@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import server.network.NetworkServer;
 
-import java.rmi.Naming;
 import java.util.Scanner;
 
 public class MainClient extends Application {
@@ -33,11 +31,14 @@ public class MainClient extends Application {
     public static void main(String [] args) {
         try {
             // Create an instance of NetworkClient, which will have the role of client's interface
-            NetworkClient netClient = new NetworkClient();
+            NetworkClient.setInstance();
+            // Call a method on the server throughout local interface
+            NetworkClient.getInstance().connect(2);
         } catch (Exception e) { // Better exception handling
             e.printStackTrace();
         }
         // Close connection on command
+        System.out.println("Send 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);
         while (!scan.nextLine().equals("exit")) {
             //

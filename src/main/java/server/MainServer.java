@@ -22,8 +22,8 @@ public class MainServer {
 
     private MainServer(){}
 
-    public static void connect(SharedNetworkClient c) throws RemoteException {
-        System.out.println("Someone connected, I'm not alone! =)");
+    public static void connect(SharedNetworkClient c, Integer n) throws RemoteException {
+        System.out.println("Someone connected, nMates: " + n.toString());
         // Call method on the client: u w8 m8?!
         c.printMessage("SERVER: Th4t w4z bl4ck mag1c!");
     }
@@ -31,14 +31,14 @@ public class MainServer {
     public static void main(String args[]) throws IOException {
         try {
             // Create an instance of ServerP2P.NetworkServer, which will have the role of server's interface
-            NetworkServer netIface = new NetworkServer();
+            NetworkServer.setInstance();
 
             // Format an URL string for that interface, to be used in RMI registry
-            String rmiUrl = "//" + netIface.getServerIp() + ":" + NetworkServer.RMI_PORT.toString() + "/"
+            String rmiUrl = "//" + NetworkServer.getInstance().getServerIp() + ":" + NetworkServer.RMI_PORT.toString() + "/"
                     + NetworkServer.RMI_IFACE_NAME;
 
             // Bind the interface to that symbolic URL in the RMI registry
-            Naming.rebind(rmiUrl, netIface);
+            Naming.rebind(rmiUrl, NetworkServer.getInstance());
 
         } catch (Exception e) { // Better exception handling
             e.printStackTrace();
