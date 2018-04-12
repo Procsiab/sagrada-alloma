@@ -1,7 +1,7 @@
 package server;
 
 import server.logic.*;
-import server.network.Network;
+import server.network.NetworkServer;
 import shared.SharedNetworkClient;
 
 import java.io.*;
@@ -30,12 +30,12 @@ public class MainServer {
 
     public static void main(String args[]) throws IOException {
         try {
-            // Create an instance of ServerP2P.Network, which will have the role of server's interface
-            Network netIface = new Network();
+            // Create an instance of ServerP2P.NetworkServer, which will have the role of server's interface
+            NetworkServer netIface = new NetworkServer();
 
             // Format an URL string for that interface, to be used in RMI registry
-            String rmiUrl = "//" + netIface.getServerIp() + ":" + Network.RMI_PORT.toString() + "/"
-                    + Network.RMI_IFACE_NAME;
+            String rmiUrl = "//" + netIface.getServerIp() + ":" + NetworkServer.RMI_PORT.toString() + "/"
+                    + NetworkServer.RMI_IFACE_NAME;
 
             // Bind the interface to that symbolic URL in the RMI registry
             Naming.rebind(rmiUrl, netIface);

@@ -14,10 +14,9 @@ import java.rmi.server.UnicastRemoteObject;
 
 // The server's implementation of the network interface:
 // should implement the shared interface
-public class Network implements SharedNetworkServer {
-    public static final String SERVER_IP = "localhost";
+public class NetworkServer implements SharedNetworkServer {
     public static final Integer RMI_PORT = 1099;
-    public static final String RMI_IFACE_NAME = "Network";
+    public static final String RMI_IFACE_NAME = "NetworkServer";
     public static final Integer RMI_IFACE_PORT = 1100;
     public static final Integer SOCKET_PORT = 1101;
     public String serverIp;
@@ -25,18 +24,21 @@ public class Network implements SharedNetworkServer {
 
     // The constructor creates an instance for the RMI
     // registry and gets server's LAN IP into local attribute
-    public Network() throws RemoteException, UnknownHostException {
-        this.rmiRegistry = LocateRegistry.createRegistry(Network.RMI_PORT);
+    public NetworkServer() throws RemoteException, UnknownHostException {
+        // Start RMI registry on this machine
+        this.rmiRegistry = LocateRegistry.createRegistry(NetworkServer.RMI_PORT);
+        // Get local IP
         this.serverIp = InetAddress.getLocalHost().getHostAddress();
+
         // Inform the registry about symbolic server name
-        System.setProperty("java.rmi.server.hostname", SERVER_IP);
-        // Setup permissive security policy - yay haxorz come in
+        System.setProperty("java.rmi.server.hostname", this.serverIp);
+        // Setup permissive security policy
         System.setProperty("java.rmi.server.useCodebaseOnly", "false");
         // Export the object listener on specific server port
         UnicastRemoteObject.exportObject(this, RMI_IFACE_PORT);
     }
 
-    public void connect(SharedNetworkClient c) throws RemoteException{
+    public void connect(SharedNetworkClient c) throws RemoteException {
         MainServer.getInstance().connect(c);
     }
 

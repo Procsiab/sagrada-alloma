@@ -1,6 +1,5 @@
 .idea/
-ids-2018.iml
 target/
-**/*.class
+*.class
 *.iml
 *.plantuml
