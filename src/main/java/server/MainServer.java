@@ -5,43 +5,40 @@ import server.network.NetworkServer;
 import server.threads.NewGameManager_2;
 import server.threads.NewGameManager_3;
 import server.threads.NewGameManager_4;
-import shared.SharedNetworkClient;
+import shared.SharedClientGame;
 
 import java.io.*;
 import java.rmi.Naming;
-import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.Vector;
 
 public class MainServer {
     //create an object of MainServer
-    private static final MainServer Instance = new MainServer();
+    private static final MainServer instance = new MainServer();
     // List of players connected
-    private static Vector<SharedNetworkClient> clients;
+    private static Vector<SharedClientGame> clients;
+    // RMI Registry ref
+    private static Registry rmiRegistry;
 
     public static MainServer getInstance() {
-        return Instance;
+        return instance;
     }
 
     private MainServer(){}
 
-    public static void connect(SharedNetworkClient c, Integer n) throws RemoteException {
-        System.out.println("Someone connected, nMates: " + n.toString());
-        // Call method on the client: u w8 m8?!
-        c.printMessage("SERVER: Th4t w4z bl4ck mag1c!");
-    }
-
     public static void main(String args[]) throws IOException {
         try {
-            // Create an instance of ServerP2P.NetworkServer, which will have the role of server's interface
-            NetworkServer.setInstance();
+            // Start RMI registry on this machine
+            rmiRegistry = LocateRegistry.createRegistry(NetworkServer.RMI_PORT);
 
+            MatchManager.setInstance();
             // Format an URL string for that interface, to be used in RMI registry
-            String rmiUrl = "//" + NetworkServer.getInstance().getServerIp() + ":" + NetworkServer.RMI_PORT.toString() + "/"
-                    + NetworkServer.RMI_IFACE_NAME;
-
+            String rmiUrl = "//" + MatchManager.getInstance().getServerIp() + ":" + NetworkServer.RMI_PORT.toString() + "/"
+                    + "Match";
             // Bind the interface to that symbolic URL in the RMI registry
-            Naming.rebind(rmiUrl, NetworkServer.getInstance());
+            Naming.rebind(rmiUrl, MatchManager.getInstance());
 
         } catch (Exception e) { // Better exception handling
             e.printStackTrace();

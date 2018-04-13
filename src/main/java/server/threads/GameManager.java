@@ -1,25 +1,48 @@
 package server.threads;
 
-import shared.SharedNetworkClient;
+import server.logic.MatchManager;
+import server.network.NetworkServer;
+import shared.SharedClientGame;
 import shared.SharedServerGameManager;
 
+import java.net.InetAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager extends GeneralTask implements SharedServerGameManager {
-
-    private final List<SharedNetworkClient> players;
+    /*************************************************/
+    public static final Integer RMI_PORT = 1099;
+    public static final Integer RMI_IFACE_PORT = 1100;
+    public static final Integer SOCKET_PORT = 1101;
+    protected String serverIp;
+    protected Registry rmiRegistry;
+    /*************************************************/
+    private final List<SharedClientGame> players;
     private final Integer sleepTime;
     private boolean action = false;
-    private SharedNetworkClient loser = null;
-    public static ReentrantLock Lock1 = new ReentrantLock();
-    public static ReentrantLock Lock2 = new ReentrantLock();
+    private SharedClientGame loser = null;
+    public static final ReentrantLock Lock1 = new ReentrantLock();
+    public static final ReentrantLock Lock2 = new ReentrantLock();
 
-    public GameManager(ArrayList<SharedNetworkClient> players) {
+    public GameManager(ArrayList<SharedClientGame> players) {
         this.players = players;
         this.sleepTime = 10000;
+        try {
+            // Start RMI registry on this machine
+            this.rmiRegistry = LocateRegistry.getRegistry(MatchManager.getInstance().getServerIp(), RMI_PORT);
+            // Inform the registry about symbolic server name
+            System.setProperty("java.rmi.server.hostname", this.serverIp);
+            // Setup permissive security policy
+            System.setProperty("java.rmi.server.useCodebaseOnly", "false");
+            // Export the object listener on specific server port
+            UnicastRemoteObject.exportObject(this, RMI_IFACE_PORT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setAction(boolean action) {
@@ -34,24 +57,24 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         }
     }
 
-    public void setLoser(SharedNetworkClient loser) {
+    public void setLoser(SharedClientGame loser) {
         synchronized (Lock2) {
             this.loser = loser;
         }
     }
 
-    public SharedNetworkClient getLoser() {
+    public SharedClientGame getLoser() {
         synchronized (Lock2) {
             return loser;
         }
     }
 
-    public void enable(SharedNetworkClient player) {
+    public void enable(SharedClientGame player) {
         //enable selected player, by invoking method on the client-side. Shut all others.
     }
 
-    public void shiftPlayer() {
-        SharedNetworkClient temp;
+    public void shiftPlayers() {
+        SharedClientGame temp;
         temp = players.remove(0);
         players.add(temp);
     }
@@ -112,7 +135,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                 }
                 i--;
             }
-            shiftPlayer();
+            shiftPlayers();
             j++;
         }
         //scoring phase then call a method each player giving the score

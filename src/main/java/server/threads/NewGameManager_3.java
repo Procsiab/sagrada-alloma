@@ -3,7 +3,7 @@ package server.threads;
 import server.logic.ConcurrencyManager;
 import server.logic.Locker;
 import server.logic.MatchManager;
-import shared.SharedNetworkClient;
+import shared.SharedClientGame;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class NewGameManager_3 extends GeneralTask {
                         e.printStackTrace();
                     }
                 }
-                ArrayList<SharedNetworkClient> clients = new ArrayList<>();
+                ArrayList<SharedClientGame> clients = new ArrayList<>();
                 clients.add(0, MatchManager.getInstance().pp3.remove(0));
                 clients.add(1, MatchManager.getInstance().pp3.remove(0));
                 clients.add(2, MatchManager.getInstance().pp3.remove(0));

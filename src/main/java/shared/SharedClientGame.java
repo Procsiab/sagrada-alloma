@@ -1,4 +1,8 @@
 package shared;
 
-public interface SharedClientGame {
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface SharedClientGame extends Remote {
+    String getClientIp() throws RemoteException;
 }

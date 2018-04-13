@@ -1,7 +1,6 @@
 package client;
 
 import client.logic.ConcurrencyManager;
-import client.network.NetworkClient;
 import client.threads.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,14 +29,11 @@ public class MainClient extends Application {
     }
 
     public static void main(String [] args) {
-        // Create an instance of NetworkClient, which will have the role of client's interface
-        NetworkClient.setInstance();
-        // Call a method on the server throughout local interface
 
+        // Call a method on the server throughout local interface
         //launch(args);
 
         Game game = new Game();
-        //NetworkClient.getInstance().setGame(game);
         ConcurrencyManager.submit(game);
 
         try {
