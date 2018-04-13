@@ -29,7 +29,7 @@ public class Game extends GeneralTask implements SharedClientGame {
                 }
         }
         try {
-            String string = netMatchManager.connect(this, nMates);
+            String string = netMatchManager.startGame(this, nMates);
         } catch (Exception e ){
             e.printStackTrace();
         }

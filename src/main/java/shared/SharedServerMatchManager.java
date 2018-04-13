@@ -1,5 +1,7 @@
 package shared;
 
+import java.rmi.RemoteException;
+
 public interface SharedServerMatchManager {
-    String connect(SharedClientGame client, Integer nMates);
+    String startGame(SharedClientGame client, Integer nMates) throws RemoteException;
 }
