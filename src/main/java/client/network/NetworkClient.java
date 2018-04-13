@@ -21,7 +21,7 @@ public class NetworkClient implements SharedNetworkClient {
     private static Registry rmiRegistry;
     private static SharedNetworkServer netServer;
     private static NetworkClient instance = null;
-    //TODO private Game game = new Game();
+    private Game game;
 
 
     public static NetworkClient getInstance() {
@@ -32,6 +32,14 @@ public class NetworkClient implements SharedNetworkClient {
         if(instance == null) {
             instance = new NetworkClient();
         }
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     private NetworkClient() {
@@ -60,7 +68,6 @@ public class NetworkClient implements SharedNetworkClient {
     }
 
     /* Local */
-
     public String getClientIp() {
         return clientIp;
     }

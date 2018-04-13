@@ -1,19 +1,20 @@
 package server.logic;
 
+import shared.SharedClientGame;
 import shared.SharedNetworkClient;
+import shared.SharedServerMatchManager;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class MatchManager {
+public class MatchManager implements SharedServerMatchManager {
 
     public static final MatchManager INSTANCE = new MatchManager();
     public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
     public final Locker safe = Locker.getSafe();
-    public List<SharedNetworkClient> pp1 = new LinkedList<>();
-    public List<SharedNetworkClient> pp2 = new LinkedList<>();
-    public List<SharedNetworkClient> pp3 = new LinkedList<>();
-    public List<SharedNetworkClient> pp4 = new LinkedList<>();
+    public List<SharedClientGame> pp2 = new LinkedList<>();
+    public List<SharedClientGame> pp3 = new LinkedList<>();
+    public List<SharedClientGame> pp4 = new LinkedList<>();
     public Integer waitingPlayer = new Integer(0);
 
     //make the constructor public so that this class cannot be instantiated from outer classes
@@ -33,11 +34,11 @@ public class MatchManager {
         return MAX_ACTIVE_PLAYER_REFS;
     }
 
-    public boolean startGame(SharedNetworkClient client, Integer nMates) {
+    public String startGame(SharedClientGame client, Integer nMates) {
 
         synchronized (safe.Lock1) {
             if (waitingPlayer == MAX_ACTIVE_PLAYER_REFS)
-                return false;
+                return "Connection successful. Please wait for other players to connect";
             waitingPlayer++;
         }
         if (nMates == 2) {
@@ -53,6 +54,6 @@ public class MatchManager {
                 pp4.add(client);
             }
         }
-        return true;
+        return "Too many incoming requests, please try again later. Sorry for that.";
     }
 }

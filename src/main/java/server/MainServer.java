@@ -2,6 +2,9 @@ package server;
 
 import server.logic.*;
 import server.network.NetworkServer;
+import server.threads.NewGameManager_2;
+import server.threads.NewGameManager_3;
+import server.threads.NewGameManager_4;
 import shared.SharedNetworkClient;
 
 import java.io.*;
@@ -43,6 +46,11 @@ public class MainServer {
         } catch (Exception e) { // Better exception handling
             e.printStackTrace();
         }
+
+        //create 3 threads NewGameManager
+        ConcurrencyManager.submit(new NewGameManager_2());
+        ConcurrencyManager.submit(new NewGameManager_3());
+        ConcurrencyManager.submit(new NewGameManager_4());
 
         System.out.println("Send 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);

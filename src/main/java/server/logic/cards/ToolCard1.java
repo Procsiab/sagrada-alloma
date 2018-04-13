@@ -20,7 +20,6 @@ public class ToolCard1 extends Card {
 
     @Override
     public boolean use(Integer idPlayer, Integer idMatch) {
-        MatchManager.getInstance().getM();
         return true; //Should implement true method
     }
 }

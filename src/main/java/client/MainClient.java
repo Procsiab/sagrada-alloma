@@ -1,6 +1,8 @@
 package client;
 
+import client.logic.ConcurrencyManager;
 import client.network.NetworkClient;
+import client.threads.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +15,6 @@ public class MainClient extends Application {
 
     public MainClient(String[] args) {
         super();
-        //launch(args);
     }
 
     @Override
@@ -29,20 +30,27 @@ public class MainClient extends Application {
     }
 
     public static void main(String [] args) {
+        // Create an instance of NetworkClient, which will have the role of client's interface
+        NetworkClient.setInstance();
+        // Call a method on the server throughout local interface
+
+        //launch(args);
+
+        Game game = new Game();
+        //NetworkClient.getInstance().setGame(game);
+        ConcurrencyManager.submit(game);
+
         try {
-            // Create an instance of NetworkClient, which will have the role of client's interface
-            NetworkClient.setInstance();
-            // Call a method on the server throughout local interface
-            NetworkClient.getInstance().connect(2);
-        } catch (Exception e) { // Better exception handling
+            Thread.sleep(2000000000);
+        } catch (InterruptedException e){
             e.printStackTrace();
         }
-        // Close connection on command
-        System.out.println("Send 'exit' command to teardown...");
+        // Close connection when window closes
+        /*System.out.println("Send 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);
         while (!scan.nextLine().equals("exit")) {
             //
-        }
+        }*/
         System.exit(0);
     }
 }

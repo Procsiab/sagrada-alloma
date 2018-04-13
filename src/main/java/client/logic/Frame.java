@@ -3,10 +3,9 @@ package client.logic;
 
 public class Frame {
 
-    private Integer player;
     private Window window;
     private Dice[][] dicePositions;
-    private Locker safe = Locker.getSafe();
+    private Integer turno;
     private Position lastPlaced;
 
 
@@ -19,27 +18,23 @@ public class Frame {
     }
 
     public void setDicePositions(Dice dice, Position position, Integer idPlayer) {
-        synchronized (safe.actionL) {
-            Integer idMatch = MatchManager.getInstance().getP().get(idPlayer).getIdMatch();
 
             if (!checkDicePositions(dice, position, idPlayer)) {
                 //dice is not placed and player loses a chance
-                MatchManager.getInstance().getM().get(idMatch).setAction(1);
                 return;
             }
 
             //put new dice in the final configuration
             dicePositions[position.getRow()][position.getColumn()] = dice;
-            MatchManager.getInstance().getM().get(idMatch).setAction(1);
             return;
-        }
+
     }
 
     boolean checkDicePositions(Dice dice, Position position, Integer idPlayer) {
         Integer esito = 0;
 
         //check if position is on edge
-        if (MatchManager.getInstance().getP().get(idPlayer).getTurno() == 1) {
+        if (this.turno == 1) {
             if(position.getRow()!=0 || position.getRow()!=3 || position.getColumn()!=0 || position.getColumn()!=4)
                 return false;
         }

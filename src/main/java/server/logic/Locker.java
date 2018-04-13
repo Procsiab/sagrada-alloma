@@ -11,6 +11,9 @@ public class Locker {
     public final List <ReentrantLock> Lock2 = new ArrayList<>(3);
     public final ReentrantLock Lock3 = new ReentrantLock();
     public final List<ReentrantLock> LockA = new ArrayList<>();
+    public final ReentrantLock LockQ2 = new ReentrantLock();
+    public final ReentrantLock LockQ3 = new ReentrantLock();
+    public final ReentrantLock LockQ4 = new ReentrantLock();
 
     public Locker(){}
 
