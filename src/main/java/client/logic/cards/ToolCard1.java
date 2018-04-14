@@ -1,7 +1,6 @@
 package client.logic.cards;
 
 import client.logic.Card;
-import client.logic.MatchManager;
 
 public class ToolCard1 extends Card {
 

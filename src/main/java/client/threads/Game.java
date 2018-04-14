@@ -12,7 +12,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Game extends GeneralTask implements SharedClientGame {
-    private static Game instance = null;
 
     private SharedServerMatchManager netMatchManager;
     private SharedServerGameManager netGameManager;
@@ -25,6 +24,8 @@ public class Game extends GeneralTask implements SharedClientGame {
     public static final Integer SOCKET_PORT = 1101;
     protected String clientIp;
     protected Registry rmiRegistry;
+
+    private String Message1;
 
     public Game() {
         try {
@@ -58,9 +59,8 @@ public class Game extends GeneralTask implements SharedClientGame {
                 e.printStackTrace();
                 }
         }
-        //following on click
         try {
-            String string = netMatchManager.startGame(this, nMates);
+            Message1 = netMatchManager.startGame(this, nMates);
         } catch (Exception e ){
             e.printStackTrace();
         }
