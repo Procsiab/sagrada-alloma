@@ -1,6 +1,7 @@
-package server.logic;
+package server;
 
 import server.network.NetworkServer;
+import shared.Logic.Locker;
 import shared.SharedClientGame;
 import shared.SharedServerMatchManager;
 
@@ -59,22 +60,22 @@ public class MatchManager extends NetworkServer implements SharedServerMatchMana
 
     public String startGame(SharedClientGame client, Integer nMates) {
 
-        synchronized (safe.Lock1) {
+        synchronized (safe.SLock1) {
             waitingPlayer++;
             if (waitingPlayer == MAX_ACTIVE_PLAYER_REFS) {
                 return "Too many incoming requests, please try again later. Sorry for that.";
             }
         }
         if (nMates == 2) {
-            synchronized (safe.Lock2.get(0)) {
+            synchronized (safe.SLock2.get(0)) {
                 pp2.add(client);
             }
         } else if (nMates == 3) {
-            synchronized (safe.Lock2.get(1)) {
+            synchronized (safe.SLock2.get(1)) {
                 pp3.add(client);
             }
         } else if (nMates == 4) {
-            synchronized (safe.Lock2.get(2)) {
+            synchronized (safe.SLock2.get(2)) {
                 pp4.add(client);
             }
         }

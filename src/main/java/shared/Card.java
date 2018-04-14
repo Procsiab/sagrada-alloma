@@ -1,9 +1,9 @@
-package server.logic;
+package shared;
 
 public abstract class Card {
 
-    public String name;
-    public String description;
+    private String name;
+    private String description;
 
     public abstract String getName();
     public abstract String getDescription();

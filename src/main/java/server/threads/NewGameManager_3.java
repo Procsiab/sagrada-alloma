@@ -1,8 +1,9 @@
 package server.threads;
 
-import server.logic.ConcurrencyManager;
-import server.logic.Locker;
-import server.logic.MatchManager;
+import server.MatchManager;
+import shared.Logic.ConcurrencyManager;
+import shared.Logic.GeneralTask;
+import shared.Logic.Locker;
 import shared.SharedClientGame;
 
 import java.util.ArrayList;
@@ -15,10 +16,10 @@ public class NewGameManager_3 extends GeneralTask {
         super.run();
 
         while (true) {
-            synchronized (Safe.Lock2.get(1)) {
+            synchronized (Safe.SLock2.get(1)) {
                 while (MatchManager.getInstance().pp3.size() % 2 != 0) {
                     try {
-                        Safe.Lock2.get(1).wait();
+                        Safe.SLock2.get(1).wait();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

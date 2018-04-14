@@ -1,7 +1,5 @@
 package client.network;
 
-import client.threads.GeneralTask;
-
 import java.rmi.registry.Registry;
 
 public abstract class NetworkClient {

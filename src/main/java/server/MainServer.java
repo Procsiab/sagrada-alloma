@@ -1,10 +1,10 @@
 package server;
 
-import server.logic.*;
 import server.network.NetworkServer;
 import server.threads.NewGameManager_2;
 import server.threads.NewGameManager_3;
 import server.threads.NewGameManager_4;
+import shared.Logic.ConcurrencyManager;
 import shared.SharedClientGame;
 
 import java.io.*;

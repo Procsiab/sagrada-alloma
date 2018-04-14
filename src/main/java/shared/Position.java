@@ -1,4 +1,4 @@
-package client.logic;
+package shared;
 
 public class Position {
     public Integer row;

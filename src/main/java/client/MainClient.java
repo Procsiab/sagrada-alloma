@@ -1,6 +1,6 @@
 package client;
 
-import client.logic.ConcurrencyManager;
+import shared.Logic.ConcurrencyManager;
 import client.threads.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Scanner;
-
 public class MainClient extends Application {
+
+    public static Game game;
 
     public MainClient(String[] args) {
         super();
@@ -33,7 +33,8 @@ public class MainClient extends Application {
         // Call a method on the server throughout local interface
         //launch(args);
 
-        Game game = new Game();
+        MainClient.game = new Game();
+        //inseriscil in startcontroller da startcontroller
         ConcurrencyManager.submit(game);
 
         try {

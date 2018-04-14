@@ -1,14 +1,14 @@
 package client.threads;
 
-import client.network.NetworkClient;
-import shared.SharedClientGame;
-import shared.SharedServerGameManager;
-import shared.SharedServerMatchManager;
+import client.gui.StartGameController;
+import shared.*;
+import shared.Logic.GeneralTask;
 
 import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Game extends GeneralTask implements SharedClientGame {
@@ -24,7 +24,10 @@ public class Game extends GeneralTask implements SharedClientGame {
     public static final Integer SOCKET_PORT = 1101;
     protected String clientIp;
     protected Registry rmiRegistry;
+    private StartGameController graphics;
 
+    private ArrayList<Player> players;
+    private Match match;
     private String Message1;
 
     public Game() {
@@ -47,6 +50,22 @@ public class Game extends GeneralTask implements SharedClientGame {
         }
     }
 
+    public void setnMates(Integer nMates) {
+        this.nMates = nMates;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public void setGraphics(StartGameController graphics) {
+        this.graphics = graphics;
+    }
+
     @Override
     public void run() {
         super.run();
@@ -66,7 +85,7 @@ public class Game extends GeneralTask implements SharedClientGame {
         }
     }
 
-    //TODO handshake()
+
 
     public String getClientIp() {
         return this.clientIp;

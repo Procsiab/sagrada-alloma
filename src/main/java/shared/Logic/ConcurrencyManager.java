@@ -1,6 +1,4 @@
-package client.logic;
-
-import client.threads.GeneralTask;
+package shared.Logic;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;

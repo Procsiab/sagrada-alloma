@@ -1,6 +1,6 @@
-package client.logic.cards;
+package shared.cards;
 
-import client.logic.Card;
+import shared.Card;
 
 public class ToolCard1 extends Card {
 

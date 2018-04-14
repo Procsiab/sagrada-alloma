@@ -1,11 +1,10 @@
 package server.threads;
 
-import server.logic.MatchManager;
-import server.network.NetworkServer;
+import server.MatchManager;
+import shared.Logic.GeneralTask;
 import shared.SharedClientGame;
 import shared.SharedServerGameManager;
 
-import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;

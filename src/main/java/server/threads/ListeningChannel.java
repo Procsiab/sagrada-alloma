@@ -1,6 +1,7 @@
 package server.threads;
 
-import server.logic.ConcurrencyManager;
+import shared.Logic.ConcurrencyManager;
+import shared.Logic.GeneralTask;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,8 +1,8 @@
 package client.threads;
 
-import client.threads.GeneralTask;
+import shared.Logic.GeneralTask;
 
-public class TurnManagerSolo extends GeneralTask {
+public class GameSolo extends GeneralTask {
 
 
 
