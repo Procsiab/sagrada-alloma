@@ -30,12 +30,14 @@ public class MainClient extends Application {
 
     public static void main(String [] args) {
 
+        MainClient.game = new Game();
+        ConcurrencyManager.submit(game);
+
+
         // Call a method on the server throughout local interface
         //launch(args);
 
-        MainClient.game = new Game();
-        //inseriscil in startcontroller da startcontroller
-        ConcurrencyManager.submit(game);
+
 
         try {
             Thread.sleep(2000000000);

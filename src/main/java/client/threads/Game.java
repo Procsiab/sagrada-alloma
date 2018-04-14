@@ -70,6 +70,8 @@ public class Game extends GeneralTask implements SharedClientGame {
     public void run() {
         super.run();
 
+        //graphics.updateView(...)
+
         synchronized (Lock1){
             while (nMates == null)
                 try {
