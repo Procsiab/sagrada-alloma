@@ -7,17 +7,24 @@ import shared.SharedServerMatchManager;
 
 import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Game extends NetworkClient implements SharedClientGame {
+public class Game extends GeneralTask implements SharedClientGame {
     private static Game instance = null;
 
-    private Game game = this;
     private SharedServerMatchManager netMatchManager;
     private SharedServerGameManager netGameManager;
     private Integer nMates;
     private ReentrantLock Lock1 = new ReentrantLock();
+    public static final String SERVER_IP = "localhost";
+    public static final Integer RMI_PORT = 1099;
+    public static final String RMI_IFACE_NAME = "NetworkServer";
+    public static final Integer RMI_IFACE_PORT = 1100;
+    public static final Integer SOCKET_PORT = 1101;
+    protected String clientIp;
+    protected Registry rmiRegistry;
 
     public Game() {
         try {
@@ -51,6 +58,7 @@ public class Game extends NetworkClient implements SharedClientGame {
                 e.printStackTrace();
                 }
         }
+        //following on click
         try {
             String string = netMatchManager.startGame(this, nMates);
         } catch (Exception e ){
