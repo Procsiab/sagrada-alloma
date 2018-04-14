@@ -1,4 +1,6 @@
 package client.gui;
+import client.MainClient;
+import client.threads.Game;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,15 +22,14 @@ import shared.Player;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class StartGameController implements Initializable {
     final Text source = new Text(50, 100, "DRAG ME");
     final Text target = new Text(300, 100, "DROP HERE");
-    private Match match;
-    private List<Player> players;
-
+    Game game = MainClient.game;
 
     @FXML
     private GridPane PaneBackground;
@@ -136,9 +137,12 @@ public class StartGameController implements Initializable {
 
     }
 
-    public void updateView() {
+    public void updateView(Match match, ArrayList<Player> players) {
         System.out.print("\"Hello\"");
 
-
+        //avendo questi aggiorni la grafica all'inizio di ogni turno.
+        //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
+        //game.posiziona dado, e aggiornerà di per se le classi di riferimento di player e match che sono
+        //in Game.
     }
 }

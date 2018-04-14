@@ -17,16 +17,16 @@ public class Frame {
         return dicePositions;
     }
 
-    public void setDicePositions(Dice dice, Position position, Integer idPlayer) {
+    public boolean setDicePositions(Dice dice, Position position, Integer idPlayer) {
 
             if (!checkDicePositions(dice, position, idPlayer)) {
                 //dice is not placed and player loses a chance
-                return;
+                return false;
             }
 
             //put new dice in the final configuration
             dicePositions[position.getRow()][position.getColumn()] = dice;
-            return;
+            return true;
 
     }
 

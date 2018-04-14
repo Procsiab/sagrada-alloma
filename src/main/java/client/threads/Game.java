@@ -62,6 +62,14 @@ public class Game extends GeneralTask implements SharedClientGame {
         this.players = players;
     }
 
+    public Match getMatch(){
+        return match;
+    }
+
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+
     public void setGraphics(StartGameController graphics) {
         this.graphics = graphics;
     }
