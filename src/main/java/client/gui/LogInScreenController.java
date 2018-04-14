@@ -33,7 +33,7 @@ public class LogInScreenController implements Initializable {
 
         // Trova l'istanza di StartGameController, per poter runnare il metodo di update della view dall'esterno. Chiedere come passarlo all'esterno.
         StartGameController controllerGame = loader.getController();
-        controllerGame.updateView();
+
         // Passo il mio controller all'esterno, va bene fatto così?
 
         game.setGraphics(controllerGame);

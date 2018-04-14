@@ -145,4 +145,10 @@ public class StartGameController implements Initializable {
         //game.posiziona dado, e aggiornerà di per se le classi di riferimento di player e match che sono
         //in Game.
     }
+    @FXML
+    private void FineTurno(ActionEvent event) throws IOException{
+        System.out.print("\"Turno Finito\"");
+
+
+    }
 }

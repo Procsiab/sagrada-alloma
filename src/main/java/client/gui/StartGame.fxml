@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="PaneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.Interface.StartGameController">
+<GridPane fx:id="PaneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartGameController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -37,7 +37,12 @@
             <ImageView fx:id="CardMap" fitHeight="265.0" fitWidth="428.0" pickOnBounds="true" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button fx:id="TiraDadi" mnemonicParsing="false" prefHeight="25.0" prefWidth="428.0" text="Tira i dadi" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <Button fx:id="TiraDadi" mnemonicParsing="false" onAction="#TiraDadi" prefHeight="25.0" prefWidth="428.0" text="Tira i dadi" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <font>
+            <Font name="Castellar" size="33.0" />
+         </font>
+      </Button>
+      <Button fx:id="FineTurno" mnemonicParsing="false" onAction="#FineTurno" prefHeight="25.0" prefWidth="428.0" text="Fine Turno" GridPane.rowIndex="2">
          <font>
             <Font name="Castellar" size="33.0" />
          </font>
