@@ -82,8 +82,10 @@ public class MatchManager extends NetworkServer implements SharedServerMatchMana
         return "Connection successful. Please wait for other players to connect";
     }
 
+    /* Remote */
     public void connect(SharedClientGame c, Integer n) throws RemoteException {
         System.out.println("Someone connected, nMates: " + n.toString());
+        c.print("Hi from server");
     }
 
     /* Local */

@@ -5,6 +5,7 @@ import shared.*;
 import shared.Logic.GeneralTask;
 
 import java.net.InetAddress;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,7 +20,7 @@ public class Game extends GeneralTask implements SharedClientGame {
     private ReentrantLock Lock1 = new ReentrantLock();
     public static final String SERVER_IP = "localhost";
     public static final Integer RMI_PORT = 1099;
-    public static final String RMI_IFACE_NAME = "NetworkServer";
+    public static final String RMI_IFACE_NAME = "Match";
     public static final Integer RMI_IFACE_PORT = 1100;
     public static final Integer SOCKET_PORT = 1101;
     protected String clientIp;
@@ -78,6 +79,12 @@ public class Game extends GeneralTask implements SharedClientGame {
     public void run() {
         super.run();
 
+        try {
+            this.netMatchManager.connect(this, 120);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
         //graphics.updateView(...)
 
         synchronized (Lock1){
@@ -95,7 +102,9 @@ public class Game extends GeneralTask implements SharedClientGame {
         }
     }
 
-
+    public void print(String s) {
+        System.out.println(s);
+    }
 
     public String getClientIp() {
         return this.clientIp;

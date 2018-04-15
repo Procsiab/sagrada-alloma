@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class MainClient extends Application {
+public class MainClient /*extends Application*/ {
 
     public static Game game;
 
@@ -16,13 +16,13 @@ public class MainClient extends Application {
         super();
     }
 
-    @Override
+    /*@Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LogInScreen.fxml"));
         Scene logIn = new Scene(root);
         primaryStage.setScene(logIn);
         primaryStage.show();
-    }
+    }*/
 
     public static void printMessage(String s) {
         System.out.println(s);
