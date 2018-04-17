@@ -28,10 +28,11 @@ public class TimerNewGame extends GeneralTask {
                     e.printStackTrace();
                 }
             }
+
             synchronized (safe.SLock2){
                 if (MatchManager.getInstance().Q.size()>1) {
                     newGameManager.start = true;
-                    notifyAll();
+                    safe.SLock2.notifyAll();
                     break;
                 }
             }
