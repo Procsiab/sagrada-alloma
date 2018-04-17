@@ -1,9 +1,7 @@
 package server;
 
 import server.network.NetworkServer;
-import server.threads.NewGameManager_2;
-import server.threads.NewGameManager_3;
-import server.threads.NewGameManager_4;
+import server.threads.NewGameManager;
 import shared.Logic.ConcurrencyManager;
 import shared.SharedClientGame;
 
@@ -29,6 +27,8 @@ public class MainServer {
     private MainServer(){}
 
     public static void main(String args[]) throws IOException {
+
+
         try {
             // Start RMI registry on this machine
             rmiRegistry = LocateRegistry.createRegistry(NetworkServer.RMI_PORT);
@@ -44,10 +44,8 @@ public class MainServer {
             e.printStackTrace();
         }
 
-        //create 3 threads NewGameManager
-        ConcurrencyManager.submit(new NewGameManager_2());
-        ConcurrencyManager.submit(new NewGameManager_3());
-        ConcurrencyManager.submit(new NewGameManager_4());
+        //create thread NewGameManager
+        ConcurrencyManager.submit(new NewGameManager());
 
         System.out.println("Send 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);

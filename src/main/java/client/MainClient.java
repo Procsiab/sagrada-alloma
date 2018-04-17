@@ -1,28 +1,28 @@
 package client;
 
-import shared.Logic.ConcurrencyManager;
-import client.threads.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import shared.Logic.ConcurrencyManager;
+import client.threads.GameHelper;
 
-public class MainClient /*extends Application*/ {
+public class MainClient extends Application {
 
-    public static Game game;
+    public static GameHelper game;
 
     public MainClient(String[] args) {
         super();
     }
 
-    /*@Override
+    @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LogInScreen.fxml"));
         Scene logIn = new Scene(root);
         primaryStage.setScene(logIn);
         primaryStage.show();
-    }*/
+    }
 
     public static void printMessage(String s) {
         System.out.println(s);
@@ -30,7 +30,7 @@ public class MainClient /*extends Application*/ {
 
     public static void main(String [] args) {
 
-        MainClient.game = new Game();
+        MainClient.game = new GameHelper();
         ConcurrencyManager.submit(game);
 
 

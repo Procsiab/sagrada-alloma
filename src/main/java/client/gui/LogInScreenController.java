@@ -1,6 +1,6 @@
 package client.gui;
 import client.MainClient;
-import client.threads.Game;
+import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 public class LogInScreenController implements Initializable {
     @FXML private ImageView SagradaImage;
     @FXML private Button StartButton;
-    private Game game;
+    private GameHelper game;
 
     @FXML public void LogIn(ActionEvent event) throws IOException {
         System.out.println("You clicked me");

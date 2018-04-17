@@ -1,6 +1,6 @@
 package client.gui;
 import client.MainClient;
-import client.threads.Game;
+import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,20 +16,71 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import shared.Match;
-import shared.Player;
+import shared.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class StartGameController implements Initializable {
+public class StartGameController implements Initializable, SharedClientGame {
+
+    private SharedServerMatchManager netMatchManager;
+    private SharedServerGameManager netGameManager;
+    private Integer nMates;
+    private ReentrantLock Lock1 = new ReentrantLock();
+    public static final String SERVER_IP = "localhost";
+    public static final Integer RMI_PORT = 1099;
+    public static final String RMI_IFACE_NAME = "Match";
+    public static final Integer RMI_IFACE_PORT = 1100;
+    public static final Integer SOCKET_PORT = 1101;
+    protected String clientIp;
+    protected Registry rmiRegistry;
+
     final Text source = new Text(50, 100, "DRAG ME");
     final Text target = new Text(300, 100, "DROP HERE");
-    Game game = MainClient.game;
+
+    GameHelper game = MainClient.game;
+
+    StartGameController(){
+        try {
+            // Look for the RMI registry on specific server port
+            this.rmiRegistry = LocateRegistry.getRegistry(SERVER_IP, RMI_PORT);
+            // get local IP
+            try {
+                this.clientIp = InetAddress.getLocalHost().getHostAddress();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+            // Get a reference to the remote instance of client, through shared interface
+            try {
+                this.netMatchManager = (SharedServerMatchManager) rmiRegistry.lookup(RMI_IFACE_NAME);
+            } catch (NotBoundException e) {
+                e.printStackTrace();
+            }
+            // Inform the registry about symbolic server name
+            System.setProperty("java.rmi.server.hostname", this.clientIp);
+            // Setup permissive security policy
+            System.setProperty("java.rmi.server.useCodebaseOnly", "false");
+            // Export the object listener on specific server port
+            UnicastRemoteObject.exportObject(this, 0);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void print(String s) {
+        System.out.println(s);
+    }
 
     @FXML
     private GridPane PaneBackground;
@@ -143,7 +194,7 @@ public class StartGameController implements Initializable {
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
         //game.posiziona dado, e aggiornerà di per se le classi di riferimento di player e match che sono
-        //in Game.
+        //in GameHelper.
     }
     @FXML
     private void FineTurno(ActionEvent event) throws IOException{

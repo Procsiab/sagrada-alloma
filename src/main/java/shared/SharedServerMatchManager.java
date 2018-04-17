@@ -9,7 +9,8 @@ import java.rmi.RemoteException;
 // the class' methods you want to be RMI
 
 public interface SharedServerMatchManager extends Remote {
-    String startGame(SharedClientGame client, Integer nMates) throws RemoteException;
+    String startGame(SharedClientGame client) throws RemoteException;
     void connect(SharedClientGame c, Integer n) throws RemoteException;
     String getServerIp() throws RemoteException;
+    public boolean exitGame1(SharedClientGame client)throws RemoteException;
 }
