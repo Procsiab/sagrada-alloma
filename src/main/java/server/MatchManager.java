@@ -1,9 +1,8 @@
 package server;
 
-import server.network.NetworkServer;
+import server.abstracts.*;
+import shared.*;
 import shared.Logic.Locker;
-import shared.SharedClientGame;
-import shared.SharedServerMatchManager;
 
 import java.net.InetAddress;
 import java.rmi.RemoteException;
@@ -21,6 +20,13 @@ public class MatchManager implements SharedServerMatchManager {
     public List<String> nickNames = new ArrayList<>();
     public LinkedList<SharedClientGame> Q = new LinkedList<>();
     public Integer waitingPlayer = new Integer(0);
+    public ArrayList<PrivateOC> privateOCs = new ArrayList<PrivateOC>();
+    public ArrayList<PublicOC> publicOCs = new ArrayList<PublicOC>();
+    public ArrayList<ToolC> toolCS = new ArrayList<>();
+    public ArrayList<Frame> frames = new ArrayList<>();
+    public ArrayList<Window> windows = new ArrayList<>();
+    public ArrayList<ScoreMarker> scoreMarkers = new ArrayList<>();
+
     private static MatchManager instance = null;
     public static final Integer RMI_PORT = 1099;
     public static final Integer RMI_IFACE_PORT = 1100;
@@ -54,6 +60,8 @@ public class MatchManager implements SharedServerMatchManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //initalize every ArrayList
     }
 
     public Integer getWaitingPlayer() {

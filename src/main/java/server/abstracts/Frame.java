@@ -1,25 +1,24 @@
-package shared;
+package server.abstracts;
 
 
-public class Frame {
+import server.Dice;
+import server.Player;
+import server.Position;
 
-    private Window window;
+public abstract class Frame {
+
+    public Window window;
     private Dice[][] dicePositions;
-    private Integer turno;
-    private Position lastPlaced;
+    public Integer color;
 
-
-    public Frame(Window window){
-        this.window = window;
-    }
 
     public Dice[][] getDicePositions() {
         return dicePositions;
     }
 
-    public boolean setDicePositions(Dice dice, Position position, Integer idPlayer) {
+    public boolean setDicePositions(Dice dice, Position position, Player player) {
 
-            if (!checkDicePositions(dice, position, idPlayer)) {
+            if (!checkDicePositions(dice, position, player)) {
                 //dice is not placed and player loses a chance
                 return false;
             }
@@ -30,11 +29,11 @@ public class Frame {
 
     }
 
-    boolean checkDicePositions(Dice dice, Position position, Integer idPlayer) {
+    boolean checkDicePositions(Dice dice, Position position, Player player) {
         Integer esito = 0;
 
         //check if position is on edge
-        if (this.turno == 1) {
+        if (player.turno == 1) {
             if(position.getRow()!=0 || position.getRow()!=3 || position.getColumn()!=0 || position.getColumn()!=4)
                 return false;
         }

@@ -6,7 +6,6 @@ import shared.Logic.GeneralTask;
 import shared.Logic.Locker;
 import shared.SharedClientGame;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class NewGameManager extends GeneralTask {
@@ -32,11 +31,12 @@ public class NewGameManager extends GeneralTask {
                 }
                 ArrayList<SharedClientGame> clients = new ArrayList<>(MatchManager.getInstance().Q.size());
                 int i = 0;
+                //TODO: check if size is correct
                 while (i < MatchManager.getInstance().Q.size()) {
                     clients.add(MatchManager.getInstance().Q.remove(0));
                     i++;
                 }
-                ConcurrencyManager.submit(new GameManager(clients));
+                ConcurrencyManager.submit(new GameManager(clients, clients.size()));
             }
         }
     }

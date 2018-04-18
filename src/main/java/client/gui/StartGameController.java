@@ -16,6 +16,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import server.Player;
 import shared.*;
 
 import java.io.File;
@@ -36,7 +37,9 @@ public class StartGameController implements Initializable, SharedClientGame {
 
     private SharedServerMatchManager netMatchManager;
     private SharedServerGameManager netGameManager;
+    public ArrayList<Player> netPlayers = new ArrayList<>();
     private Integer nMates;
+    private Integer nPlayer;
     private ReentrantLock Lock1 = new ReentrantLock();
     public static final String SERVER_IP = "localhost";
     public static final Integer RMI_PORT = 1099;
@@ -90,6 +93,10 @@ public class StartGameController implements Initializable, SharedClientGame {
     private ImageView CardMap;
     @FXML
     private Button TiraDadi;
+
+    public void setNetPlayers(ArrayList<Player> netPlayers) {
+        this.netPlayers = netPlayers;
+    }
 
     private void makeDraggable(Text Demo) {
         source.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -188,7 +195,7 @@ public class StartGameController implements Initializable, SharedClientGame {
 
     }
 
-    public void updateView(Match match, ArrayList<Player> players) {
+    public void updateView() {
         System.out.print("\"Hello\"");
 
         //avendo questi aggiorni la grafica all'inizio di ogni turno.

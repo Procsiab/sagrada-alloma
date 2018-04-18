@@ -1,4 +1,4 @@
-package shared;
+package server;
 
 public class Position {
     public Integer row;
