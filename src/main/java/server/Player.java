@@ -4,9 +4,11 @@ import server.abstracts.Frame;
 import server.abstracts.PrivateOC;
 import server.abstracts.ToolC;
 import server.abstracts.Window;
+import server.network.NetworkServer;
 import server.threads.GameManager;
+import shared.SharedServerPlayer;
 
-public class Player {
+public class Player implements SharedServerPlayer {
     private MatchManager matchManager = MatchManager.getInstance();
     public boolean quit = false;
     public PrivateOC privateOC;
@@ -20,6 +22,8 @@ public class Player {
     public Player(int i, GameManager gameManager){
         this.nPlayer = i;
         this.game = gameManager;
+        // Export the reference as UnicastRemoteObject
+        NetworkServer.getInstance().remotize(this);
     }
 
     public void setPrivateOC(Integer n) {

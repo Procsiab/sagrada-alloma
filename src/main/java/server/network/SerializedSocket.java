@@ -1,6 +1,7 @@
-package server.threads;
+package server.network;
 
-import shared.Logic.GeneralTask;
+import shared.Logger;
+import shared.logic.GeneralTask;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -36,7 +37,8 @@ public class SerializedSocket extends GeneralTask {
             objectOut.close();
             s.close(); // Should start a session instead of closing...
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.log("Something went wrong with this socket");
+            Logger.log("Stack trace:\n" + Arrays.toString(e.getStackTrace()));
         }
     }
 }

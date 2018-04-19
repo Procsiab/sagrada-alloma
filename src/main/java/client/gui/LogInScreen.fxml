@@ -15,12 +15,12 @@
       </ImageView>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="SagradaImage" fitHeight="230.0" fitWidth="360.0" layoutX="433.0" layoutY="202.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" translateX="1.0" translateY="1.0" translateZ="1.0" AnchorPane.bottomAnchor="401.3517761230469" AnchorPane.leftAnchor="433.0" AnchorPane.rightAnchor="487.0" AnchorPane.topAnchor="202.0">
+            <ImageView fx:id="sagradaImage" fitHeight="230.0" fitWidth="360.0" layoutX="433.0" layoutY="202.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" translateX="1.0" translateY="1.0" translateZ="1.0" AnchorPane.bottomAnchor="401.3517761230469" AnchorPane.leftAnchor="433.0" AnchorPane.rightAnchor="487.0" AnchorPane.topAnchor="202.0">
                <image>
                   <Image url="@Sagrada.png" />
                </image>
             </ImageView>
-            <Button fx:id="StartButton" layoutX="614.0" layoutY="578.0" mnemonicParsing="false" onAction="#Login" text="Button" />
+            <Button fx:id="startButton" layoutX="614.0" layoutY="578.0" mnemonicParsing="false" onAction="#Login" text="Button" />
          </children>
       </AnchorPane>
    </children>

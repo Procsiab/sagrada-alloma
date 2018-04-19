@@ -1,4 +1,4 @@
-package shared.Logic;
+package shared.logic;
 
 
 

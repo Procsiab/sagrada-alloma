@@ -1,5 +1,6 @@
 package client.gui;
 import client.MainClient;
+import client.network.NetworkClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -21,18 +22,13 @@ import shared.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.ReentrantLock;
 
+//TODO Implement all SharedGameClient methods
 public class StartGameController implements Initializable, SharedClientGame {
 
     private SharedServerMatchManager netMatchManager;
@@ -55,30 +51,7 @@ public class StartGameController implements Initializable, SharedClientGame {
     GameHelper game = MainClient.game;
 
     StartGameController(){
-        try {
-            // Look for the RMI registry on specific server port
-            this.rmiRegistry = LocateRegistry.getRegistry(SERVER_IP, RMI_PORT);
-            // get local IP
-            try {
-                this.clientIp = InetAddress.getLocalHost().getHostAddress();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-            // Get a reference to the remote instance of client, through shared interface
-            try {
-                this.netMatchManager = (SharedServerMatchManager) rmiRegistry.lookup(RMI_IFACE_NAME);
-            } catch (NotBoundException e) {
-                e.printStackTrace();
-            }
-            // Inform the registry about symbolic server name
-            System.setProperty("java.rmi.server.hostname", this.clientIp);
-            // Setup permissive security policy
-            System.setProperty("java.rmi.server.useCodebaseOnly", "false");
-            // Export the object listener on specific server port
-            UnicastRemoteObject.exportObject(this, 0);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        NetworkClient.getInstance().remotize(this);
     }
 
     public void print(String s) {
@@ -86,19 +59,19 @@ public class StartGameController implements Initializable, SharedClientGame {
     }
 
     @FXML
-    private GridPane PaneBackground;
+    private GridPane paneBackground;
     @FXML
-    private GridPane PaneCarta;
+    private GridPane paneCarta;
     @FXML
-    private ImageView CardMap;
+    private ImageView cardMap;
     @FXML
-    private Button TiraDadi;
+    private Button tiraDadi;
 
     public void setNetPlayers(ArrayList<Player> netPlayers) {
         this.netPlayers = netPlayers;
     }
 
-    private void makeDraggable(Text Demo) {
+    private void makeDraggable(Text demo) {
         source.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 /* drag was detected, start drag-and-drop gesture*/
@@ -118,15 +91,15 @@ public class StartGameController implements Initializable, SharedClientGame {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
-        LoadBackground();
-        BackGroundTransition();
+        loadBackground();
+        backGroundTransition();
         setCardMap();
 
 
     }
 
     @FXML
-    private void TiraDadi(ActionEvent event) throws IOException {
+    private void tiraDadi(ActionEvent event) throws IOException {
         // QUI IL NUMERO DI DADI, COLORI E SPECIFICHE VA RECUPERATO DALLA LOGICA
         // TRAMITE UNA CHIAMATA MI RECAPITO I VALORI E DINAMICAMENTE LI ASSEGNO
         // AGLI OGGETTI ISTANZIATI
@@ -149,10 +122,10 @@ public class StartGameController implements Initializable, SharedClientGame {
         redMaterial.setDiffuseColor(Color.DARKRED);
         redMaterial.setSpecularColor(Color.BLACK);
         box2.setMaterial(greenMaterial);
-        PaneBackground.add(box1, 1, 1);
-        PaneBackground.add(box2, 1, 1);
-        PaneBackground.add(source, 1, 1);
-        PaneBackground.add(target, 1, 1);
+        paneBackground.add(box1, 1, 1);
+        paneBackground.add(box2, 1, 1);
+        paneBackground.add(source, 1, 1);
+        paneBackground.add(target, 1, 1);
         makeDraggable(source);
 
 
@@ -162,29 +135,29 @@ public class StartGameController implements Initializable, SharedClientGame {
     private void setCardMap() {
         File file = new File("C:\\Users\\Mattia\\IdeaProjects\\InterfacciaDemo\\src\\Kaleidoscopic Dream.png");
         Image image = new Image(file.toURI().toString());
-        CardMap.setImage(image);
+        cardMap.setImage(image);
 
-        CardMap.fitHeightProperty();
-        CardMap.setFitWidth(1280 / 3);
+        cardMap.fitHeightProperty();
+        cardMap.setFitWidth(1280 / 3);
 
-        PaneBackground.add(CardMap, 1, 2);
-        PaneBackground.setGridLinesVisible(true);
-        PaneCarta.setGridLinesVisible(true);
+        paneBackground.add(cardMap, 1, 2);
+        paneBackground.setGridLinesVisible(true);
+        paneCarta.setGridLinesVisible(true);
 
     }
 
 
-    private void LoadBackground() {
+    private void loadBackground() {
         BackgroundImage myBI = new BackgroundImage(new Image("https://www.freevector.com/uploads/vector/preview/27785/Sagrada_Familia_Building.jpg", 1280, 800, false, true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
-        PaneBackground.setBackground(new Background(myBI));
+        paneBackground.setBackground(new Background(myBI));
 
 
     }
 
-    private void BackGroundTransition() {
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), PaneBackground);
+    private void backGroundTransition() {
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), paneBackground);
         ft.setFromValue(1.0);
         ft.setToValue(0.3);
         ft.setCycleCount(2);
@@ -204,7 +177,7 @@ public class StartGameController implements Initializable, SharedClientGame {
         //in GameHelper.
     }
     @FXML
-    private void FineTurno(ActionEvent event) throws IOException{
+    private void fineTurno(ActionEvent event) throws IOException{
         System.out.print("\"Turno Finito\"");
 
 

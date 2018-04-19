@@ -2,13 +2,10 @@ package server;
 
 import server.network.NetworkServer;
 import server.threads.NewGameManager;
-import shared.Logic.ConcurrencyManager;
+import shared.logic.ConcurrencyManager;
 import shared.SharedClientGame;
 
 import java.io.*;
-import java.rmi.Naming;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -17,37 +14,27 @@ public class MainServer {
     private static final MainServer instance = new MainServer();
     // List of players connected
     private static Vector<SharedClientGame> clients;
-    // RMI Registry ref
-    private static Registry rmiRegistry;
 
     public static MainServer getInstance() {
         return instance;
     }
 
-    private MainServer(){}
+    private MainServer(){
+        super();
+    }
 
     public static void main(String args[]) throws IOException {
-
-
-        try {
-            // Start RMI registry on this machine
-            rmiRegistry = LocateRegistry.createRegistry(NetworkServer.RMI_PORT);
-
-            MatchManager.setInstance();
-            // Format an URL string for that interface, to be used in RMI registry
-            String rmiUrl = "//" + MatchManager.getInstance().getServerIp() + ":" + NetworkServer.RMI_PORT.toString() + "/"
-                    + "Match";
-            // Bind the interface to that symbolic URL in the RMI registry
-            Naming.rebind(rmiUrl, MatchManager.getInstance());
-
-        } catch (Exception e) { // Better exception handling
-            e.printStackTrace();
-        }
+        // Create NetworkServer singleton to setup networking and RMI
+        NetworkServer.setInstance();
+        // Create MatchManager singleton
+        MatchManager.setInstance();
+        // Export MatchManager for serving clients (abstraction from RMI or Socket)
+        NetworkServer.getInstance().export(MatchManager.getInstance(), MatchManager.RMI_NAME);
 
         //create thread NewGameManager
         ConcurrencyManager.submit(new NewGameManager());
 
-        System.out.println("Send 'exit' command to teardown...");
+        System.out.println("\nSend 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);
         while (!scan.nextLine().equals("exit")) {
             //

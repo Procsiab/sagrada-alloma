@@ -1,4 +1,4 @@
-package server.Frames;
+package server.frames;
 
 import server.abstracts.Frame;
 

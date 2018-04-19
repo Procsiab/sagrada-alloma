@@ -1,15 +1,16 @@
 package server.threads;
 
 import server.MatchManager;
-import shared.Logic.ConcurrencyManager;
-import shared.Logic.GeneralTask;
-import shared.Logic.Locker;
+import shared.SharedServerGameManager;
+import shared.logic.ConcurrencyManager;
+import shared.logic.GeneralTask;
+import shared.logic.Locker;
 import shared.SharedClientGame;
 
 import java.util.ArrayList;
 
-public class NewGameManager extends GeneralTask {
-    private final Locker Safe = Locker.getSafe();
+public class NewGameManager extends GeneralTask implements SharedServerGameManager {
+    private final Locker safe = Locker.getSafe();
     private Integer sleepTime = 10000;
     public boolean start = false;
 
@@ -21,19 +22,19 @@ public class NewGameManager extends GeneralTask {
         ConcurrencyManager.submit(timerNewGame);
 
         while (true) {
-            synchronized (Safe.SLock2) {
-                while (MatchManager.getInstance().Q.size() != 4 && start == false) {
+            synchronized (safe.sLock2) {
+                while (MatchManager.getInstance().q.size() != 4 && start == false) {
                     try {
-                        Safe.SLock2.wait();
+                        safe.sLock2.wait();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                ArrayList<SharedClientGame> clients = new ArrayList<>(MatchManager.getInstance().Q.size());
+                ArrayList<SharedClientGame> clients = new ArrayList<>(MatchManager.getInstance().q.size());
                 int i = 0;
                 //TODO: check if size is correct
-                while (i < MatchManager.getInstance().Q.size()) {
-                    clients.add(MatchManager.getInstance().Q.remove(0));
+                while (i < MatchManager.getInstance().q.size()) {
+                    clients.add(MatchManager.getInstance().q.remove(0));
                     i++;
                 }
                 ConcurrencyManager.submit(new GameManager(clients, clients.size()));

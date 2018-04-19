@@ -1,8 +1,11 @@
 package server.threads;
 
 import server.MatchManager;
-import shared.Logic.GeneralTask;
-import shared.Logic.Locker;
+import shared.Logger;
+import shared.logic.GeneralTask;
+import shared.logic.Locker;
+
+import java.util.Arrays;
 
 
 public class TimerNewGame extends GeneralTask {
@@ -24,15 +27,17 @@ public class TimerNewGame extends GeneralTask {
             synchronized (obj) {
                 try {
                     obj.wait(sleepTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } catch (InterruptedException ie){
+                    Logger.log("Thread sleep was interrupted!");
+                    Logger.log("Stack trace:\n" + Arrays.toString(ie.getStackTrace()));
+                    Thread.currentThread().interrupt(); //Proper handling of InterruptedException
                 }
             }
 
-            synchronized (safe.SLock2){
-                if (MatchManager.getInstance().Q.size()>1) {
+            synchronized (safe.sLock2){
+                if (MatchManager.getInstance().q.size()>1) {
                     newGameManager.start = true;
-                    safe.SLock2.notifyAll();
+                    safe.sLock2.notifyAll();
                     break;
                 }
             }

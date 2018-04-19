@@ -4,26 +4,19 @@ import server.*;
 import server.abstracts.PrivateOC;
 import server.abstracts.PublicOC;
 import server.abstracts.ToolC;
+import server.network.NetworkServer;
 import shared.*;
-import shared.Logic.GeneralTask;
+import shared.logic.GeneralTask;
 
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+import java.rmi.Remote;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
+//TODO Merge with NewGameManager?
 public class GameManager extends GeneralTask implements SharedServerGameManager {
-    /*************************************************/
-    public static final Integer RMI_PORT = 1099;
-    public static final Integer RMI_IFACE_PORT = 1100;
-    public static final Integer SOCKET_PORT = 1101;
-    protected String serverIp;
-    protected Registry rmiRegistry;
-    /*************************************************/
-
 
     public final ArrayList<SharedClientGame> fixedPlayers;
     public List<SharedClientGame> players;
@@ -32,8 +25,8 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
     private ArrayList<Player> vPlayers;
     public MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
-    public static final ReentrantLock Lock1 = new ReentrantLock();
-    public static final ReentrantLock Lock2 = new ReentrantLock();
+    public static final ReentrantLock lock1 = new ReentrantLock();
+    public static final ReentrantLock lock2 = new ReentrantLock();
     public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
     public ArrayList<PublicOC> publicOCs = new ArrayList<>();
     public ArrayList<ToolC> toolCards;
@@ -66,29 +59,18 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                 dices.add(new Dice('p', rand.nextInt(6)));
             i++;
         }
-
-        try {
-            // Start RMI registry on this machine
-            this.rmiRegistry = LocateRegistry.getRegistry(MatchManager.getInstance().getServerIp(), RMI_PORT);
-            // Inform the registry about symbolic server name
-            System.setProperty("java.rmi.server.hostname", this.serverIp);
-            // Setup permissive security policy
-            System.setProperty("java.rmi.server.useCodebaseOnly", "false");
-            // Export the object listener on specific server port
-            UnicastRemoteObject.exportObject(this, RMI_IFACE_PORT);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Export the reference as UnicastRemoteObject
+        NetworkServer.getInstance().remotize(this);
     }
 
     public void setAction(boolean action) {
-        synchronized (Lock1) {
+        synchronized (lock1) {
             this.action = action;
         }
     }
 
     public boolean getAction() {
-        synchronized (Lock1) {
+        synchronized (lock1) {
             return action;
         }
     }
@@ -273,8 +255,10 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                             this.wait(sleepTime);
                             this.action = true;
                             unresponsive.add(players.get(i-1));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        } catch (InterruptedException ie) {
+                            Logger.log("Thread sleep was interrupted!");
+                            Logger.log("Stack trace:\n" + Arrays.toString(ie.getStackTrace()));
+                            Thread.currentThread().interrupt(); //Proper handling of InterruptedException
                         }
                     this.action = false;
                     check1 = false;
@@ -303,8 +287,10 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                         try {
                             this.wait(sleepTime);
                             this.action = true;
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        } catch (InterruptedException ie) {
+                            Logger.log("Thread sleep was interrupted!");
+                            Logger.log("Stack trace:\n" + Arrays.toString(ie.getStackTrace()));
+                            Thread.currentThread().interrupt(); //Proper handling of InterruptedException
                         }
                     this.action = false;
                     check1 = false;

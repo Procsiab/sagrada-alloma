@@ -1,4 +1,4 @@
-package server.Windows;
+package server.windows;
 
 import server.Cell;
 import server.abstracts.Window;

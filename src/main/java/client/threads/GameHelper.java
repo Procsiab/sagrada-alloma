@@ -1,10 +1,9 @@
 package client.threads;
 
 import client.gui.StartGameController;
-import shared.Logic.GeneralTask;
+import shared.logic.GeneralTask;
 
 public class GameHelper extends GeneralTask {
-
     private StartGameController graphics;
 
     public GameHelper() {
@@ -18,12 +17,5 @@ public class GameHelper extends GeneralTask {
     @Override
     public void run() {
         super.run();
-
-
     }
-
-    public void print(String s) {
-        System.out.println(s);
-    }
-
 }
