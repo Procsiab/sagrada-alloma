@@ -38,7 +38,7 @@ public class SerializedSocket extends GeneralTask {
             s.close(); // Should start a session instead of closing...
         } catch (Exception e) {
             Logger.log("Something went wrong with this socket");
-            Logger.log("Stack trace:\n" + Arrays.toString(e.getStackTrace()));
+            Logger.strace(e);
         }
     }
 }

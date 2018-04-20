@@ -29,7 +29,7 @@ public class TimerNewGame extends GeneralTask {
                     obj.wait(sleepTime);
                 } catch (InterruptedException ie){
                     Logger.log("Thread sleep was interrupted!");
-                    Logger.log("Stack trace:\n" + Arrays.toString(ie.getStackTrace()));
+                    Logger.strace(ie);
                     Thread.currentThread().interrupt(); //Proper handling of InterruptedException
                 }
             }

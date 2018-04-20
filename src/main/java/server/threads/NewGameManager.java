@@ -1,6 +1,7 @@
 package server.threads;
 
 import server.MatchManager;
+import shared.Logger;
 import shared.SharedServerGameManager;
 import shared.logic.ConcurrencyManager;
 import shared.logic.GeneralTask;
@@ -9,7 +10,7 @@ import shared.SharedClientGame;
 
 import java.util.ArrayList;
 
-public class NewGameManager extends GeneralTask implements SharedServerGameManager {
+public class NewGameManager extends GeneralTask {
     private final Locker safe = Locker.getSafe();
     private Integer sleepTime = 10000;
     public boolean start = false;
@@ -27,7 +28,8 @@ public class NewGameManager extends GeneralTask implements SharedServerGameManag
                     try {
                         safe.sLock2.wait();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Logger.log("Error waiting on lock!");
+                        Logger.strace(e);
                     }
                 }
                 ArrayList<SharedClientGame> clients = new ArrayList<>(MatchManager.getInstance().q.size());

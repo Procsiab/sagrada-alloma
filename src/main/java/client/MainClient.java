@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;*/
+import client.network.NetworkClient;
 import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import client.threads.GameHelper;
@@ -27,6 +28,9 @@ public class MainClient /*extends Application*/ {
     }*/
 
     public static void main(String [] args) {
+        // Create NetworkClient singleton to setup networking and RMI
+        NetworkClient.setInstance();
+
         MainClient.game = new GameHelper();
         ConcurrencyManager.submit(game);
         //launch(args);
@@ -34,7 +38,7 @@ public class MainClient /*extends Application*/ {
             Thread.sleep(2000000000);
         } catch (InterruptedException ie){
             Logger.log("Thread sleep was interrupted!");
-            Logger.log("Stack trace:\n" + Arrays.toString(ie.getStackTrace()));
+            Logger.strace(ie);
             Thread.currentThread().interrupt(); //Proper handling of InterruptedException
         }
         // Close connection when window closes

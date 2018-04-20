@@ -40,7 +40,7 @@ public class MatchManager implements SharedServerMatchManager {
         super();
         // Export the reference as UnicastRemoteObject
         NetworkServer.getInstance().remotize(this);
-        //initalize every ArrayList
+        //initialize every ArrayList
     }
 
     public Integer getWaitingPlayer() {

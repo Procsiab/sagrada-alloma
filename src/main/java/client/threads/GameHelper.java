@@ -7,7 +7,7 @@ public class GameHelper extends GeneralTask {
     private StartGameController graphics;
 
     public GameHelper() {
-
+        super();
     }
 
     public void setGraphics(StartGameController graphics) {

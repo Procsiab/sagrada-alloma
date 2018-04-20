@@ -1,6 +1,7 @@
 package server.threads;
 
 import server.network.SerializedSocket;
+import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import shared.logic.GeneralTask;
 
@@ -28,7 +29,8 @@ public class ListeningChannel extends GeneralTask {
                 // Start client handling
                 ConcurrencyManager.submit(new SerializedSocket(clientSocket));
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.log("Error reading socket buffer!");
+                Logger.strace(e);
                 break;
             }
         }

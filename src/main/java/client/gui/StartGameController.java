@@ -1,4 +1,5 @@
 package client.gui;
+
 import client.MainClient;
 import client.network.NetworkClient;
 import client.threads.GameHelper;
@@ -23,12 +24,13 @@ import shared.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.registry.Registry;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.ReentrantLock;
 
-//TODO Implement all SharedGameClient methods
 public class StartGameController implements Initializable, SharedClientGame {
 
     private SharedServerMatchManager netMatchManager;
@@ -36,22 +38,24 @@ public class StartGameController implements Initializable, SharedClientGame {
     public ArrayList<Player> netPlayers = new ArrayList<>();
     private Integer nMates;
     private Integer nPlayer;
-    private ReentrantLock Lock1 = new ReentrantLock();
-    public static final String SERVER_IP = "localhost";
-    public static final Integer RMI_PORT = 1099;
-    public static final String RMI_IFACE_NAME = "Match";
-    public static final Integer RMI_IFACE_PORT = 1100;
-    public static final Integer SOCKET_PORT = 1101;
-    protected String clientIp;
-    protected Registry rmiRegistry;
+    private ReentrantLock lock1 = new ReentrantLock();
 
     final Text source = new Text(50, 100, "DRAG ME");
     final Text target = new Text(300, 100, "DROP HERE");
 
     GameHelper game = MainClient.game;
 
-    StartGameController(){
+    public StartGameController() {
+        // Export the reference as UnicastRemoteObject
         NetworkClient.getInstance().remotize(this);
+        // Obtain reference to remote MatchManager
+        this.netMatchManager = (SharedServerMatchManager) NetworkClient.getInstance().getExportedObject("MatchManager");
+        try {
+            this.netMatchManager.startGame(this);
+        } catch (RemoteException re) {
+            Logger.log("Error calling method on remote object!");
+            Logger.strace(re);
+        }
     }
 
     public void print(String s) {
@@ -128,7 +132,6 @@ public class StartGameController implements Initializable, SharedClientGame {
         paneBackground.add(target, 1, 1);
         makeDraggable(source);
 
-
     }
 
 
@@ -153,7 +156,6 @@ public class StartGameController implements Initializable, SharedClientGame {
                 BackgroundSize.DEFAULT);
         paneBackground.setBackground(new Background(myBI));
 
-
     }
 
     private void backGroundTransition() {
@@ -165,7 +167,6 @@ public class StartGameController implements Initializable, SharedClientGame {
 
         ft.play();
 
-
     }
 
     public void updateView() {
@@ -176,10 +177,47 @@ public class StartGameController implements Initializable, SharedClientGame {
         //game.posiziona dado, e aggiornerà di per se le classi di riferimento di player e match che sono
         //in GameHelper.
     }
+
     @FXML
     private void fineTurno(ActionEvent event) throws IOException{
         System.out.print("\"Turno Finito\"");
 
+    }
+
+    //TODO Implement the following methods
+
+    @Override
+    public void enable() {
+
+    }
+
+    @Override
+    public boolean ping() {
+        return false;
+    }
+
+    @Override
+    public void chooseWindow(List<Integer> windows) {
+
+    }
+
+    @Override
+    public void score(Integer score) {
+
+    }
+
+    @Override
+    public void setNPlayer(Integer nPlayer) {
+
+    }
+
+    @Override
+    public void shut() {
+
+    }
+
+    @Override
+    public void aPrioriWin() {
 
     }
 }

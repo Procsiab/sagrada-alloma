@@ -9,13 +9,13 @@ import shared.*;
 import shared.logic.GeneralTask;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
-//TODO Merge with NewGameManager?
 public class GameManager extends GeneralTask implements SharedServerGameManager {
 
     public final ArrayList<SharedClientGame> fixedPlayers;
@@ -114,11 +114,10 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         int i = 0;
         int j = 0;
 
-        for (SharedClientGame client: players
-             ) {
+        for (SharedClientGame client: players) {
             vPlayers.add(new Player(1,this));
         }
-
+        //TODO pass 'this' reference to StartGameController
         for (SharedClientGame client: players) {
             client.setNetPlayers(vPlayers);
             client.setNPlayer(i);
@@ -242,11 +241,8 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                     return;
                 }
                 //check if re/connected
-                try {
-                    check1 = players.get(i - 1).ping();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                check1 = players.get(i - 1).ping();
+
                 //check if active and go ahead
                 if (active.contains(players.get(i - 1)) && check1) {
                     players.get(i - 1).enable();
@@ -257,7 +253,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                             unresponsive.add(players.get(i-1));
                         } catch (InterruptedException ie) {
                             Logger.log("Thread sleep was interrupted!");
-                            Logger.log("Stack trace:\n" + Arrays.toString(ie.getStackTrace()));
+                            Logger.strace(ie);
                             Thread.currentThread().interrupt(); //Proper handling of InterruptedException
                         }
                     this.action = false;
@@ -275,11 +271,8 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                     return;
                 }
                 //check if re/connected
-                try {
-                    check1 = players.get(i - 1).ping();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                check1 = players.get(i - 1).ping();
+
                 //check if active and go ahead
                 if (active.contains(players.get(i - 1)) && check1) {
                     players.get(i - 1).enable();
@@ -289,7 +282,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                             this.action = true;
                         } catch (InterruptedException ie) {
                             Logger.log("Thread sleep was interrupted!");
-                            Logger.log("Stack trace:\n" + Arrays.toString(ie.getStackTrace()));
+                            Logger.strace(ie);
                             Thread.currentThread().interrupt(); //Proper handling of InterruptedException
                         }
                     this.action = false;

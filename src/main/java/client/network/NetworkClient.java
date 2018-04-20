@@ -56,10 +56,10 @@ public class NetworkClient extends Network {
             rmiRegistry = LocateRegistry.getRegistry(SERVER_ADDRESS, RMI_PORT);
         } catch (UnknownHostException uhe) {
             Logger.log("Unable to resolve local host name/address!");
-            Logger.log("Stack trace:\n" + Arrays.toString(uhe.getStackTrace()));
+            Logger.strace(uhe);
         } catch (RemoteException re) {
             Logger.log("Error in RMI Registry connection! (server: " + SERVER_ADDRESS + ")");
-            Logger.log("Stack trace:\n" + Arrays.toString(re.getStackTrace()));
+            Logger.strace(re);
         }
     }
 
@@ -73,7 +73,7 @@ public class NetworkClient extends Network {
         } catch (RemoteException re) {
             Logger.log("Error exporting with UnicastRemoteObject on port "
                     + RMI_IFACE_PORT.toString() + "!");
-            Logger.log("Stack trace:\n" + Arrays.toString(re.getStackTrace()));
+            Logger.strace(re);
         }
     }
 
@@ -90,7 +90,7 @@ public class NetworkClient extends Network {
             Logger.log("Error in lookup for name  " + n + " in RMI Registry: maybe is not bound!");
         } catch (RemoteException re) {
             Logger.log("Error retrieving " + n + " from RMI Registry!");
-            Logger.log("Stack trace:\n" + Arrays.toString(re.getStackTrace()));
+            Logger.strace(re);
         }
         return exObj;
     }
