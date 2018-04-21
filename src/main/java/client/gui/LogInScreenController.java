@@ -1,5 +1,6 @@
 package client.gui;
 import client.MainClient;
+import client.network.NetworkClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -15,33 +16,57 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import shared.Logger;
+import shared.SharedServerMatchManager;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class LogInScreenController implements Initializable {
+
+    private SharedServerMatchManager netMatchManager;
     @FXML private ImageView sagradaImage;
     @FXML private Button startButton;
+    private StartGameController gameClient;
     private GameHelper game;
 
     @FXML public void LogIn(ActionEvent event) throws IOException {
-        System.out.println("You clicked me");
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StartGame.fxml"));
         Parent root1 = loader.load();
         this.game = MainClient.game;
 
         // Trova l'istanza di StartGameController, per poter runnare il metodo di update della view dall'esterno. Chiedere come passarlo all'esterno.
         StartGameController controllerGame = loader.getController();
+        this.gameClient = controllerGame;
 
         // Passo il mio controller all'esterno, va bene fatto così?
 
         game.setGraphics(controllerGame);
+
         // Fine instanziamento
-        Scene startedGame = new Scene(root1,1280,800, Color.WHITE);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(startedGame);
-        window.show();
+
+        String message1 = new String();
+
+        System.out.println("You clicked me");
+        this.netMatchManager = (SharedServerMatchManager) NetworkClient.getInstance().getExportedObject("MatchManager");
+        try {
+            message1 = this.netMatchManager.startGame(gameClient);
+        } catch (RemoteException re) {
+            Logger.log("Error calling method on remote object!");
+            Logger.strace(re);
+        }
+
+        //print string on video
+
+        if (message1.equals("Connection successful. Please wait for other players to connect")) {
+            Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(startedGame);
+            window.show();
+        }
     }
 
 

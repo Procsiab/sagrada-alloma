@@ -34,13 +34,7 @@ public class MainClient extends Application {
         MainClient.game = new GameHelper();
         ConcurrencyManager.submit(game);
         launch(args);
-        try {
-            Thread.sleep(2000000000);
-        } catch (InterruptedException ie){
-            Logger.log("Thread sleep was interrupted!");
-            Logger.strace(ie);
-            Thread.currentThread().interrupt(); //Proper handling of InterruptedException
-        }
+
         // Close connection when window closes
         /*System.out.println("Send 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);

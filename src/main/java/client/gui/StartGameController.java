@@ -39,23 +39,17 @@ public class StartGameController implements Initializable, SharedClientGame {
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
+    private GameHelper game = MainClient.game;
 
     final Text source = new Text(50, 100, "DRAG ME");
     final Text target = new Text(300, 100, "DROP HERE");
 
-    GameHelper game = MainClient.game;
 
     public StartGameController() {
         // Export the reference as UnicastRemoteObject
         NetworkClient.getInstance().remotize(this);
         // Obtain reference to remote MatchManager
         this.netMatchManager = (SharedServerMatchManager) NetworkClient.getInstance().getExportedObject("MatchManager");
-        try {
-            this.netMatchManager.startGame(this);
-        } catch (RemoteException re) {
-            Logger.log("Error calling method on remote object!");
-            Logger.strace(re);
-        }
     }
 
     public void print(String s) {
@@ -81,8 +75,6 @@ public class StartGameController implements Initializable, SharedClientGame {
         loadBackground();
         backGroundTransition();
         setCardMap();
-
-
     }
 
     @FXML
@@ -185,7 +177,7 @@ public class StartGameController implements Initializable, SharedClientGame {
     }
 
     @Override
-    public void score(Integer score) {
+    public void printScore(Integer score) {
 
     }
 

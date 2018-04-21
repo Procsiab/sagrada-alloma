@@ -8,10 +8,7 @@ import server.network.NetworkServer;
 import shared.*;
 import shared.logic.GeneralTask;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
@@ -40,7 +37,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
     public GameManager(ArrayList<SharedClientGame> players, Integer nMates) {
         Random rand = new Random();
-        this.fixedPlayers = (ArrayList)players.clone();
+        this.fixedPlayers = (ArrayList)vPlayers.clone();
         this.players = players;
         this.sleepTime = 10000;
         this.nMates = nMates;
@@ -155,6 +152,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         i = 0;
 
         while(i<players.size()) {
+            //return of this function client-side after client has placed his chosen card
             players.get(i).chooseWindow(a.subList(((i+1)*4),((i+2)*4-1)));
             i++;
         }
@@ -201,7 +199,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
         toolCards.add(matchManager.toolCS.get(a.get(0)));
         toolCards.add(matchManager.toolCS.get(a.get(1)));
-        toolCards.add(matchManager.toolCS.get(a.get(1)));
+        toolCards.add(matchManager.toolCS.get(a.get(2)));
 
         i = 0;
         a.clear();
@@ -297,7 +295,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         i = 0;
         for (SharedClientGame player: players
              ) {
-            player.score(score(vPlayers.get(i)));
+            player.printScore(score(vPlayers.get(i)));
             i++;
         }
     }

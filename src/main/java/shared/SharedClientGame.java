@@ -16,5 +16,5 @@ public interface SharedClientGame extends Remote {
     void shut();
     void aPrioriWin();
     boolean ping();
-    void score(Integer score);
+    void printScore(Integer score);
 }
