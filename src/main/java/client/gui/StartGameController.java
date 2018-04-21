@@ -75,24 +75,7 @@ public class StartGameController implements Initializable, SharedClientGame {
         this.netPlayers = netPlayers;
     }
 
-    private void makeDraggable(Text demo) {
-        source.setOnDragDetected(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                /* drag was detected, start drag-and-drop gesture*/
-                System.out.println("onDragDetected");
 
-                /* allow any transfer mode */
-                Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-
-                /* put a string on dragboard */
-                ClipboardContent content = new ClipboardContent();
-                content.putString(source.getText());
-                db.setContent(content);
-
-                event.consume();
-            }
-        });
-    }
 
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
@@ -130,7 +113,7 @@ public class StartGameController implements Initializable, SharedClientGame {
         paneBackground.add(box2, 1, 1);
         paneBackground.add(source, 1, 1);
         paneBackground.add(target, 1, 1);
-        makeDraggable(source);
+
 
     }
 
