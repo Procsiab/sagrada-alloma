@@ -6,11 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import client.network.NetworkClient;
-import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import client.threads.GameHelper;
-
-import java.util.Arrays;
 
 public class MainClient extends Application {
     public static GameHelper game;
