@@ -1,4 +1,5 @@
 import client.gui.StartGameController;
+import client.network.NetworkClient;
 import org.junit.Test;
 import server.MatchManager;
 //import shared.Logger;
@@ -7,6 +8,8 @@ import server.MatchManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import server.network.NetworkServer;
+import shared.Network;
 import shared.SharedClientGame;
 import shared.SharedServerMatchManager;
 
@@ -21,6 +24,8 @@ public class MatchManagerTest {
 
     @Before
     public void before() {
+        NetworkClient.setInstance();
+        NetworkServer.setInstance();
         myGameController = mock(StartGameController.class);
     }
 
@@ -28,6 +33,7 @@ public class MatchManagerTest {
     public void getInstanceTest() {
         assertTrue(MatchManager.getInstance() == null);
         MatchManager.setInstance();
+        assertTrue(MatchManager.getInstance() != null);
         SharedServerMatchManager myMatchManager = MatchManager.getInstance();
         assertThat(MatchManager.getInstance(), is(myMatchManager));
     }
