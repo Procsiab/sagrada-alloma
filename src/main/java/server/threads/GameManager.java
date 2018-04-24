@@ -15,11 +15,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager extends GeneralTask implements SharedServerGameManager {
 
-    public final ArrayList<SharedClientGame> fixedPlayers;
+    public final ArrayList<SharedServerPlayer> fixedPlayers;
     public List<SharedClientGame> players;
     private final Integer sleepTime;
     private final Integer nMates;
-    private ArrayList<Player> vPlayers;
+    private ArrayList<SharedServerPlayer> vPlayers;
     public MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
     public static final ReentrantLock lock1 = new ReentrantLock();
@@ -37,7 +37,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
     public GameManager(ArrayList<SharedClientGame> players, Integer nMates) {
         Random rand = new Random();
-        this.fixedPlayers = (ArrayList)vPlayers.clone();
+        this.fixedPlayers = (ArrayList<SharedServerPlayer>)vPlayers.clone();
         this.players = players;
         this.sleepTime = 10000;
         this.nMates = nMates;

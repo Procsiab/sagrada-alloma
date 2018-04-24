@@ -51,7 +51,7 @@ public class LogInScreenController implements Initializable {
         String message1 = new String();
 
         System.out.println("You clicked me");
-        this.netMatchManager = (SharedServerMatchManager) NetworkClient.getInstance().getExportedObject("MatchManager");
+        this.netMatchManager = NetworkClient.getInstance().getExportedObject("MatchManager");
         try {
             message1 = this.netMatchManager.startGame(gameClient);
         } catch (RemoteException re) {

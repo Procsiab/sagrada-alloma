@@ -35,7 +35,7 @@ public class StartGameController implements Initializable, SharedClientGame {
 
     private SharedServerMatchManager netMatchManager;
     private SharedServerGameManager netGameManager;
-    public ArrayList<Player> netPlayers = new ArrayList<>();
+    public ArrayList<SharedServerPlayer> netPlayers = new ArrayList<>();
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
@@ -49,7 +49,7 @@ public class StartGameController implements Initializable, SharedClientGame {
         // Export the reference as UnicastRemoteObject
         NetworkClient.getInstance().remotize(this);
         // Obtain reference to remote MatchManager
-        this.netMatchManager = (SharedServerMatchManager) NetworkClient.getInstance().getExportedObject("MatchManager");
+        this.netMatchManager = NetworkClient.getInstance().getExportedObject("MatchManager");
     }
 
     public void print(String s) {
@@ -65,7 +65,7 @@ public class StartGameController implements Initializable, SharedClientGame {
     @FXML
     private Button tiraDadi;
 
-    public void setNetPlayers(ArrayList<Player> netPlayers) {
+    public void setNetPlayers(ArrayList<SharedServerPlayer> netPlayers) {
         this.netPlayers = netPlayers;
     }
 

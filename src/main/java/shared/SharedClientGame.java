@@ -9,7 +9,7 @@ import java.util.List;
 public interface SharedClientGame extends Remote {
     void print(String string);
     void chooseWindow(List<Integer> windows);
-    void setNetPlayers(ArrayList<Player> players);
+    void setNetPlayers(ArrayList<SharedServerPlayer> players);
     void setNPlayer(Integer n);
     void updateView();
     void enable();
