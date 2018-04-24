@@ -51,8 +51,13 @@ public class MatchManager implements SharedServerMatchManager {
         return MAX_ACTIVE_PLAYER_REFS;
     }
 
+    public void print(){
+        System.out.println("Hwe");
+    }
+
     public String startGame(SharedClientGame client) {
 
+        System.out.println("Wee");
         synchronized (safe.sLock1) {
             waitingPlayer++;
             if (waitingPlayer == MAX_ACTIVE_PLAYER_REFS){
@@ -62,7 +67,7 @@ public class MatchManager implements SharedServerMatchManager {
         }
         synchronized (safe.sLock2) {
             q.addLast(client);
-            notifyAll();
+            safe.sLock2.notifyAll();
         }
         return "Connection successful. Please wait for other players to connect";
     }

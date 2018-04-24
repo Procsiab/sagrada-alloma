@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class StartGameController implements Initializable, SharedClientGame {
+public class StartGameController implements SharedClientGame {
 
     private SharedServerMatchManager netMatchManager;
     private SharedServerGameManager netGameManager;

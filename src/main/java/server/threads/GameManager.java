@@ -8,6 +8,7 @@ import server.network.NetworkServer;
 import shared.*;
 import shared.logic.GeneralTask;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -116,8 +117,13 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         }
         //TODO pass 'this' reference to StartGameController
         for (SharedClientGame client: players) {
-            client.setNetPlayers(vPlayers);
-            client.setNPlayer(i);
+            try {
+                client.setNetPlayers(vPlayers);
+                client.setNPlayer(i);
+            } catch (RemoteException re) {
+                Logger.log("Error calling method on remote object!");
+                Logger.strace(re);
+            }
             i++;
         }
 
@@ -134,7 +140,13 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         }
         i = 0;
         while(i<players.size()) {
-            vPlayers.get(i).setPrivateOC(a.get(i));
+
+            try {
+                vPlayers.get(i).setPrivateOC(a.get(i));
+            } catch (RemoteException re) {
+                Logger.log("Error calling method on remote object!");
+                Logger.strace(re);
+            }
             i++;
         }
         i = 0;
@@ -153,7 +165,13 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
         while(i<players.size()) {
             //return of this function client-side after client has placed his chosen card
-            players.get(i).chooseWindow(a.subList(((i+1)*4),((i+2)*4-1)));
+            try {
+                players.get(i).chooseWindow(a.subList(((i+1)*4),((i+2)*4-1)));
+            } catch (RemoteException re) {
+                Logger.log("Error calling method on remote object!");
+                Logger.strace(re);
+            }
+
             i++;
         }
         i = 0;
@@ -171,14 +189,26 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         i = 0;
 
         while(i<players.size()) {
-            vPlayers.get(i).setFrame(a.get(i));
+            try {
+                vPlayers.get(i).setFrame(a.get(i));
+            } catch (RemoteException re) {
+                Logger.log("Error calling method on remote object!");
+                Logger.strace(re);
+            }
+
             i++;
         }
         i = 0;
 
 
         for (SharedServerPlayer player: vPlayers) {
-            player.setTokens();
+            try {
+                player.setTokens();
+            } catch (RemoteException re) {
+                Logger.log("Error calling method on remote object!");
+                Logger.strace(re);
+            }
+
             //give token and make the call from client
         }
 
@@ -223,7 +253,13 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
         for (SharedClientGame player : players) {
             //client will get information from netGameManager, and from netPlayers
-            player.updateView();
+            try {
+                player.updateView();
+            } catch (RemoteException re) {
+                Logger.log("Error calling method on remote object!");
+                Logger.strace(re);
+            }
+
         }
 
 
@@ -234,15 +270,33 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                 active.trimToSize();
                 //check if only one host
                 if (active.size() == 1) {
-                    active.get(active.size()).aPrioriWin();
+                    try {
+                        active.get(active.size()).aPrioriWin();
+                    } catch (RemoteException re) {
+                        Logger.log("Error calling method on remote object!");
+                        Logger.strace(re);
+                    }
+
                     return;
                 }
                 //check if re/connected
-                check1 = players.get(i - 1).ping();
+                try {
+                    check1 = players.get(i - 1).ping();
+                } catch (RemoteException re) {
+                    Logger.log("Error calling method on remote object!");
+                    Logger.strace(re);
+                }
+
 
                 //check if active and go ahead
                 if (active.contains(players.get(i - 1)) && check1) {
-                    players.get(i - 1).enable();
+                    try {
+                        players.get(i - 1).enable();
+                    } catch (RemoteException re) {
+                        Logger.log("Error calling method on remote object!");
+                        Logger.strace(re);
+                    }
+
                     while (this.action == false)
                         try {
                             this.wait(sleepTime);
@@ -255,7 +309,12 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                         }
                     this.action = false;
                     check1 = false;
-                    players.get(i - 1).shut();
+                    try {
+                        players.get(i - 1).shut();
+                    } catch (RemoteException re) {
+                        Logger.log("Error calling method on remote object!");
+                        Logger.strace(re);
+                    }
                 }
                 i++;
             }
@@ -264,15 +323,33 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                 active.trimToSize();
                 //check if only one host
                 if (active.size() == 1) {
-                    active.get(active.size()).aPrioriWin();
+                    try {
+                        active.get(active.size()).aPrioriWin();
+                    } catch (RemoteException re) {
+                        Logger.log("Error calling method on remote object!");
+                        Logger.strace(re);
+                    }
+
                     return;
                 }
                 //check if re/connected
-                check1 = players.get(i - 1).ping();
+                try {
+                    check1 = players.get(i - 1).ping();
+                } catch (RemoteException re) {
+                    Logger.log("Error calling method on remote object!");
+                    Logger.strace(re);
+                }
+
 
                 //check if active and go ahead
                 if (active.contains(players.get(i - 1)) && check1) {
-                    players.get(i - 1).enable();
+                    try {
+                        players.get(i - 1).enable();
+                    } catch (RemoteException re) {
+                        Logger.log("Error calling method on remote object!");
+                        Logger.strace(re);
+                    }
+
                     while (this.action == false)
                         try {
                             this.wait(sleepTime);
@@ -284,7 +361,13 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                         }
                     this.action = false;
                     check1 = false;
-                    players.get(i - 1).shut();
+                    try {
+                        players.get(i - 1).shut();
+                    } catch (RemoteException re) {
+                        Logger.log("Error calling method on remote object!");
+                        Logger.strace(re);
+                    }
+
                 }
                 i--;
             }
@@ -294,7 +377,13 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         i = 0;
         for (SharedClientGame player: players
              ) {
-            player.printScore(score(vPlayers.get(i)));
+            try {
+                player.printScore(score(vPlayers.get(i)));
+            } catch (RemoteException re) {
+                Logger.log("Error calling method on remote object!");
+                Logger.strace(re);
+            }
+
             i++;
         }
     }

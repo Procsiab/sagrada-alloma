@@ -11,4 +11,5 @@ import java.rmi.RemoteException;
 public interface SharedServerMatchManager extends Remote {
     String startGame(SharedClientGame client) throws RemoteException;
     public boolean exitGame1(SharedClientGame client)throws RemoteException;
+    public void print() throws RemoteException;
 }

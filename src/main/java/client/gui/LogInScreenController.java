@@ -53,13 +53,14 @@ public class LogInScreenController implements Initializable {
         System.out.println("You clicked me");
         this.netMatchManager = NetworkClient.getInstance().getExportedObject("MatchManager");
         try {
+            netMatchManager.print();
             message1 = this.netMatchManager.startGame(gameClient);
         } catch (RemoteException re) {
             Logger.log("Error calling method on remote object!");
             Logger.strace(re);
         }
 
-        //print string on video
+        System.out.println(message1);
 
         if (message1.equals("Connection successful. Please wait for other players to connect")) {
             Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);

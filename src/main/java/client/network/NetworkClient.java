@@ -71,8 +71,7 @@ public class NetworkClient extends Network {
         try {
             UnicastRemoteObject.exportObject(o, 0);
         } catch (RemoteException re) {
-            Logger.log("Error exporting with UnicastRemoteObject on port "
-                    + RMI_IFACE_PORT.toString() + "!");
+            Logger.log("Error exporting with UnicastRemoteObject!");
             Logger.strace(re);
         }
     }
