@@ -10,9 +10,10 @@ import shared.SharedClientGame;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("InfiniteLoopStatement")
 public class NewGameManager extends GeneralTask {
     private final Locker safe = Locker.getSafe();
-    private Integer sleepTime = 10000;
+    private Integer sleepTime = 1000000;
     public boolean start = false;
 
     @Override
@@ -20,17 +21,18 @@ public class NewGameManager extends GeneralTask {
         super.run();
 
         //start below when two clients connects, and handle client deletion
-        TimerNewGame timerNewGame = new TimerNewGame(10000, this);
+        TimerNewGame timerNewGame = new TimerNewGame(100000, this);
         ConcurrencyManager.submit(timerNewGame);
 
         while (true) {
             synchronized (safe.sLock2) {
+                safe.sLock2.lock();
                 while (MatchManager.getInstance().q.size() != 4 && start == false) {
                     try {
                         safe.sLock2.wait();
                     } catch (Exception e) {
                         Logger.log("Error waiting on lock!");
-                        Logger.strace(e);
+                        Logger.log(e.toString());
                     }
                 }
                 ArrayList<SharedClientGame> clients = new ArrayList<>(MatchManager.getInstance().q.size());
@@ -41,6 +43,7 @@ public class NewGameManager extends GeneralTask {
                     i++;
                 }
                 ConcurrencyManager.submit(new GameManager(clients, clients.size()));
+                //safe.sLock2.unlock();
             }
         }
     }

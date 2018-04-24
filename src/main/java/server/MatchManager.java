@@ -8,6 +8,7 @@ import shared.logic.Locker;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class MatchManager implements SharedServerMatchManager {
     // Custom RMI name to locate class instance in RMI registry
@@ -23,6 +24,7 @@ public class MatchManager implements SharedServerMatchManager {
     public List<Frame> frames = new ArrayList<>();
     public List<Window> windows = new ArrayList<>();
     public List<ScoreMarker> scoreMarkers = new ArrayList<>();
+    public Object locker = new Object();
 
     private static MatchManager instance = null;
 
@@ -60,7 +62,7 @@ public class MatchManager implements SharedServerMatchManager {
         System.out.println("Wee");
         synchronized (safe.sLock1) {
             waitingPlayer++;
-            if (waitingPlayer == MAX_ACTIVE_PLAYER_REFS){
+            if (waitingPlayer.equals(MAX_ACTIVE_PLAYER_REFS+1)){
                 waitingPlayer--;
                 return "Too many incoming requests, please try again later. Sorry for that.";
             }
