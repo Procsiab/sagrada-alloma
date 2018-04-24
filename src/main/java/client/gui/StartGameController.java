@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,8 +32,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class StartGameController implements SharedClientGame {
-
+public class StartGameController implements SharedClientGame, Initializable {
+    @FXML
+    private URL location;
+    @FXML
+    private ResourceBundle resources;
     private SharedServerMatchManager netMatchManager;
     private SharedServerGameManager netGameManager;
     public ArrayList<SharedServerPlayer> netPlayers = new ArrayList<>();
@@ -43,6 +47,7 @@ public class StartGameController implements SharedClientGame {
 
     final Text source = new Text(50, 100, "DRAG ME");
     final Text target = new Text(300, 100, "DROP HERE");
+
 
 
     public StartGameController() {
@@ -111,7 +116,7 @@ public class StartGameController implements SharedClientGame {
 
 
     private void setCardMap() {
-        File file = new File("C:\\Users\\Mattia\\IdeaProjects\\InterfacciaDemo\\src\\Kaleidoscopic Dream.png");
+        File file = new File(".Kaleidoscopic Dream.png");
         Image image = new Image(file.toURI().toString());
         cardMap.setImage(image);
 
@@ -156,6 +161,18 @@ public class StartGameController implements SharedClientGame {
     @FXML
     private void fineTurno(ActionEvent event) throws IOException{
         System.out.print("\"Turno Finito\"");
+
+    }
+
+    @FXML
+    private void handleMouseClicked(MouseEvent e){
+        System.out.println("MouseEntered");
+        Node source = (Node)e.getSource() ;
+        System.out.println(source);
+
+        Integer colIndex = GridPane.getColumnIndex(source);
+        Integer rowIndex = GridPane.getRowIndex(source);
+        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
 
     }
 

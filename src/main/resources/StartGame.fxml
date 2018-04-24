@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="PaneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.StartGameController">
+<GridPane fx:id="paneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.StartGameController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -19,7 +19,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <GridPane fx:id="PaneCarta" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <GridPane fx:id="paneCarta"  onMouseClicked="#handleMouseClicked" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -34,10 +34,10 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ImageView fx:id="CardMap" fitHeight="265.0" fitWidth="428.0" pickOnBounds="true" GridPane.rowIndex="1" />
+            <ImageView fx:id="cardMap" fitHeight="265.0" fitWidth="428.0" pickOnBounds="true" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button fx:id="TiraDadi" mnemonicParsing="false" onAction="#tiraDadi" prefHeight="25.0" prefWidth="428.0" text="Tira i dadi" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <Button fx:id="tiraDadi" mnemonicParsing="false" onAction="#tiraDadi" prefHeight="25.0" prefWidth="428.0" text="Tira i dadi" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <font>
             <Font name="Castellar" size="33.0" />
          </font>
