@@ -21,7 +21,7 @@ public class NewGameManager extends GeneralTask {
         super.run();
 
         //start below when two clients connects, and handle client deletion
-        TimerNewGame timerNewGame = new TimerNewGame(100000, this);
+        TimerNewGame timerNewGame = new TimerNewGame(sleepTime, this);
         ConcurrencyManager.submit(timerNewGame);
 
         while (true) {
