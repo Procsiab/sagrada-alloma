@@ -20,7 +20,7 @@
                   <Image url="@Sagrada.png" />
                </image>
             </ImageView>
-            <Button fx:id="startButton" layoutX="614.0" layoutY="578.0" mnemonicParsing="false" onAction="#Login" text="Button" />
+            <Button fx:id="startButton" layoutX="614.0" layoutY="578.0" mnemonicParsing="false" onAction="#LogIn" text="Button" />
          </children>
       </AnchorPane>
    </children>

@@ -34,7 +34,7 @@ public class LogInScreenController implements Initializable {
 
     @FXML public void LogIn(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("StartGame.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
         Parent root1 = loader.load();
         this.game = MainClient.game;
 

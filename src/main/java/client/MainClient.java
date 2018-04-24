@@ -12,13 +12,10 @@ import client.threads.GameHelper;
 public class MainClient extends Application {
     public static GameHelper game;
 
-    public MainClient(String[] args) {
-        super();
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("LogInScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/LogInScreen.fxml"));
         Scene logIn = new Scene(root);
         primaryStage.setScene(logIn);
         primaryStage.show();
