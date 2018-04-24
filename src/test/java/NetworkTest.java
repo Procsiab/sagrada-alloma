@@ -34,7 +34,7 @@ public class NetworkTest {
     public void exportTest() {
         myNetServer.remotize(bar);
         myNetServer.export(bar, "bar");
-        SharedFoo myFoo = (SharedFoo) myNetClient.getExportedObject("bar");
+        SharedFoo myFoo = myNetClient.getExportedObject("bar");
         try {
             Assert.assertEquals(bar.getName(), myFoo.getName());
         } catch (RemoteException re) {

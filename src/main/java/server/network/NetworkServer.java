@@ -3,6 +3,7 @@ package server.network;
 import shared.Logger;
 import shared.Network;
 
+import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -109,19 +110,21 @@ public class NetworkServer extends Network {
 
     /**
      * Obtain a reference of an object bound to a name in the internal registry
-     * @param n Name bound to the object in the registry
+     * @param boundName Name bound to the object in the registry
      * @return Object
      */
-    public Object getExportedObject(String n) {
-        Object exObj = null;
+    public <T extends Remote> T getExportedObject(String boundName) {
+        T exportedObject = null;
         try {
-            exObj = this.rmiRegistry.lookup(n);
+            exportedObject = (T) this.rmiRegistry.lookup(boundName);
         } catch (NotBoundException nbe) {
-            Logger.log("Error in lookup for name  " + n + " in RMI Registry: maybe is not bound!");
+            Logger.log("Error in lookup for name  " + boundName + " in RMI Registry: maybe is not bound!");
         } catch (RemoteException re) {
-            Logger.log("Error retrieving " + n + " from RMI Registry!");
+            Logger.log("Error retrieving " + boundName + " from RMI Registry!");
             Logger.strace(re);
+        } catch (ClassCastException cce) {
+            Logger.log("Error casting Remote object into destination class!");
         }
-        return exObj;
+        return exportedObject;
     }
 }
