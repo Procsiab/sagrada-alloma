@@ -26,7 +26,7 @@ public class NewGameManager extends GeneralTask {
 
         while (true) {
             synchronized (safe.sLock2) {
-                safe.sLock2.lock();
+                //safe.sLock2.lock();
                 while (MatchManager.getInstance().q.size() != 4 && start == false) {
                     try {
                         safe.sLock2.wait();
