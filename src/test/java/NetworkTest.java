@@ -1,5 +1,6 @@
 import client.network.NetworkClient;
 import server.network.NetworkServer;
+import shared.Logger;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -8,7 +9,6 @@ import java.rmi.RemoteException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import shared.Logger;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

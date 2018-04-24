@@ -55,8 +55,10 @@ public class MatchManager implements SharedServerMatchManager {
 
         synchronized (safe.sLock1) {
             waitingPlayer++;
-            if (waitingPlayer == MAX_ACTIVE_PLAYER_REFS)
+            if (waitingPlayer == MAX_ACTIVE_PLAYER_REFS){
+                waitingPlayer--;
                 return "Too many incoming requests, please try again later. Sorry for that.";
+            }
         }
         synchronized (safe.sLock2) {
             q.addLast(client);
