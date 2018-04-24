@@ -99,7 +99,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         this.toolCards = toolCards;
     }
 
-    public Integer score(Player player){
+    public Integer score(SharedServerPlayer player){
         Integer score = 0;
         //computation
         return score;
@@ -177,12 +177,11 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         i = 0;
 
 
-        for (Player player: vPlayers) {
+        for (SharedServerPlayer player: vPlayers) {
             player.setTokens();
             //give token and make the call from client
         }
 
-        scoreBoard = new ScoreBoard(fixedPlayers);
 
         i = 0;
         a.clear();
