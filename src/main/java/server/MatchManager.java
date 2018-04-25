@@ -49,10 +49,6 @@ public class MatchManager implements SharedServerMatchManager {
         return waitingPlayer;
     }
 
-    public Integer getMaxActivePlayerRefs() {
-        return MAX_ACTIVE_PLAYER_REFS;
-    }
-
     public void print(){
         System.out.println("Hwe");
     }

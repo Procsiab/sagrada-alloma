@@ -53,7 +53,6 @@ public class LogInScreenController implements Initializable {
         System.out.println("You clicked me");
         this.netMatchManager = NetworkClient.getInstance().getExportedObject("MatchManager");
         try {
-            netMatchManager.print();
             message1 = this.netMatchManager.startGame(gameClient);
         } catch (RemoteException re) {
             Logger.log("Error calling method on remote object!");

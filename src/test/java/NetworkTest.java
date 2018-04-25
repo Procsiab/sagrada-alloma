@@ -9,14 +9,15 @@ import java.rmi.RemoteException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import shared.Network;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class NetworkTest {
-    private NetworkClient myNetClient;
-    private NetworkServer myNetServer;
+    private Network myNetClient;
+    private Network myNetServer;
     private Foo bar;
 
     @Before
