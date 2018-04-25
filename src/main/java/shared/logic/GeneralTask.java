@@ -3,7 +3,7 @@ package shared.logic;
 
 
 public abstract class GeneralTask implements Runnable {
-
+//TODO Write this in JavDoc
     /*
     public Object att1;
     public Object att2;

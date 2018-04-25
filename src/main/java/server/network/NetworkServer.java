@@ -3,13 +3,9 @@ package server.network;
 import shared.Logger;
 import shared.Network;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.server.UnicastRemoteObject;
 
 public class NetworkServer extends Network {
     private static final Integer RMI_OBJECT_PORT = 1100;
