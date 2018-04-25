@@ -58,8 +58,6 @@ public class MatchManager implements SharedServerMatchManager {
     }
 
     public String startGame(SharedClientGame client) {
-
-        System.out.println("Wee");
         synchronized (safe.sLock1) {
             waitingPlayer++;
             if (waitingPlayer.equals(MAX_ACTIVE_PLAYER_REFS+1)){
