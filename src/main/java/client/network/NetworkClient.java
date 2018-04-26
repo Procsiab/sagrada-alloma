@@ -7,6 +7,15 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
+/**
+ * <h1>Network client-side extension</h1>
+ * <p>This class will be used in the client context to communicate with the server, by using the methods of {@link shared.Network}.</p>
+ * <p>Moreover, this extension adds to its superclass specification a constructor which initializes the RMI port and the registry.<br>
+ *     Finally, the method {@link client.network.NetworkClient#setInstance()} is provided, to allow single-time access to
+ *     the private constructor, realizing the singleton pattern implementation</p>
+ * @see server.network.NetworkServer
+ * @see shared.Network
+ */
 public class NetworkClient extends Network {
     public static final String SERVER_ADDRESS = "localhost";
     private static final Integer RMI_OBJECT_PORT = 0;

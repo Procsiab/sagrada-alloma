@@ -54,7 +54,7 @@ public class MatchManagerTest {
 
         @Parameters(name = "{index}: testing with {0} players")
         public static Object[] testCases1() {
-            return new Object[]{300};
+            return new Object[]{100, 249, 250, 300};
         }
 
         @Before

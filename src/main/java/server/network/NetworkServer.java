@@ -7,6 +7,15 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
+/**
+ * <h1>Network server-side extension</h1>
+ * <p>This class will be used in the server context to serve the client requests, through the methods of {@link shared.Network}.</p>
+ * <p>Moreover, this extension adds to its superclass specification a constructor which initializes the RMI port and the registry.<br>
+ *     Finally, the method {@link server.network.NetworkServer#setInstance()} is provided, to allow single-time access to
+ *     the private constructor, realizing the singleton pattern implementation</p>
+ * @see server.network.NetworkServer
+ * @see shared.Network
+ */
 public class NetworkServer extends Network {
     private static final Integer RMI_OBJECT_PORT = 1100;
 
@@ -26,7 +35,7 @@ public class NetworkServer extends Network {
      * with {@link shared.Network#remotize(Remote)}; then the {@code Registry} attribute must be initialized: in case of the
      * server side, the registry will be created and bound to port {@value shared.Network#RMI_METHOD_PORT} (specified by attribute {@link shared.Network#RMI_METHOD_PORT})
      */
-    public NetworkServer() {
+    private NetworkServer() {
         super(RMI_OBJECT_PORT);
         try {
             // Start RMI registry on this machine
