@@ -114,7 +114,7 @@ public class StartGameController implements SharedClientGame, Initializable {
 
 
     private void setCardMap() {
-        File file = new File(".Kaleidoscopic Dream.png");
+        File file = new File("Kaleidoscopic Dream.png");
         Image image = new Image(file.toURI().toString());
         cardMap.setImage(image);
 
@@ -152,8 +152,8 @@ public class StartGameController implements SharedClientGame, Initializable {
 
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
-        //game.posiziona dado, e aggiornerà di per se le classi di riferimento di player e match che sono
-        //in GameHelper.
+        //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
+        //che stanno nel server.
     }
 
     @FXML
