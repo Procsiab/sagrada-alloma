@@ -6,11 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import client.network.NetworkRmiClient;
+import server.MainServer;
 import shared.logic.ConcurrencyManager;
 import client.threads.GameHelper;
 
 public class MainClient extends Application {
     public static GameHelper game;
+    //here goes the type of actual connection. Please note that this is static so that it can be
+    //accessed with sth like that: MainClient.connectionPerformed...
+    //public static Connections connectionPerformed;
 
 
     @Override
