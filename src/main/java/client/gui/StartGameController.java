@@ -77,7 +77,7 @@ public class StartGameController implements SharedClientGame, Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
         backGroundTransition();
-        setCardMap();
+       // setCardMap();
     }
 
     @FXML
@@ -113,8 +113,8 @@ public class StartGameController implements SharedClientGame, Initializable {
     }
 
 
-    private void setCardMap() {
-        File file = new File(".Kaleidoscopic Dream.png");
+/*    private void setCardMap() {
+        File file = new File("Kaleidoscopic Dream.png");
         Image image = new Image(file.toURI().toString());
         cardMap.setImage(image);
 
@@ -125,7 +125,7 @@ public class StartGameController implements SharedClientGame, Initializable {
         paneBackground.setGridLinesVisible(true);
         paneCarta.setGridLinesVisible(true);
 
-    }
+    } */
 
 
     private void loadBackground() {
@@ -152,8 +152,8 @@ public class StartGameController implements SharedClientGame, Initializable {
 
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
-        //game.posiziona dado, e aggiornerà di per se le classi di riferimento di player e match che sono
-        //in GameHelper.
+        //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
+        //che stanno nel server.
     }
 
     @FXML
@@ -163,14 +163,14 @@ public class StartGameController implements SharedClientGame, Initializable {
     }
 
     @FXML
-    private void handleMouseClicked(MouseEvent e){
+    private void handleMouseClicked(ActionEvent e){
         System.out.println("MouseEntered");
         Node source = (Node)e.getSource() ;
         System.out.println(source);
 
         Integer colIndex = GridPane.getColumnIndex(source);
         Integer rowIndex = GridPane.getRowIndex(source);
-        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+        //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
 
     }
 
