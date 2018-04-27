@@ -1,8 +1,10 @@
 package server.cards;
 
+import server.Dice;
 import server.Player;
 import server.abstracts.PrivateOC;
 import server.threads.GameManager;
+import shared.Position;
 
 public class ToolC12 extends PrivateOC {
 
@@ -10,7 +12,8 @@ public class ToolC12 extends PrivateOC {
     private String description = null;
 
 
-    public void use(Player player, GameManager game){
-
+    public void use(Player player, GameManager game, Dice dice1, Position position11, Position position12, Position position21, Position position22){
+        //check the color first of all
+        //check the restrictions and move dices
     }
 }

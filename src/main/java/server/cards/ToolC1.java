@@ -2,7 +2,7 @@ package server.cards;
 
 import server.Dice;
 import server.Player;
-import server.Position;
+import shared.Position;
 import server.abstracts.PrivateOC;
 import server.threads.GameManager;
 

@@ -30,9 +30,11 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
     public ArrayList<ToolC> toolCards;
     public ArrayList<SharedClientGame> left = new ArrayList<>();
     public ArrayList<SharedClientGame> unresponsive = new ArrayList<>();
+    public ArrayList<SharedClientGame> skip = new ArrayList<>(); //check this below
     public ArrayList<SharedClientGame> active = new ArrayList<>();
-    public ScoreBoard scoreBoard;
+    public RoundTrack roundTrack;
     public boolean check1 = false;
+    public Dice drafted;
     public ArrayList<Dice> dices = new ArrayList<>();
     public ArrayList<Dice> pool = new ArrayList<>();
 

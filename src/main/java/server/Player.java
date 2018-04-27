@@ -6,6 +6,7 @@ import server.abstracts.ToolC;
 import server.abstracts.Window;
 import server.network.NetworkServer;
 import server.threads.GameManager;
+import shared.Position;
 import shared.SharedServerPlayer;
 
 public class Player implements SharedServerPlayer {

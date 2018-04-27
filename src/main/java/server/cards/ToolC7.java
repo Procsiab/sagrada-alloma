@@ -12,5 +12,7 @@ public class ToolC7 extends PrivateOC {
 
     public void use(Player player, GameManager game){
 
+        //reassign random value to all dices in the draft pool
+
     }
 }

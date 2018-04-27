@@ -3,7 +3,7 @@ package server.abstracts;
 
 import server.Dice;
 import server.Player;
-import server.Position;
+import shared.Position;
 
 public abstract class Frame {
 
