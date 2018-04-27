@@ -65,11 +65,17 @@ public class StartGameController implements SharedClientGame, Initializable {
     @FXML
     private Button tiraDadi;
 
+    public void setWinner(){
+        //start animation for the winner
+    }
+
     public void setNetPlayers(ArrayList<SharedServerPlayer> netPlayers) {
         this.netPlayers = netPlayers;
     }
 
-
+    public void setNetGameManager(SharedServerGameManager netGameManager) {
+        this.netGameManager = netGameManager;
+    }
 
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();

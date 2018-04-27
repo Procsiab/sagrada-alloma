@@ -2,15 +2,16 @@ package server;
 
 import server.abstracts.Frame;
 import server.abstracts.PrivateOC;
-import server.abstracts.ToolC;
 import server.abstracts.Window;
 import server.network.NetworkRmiServer;
 import server.threads.GameManager;
 import shared.Position;
+import shared.SharedClientGame;
 import shared.SharedServerPlayer;
 
 public class Player implements SharedServerPlayer {
     private MatchManager matchManager = MatchManager.getInstance();
+    public SharedClientGame clientGame;
     public boolean quit = false;
     public PrivateOC privateOC;
     public Window window;
@@ -18,6 +19,7 @@ public class Player implements SharedServerPlayer {
     public Integer tokens;
     public Integer turno;
     public Integer nPlayer;
+    public Integer score;
     public GameManager game;
 
     public Player(int i, GameManager gameManager){
@@ -25,6 +27,23 @@ public class Player implements SharedServerPlayer {
         this.game = gameManager;
         // Export the reference as UnicastRemoteObject
         NetworkRmiServer.getInstance().remotize(this);
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    @Override
+    public SharedClientGame getClientGame() {
+        return clientGame;
+    }
+
+    public void setClientGame(SharedClientGame client) {
+        this.clientGame = client;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 
     public void setPrivateOC(Integer n) {
@@ -44,9 +63,6 @@ public class Player implements SharedServerPlayer {
         return this.frame.setDicePositions(dice, position, this);
     }
 
-    public boolean useToolC(ToolC toolC){
-        return toolC.use(this);
-    }
     public void setTokens() {
         this.tokens = this.window.tokens;
     }

@@ -13,6 +13,7 @@ public class MatchManager implements SharedServerMatchManager {
     // Custom RMI name to locate class instance in RMI registry
     public static final String RMI_NAME = "MatchManager";
     public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
+    public static ArrayList<SharedClientGame> playingPlayers = new ArrayList<>();
     public final Locker safe = Locker.getSafe();
     public List<String> nickNames = new ArrayList<>();
     public LinkedList<SharedClientGame> q = new LinkedList<>();
@@ -55,6 +56,12 @@ public class MatchManager implements SharedServerMatchManager {
     public String startGame(SharedClientGame client) {
         synchronized (safe.sLock1) {
             waitingPlayer++;
+
+            if (playingPlayers.contains(client)){
+                waitingPlayer--;
+                return "You already playing asshole!";
+            }
+
             if (waitingPlayer.equals(MAX_ACTIVE_PLAYER_REFS+1)){
                 waitingPlayer--;
                 return "Too many incoming requests, please try again later. Sorry for that.";
@@ -65,6 +72,8 @@ public class MatchManager implements SharedServerMatchManager {
             safe.sLock2.notifyAll();
         }
         return "Connection successful. Please wait for other players to connect";
+
+
     }
 
     public boolean exitGame1(SharedClientGame client){

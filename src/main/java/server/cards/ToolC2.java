@@ -2,11 +2,12 @@ package server.cards;
 
 import server.Dice;
 import server.Player;
+import server.abstracts.ToolC;
 import shared.Position;
 import server.abstracts.PrivateOC;
 import server.threads.GameManager;
 
-public class ToolC2 extends PrivateOC {
+public class ToolC2 extends ToolC {
 
     private String name = "2";
     private String description = null;

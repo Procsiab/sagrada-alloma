@@ -4,5 +4,5 @@ import server.Player;
 
 public abstract class ToolC {
 
-    public abstract boolean use(Player player);
+    //public abstract boolean use(Player player);
 }

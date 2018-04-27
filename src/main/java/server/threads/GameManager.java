@@ -16,8 +16,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager extends GeneralTask implements SharedServerGameManager {
 
-    public final ArrayList<SharedServerPlayer> fixedPlayers;
+    public ArrayList<SharedServerPlayer> fixedPlayers;
     public List<SharedClientGame> players;
+    public ArrayList<SharedClientGame> players2 = new ArrayList<>();
     private final Integer sleepTime;
     private final Integer nMates;
     private ArrayList<SharedServerPlayer> vPlayers;
@@ -32,6 +33,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
     public ArrayList<SharedClientGame> unresponsive = new ArrayList<>();
     public ArrayList<SharedClientGame> skip = new ArrayList<>(); //check this below
     public ArrayList<SharedClientGame> active = new ArrayList<>();
+    public SharedClientGame expected;
     public RoundTrack roundTrack;
     public boolean check1 = false;
     //public Dice drafted;
@@ -40,22 +42,21 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
     public GameManager(ArrayList<SharedClientGame> players, Integer nMates) {
         Random rand = new Random();
-        this.fixedPlayers = (ArrayList<SharedServerPlayer>)vPlayers.clone();
         this.players = players;
         this.sleepTime = 10000;
         this.nMates = nMates;
         int i = 1;
 
-        while (i<=90){
-            if(1<=i && i<=18)
+        while (i <= 90) {
+            if (1 <= i && i <= 18)
                 dices.add(new Dice('r', rand.nextInt(6)));
-            else if(19<=i && i<=36)
+            else if (19 <= i && i <= 36)
                 dices.add(new Dice('y', rand.nextInt(6)));
-            else if(37<=i && i<=54)
+            else if (37 <= i && i <= 54)
                 dices.add(new Dice('g', rand.nextInt(6)));
-            else if(55<=i && i<=72)
+            else if (55 <= i && i <= 72)
                 dices.add(new Dice('b', rand.nextInt(6)));
-            else if(73<=i && i<=90)
+            else if (73 <= i && i <= 90)
                 dices.add(new Dice('p', rand.nextInt(6)));
             i++;
         }
@@ -85,16 +86,26 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         players.add(temp);
     }
 
-    public void throwDice(){
+    public void throwDice() {
         pool.clear();
-        int num = 2*active.size()+1;
+        int num = 2 * active.size() + 1;
         int i = 0;
 
-        while(i<num){
+        while (i < num) {
             pool.add(dices.remove(0));
             i++;
         }
 
+    }
+
+    public void fitness(ArrayList a) {
+        int i = 1;
+        a.trimToSize();
+        while (i <= a.size()) {
+            if (a.get(i - 1) == null)
+                a.remove(i - 1);
+            i++;
+        }
     }
 
 
@@ -102,9 +113,14 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         this.toolCards = toolCards;
     }
 
-    public Integer score(SharedServerPlayer player){
+    public Integer score(SharedServerPlayer player) {
         Integer score = 0;
         //computation
+        try {
+            player.setScore(score);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         return score;
     }
 
@@ -114,12 +130,30 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         int i = 0;
         int j = 0;
 
-        for (SharedClientGame client: players) {
-            vPlayers.add(new Player(1,this));
+        for (SharedClientGame client : players) {
+            vPlayers.add(new Player(1, this));
         }
-        //TODO pass 'this' reference to StartGameController
-        for (SharedClientGame client: players) {
+
+        fixedPlayers.addAll(vPlayers);
+        fixedPlayers.trimToSize();
+        //do not access this anymore
+
+        i = 0;
+        for (SharedServerPlayer play: vPlayers
+             ) {
             try {
+                play.setClientGame(players.get(i));
+                i++;
+            } catch (RemoteException e){
+                e.printStackTrace();
+            }
+        }
+
+        i = 0;
+
+        for (SharedClientGame client : players) {
+            try {
+                client.setNetGameManager(this);
                 client.setNetPlayers(vPlayers);
                 client.setNPlayer(i);
             } catch (RemoteException re) {
@@ -133,7 +167,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         ArrayList<Integer> a = new ArrayList<>();
 
         j = rand.nextInt(5);
-        while (i<players.size()) {
+        while (i < players.size()) {
             while (a.contains(j)) {
                 j = rand.nextInt(5);
             }
@@ -141,7 +175,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
             i++;
         }
         i = 0;
-        while(i<players.size()) {
+        while (i < players.size()) {
 
             try {
                 vPlayers.get(i).setPrivateOC(a.get(i));
@@ -156,7 +190,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         a.clear();
 
         j = rand.nextInt(24);
-        while (i<4*players.size()) {
+        while (i < 4 * players.size()) {
             while (a.contains(j)) {
                 j = rand.nextInt(24);
             }
@@ -165,10 +199,10 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         }
         i = 0;
 
-        while(i<players.size()) {
-            //return of this function client-side after client has placed his chosen card
+        while (i < players.size()) {
+            //return of this function clientGame-side after clientGame has placed his chosen card
             try {
-                players.get(i).chooseWindow(a.subList(((i+1)*4),((i+2)*4-1)));
+                players.get(i).chooseWindow(a.subList(((i + 1) * 4), ((i + 2) * 4 - 1)));
             } catch (RemoteException re) {
                 Logger.log("Error calling method on remote object!");
                 Logger.strace(re);
@@ -181,7 +215,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         a.clear();
 
         j = rand.nextInt(4);
-        while (i<players.size()) {
+        while (i < players.size()) {
             while (a.contains(j)) {
                 j = rand.nextInt(4);
             }
@@ -190,7 +224,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         }
         i = 0;
 
-        while(i<players.size()) {
+        while (i < players.size()) {
             try {
                 vPlayers.get(i).setFrame(a.get(i));
             } catch (RemoteException re) {
@@ -203,7 +237,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         i = 0;
 
 
-        for (SharedServerPlayer player: vPlayers) {
+        for (SharedServerPlayer player : vPlayers) {
             try {
                 player.setTokens();
             } catch (RemoteException re) {
@@ -211,7 +245,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                 Logger.strace(re);
             }
 
-            //give token and make the call from client
+            //give token and make the call from clientGame
         }
 
 
@@ -219,7 +253,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         a.clear();
 
         j = rand.nextInt(12);
-        while (i<3) {
+        while (i < 3) {
             while (a.contains(j)) {
                 j = rand.nextInt(12);
             }
@@ -236,7 +270,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         a.clear();
 
         j = rand.nextInt(10);
-        while (i<3) {
+        while (i < 3) {
             while (a.contains(j)) {
                 j = rand.nextInt(10);
             }
@@ -254,7 +288,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
 
         for (SharedClientGame player : players) {
-            //client will get information from netGameManager, and from netPlayers
+            //clientGame will get information from netGameManager, and from netPlayers
             try {
                 player.updateView();
             } catch (RemoteException re) {
@@ -268,31 +302,97 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         j = 1;
         i = 1;
         while (j <= 10) {
-            while (i <= players.size()) {
-                active.trimToSize();
-                //check if only one host
-                if (active.size() == 1) {
-                    try {
-                        active.get(active.size()).aPrioriWin();
-                    } catch (RemoteException re) {
-                        Logger.log("Error calling method on remote object!");
-                        Logger.strace(re);
-                    }
+            //fitness(left);
+            players2.clear();
+            players2.addAll(players);
+            players2.removeAll(left);
+            //fitness(players2);
+            //set nPlayers (which will not change over one turn) for nDices ecc..
 
+
+            while (i <= players2.size()) {
+
+                //fitness(active);
+                //fitness(unresponsive);
+
+                for (SharedClientGame pla : players2
+                        ) {
+                    if (left.contains(pla)) {
+                        active.remove(pla);
+                        unresponsive.remove(pla);
+                    }
+                    try {
+                        pla.ping();
+                        if (!active.contains(pla))
+                            active.add(pla);
+                        unresponsive.remove(pla);
+                    } catch (RemoteException e) {
+                        Logger.log("Player isn't connected");
+                        if (!unresponsive.contains(pla))
+                            unresponsive.add(pla);
+                        active.remove(pla);
+                    }
+                }
+
+                //check if all left game
+                if (active.size() + unresponsive.size() == 0) {
+                    //fuck all off
                     return;
                 }
-                //check if re/connected
-                try {
-                    check1 = players.get(i - 1).ping();
-                } catch (RemoteException re) {
-                    Logger.log("Error calling method on remote object!");
-                    Logger.strace(re);
+
+                //check if global blackout
+                while (active.size() == 0) {
+                    //safe.wait(timeout2);
+                    for (SharedClientGame pla : players2
+                            ) {
+                        try {
+                            pla.ping();
+                            if (!active.contains(pla))
+                                active.add(pla);
+                            unresponsive.remove(pla);
+                        } catch (RemoteException e) {
+                            Logger.log("Player isn't connected");
+                            if (!unresponsive.contains(pla))
+                                unresponsive.add(pla);
+                            active.remove(pla);
+                        }
+                    }
                 }
 
+                //check if only one guest
+                while (active.size() + unresponsive.size() == 1) {
+                    while (active.size() == 0 && unresponsive.size() == 1) {
+                        //safe.wait(timeout2);
+                        if (left.contains(players2.get(0))) {
+                            unresponsive.clear();
+                            players2.clear();
+                            //fuck off
+                            return;
+                        }
+                        try {
+                            players2.get(0).ping();
+                            active.add(players2.get(0));
+                            unresponsive.clear();
+                        } catch (RemoteException e) {
+
+                        }
+
+                    }
+                    if (active.size() == 1 && unresponsive.size() == 0) {
+                        try {
+                            active.get(0).aPrioriWin();
+                            return;
+                        } catch (RemoteException e) {
+                            //why don't change internet Provider?
+                        }
+                    }
+
+                }
 
                 //check if active and go ahead
-                if (active.contains(players.get(i - 1)) && check1) {
+                if (active.contains(players.get(i - 1))) {
                     try {
+                        this.expected = players.get(i - 1);
                         players.get(i - 1).enable();
                     } catch (RemoteException re) {
                         Logger.log("Error calling method on remote object!");
@@ -303,15 +403,14 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                         try {
                             this.wait(sleepTime);
                             this.action = true;
-                            unresponsive.add(players.get(i-1));
                         } catch (InterruptedException ie) {
                             Logger.log("Thread sleep was interrupted!");
                             Logger.strace(ie);
-                            Thread.currentThread().interrupt(); //Proper handling of InterruptedException
+                            Thread.currentThread().interrupt();
                         }
                     this.action = false;
-                    check1 = false;
                     try {
+                        this.expected = null;
                         players.get(i - 1).shut();
                     } catch (RemoteException re) {
                         Logger.log("Error calling method on remote object!");
@@ -322,30 +421,87 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
             }
 
             while (i >= 1) {
-                active.trimToSize();
-                //check if only one host
-                if (active.size() == 1) {
-                    try {
-                        active.get(active.size()).aPrioriWin();
-                    } catch (RemoteException re) {
-                        Logger.log("Error calling method on remote object!");
-                        Logger.strace(re);
-                    }
+                //fitness(active);
+                //fitness(unresponsive);
 
+                for (SharedClientGame pla : players2
+                        ) {
+                    if (left.contains(pla)) {
+                        active.remove(pla);
+                        unresponsive.remove(pla);
+                    }
+                    try {
+                        pla.ping();
+                        if (!active.contains(pla))
+                            active.add(pla);
+                        unresponsive.remove(pla);
+                    } catch (RemoteException e) {
+                        Logger.log("Player isn't connected");
+                        if (!unresponsive.contains(pla))
+                            unresponsive.add(pla);
+                        active.remove(pla);
+                    }
+                }
+
+                //check if all left game
+                if (active.size() + unresponsive.size() == 0) {
+                    //fuck all off
                     return;
                 }
-                //check if re/connected
-                try {
-                    check1 = players.get(i - 1).ping();
-                } catch (RemoteException re) {
-                    Logger.log("Error calling method on remote object!");
-                    Logger.strace(re);
+
+                //check if global blackout
+                while (active.size() == 0) {
+                    //safe.wait(timeout2);
+                    for (SharedClientGame pla : players2
+                            ) {
+                        try {
+                            pla.ping();
+                            if (!active.contains(pla))
+                                active.add(pla);
+                            unresponsive.remove(pla);
+                        } catch (RemoteException e) {
+                            Logger.log("Player isn't connected");
+                            if (!unresponsive.contains(pla))
+                                unresponsive.add(pla);
+                            active.remove(pla);
+                        }
+                    }
                 }
 
+                //check if only one guest
+                while (active.size() + unresponsive.size() == 1) {
+                    while (active.size() == 0 && unresponsive.size() == 1) {
+                        //safe.wait(timeout2);
+                        if (left.contains(players2.get(0))) {
+                            unresponsive.clear();
+                            players2.clear();
+                            //fuck off
+                            return;
+                        }
+                        try {
+                            players2.get(0).ping();
+                            active.add(players2.get(0));
+                            unresponsive.clear();
+                        } catch (RemoteException e) {
+
+                        }
+
+                    }
+                    if (active.size() == 1 && unresponsive.size() == 0) {
+                        try {
+                            active.get(0).aPrioriWin();
+                            return;
+                        } catch (RemoteException e) {
+                            //why don't change internet Provider?
+                        }
+                    }
+
+                }
 
                 //check if active and go ahead
-                if (active.contains(players.get(i - 1)) && check1) {
+                if (active.contains(players.get(i - 1))) {
                     try {
+                        this.expected = players.get(i - 1);
                         players.get(i - 1).enable();
                     } catch (RemoteException re) {
                         Logger.log("Error calling method on remote object!");
@@ -359,17 +515,16 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                         } catch (InterruptedException ie) {
                             Logger.log("Thread sleep was interrupted!");
                             Logger.strace(ie);
-                            Thread.currentThread().interrupt(); //Proper handling of InterruptedException
+                            Thread.currentThread().interrupt();
                         }
                     this.action = false;
-                    check1 = false;
                     try {
+                        this.expected = null;
                         players.get(i - 1).shut();
                     } catch (RemoteException re) {
                         Logger.log("Error calling method on remote object!");
                         Logger.strace(re);
                     }
-
                 }
                 i--;
             }
@@ -377,16 +532,24 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
             j++;
         }
         i = 0;
-        for (SharedClientGame player: players
-             ) {
-            try {
-                player.printScore(score(vPlayers.get(i)));
-            } catch (RemoteException re) {
-                Logger.log("Error calling method on remote object!");
-                Logger.strace(re);
-            }
-
+        int points = 0;
+        int temp;
+        for (SharedServerPlayer player : vPlayers
+                ) {
+            temp = score(vPlayers.get(i));
+            if (temp > points)
+                points = temp;
             i++;
+        }
+        for (SharedServerPlayer play : vPlayers
+                ) {
+            try {
+                play.getClientGame().printScore(play.getScore());
+                if (play.getScore() == points)
+                    play.getClientGame().setWinner();
+            } catch (RemoteException e) {
+
+            }
         }
     }
 }

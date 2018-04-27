@@ -3,10 +3,13 @@ package server.cards;
 import server.Dice;
 import server.Player;
 import server.abstracts.PrivateOC;
+import server.abstracts.ToolC;
 import server.threads.GameManager;
 import shared.PositionR;
 
-public class ToolC5 extends PrivateOC {
+import javax.tools.Tool;
+
+public class ToolC5 extends ToolC {
 
     private String name = "1";
     private String description = null;

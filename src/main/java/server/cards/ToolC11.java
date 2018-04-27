@@ -3,9 +3,12 @@ package server.cards;
 import server.Dice;
 import server.Player;
 import server.abstracts.PrivateOC;
+import server.abstracts.ToolC;
 import server.threads.GameManager;
 
-public class ToolC11 extends PrivateOC {
+import javax.tools.Tool;
+
+public class ToolC11 extends ToolC {
 
     private String name = "1";
     private String description = null;

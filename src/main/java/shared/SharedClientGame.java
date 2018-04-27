@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface SharedClientGame extends Remote {
+
+    void setWinner() throws RemoteException;
+    void setNetGameManager(SharedServerGameManager gameManager);
     void chooseWindow(List<Integer> windows) throws RemoteException;
     void setNetPlayers(ArrayList<SharedServerPlayer> players) throws RemoteException;
     void setNPlayer(Integer n) throws RemoteException;
