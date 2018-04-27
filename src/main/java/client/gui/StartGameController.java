@@ -58,7 +58,8 @@ public class StartGameController implements SharedClientGame, Initializable {
     @FXML
     private GridPane paneBackground;
     @FXML
-    private GridPane paneCarta;
+    private GridPane paneCarta,paneCarta2,paneCarta3,paneCarta1;
+
     @FXML
     private ImageView cardMap;
     @FXML
@@ -73,7 +74,7 @@ public class StartGameController implements SharedClientGame, Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
         backGroundTransition();
-       // setCardMap();
+        setCardMap();
     }
 
     @FXML
@@ -109,19 +110,13 @@ public class StartGameController implements SharedClientGame, Initializable {
     }
 
 
-/*    private void setCardMap() {
-        File file = new File("Kaleidoscopic Dream.png");
-        Image image = new Image(file.toURI().toString());
-        cardMap.setImage(image);
+    private void setCardMap() {
+       paneCarta.setStyle("-fx-background-image: url('https://www.panorama.it/wp-content/uploads/2017/11/berlusconi-5-620x372.jpg');");
+       paneCarta2.setStyle("-fx-background-image: url('https://i.guim.co.uk/img/media/f6afb130cb0d439635ed895df4ee65359ac8b38f/0_204_4016_2409/master/4016.jpg?w=300&q=55&auto=format&usm=12&fit=max&s=f468e7b14cd8fcf922e4214b464f5e9d');");
+       paneCarta3.setStyle("-fx-background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Silvio_Berlusconi_1994.jpg/200px-Silvio_Berlusconi_1994.jpg');");
+       paneCarta1.setStyle("-fx-background-image: url('https://media.gettyimages.com/photos/silvio-berlusconi-attends-che-tempo-che-fa-tv-show-on-november-26-in-picture-id879849778?s=612x612');");
 
-        cardMap.fitHeightProperty();
-        cardMap.setFitWidth(1280 / 3);
-
-        paneBackground.add(cardMap, 1, 2);
-        paneBackground.setGridLinesVisible(true);
-        paneCarta.setGridLinesVisible(true);
-
-    } */
+    }
 
 
     private void loadBackground() {
