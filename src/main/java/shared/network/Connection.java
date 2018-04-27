@@ -1,5 +1,5 @@
-package shared;
+package shared.network;
 
 public interface Connection {
-    
+
 }

@@ -1,14 +1,13 @@
 package server;
 
 import server.abstracts.*;
-import server.network.NetworkServer;
+import server.network.NetworkRmiServer;
 import shared.*;
 import shared.logic.Locker;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class MatchManager implements SharedServerMatchManager {
     // Custom RMI name to locate class instance in RMI registry
@@ -41,7 +40,7 @@ public class MatchManager implements SharedServerMatchManager {
     private MatchManager() {
         super();
         // Export the reference as UnicastRemoteObject
-        NetworkServer.getInstance().remotize(this);
+        NetworkRmiServer.getInstance().remotize(this);
         //initialize every ArrayList
     }
 

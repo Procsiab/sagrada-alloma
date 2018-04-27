@@ -4,7 +4,7 @@ import server.*;
 import server.abstracts.PrivateOC;
 import server.abstracts.PublicOC;
 import server.abstracts.ToolC;
-import server.network.NetworkServer;
+import server.network.NetworkRmiServer;
 import shared.*;
 import shared.logic.GeneralTask;
 
@@ -60,7 +60,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
             i++;
         }
         // Export the reference as UnicastRemoteObject
-        NetworkServer.getInstance().remotize(this);
+        NetworkRmiServer.getInstance().remotize(this);
     }
 
     public void setAction(boolean action) {

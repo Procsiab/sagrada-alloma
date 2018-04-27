@@ -1,6 +1,6 @@
 package client.gui;
 import client.MainClient;
-import client.network.NetworkClient;
+import client.network.NetworkRmiClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -51,7 +51,7 @@ public class LogInScreenController implements Initializable {
         String message1 = new String();
 
         System.out.println("You clicked me");
-        this.netMatchManager = NetworkClient.getInstance().getExportedObject("MatchManager");
+        this.netMatchManager = NetworkRmiClient.getInstance().getExportedObject("MatchManager");
         try {
             message1 = this.netMatchManager.startGame(gameClient);
         } catch (RemoteException re) {

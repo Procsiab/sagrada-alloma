@@ -1,6 +1,6 @@
 package server;
 
-import server.network.NetworkServer;
+import server.network.NetworkRmiServer;
 import server.threads.NewGameManager;
 import shared.logic.ConcurrencyManager;
 import shared.SharedClientGame;
@@ -24,12 +24,12 @@ public class MainServer {
     }
 
     public static void main(String args[]) throws IOException {
-        // Create NetworkServer singleton to setup networking and RMI
-        NetworkServer.setInstance();
+        // Create NetworkRmiServer singleton to setup networking and RMI
+        NetworkRmiServer.setInstance();
         // Create MatchManager singleton
         MatchManager.setInstance();
         // Export MatchManager for serving clients (abstraction from RMI or Socket)
-        NetworkServer.getInstance().export(MatchManager.getInstance(), MatchManager.RMI_NAME);
+        NetworkRmiServer.getInstance().export(MatchManager.getInstance(), MatchManager.RMI_NAME);
 
         //create thread NewGameManager
         ConcurrencyManager.submit(new NewGameManager());

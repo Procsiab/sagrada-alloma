@@ -4,7 +4,7 @@ import server.abstracts.Frame;
 import server.abstracts.PrivateOC;
 import server.abstracts.ToolC;
 import server.abstracts.Window;
-import server.network.NetworkServer;
+import server.network.NetworkRmiServer;
 import server.threads.GameManager;
 import shared.Position;
 import shared.SharedServerPlayer;
@@ -24,7 +24,7 @@ public class Player implements SharedServerPlayer {
         this.nPlayer = i;
         this.game = gameManager;
         // Export the reference as UnicastRemoteObject
-        NetworkServer.getInstance().remotize(this);
+        NetworkRmiServer.getInstance().remotize(this);
     }
 
     public void setPrivateOC(Integer n) {

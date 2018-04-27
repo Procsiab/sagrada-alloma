@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import client.network.NetworkClient;
+import client.network.NetworkRmiClient;
 import shared.logic.ConcurrencyManager;
 import client.threads.GameHelper;
 
@@ -22,8 +22,8 @@ public class MainClient extends Application {
     }
 
     public static void main(String [] args) {
-        // Create NetworkClient singleton to setup networking and RMI
-        NetworkClient.setInstance();
+        // Create NetworkRmiClient singleton to setup networking and RMI
+        NetworkRmiClient.setInstance();
 
         MainClient.game = new GameHelper();
         ConcurrencyManager.submit(game);

@@ -1,8 +1,8 @@
 import client.gui.StartGameController;
+import client.network.NetworkRmiClient;
 import org.junit.After;
 import server.MatchManager;
-import client.network.NetworkClient;
-import server.network.NetworkServer;
+import server.network.NetworkRmiServer;
 import shared.SharedClientGame;
 import shared.SharedServerMatchManager;
 
@@ -26,16 +26,16 @@ public class MatchManagerTest {
 
     @BeforeClass
     public static void before() {
-        NetworkClient.setInstance();
-        NetworkServer.setInstance();
+        NetworkRmiClient.setInstance();
+        NetworkRmiServer.setInstance();
         myGameController = mock(StartGameController.class);
     }
 
     public static class SingletonTests {
         @Before
         public void before() {
-            NetworkClient.setInstance();
-            NetworkServer.setInstance();
+            NetworkRmiClient.setInstance();
+            NetworkRmiServer.setInstance();
             myGameController = mock(StartGameController.class);
         }
 
@@ -59,8 +59,8 @@ public class MatchManagerTest {
 
         @Before
         public void before() {
-            NetworkClient.setInstance();
-            NetworkServer.setInstance();
+            NetworkRmiClient.setInstance();
+            NetworkRmiServer.setInstance();
             myGameController = mock(StartGameController.class);
         }
 
