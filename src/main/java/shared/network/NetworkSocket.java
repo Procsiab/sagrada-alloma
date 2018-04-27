@@ -2,7 +2,7 @@ package shared.network;
 
 public class NetworkSocket implements Connection {
     public static final Integer SOCKET_PORT = 1101;
-    protected static Connection instance = null;
+    protected static NetworkSocket instance = null;
     private String IP;
 
     /**
@@ -11,7 +11,7 @@ public class NetworkSocket implements Connection {
      * @return NetworkRmi Returns an instance of an implementation of the {@link NetworkRmi} abstract class, as stated
      * in the class description
      */
-    public static Connection getInstance() {
+    public static NetworkSocket getInstance() {
         return instance;
     }
 }

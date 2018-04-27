@@ -26,7 +26,7 @@ public abstract class NetworkRmi implements Connection {
     public static final Integer RMI_METHOD_PORT = 1099;
 
     protected Registry rmiRegistry;
-    protected static Connection instance = null;
+    protected static NetworkRmi instance = null;
     private String IP;
     private Integer rmiObjectPort;
 
@@ -36,7 +36,7 @@ public abstract class NetworkRmi implements Connection {
      * @return NetworkRmi Returns an instance of an implementation of the {@link NetworkRmi} abstract class, as stated
      * in the class description
      */
-    public static Connection getInstance() {
+    public static NetworkRmi getInstance() {
         return instance;
     }
 
