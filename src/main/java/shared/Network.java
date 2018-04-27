@@ -33,7 +33,7 @@ public abstract class Network {
     /**
      * This method is used to obtain a reference to the singleton class; this will be possible only if {@link NetworkServer#setInstance()}
      * or {@link NetworkServer#setInstance()} have been called before, otherwise a {@code null} pointer will be returned
-     * @return Network Returns an instance of an implementation of the {@link shared.Network} abstract class, as stated
+     * @return Network Returns an instance of an implementation of the {@link Network} abstract class, as stated
      * in the class description
      */
     public static Network getInstance() {
@@ -41,7 +41,7 @@ public abstract class Network {
     }
 
     /**
-     * This method is used to obtain a reference to the class attribute {@link shared.Network#rmiRegistry}; this will be
+     * This method is used to obtain a reference to the class attribute {@link Network#rmiRegistry}; this will be
      * possible only if {@link NetworkServer#setInstance()} or {@link NetworkServer#setInstance()} have been called before,
      * otherwise a {@code null} pointer will be returned
      * @return Registry Returns an instance of the RMI registry initialized in the class
@@ -59,8 +59,8 @@ public abstract class Network {
     }
 
     /**
-     * This is the constructor that will be used by the extension of {@link shared.Network} abstract class; this method
-     * will initialize all static and instance attributes except for {@link shared.Network#rmiRegistry}.
+     * This is the constructor that will be used by the extension of {@link Network} abstract class; this method
+     * will initialize all static and instance attributes except for {@link Network#rmiRegistry}.
      * It is necessary to handle a {@code RemoteException} when initializing a {@code Registry} object.
      * @param port The port number to bind RMI listeners: use {@code 0} to use a random port, chosen by the OS
      *             (recommended on the client side)
@@ -82,7 +82,7 @@ public abstract class Network {
     }
 
     /**
-     * This method exports an object, which must extend {@code Remote} interface, using the default port {@link shared.Network#rmiObjectPort}
+     * This method exports an object, which must extend {@code Remote} interface, using the default port {@link Network#rmiObjectPort}
      * provided by the construtor
      * @param o Reference to the object you would like to export over RMI
      */
@@ -96,10 +96,10 @@ public abstract class Network {
     }
 
     /**
-     * This method returns a reference to an object bound to a specific name in the registry referenced by {@link shared.Network#rmiRegistry}.
+     * This method returns a reference to an object bound to a specific name in the registry referenced by {@link Network#rmiRegistry}.
      * The return type is automatically cast to the type of the object assigned to this method, for example: assume that
      * {@code SharedInterface} is an interface owned by both client and server; assume that on the server an object which
-     * implements that interface has been exported, and also the client has got an extension of {@link shared.Network} class,
+     * implements that interface has been exported, and also the client has got an extension of {@link Network} class,
      * already initialized; then the following assignment is valid
      * <p>{@code SharedInterface remoteRef = ImplementedNetwork.getInstance().getExportedObject("remoteRefName")}<p/>
      * In the example above, this method will return a {@code SharedInterface} object (the type of the generic is inferred
@@ -125,8 +125,8 @@ public abstract class Network {
 
 
     /**
-     * This method binds a given object to specified a name ({@code String}), on the registry in the attribute {@link shared.Network#rmiRegistry}.
-     * It is necessary to allow an object to be exported using {@link shared.Network#remotize(Remote)} method, and also
+     * This method binds a given object to specified a name ({@code String}), on the registry in the attribute {@link Network#rmiRegistry}.
+     * It is necessary to allow an object to be exported using {@link Network#remotize(Remote)} method, and also
      * the exported object must implement a shared interface which extends {@code remote}
      * @param o Object to export, which should implement {@code Remote} or an interface which extends it
      * @param n Name of the object on the registry, should be a {@code String} known to both client and server side

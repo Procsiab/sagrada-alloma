@@ -9,12 +9,12 @@ import java.rmi.registry.LocateRegistry;
 
 /**
  * <h1>Network client-side extension</h1>
- * <p>This class will be used in the client context to communicate with the server, by using the methods of {@link shared.Network}.</p>
+ * <p>This class will be used in the client context to communicate with the server, by using the methods of {@link Network}.</p>
  * <p>Moreover, this extension adds to its superclass specification a constructor which initializes the RMI port and the registry.<br>
  *     Finally, the method {@link client.network.NetworkClient#setInstance()} is provided, to allow single-time access to
  *     the private constructor, realizing the singleton pattern implementation</p>
  * @see server.network.NetworkServer
- * @see shared.Network
+ * @see Network
  */
 public class NetworkClient extends Network {
     public static final String SERVER_ADDRESS = "localhost";
@@ -32,8 +32,8 @@ public class NetworkClient extends Network {
 
     /**
      * This private constructor will avoid the creation of multiple instances of this class; since this class is an extension
-     * of {@link shared.Network}, the constructor of the superclass is first called with the port on which export the objects
-     * with {@link shared.Network#remotize(Remote)}; then the {@code Registry} attribute must be initialized: in case of the
+     * of {@link Network}, the constructor of the superclass is first called with the port on which export the objects
+     * with {@link Network#remotize(Remote)}; then the {@code Registry} attribute must be initialized: in case of the
      * client side, the registry will be located on the local network, using {@link client.network.NetworkClient#SERVER_ADDRESS} attribute
      */
     private NetworkClient() {

@@ -9,12 +9,12 @@ import java.rmi.registry.LocateRegistry;
 
 /**
  * <h1>Network server-side extension</h1>
- * <p>This class will be used in the server context to serve the client requests, through the methods of {@link shared.Network}.</p>
+ * <p>This class will be used in the server context to serve the client requests, through the methods of {@link Network}.</p>
  * <p>Moreover, this extension adds to its superclass specification a constructor which initializes the RMI port and the registry.<br>
  *     Finally, the method {@link server.network.NetworkServer#setInstance()} is provided, to allow single-time access to
  *     the private constructor, realizing the singleton pattern implementation</p>
  * @see server.network.NetworkServer
- * @see shared.Network
+ * @see Network
  */
 public class NetworkServer extends Network {
     private static final Integer RMI_OBJECT_PORT = 1100;
@@ -31,9 +31,9 @@ public class NetworkServer extends Network {
 
     /**
      * This private constructor will avoid the creation of multiple instances of this class; since this class is an extension
-     * of {@link shared.Network}, the constructor of the superclass is first called with the port on which export the objects
-     * with {@link shared.Network#remotize(Remote)}; then the {@code Registry} attribute must be initialized: in case of the
-     * server side, the registry will be created and bound to port {@value shared.Network#RMI_METHOD_PORT} (specified by attribute {@link shared.Network#RMI_METHOD_PORT})
+     * of {@link Network}, the constructor of the superclass is first called with the port on which export the objects
+     * with {@link Network#remotize(Remote)}; then the {@code Registry} attribute must be initialized: in case of the
+     * server side, the registry will be created and bound to port {@value Network#RMI_METHOD_PORT} (specified by attribute {@link Network#RMI_METHOD_PORT})
      */
     private NetworkServer() {
         super(RMI_OBJECT_PORT);
