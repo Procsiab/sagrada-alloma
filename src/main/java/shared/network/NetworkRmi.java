@@ -15,7 +15,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- * <h1>NetworkRmi Abstract Class</h1>
+ * <h1>Network RMI Abstract Class</h1>
  * <p>This class will hold general network parameters and methods, to be shared between client and server.</p>
  * <p>Specific extensions of this class are {@link NetworkRmiClient} and {@link NetworkRmiServer};<br>
  *     both server and client extensions will add custom methods to manage RMI and Socket specific connectivity requirements</p>
@@ -24,7 +24,6 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public abstract class NetworkRmi implements Connection {
     public static final Integer RMI_METHOD_PORT = 1099;
-
     protected Registry rmiRegistry;
     protected static NetworkRmi instance = null;
     private String IP;

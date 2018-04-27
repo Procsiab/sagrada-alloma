@@ -20,6 +20,15 @@ import java.rmi.registry.LocateRegistry;
 public class NetworkRmiClient extends NetworkRmi {
     public static final String SERVER_ADDRESS = "localhost";
     private static final Integer RMI_OBJECT_PORT = 0;
+    /**
+     * This method will call the private constructor only if the attribute {@link NetworkRmiClient#instance} is not null.
+     * This will ensure that there will be just one instance of {@link NetworkRmiClient}
+     */
+    public static void setInstance() {
+        if(instance == null) {
+            instance = new NetworkRmiClient();
+        }
+    }
 
     /**
      * This private constructor will avoid the creation of multiple instances of this class; since this class is an extension
