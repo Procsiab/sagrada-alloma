@@ -77,7 +77,7 @@ public class StartGameController implements SharedClientGame, Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
         backGroundTransition();
-        setCardMap();
+       // setCardMap();
     }
 
     @FXML
@@ -113,7 +113,7 @@ public class StartGameController implements SharedClientGame, Initializable {
     }
 
 
-    private void setCardMap() {
+/*    private void setCardMap() {
         File file = new File("Kaleidoscopic Dream.png");
         Image image = new Image(file.toURI().toString());
         cardMap.setImage(image);
@@ -125,7 +125,7 @@ public class StartGameController implements SharedClientGame, Initializable {
         paneBackground.setGridLinesVisible(true);
         paneCarta.setGridLinesVisible(true);
 
-    }
+    } */
 
 
     private void loadBackground() {
@@ -163,14 +163,14 @@ public class StartGameController implements SharedClientGame, Initializable {
     }
 
     @FXML
-    private void handleMouseClicked(MouseEvent e){
+    private void handleMouseClicked(ActionEvent e){
         System.out.println("MouseEntered");
         Node source = (Node)e.getSource() ;
         System.out.println(source);
 
         Integer colIndex = GridPane.getColumnIndex(source);
         Integer rowIndex = GridPane.getRowIndex(source);
-        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+        //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
 
     }
 
