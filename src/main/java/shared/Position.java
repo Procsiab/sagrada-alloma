@@ -1,6 +1,9 @@
 package shared;
 
-public class Position {
+import java.io.Serializable;
+
+public class Position implements Serializable {
+    private static final long serialVersionUID = 1524857704L;
     public Integer row;
     public Integer column;
 
