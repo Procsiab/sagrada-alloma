@@ -22,7 +22,7 @@ import java.rmi.server.UnicastRemoteObject;
  * @see NetworkRmiServer
  * @see NetworkRmiClient
  */
-public abstract class NetworkRmi implements Connection {
+public abstract class NetworkRmi implements Connections {
     public static final Integer RMI_METHOD_PORT = 1099;
     protected Registry rmiRegistry;
     protected static NetworkRmi instance = null;

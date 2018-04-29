@@ -61,7 +61,7 @@ public class LogInScreenController implements Initializable {
 
         System.out.println(message1);
 
-        if (message1.equals("Connection successful. Please wait for other players to connect")) {
+        if (message1.equals("Connections successful. Please wait for other players to connect")) {
             Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(startedGame);

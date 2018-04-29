@@ -8,7 +8,7 @@ import java.net.Socket;
 /**
  * <h1>Network Socket Abstract Class</h1>
  */
-public abstract class NetworkSocket implements Connection {
+public abstract class NetworkSocket implements Connections {
     public static final Integer SOCKET_PORT = 1101;
     protected Socket socket;
     protected static NetworkSocket instance = null;
