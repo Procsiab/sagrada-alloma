@@ -4,7 +4,6 @@ import server.*;
 import server.abstracts.PrivateOC;
 import server.abstracts.PublicOC;
 import server.abstracts.ToolC;
-import server.network.NetworkRmiServer;
 import shared.*;
 import shared.logic.GeneralTask;
 
@@ -60,8 +59,6 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                 dices.add(new Dice('p', rand.nextInt(6)));
             i++;
         }
-        // Export the reference as UnicastRemoteObject
-        NetworkRmiServer.getInstance().remotize(this);
     }
 
     public void setAction(boolean action) {

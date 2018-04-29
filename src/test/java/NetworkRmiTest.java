@@ -1,6 +1,5 @@
-import client.network.NetworkRmiClient;
-import server.network.NetworkRmiServer;
 import shared.Logger;
+import shared.network.Connection;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -9,23 +8,18 @@ import java.rmi.RemoteException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import shared.network.NetworkRmi;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import shared.network.rmi.NetworkRmi;
 import static org.mockito.Mockito.*;
 
 public class NetworkRmiTest {
-    private NetworkRmi myNetClient;
-    private NetworkRmi myNetServer;
+    private Connection myNetServer;
+    private Connection myNetClient;
     private Foo bar;
 
     @Before
     public void before() {
-        NetworkRmiServer.setInstance();
-        NetworkRmiClient.setInstance();
-        myNetClient = NetworkRmiClient.getInstance();
-        myNetServer = NetworkRmiServer.getInstance();
+        myNetServer = new NetworkRmi();
+        myNetClient = new NetworkRmi("", 0);
 
         bar = mock(Foo.class);
         when(bar.getName()).thenReturn("foobar");
@@ -33,15 +27,14 @@ public class NetworkRmiTest {
 
     @Test
     public void exportTest() {
-        myNetServer.remotize(bar);
         myNetServer.export(bar, "bar");
-        SharedFoo myFoo = myNetClient.getExportedObject("bar");
+        SharedFoo myFoo = myNetClient.getExported("bar");
         try {
             Assert.assertEquals(bar.getName(), myFoo.getName());
-        } catch (RemoteException re) {
-            Logger.log("Error calling remote method getName() through reference myFoo");
-            Logger.strace(re);
+        } catch (RemoteException e) {
+            Logger.log("Error calling remote method!");
         }
+        Assert.assertEquals(bar.getName(), myNetClient.invokeMethod("bar", "getName", null));
     }
 }
 
@@ -52,7 +45,7 @@ interface SharedFoo extends Remote {
 
 class Foo implements SharedFoo {
     private String name;
-    public Foo(String name) {
+    Foo(String name) {
         this.name = name;
     }
     public String getName() {

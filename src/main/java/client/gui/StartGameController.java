@@ -1,7 +1,6 @@
 package client.gui;
 
 import client.MainClient;
-import client.network.NetworkRmiClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -18,6 +17,7 @@ import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import shared.*;
+import shared.network.ConnectionNetwork;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,13 +31,13 @@ public class StartGameController implements SharedClientGame, Initializable {
     private URL location;
     @FXML
     private ResourceBundle resources;
-    private SharedServerMatchManager netMatchManager;
-    private SharedServerGameManager netGameManager;
     public ArrayList<SharedServerPlayer> netPlayers = new ArrayList<>();
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
     private GameHelper game = MainClient.game;
+    private SharedServerMatchManager netMatchManager;
+    private SharedServerGameManager netGameManager;
 
     final Text source = new Text(50, 100, "DRAG ME");
     final Text target = new Text(300, 100, "DROP HERE");
@@ -45,10 +45,7 @@ public class StartGameController implements SharedClientGame, Initializable {
 
 
     public StartGameController() {
-        // Export the reference as UnicastRemoteObject
-        NetworkRmiClient.getInstance().remotize(this);
-        // Obtain reference to remote MatchManager
-        this.netMatchManager = NetworkRmiClient.getInstance().getExportedObject("MatchManager");
+        this.netMatchManager = ConnectionNetwork.getConnection().getExported("MatchManager");
     }
 
     public void print(String s) {

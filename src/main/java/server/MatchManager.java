@@ -1,7 +1,6 @@
 package server;
 
 import server.abstracts.*;
-import server.network.NetworkRmiServer;
 import shared.*;
 import shared.logic.Locker;
 
@@ -13,7 +12,7 @@ public class MatchManager implements SharedServerMatchManager {
     // Custom RMI name to locate class instance in RMI registry
     public static final String RMI_NAME = "MatchManager";
     public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
-    public static ArrayList<SharedClientGame> playingPlayers = new ArrayList<>();
+    public static ArrayList<Integer> left = new ArrayList<>();
     public final Locker safe = Locker.getSafe();
     public List<String> nickNames = new ArrayList<>();
     public LinkedList<SharedClientGame> q = new LinkedList<>();
@@ -40,8 +39,6 @@ public class MatchManager implements SharedServerMatchManager {
 
     private MatchManager() {
         super();
-        // Export the reference as UnicastRemoteObject
-        NetworkRmiServer.getInstance().remotize(this);
         //initialize every ArrayList
     }
 
@@ -57,7 +54,7 @@ public class MatchManager implements SharedServerMatchManager {
         synchronized (safe.sLock1) {
             waitingPlayer++;
 
-            if (playingPlayers.contains(client)){
+            if (left.remove(client)){
                 waitingPlayer--;
                 return "You already playing asshole!";
             }
@@ -71,7 +68,7 @@ public class MatchManager implements SharedServerMatchManager {
             q.addLast(client);
             safe.sLock2.notifyAll();
         }
-        return "Connection successful. Please wait for other players to connect";
+        return "Connections successful. Please wait for other players to connect";
 
 
     }

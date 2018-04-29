@@ -1,8 +1,6 @@
 import client.gui.StartGameController;
-import client.network.NetworkRmiClient;
 import org.junit.After;
 import server.MatchManager;
-import server.network.NetworkRmiServer;
 import shared.SharedClientGame;
 import shared.SharedServerMatchManager;
 
@@ -15,6 +13,8 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import shared.network.Connection;
+import shared.network.rmi.NetworkRmi;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -23,19 +23,21 @@ import static org.mockito.Mockito.*;
 @RunWith(value = Enclosed.class)
 public class MatchManagerTest {
     static SharedClientGame myGameController;
+    static Connection myClientCon;
+    static Connection myServerCon;
 
     @BeforeClass
     public static void before() {
-        NetworkRmiClient.setInstance();
-        NetworkRmiServer.setInstance();
+        myClientCon = new NetworkRmi("", 0);
+        myServerCon = new NetworkRmi();
         myGameController = mock(StartGameController.class);
     }
 
     public static class SingletonTests {
         @Before
         public void before() {
-            NetworkRmiClient.setInstance();
-            NetworkRmiServer.setInstance();
+            myClientCon = new NetworkRmi("", 0);
+            myServerCon = new NetworkRmi();
             myGameController = mock(StartGameController.class);
         }
 
@@ -59,8 +61,8 @@ public class MatchManagerTest {
 
         @Before
         public void before() {
-            NetworkRmiClient.setInstance();
-            NetworkRmiServer.setInstance();
+            myClientCon = new NetworkRmi("", 0);
+            myServerCon = new NetworkRmi();
             myGameController = mock(StartGameController.class);
         }
 

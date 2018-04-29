@@ -5,10 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import client.network.NetworkRmiClient;
-import server.MainServer;
 import shared.logic.ConcurrencyManager;
 import client.threads.GameHelper;
+import shared.network.ConnectionNetwork;
+import shared.network.rmi.NetworkRmi;
 
 public class MainClient extends Application {
     public static GameHelper game;
@@ -26,9 +26,8 @@ public class MainClient extends Application {
     }
 
     public static void main(String [] args) {
-        // Create NetworkRmiClient singleton to setup networking and RMI
-        NetworkRmiClient.setInstance();
-
+        // Create ConnectionNetwork singleton to setup RMI networking
+        ConnectionNetwork.setConnection(new NetworkRmi("", 0));
         MainClient.game = new GameHelper();
         ConcurrencyManager.submit(game);
         launch(args);

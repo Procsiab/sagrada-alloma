@@ -1,6 +1,5 @@
 package client.gui;
 import client.MainClient;
-import client.network.NetworkRmiClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -18,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import shared.Logger;
 import shared.SharedServerMatchManager;
+import shared.network.ConnectionNetwork;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,8 +50,8 @@ public class LogInScreenController implements Initializable {
 
         String message1 = new String();
 
-        System.out.println("You clicked me");
-        this.netMatchManager = NetworkRmiClient.getInstance().getExportedObject("MatchManager");
+        Logger.log("You clicked me");
+        this.netMatchManager = ConnectionNetwork.getConnection().getExported("MatchManager");
         try {
             message1 = this.netMatchManager.startGame(gameClient);
         } catch (RemoteException re) {
@@ -61,7 +61,7 @@ public class LogInScreenController implements Initializable {
 
         System.out.println(message1);
 
-        if (message1.equals("Connection successful. Please wait for other players to connect")) {
+        if (message1.equals("Connections successful. Please wait for other players to connect")) {
             Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(startedGame);

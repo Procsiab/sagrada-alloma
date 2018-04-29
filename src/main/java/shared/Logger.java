@@ -25,5 +25,6 @@ public class Logger {
     public static void strace(Exception e) {
         System.out.println("\n[Stack trace for " + e.toString() + "]");
         Arrays.stream(e.getStackTrace()).forEach(System.out::println);
+        System.out.print("\n\n");
     }
 }
