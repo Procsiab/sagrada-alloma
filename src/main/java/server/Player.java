@@ -3,6 +3,7 @@ package server;
 import server.abstracts.Frame;
 import server.abstracts.PrivateOC;
 import server.abstracts.Window;
+import server.network.NetworkRmiServer;
 import server.threads.GameManager;
 import shared.Position;
 import shared.SharedClientGame;
@@ -24,6 +25,8 @@ public class Player implements SharedServerPlayer {
     public Player(int i, GameManager gameManager){
         this.nPlayer = i;
         this.game = gameManager;
+        // Export the reference as UnicastRemoteObject
+        NetworkRmiServer.getInstance().remotize(this);
     }
 
     public Integer getScore() {
