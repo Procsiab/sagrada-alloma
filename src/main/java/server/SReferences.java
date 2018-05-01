@@ -20,5 +20,5 @@ public class SReferences {
     public static ArrayList<Player> playerRef = new ArrayList<>();
     public static ArrayList <GameManager> gameRef = new ArrayList<>();
     public static ArrayList<NetworkRmiClientI> rmiClientRef = new ArrayList<>();
-    //further Arraylist if needed by socket
+    //further Arraylist if needed by socket.
 }
