@@ -16,6 +16,10 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import shared.SharedClientGame;
+import shared.SharedServerGameManager;
+import shared.SharedServerMatchManager;
+import shared.SharedServerPlayer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -139,9 +143,8 @@ public class StartGameController implements SharedClientGame, Initializable {
 
     }
 
-    public void updateView() {
-        System.out.print("\"Hello\"");
-
+    public void updateView(SharedServerGameManager gameManager) {
+        System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
         //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match

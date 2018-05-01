@@ -3,6 +3,7 @@ package shared.network.rmi;
 import shared.Logger;
 import shared.network.Connection;
 
+import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -80,6 +81,11 @@ public class NetworkRmi implements Connection {
     @Override
     public String getIp() {
         return this.IP;
+    }
+
+    @Override
+    public Integer getLocalPort() {
+        return -1;
     }
 
     private Remote remotize(Object o) {
@@ -160,5 +166,9 @@ public class NetworkRmi implements Connection {
             Logger.strace(iae);
         }
         return null;
+    }
+
+    public void close() {
+
     }
 }

@@ -1,15 +1,15 @@
 package server;
 
 import server.abstracts.*;
+import shared.SharedClientGame;
+import shared.SharedServerPlayer;
 import shared.logic.Locker;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MatchManager implements SharedServerMatchManager {
-    // Custom RMI name to locate class instance in RMI registry
-    public static final String RMI_NAME = "MatchManager";
+public class MatchManager {
     public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
     public static ArrayList<Integer> left = new ArrayList<>();
     public final Locker safe = Locker.getSafe();
@@ -49,8 +49,9 @@ public class MatchManager implements SharedServerMatchManager {
         System.out.println("Hwe");
     }
 
-    //TODO Use UUID instead of SharedClientGame, and add second boolean parameter to store isSocket
-    public String startGame(SharedClientGame client) {
+    public String startGame(String uuid, String ip, Integer port, boolean isSocket) {
+        //TODO Get rid of pre-existing SharedClientGame client
+        SharedClientGame client = null;
         synchronized (safe.sLock1) {
             waitingPlayer++;
 
@@ -66,6 +67,11 @@ public class MatchManager implements SharedServerMatchManager {
         }
         synchronized (safe.sLock2) {
             q.addLast(client);
+            //TODO Check if is correct
+            SReferences.uuidRef.add(uuid);
+            SReferences.ipRef.add(ip);
+            SReferences.portRef.add(port);
+            SReferences.isSocketRef.add(isSocket);
             safe.sLock2.notifyAll();
         }
         return "Connections successful. Please wait for other players to connect";

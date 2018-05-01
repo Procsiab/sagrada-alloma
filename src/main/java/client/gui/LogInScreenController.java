@@ -16,35 +16,36 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import server.MiddlewareServer;
 import shared.Logger;
+import shared.network.socket.NetworkSocket;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class LogInScreenController implements Initializable {
 
     @FXML private ImageView sagradaImage;
     @FXML private Button startButton;
-    private StartGameController gameClient;
+    private static StartGameController gameClient;
     private GameHelper game;
 
     @FXML public void LogIn(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
         Parent root1 = loader.load();
-        this.game = MainClient.game;
+        game = MainClient.game;
 
         // Trova l'istanza di StartGameController, per poter runnare il metodo di update della view dall'esterno. Chiedere come passarlo all'esterno.
         StartGameController controllerGame = loader.getController();
-        this.gameClient = controllerGame;
-
+        //TODO Access to gameClient attribute in different way (look at the linter warning)
+        gameClient = controllerGame;
         // Passo il mio controller all'esterno, va bene fatto così?
-
         game.setGraphics(controllerGame);
 
-        // Fine instanziamento
+        //TODO Let the player choose the connection type through GUI
+        MiddlewareClient.setConnection(new NetworkSocket(""));
 
         String message1 = MiddlewareClient.getInstance().startGame("UUID");
         Logger.log("Server responded as: " + message1);
@@ -57,6 +58,9 @@ public class LogInScreenController implements Initializable {
         }
     }
 
+    public static StartGameController getGameClient() {
+        return gameClient;
+    }
 
     //Animazioni schermata di Login
     @Override

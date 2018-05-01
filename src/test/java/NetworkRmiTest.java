@@ -17,8 +17,8 @@ public class NetworkRmiTest {
 
     @Before
     public void before() {
-        myNetClient = new NetworkRmi("");
         myNetServer = new NetworkRmi();
+        myNetClient = new NetworkRmi("");
 
         bar = mock(Foo.class);
         when(bar.getName()).thenReturn("foobar");

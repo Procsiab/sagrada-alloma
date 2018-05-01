@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
 
-public class NetworkSocket implements Connection, Closeable {
+public class NetworkSocket implements Connection {
     private static final Integer SOCKET_PORT = 1101;
     private static final String SERVER_ADDRESS = "localhost";
     private static Map<String, Object> exportedObjects = Collections.synchronizedMap(new HashMap<String, Object>());
@@ -54,28 +54,35 @@ public class NetworkSocket implements Connection, Closeable {
     public NetworkSocket(String server, Integer port) {
         this.port = port;
         this.server = server;
+        startProducer(this.server, this.port);
     }
 
     public NetworkSocket(String server) {
         this.port = SOCKET_PORT;
         this.server = server;
+        startProducer(this.server, this.port);
     }
 
     public NetworkSocket(Integer port) {
         this.port = port;
         this.server = null;
-        startConsumer(port);
+        startConsumer(this.port);
     }
 
     public NetworkSocket() {
         this.port = SOCKET_PORT;
         this.server = null;
-        startConsumer(SOCKET_PORT);
+        startConsumer(this.port);
     }
 
     @Override
     public String getIp() {
         return this.IP;
+    }
+
+    @Override
+    public Integer getLocalPort() {
+        return socketProducer.getLocalPort();
     }
 
     @Override
@@ -92,7 +99,6 @@ public class NetworkSocket implements Connection, Closeable {
     @SuppressWarnings("unchecked")
     public <T> T getExported(String name) {
         T exportedObject = null;
-        startProducer(this.server, this.port);
         try {
             outStream.writeObject(new ObjectRequestPacket(name));
             exportedObject = (T) inStream.readObject();

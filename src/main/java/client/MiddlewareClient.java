@@ -1,13 +1,20 @@
 package client;
 
-import shared.network.SharedMiddleware;
+import client.gui.LogInScreenController;
+import shared.Logger;
+import shared.SharedServerGameManager;
+import shared.network.SharedMiddlewareClient;
+import shared.network.SharedMiddlewareServer;
 import shared.network.Connection;
 import shared.network.socket.NetworkSocket;
 
-public final class MiddlewareClient {
+import java.rmi.RemoteException;
+
+public final class MiddlewareClient implements SharedMiddlewareClient {
     private static final String SERVER_INTERFACE = "MiddlewareServer";
+
     private static Connection connection = null;
-    private static boolean isSocket = false;
+    private static Boolean isSocket = false;
     private static MiddlewareClient instance = new MiddlewareClient();
 
     private MiddlewareClient() {
@@ -29,14 +36,27 @@ public final class MiddlewareClient {
         }
     }
 
+    @Override
     public String startGame(String uuid) {
+        connection.export(instance, uuid);
         if (isSocket) {
-            Object[] args = {uuid};
-            String methodName = this.getClass().getEnclosingMethod().getName();
+            Object[] args = {uuid, connection.getLocalPort(), isSocket};
+            String methodName = "startGame";
             return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
         } else {
-            SharedMiddleware server = connection.getExported(SERVER_INTERFACE);
-            return server.startGame(uuid, false);
+            SharedMiddlewareServer server = connection.getExported(SERVER_INTERFACE);
+            try {
+                return server.startGame(uuid, connection.getIp(), connection.getLocalPort(), isSocket);
+            } catch (RemoteException re) {
+                Logger.log("Error calling remote method startGame()");
+                Logger.strace(re);
+                return "Cannot contact server!";
+            }
         }
+    }
+
+    @Override
+    public void updateView(SharedServerGameManager gameManager) {
+        LogInScreenController.getGameClient().updateView(gameManager);
     }
 }

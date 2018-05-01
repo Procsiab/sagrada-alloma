@@ -11,10 +11,6 @@ import shared.network.rmi.NetworkRmi;
 
 public class MainClient extends Application {
     public static GameHelper game;
-    //here goes the type of actual connection. Please note that this is static so that it can be
-    //accessed with sth like that: MainClient.connectionPerformed...
-    //public static Connections connectionPerformed;
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,9 +21,6 @@ public class MainClient extends Application {
     }
 
     public static void main(String [] args) {
-        //TODO Let the player choose the connection type through GUI
-        MiddlewareClient.setConnection(new NetworkRmi(""));
-
         MainClient.game = new GameHelper();
         ConcurrencyManager.submit(game);
         launch(args);

@@ -61,6 +61,10 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         }
     }
 
+    public void updateView(String uuid) {
+        MiddlewareServer.getInstance().updateView(uuid, this);
+    }
+
     public void setAction(boolean action) {
         synchronized (lock1) {
             this.action = action;
@@ -286,12 +290,13 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
         for (SharedClientGame player : players) {
             //clientGame will get information from netGameManager, and from netPlayers
-            try {
+            //TODO Use new classes to call the updateView method
+            /*try {
                 player.updateView();
             } catch (RemoteException re) {
                 Logger.log("Error calling method on remote object!");
                 Logger.strace(re);
-            }
+            }*/
 
         }
 

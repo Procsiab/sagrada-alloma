@@ -12,7 +12,7 @@ public interface SharedClientGame extends Remote {
     void chooseWindow(List<Integer> windows) throws RemoteException;
     void setNetPlayers(ArrayList<SharedServerPlayer> players) throws RemoteException;
     void setNPlayer(Integer n) throws RemoteException;
-    void updateView() throws RemoteException;
+    void updateView(SharedServerGameManager gameManager) throws RemoteException;
     void enable() throws RemoteException;
     void shut() throws RemoteException;
     void aPrioriWin() throws RemoteException;

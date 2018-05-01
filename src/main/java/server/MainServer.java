@@ -3,7 +3,6 @@ package server;
 import server.threads.NewGameManager;
 import shared.logic.ConcurrencyManager;
 import shared.SharedClientGame;
-import shared.network.rmi.NetworkRmi;
 
 import java.io.*;
 import java.util.Scanner;
