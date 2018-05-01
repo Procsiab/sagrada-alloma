@@ -17,7 +17,6 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import shared.*;
 
 import java.io.IOException;
 import java.net.URL;

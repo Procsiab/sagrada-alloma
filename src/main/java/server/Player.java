@@ -3,7 +3,7 @@ package server;
 import server.abstracts.Frame;
 import server.abstracts.PrivateOC;
 import server.abstracts.Window;
-import server.network.NetworkRmiServer;
+import server.networkS.NetworkRmiServer;
 import server.threads.GameManager;
 import shared.Position;
 import shared.SharedClientGame;

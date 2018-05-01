@@ -6,7 +6,7 @@ import shared.NetworkRmiClientI;
 import java.util.ArrayList;
 
 public class SReferences {
-    //MatchManager is static
+    //MatchManager is singleton.
     public static Integer activePlayers;
     //given the id of a player
     public static ArrayList<Integer> gameIdRef = new ArrayList<>();

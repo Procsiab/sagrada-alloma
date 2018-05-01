@@ -1,4 +1,4 @@
-package server.network;
+package server.networkS;
 
 import shared.Logger;
 import shared.logic.GeneralTask;

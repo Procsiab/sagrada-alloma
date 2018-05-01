@@ -1,5 +1,5 @@
 import client.network.NetworkRmiClient;
-import server.network.NetworkRmiServer;
+import server.networkS.NetworkRmiServer;
 import shared.Logger;
 
 import java.rmi.Remote;
@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import shared.network.NetworkRmi;
+import shared.networkSha.NetworkRmi;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

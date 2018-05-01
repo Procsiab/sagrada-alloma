@@ -1,6 +1,6 @@
 package server.threads;
 
-import server.network.SerializedSocket;
+import server.networkS.SerializedSocket;
 import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import shared.logic.GeneralTask;

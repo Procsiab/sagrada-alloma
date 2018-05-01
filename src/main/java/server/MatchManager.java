@@ -1,8 +1,7 @@
 package server;
 
 import server.abstracts.*;
-import server.network.NetworkRmiServer;
-import shared.*;
+import server.networkS.NetworkRmiServer;
 import shared.logic.Locker;
 
 import java.util.ArrayList;

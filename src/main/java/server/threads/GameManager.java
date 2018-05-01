@@ -4,7 +4,7 @@ import server.*;
 import server.abstracts.PrivateOC;
 import server.abstracts.PublicOC;
 import server.abstracts.ToolC;
-import server.network.NetworkRmiServer;
+import server.networkS.NetworkRmiServer;
 import shared.*;
 import shared.logic.GeneralTask;
 

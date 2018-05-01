@@ -1,7 +1,7 @@
-package shared.network;
+package shared.networkSha;
 
 import client.network.NetworkRmiClient;
-import server.network.NetworkRmiServer;
+import server.networkS.NetworkRmiServer;
 import shared.Logger;
 
 import java.net.InetAddress;
@@ -16,7 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 /**
  * <h1>Network RMI Abstract Class</h1>
- * <p>This class will hold general network parameters and methods, to be shared between client and server.</p>
+ * <p>This class will hold general networkS parameters and methods, to be shared between client and server.</p>
  * <p>Specific extensions of this class are {@link NetworkRmiClient} and {@link NetworkRmiServer};<br>
  *     both server and client extensions will add custom methods to manage RMI and Socket specific connectivity requirements</p>
  * @see NetworkRmiServer
@@ -50,7 +50,7 @@ public abstract class NetworkRmi implements Connections {
     }
 
     /**
-     * This method is used to return the machine's IP over the local network
+     * This method is used to return the machine's IP over the local networkS
      * @return String Returns the machine's IP address encoded as a string
      */
     public String getIp() {

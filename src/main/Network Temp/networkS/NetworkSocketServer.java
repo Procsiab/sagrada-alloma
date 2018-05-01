@@ -1,4 +1,4 @@
-package server.network;
+package server.networkS;
 
 import shared.network.NetworkSocket;
 

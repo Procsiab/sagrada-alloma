@@ -1,6 +1,6 @@
 package server;
 
-import server.network.NetworkRmiServer;
+import server.networkS.NetworkRmiServer;
 import server.threads.NewGameManager;
 import shared.logic.ConcurrencyManager;
 import shared.SharedClientGame;

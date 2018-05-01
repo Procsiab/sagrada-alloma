@@ -2,7 +2,7 @@ import client.gui.StartGameController;
 import client.network.NetworkRmiClient;
 import org.junit.After;
 import server.MatchManager;
-import server.network.NetworkRmiServer;
+import server.networkS.NetworkRmiServer;
 import shared.SharedClientGame;
 import shared.SharedServerMatchManager;
 

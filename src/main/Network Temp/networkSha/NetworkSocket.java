@@ -1,4 +1,4 @@
-package shared.network;
+package shared.networkSha;
 
 import shared.Logger;
 
@@ -16,7 +16,7 @@ public abstract class NetworkSocket implements Connections {
 
     /**
      * This method is used to obtain a reference to the singleton class; this will be possible only if {@link client.network.NetworkSocketClient#setInstance()}
-     * or {@link server.network.NetworkSocketServer#setInstance()} have been called before, otherwise a {@code null} pointer will be returned
+     * or {@link server.networkS.NetworkSocketServer#setInstance()} have been called before, otherwise a {@code null} pointer will be returned
      * @return NetworkRmi Returns an instance of an implementation of the {@link NetworkSocket} abstract class, as stated
      * in the class description
      */
@@ -25,7 +25,7 @@ public abstract class NetworkSocket implements Connections {
     }
 
     /**
-     * This method is used to return the machine's IP over the local network
+     * This method is used to return the machine's IP over the local networkS
      * @return String Returns the machine's IP address encoded as a string
      */
     public String getIp() {

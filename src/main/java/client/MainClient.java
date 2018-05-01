@@ -6,12 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import client.network.NetworkRmiClient;
-import server.MainServer;
-import server.Player;
 import server.threads.GameManager;
 import shared.logic.ConcurrencyManager;
 import client.threads.GameHelper;
-import shared.network.Connections;
+import shared.networkSha.Connections;
 
 public class MainClient extends Application {
     public static GameHelper game;
