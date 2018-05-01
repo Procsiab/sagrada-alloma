@@ -1,7 +1,6 @@
 package client.gui;
 
 import client.MainClient;
-import client.network.NetworkRmiClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -17,7 +16,6 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import shared.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,10 +43,7 @@ public class StartGameController implements SharedClientGame, Initializable {
 
 
     public StartGameController() {
-        // Export the reference as UnicastRemoteObject
-        NetworkRmiClient.getInstance().remotize(this);
-        // Obtain reference to remote MatchManager
-        this.netMatchManager = NetworkRmiClient.getInstance().getExportedObject("MatchManager");
+        //TODO Start server connector class
     }
 
     public void print(String s) {

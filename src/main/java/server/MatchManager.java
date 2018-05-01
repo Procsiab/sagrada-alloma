@@ -1,7 +1,6 @@
 package server;
 
 import server.abstracts.*;
-import shared.*;
 import shared.logic.Locker;
 
 import java.util.ArrayList;
@@ -50,6 +49,7 @@ public class MatchManager implements SharedServerMatchManager {
         System.out.println("Hwe");
     }
 
+    //TODO Use UUID instead of SharedClientGame, and add second boolean parameter to store isSocket
     public String startGame(SharedClientGame client) {
         synchronized (safe.sLock1) {
             waitingPlayer++;

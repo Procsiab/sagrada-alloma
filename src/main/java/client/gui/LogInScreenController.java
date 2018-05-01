@@ -1,5 +1,6 @@
 package client.gui;
 import client.MainClient;
+import client.MiddlewareClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -16,8 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import shared.Logger;
-import shared.SharedServerMatchManager;
-import shared.network.ConnectionNetwork;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +25,6 @@ import java.util.ResourceBundle;
 
 public class LogInScreenController implements Initializable {
 
-    private SharedServerMatchManager netMatchManager;
     @FXML private ImageView sagradaImage;
     @FXML private Button startButton;
     private StartGameController gameClient;
@@ -48,18 +46,8 @@ public class LogInScreenController implements Initializable {
 
         // Fine instanziamento
 
-        String message1 = new String();
-
-        Logger.log("You clicked me");
-        this.netMatchManager = ConnectionNetwork.getConnection().getExported("MatchManager");
-        try {
-            message1 = this.netMatchManager.startGame(gameClient);
-        } catch (RemoteException re) {
-            Logger.log("Error calling method on remote object!");
-            Logger.strace(re);
-        }
-
-        System.out.println(message1);
+        String message1 = MiddlewareClient.getInstance().startGame("UUID");
+        Logger.log("Server responded as: " + message1);
 
         if (message1.equals("Connections successful. Please wait for other players to connect")) {
             Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);

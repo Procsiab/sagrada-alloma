@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import shared.logic.ConcurrencyManager;
 import client.threads.GameHelper;
-import shared.network.ConnectionNetwork;
 import shared.network.rmi.NetworkRmi;
 
 public class MainClient extends Application {
@@ -26,18 +25,11 @@ public class MainClient extends Application {
     }
 
     public static void main(String [] args) {
-        // Create ConnectionNetwork singleton to setup RMI networking
-        ConnectionNetwork.setConnection(new NetworkRmi("", 0));
+        //TODO Let the player choose the connection type through GUI
+        MiddlewareClient.setConnection(new NetworkRmi(""));
+
         MainClient.game = new GameHelper();
         ConcurrencyManager.submit(game);
         launch(args);
-
-        // Close connection when window closes
-        /*System.out.println("Send 'exit' command to teardown...");
-        Scanner scan = new Scanner(System.in);
-        while (!scan.nextLine().equals("exit")) {
-            //
-        }*/
-        System.exit(0);
     }
 }

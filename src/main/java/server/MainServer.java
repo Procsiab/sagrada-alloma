@@ -3,7 +3,6 @@ package server;
 import server.threads.NewGameManager;
 import shared.logic.ConcurrencyManager;
 import shared.SharedClientGame;
-import shared.network.ConnectionNetwork;
 import shared.network.rmi.NetworkRmi;
 
 import java.io.*;
@@ -24,14 +23,8 @@ public class MainServer {
         super();
     }
 
-    public static void main(String args[]) throws IOException {
-        // Create ConnectionNetwork singleton to setup RMI connection
-        ConnectionNetwork.setConnection(new NetworkRmi());
-        // Create MatchManager singleton
-        MatchManager.setInstance();
-        // Export MatchManager for serving clients (abstraction from RMI or Socket)
-        ConnectionNetwork.getConnection().export(MatchManager.getInstance(), "MatchManager");
-        //create thread NewGameManager
+    public static void main(String[] args) throws IOException {
+
         ConcurrencyManager.submit(new NewGameManager());
 
         System.out.println("\nSend 'exit' command to teardown...");
