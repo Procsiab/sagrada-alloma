@@ -15,12 +15,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager extends GeneralTask implements SharedServerGameManager {
 
-    public ArrayList<SharedServerPlayer> fixedPlayers;
-    public List<SharedClientGame> players;
-    public ArrayList<SharedClientGame> players2 = new ArrayList<>();
+    public ArrayList<String> publicRef = new ArrayList<>();
+    public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    public List<String> players;
+    public ArrayList<String> players2 = new ArrayList<>();
     private final Integer sleepTime;
     private final Integer nMates;
-    private ArrayList<SharedServerPlayer> vPlayers;
+    private ArrayList<Player> vPlayers;
     public MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
     public static final ReentrantLock lock1 = new ReentrantLock();
@@ -28,22 +29,21 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
     public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
     public ArrayList<PublicOC> publicOCs = new ArrayList<>();
     public ArrayList<ToolC> toolCards;
-    public ArrayList<SharedClientGame> left = new ArrayList<>();
-    public ArrayList<SharedClientGame> unresponsive = new ArrayList<>();
-    public ArrayList<SharedClientGame> skip = new ArrayList<>(); //check this below
-    public ArrayList<SharedClientGame> active = new ArrayList<>();
-    public SharedClientGame expected;
+    public ArrayList<String> unresponsive = new ArrayList<>();
+    public ArrayList<String> active = new ArrayList<>();
+    public String expected;
     public RoundTrack roundTrack;
     public boolean check1 = false;
     //public Dice drafted;
     public ArrayList<Dice> dices = new ArrayList<>();
     public ArrayList<Dice> pool = new ArrayList<>();
 
-    public GameManager(ArrayList<SharedClientGame> players, Integer nMates) {
+    public GameManager(ArrayList<String> players) {
         Random rand = new Random();
-        this.players = players;
+        this.publicRef.addAll(players);
+        this.players.addAll(players);
         this.sleepTime = 10000;
-        this.nMates = nMates;
+        this.nMates = players.size();
         int i = 1;
 
         while (i <= 90) {
@@ -59,10 +59,6 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                 dices.add(new Dice('p', rand.nextInt(6)));
             i++;
         }
-    }
-
-    public void updateView(String uuid) {
-        MiddlewareServer.getInstance().updateView(uuid, this);
     }
 
     public void setAction(boolean action) {
@@ -82,7 +78,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
     }
 
     public void shiftPlayers() {
-        SharedClientGame temp;
+        String temp;
         temp = players.remove(0);
         players.add(temp);
     }
@@ -131,37 +127,21 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         int i = 0;
         int j = 0;
 
-        for (SharedClientGame client : players) {
-            vPlayers.add(new Player(1, this));
+        for (String client : players) {
+            vPlayers.add(new Player(1, this, publicRef.get(i)));
         }
 
-        fixedPlayers.addAll(vPlayers);
-        fixedPlayers.trimToSize();
-        //do not access this anymore
 
-        i = 0;
-        for (SharedServerPlayer play: vPlayers
-             ) {
-            try {
-                play.setClientGame(players.get(i));
-                i++;
-            } catch (RemoteException e){
-                e.printStackTrace();
-            }
-        }
 
         i = 0;
 
-        for (SharedClientGame client : players) {
+        for (String client : players) {
             try {
-                client.setNetGameManager(this);
-                client.setNetPlayers(vPlayers);
-                client.setNPlayer(i);
-            } catch (RemoteException re) {
-                Logger.log("Error calling method on remote object!");
-                Logger.strace(re);
+                middlewareServer.setSGame(client, this);
+            } catch (RemoteException re){
+                Logger.log("Unable to reach client");
+                re.printStackTrace();
             }
-            i++;
         }
 
         Random rand = new Random();
@@ -176,14 +156,9 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
             i++;
         }
         i = 0;
-        while (i < players.size()) {
 
-            try {
+        while (i < players.size()) {
                 vPlayers.get(i).setPrivateOC(a.get(i));
-            } catch (RemoteException re) {
-                Logger.log("Error calling method on remote object!");
-                Logger.strace(re);
-            }
             i++;
         }
         i = 0;
@@ -201,9 +176,10 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         i = 0;
 
         while (i < players.size()) {
-            //return of this function clientGame-side after clientGame has placed his chosen card
+            Integer k;
             try {
-                players.get(i).chooseWindow(a.subList(((i + 1) * 4), ((i + 2) * 4 - 1)));
+                k = middlewareServer.chooseWindow(players.get(i),(ArrayList<Integer>)a.subList(((i + 1) * 4), ((i + 2) * 4 - 1)));
+                vPlayers.get(i).setWindow(k);
             } catch (RemoteException re) {
                 Logger.log("Error calling method on remote object!");
                 Logger.strace(re);
@@ -226,27 +202,14 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         i = 0;
 
         while (i < players.size()) {
-            try {
                 vPlayers.get(i).setFrame(a.get(i));
-            } catch (RemoteException re) {
-                Logger.log("Error calling method on remote object!");
-                Logger.strace(re);
-            }
-
             i++;
         }
         i = 0;
 
 
-        for (SharedServerPlayer player : vPlayers) {
-            try {
+        for (Player player : vPlayers) {
                 player.setTokens();
-            } catch (RemoteException re) {
-                Logger.log("Error calling method on remote object!");
-                Logger.strace(re);
-            }
-
-            //give token and make the call from clientGame
         }
 
 
@@ -288,15 +251,13 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
         a.clear();
 
 
-        for (SharedClientGame player : players) {
-            //clientGame will get information from netGameManager, and from netPlayers
-            //TODO Use new classes to call the updateView method
-            /*try {
-                player.updateView();
+        for (String player : players) {
+            try {
+                middlewareServer.updateView(player,this);
             } catch (RemoteException re) {
                 Logger.log("Error calling method on remote object!");
                 Logger.strace(re);
-            }*/
+            }
 
         }
 

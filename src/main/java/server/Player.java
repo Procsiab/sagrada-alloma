@@ -8,9 +8,9 @@ import shared.Position;
 import shared.SharedClientGame;
 import shared.SharedServerPlayer;
 
-public class Player implements SharedServerPlayer {
+public class Player {
     private MatchManager matchManager = MatchManager.getInstance();
-    public SharedClientGame clientGame;
+    public String uUID;
     public boolean quit = false;
     public PrivateOC privateOC;
     public Window window;
@@ -21,7 +21,8 @@ public class Player implements SharedServerPlayer {
     public Integer score;
     public GameManager game;
 
-    public Player(int i, GameManager gameManager){
+    public Player(int i, GameManager gameManager, String uUID){
+        this.uUID = uUID;
         this.nPlayer = i;
         this.game = gameManager;
     }
@@ -30,7 +31,6 @@ public class Player implements SharedServerPlayer {
         return score;
     }
 
-    @Override
     public SharedClientGame getClientGame() {
         return clientGame;
     }

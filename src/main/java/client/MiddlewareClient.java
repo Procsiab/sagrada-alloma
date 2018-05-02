@@ -1,6 +1,7 @@
 package client;
 
 import client.gui.LogInScreenController;
+import client.gui.StartGameController;
 import shared.Logger;
 import shared.SharedServerGameManager;
 import shared.network.SharedMiddlewareClient;
@@ -16,6 +17,8 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     private static Connection connection = null;
     private static Boolean isSocket = false;
     private static MiddlewareClient instance = new MiddlewareClient();
+    private LogInScreenController logInScreenController;
+    private StartGameController startGameController;
 
     private MiddlewareClient() {
         super();
@@ -57,6 +60,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
 
     @Override
     public void updateView(SharedServerGameManager gameManager) {
+        //it is better to access directly to StartGameController
         LogInScreenController.getGameClient().updateView(gameManager);
     }
 }

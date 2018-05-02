@@ -5,7 +5,6 @@ import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import shared.logic.GeneralTask;
 import shared.logic.Locker;
-import shared.SharedClientGame;
 
 import java.util.ArrayList;
 
@@ -25,24 +24,25 @@ public class NewGameManager extends GeneralTask {
 
         while (true) {
             synchronized (safe.sLock2) {
-                //safe.sLock2.lock();
-                while (MatchManager.getInstance().q.size() != 4 && start == false) {
+                while (MatchManager.q.size() != 4) {
                     try {
                         safe.sLock2.wait();
+                        if(start) {
+                            if(MatchManager.q.size()>1)
+                                break;
+                            start = false;
+                            timerNewGame = new TimerNewGame(sleepTime, this);
+                            ConcurrencyManager.submit(timerNewGame);
+                        }
                     } catch (Exception e) {
                         Logger.log("Error waiting on lock!");
                         Logger.log(e.toString());
                     }
                 }
-                ArrayList<SharedClientGame> clients = new ArrayList<>(MatchManager.getInstance().q.size());
-                int i = 0;
-                //TODO: check if size is correct
-                while (i < MatchManager.getInstance().q.size()) {
-                    clients.add(MatchManager.getInstance().q.remove(0));
-                    i++;
-                }
-                ConcurrencyManager.submit(new GameManager(clients, clients.size()));
-                //safe.sLock2.unlock();
+                ArrayList<String> clients = new ArrayList<>(MatchManager.q.size());
+                clients.addAll(MatchManager.q);
+                MatchManager.q.clear();
+                ConcurrencyManager.submit(new GameManager(clients));
             }
         }
     }
