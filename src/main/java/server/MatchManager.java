@@ -10,6 +10,7 @@ import java.util.List;
 public class MatchManager {
     public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
     public static LinkedList<String> q = new LinkedList<>();
+    public static ArrayList<String> left = new ArrayList<>();
     public final Locker safe = Locker.getSafe();
     public List<String> nickNames = new ArrayList<>();
     public List<PrivateOC> privateOCs = new ArrayList<>();
@@ -45,7 +46,7 @@ public class MatchManager {
     public String startGame(String uuid, String ip, Integer port, boolean isSocket) {
 
 
-        if (SReferences.left.contains(uuid)) {
+        if (left.contains(uuid)) {
             return "You already playing asshole! Hold on while the server calls you again";
         }
 

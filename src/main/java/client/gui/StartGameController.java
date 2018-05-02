@@ -16,10 +16,8 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import shared.SharedClientGame;
 import shared.SharedServerGameManager;
-import shared.SharedServerMatchManager;
-import shared.SharedServerPlayer;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,14 +26,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class StartGameController implements SharedClientGame, Initializable {
+public class StartGameController implements Initializable {
     @FXML
     private URL location;
     @FXML
     private ResourceBundle resources;
-    private SharedServerMatchManager netMatchManager;
     private SharedServerGameManager netGameManager;
-    public ArrayList<SharedServerPlayer> netPlayers = new ArrayList<>();
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
@@ -66,10 +62,6 @@ public class StartGameController implements SharedClientGame, Initializable {
 
     public void setWinner(){
         //start animation for the winner
-    }
-
-    public void setNetPlayers(ArrayList<SharedServerPlayer> netPlayers) {
-        this.netPlayers = netPlayers;
     }
 
     public void setNetGameManager(SharedServerGameManager netGameManager) {
@@ -171,37 +163,31 @@ public class StartGameController implements SharedClientGame, Initializable {
 
     //TODO Implement the following methods
 
-    @Override
     public void enable() {
 
     }
 
-    @Override
     public boolean ping() {
         return false;
     }
 
-    @Override
+
     public void chooseWindow(List<Integer> windows) {
 
     }
 
-    @Override
     public void printScore(Integer score) {
 
     }
 
-    @Override
     public void setNPlayer(Integer nPlayer) {
 
     }
 
-    @Override
     public void shut() {
 
     }
 
-    @Override
     public void aPrioriWin() {
 
     }

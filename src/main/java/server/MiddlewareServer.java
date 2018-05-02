@@ -1,5 +1,6 @@
 package server;
 
+import server.threads.GameManager;
 import shared.Logger;
 import shared.SharedServerGameManager;
 import shared.network.Connection;
@@ -25,6 +26,14 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     public static MiddlewareServer getInstance() {
         return instance;
+    }
+
+    public static boolean deniedAccess(String uUID){
+        //could be useful have a method to see if client is allowed to speak to server
+        GameManager game = SReferences.gameRef.get(SReferences.uuidRef.indexOf(uUID));
+        if(game.expected.equals(uUID))
+            return false;
+        return true;
     }
 
     public static Connection getServerSocket() {

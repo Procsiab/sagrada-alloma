@@ -5,13 +5,10 @@ import server.abstracts.PrivateOC;
 import server.abstracts.Window;
 import server.threads.GameManager;
 import shared.Position;
-import shared.SharedClientGame;
-import shared.SharedServerPlayer;
 
 public class Player {
     private MatchManager matchManager = MatchManager.getInstance();
     public String uUID;
-    public boolean quit = false;
     public PrivateOC privateOC;
     public Window window;
     public Frame frame;
@@ -29,14 +26,6 @@ public class Player {
 
     public Integer getScore() {
         return score;
-    }
-
-    public SharedClientGame getClientGame() {
-        return clientGame;
-    }
-
-    public void setClientGame(SharedClientGame client) {
-        this.clientGame = client;
     }
 
     public void setScore(Integer score) {

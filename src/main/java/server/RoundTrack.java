@@ -1,6 +1,5 @@
 package server;
 
-import shared.SharedClientGame;
 
 import java.util.ArrayList;
 

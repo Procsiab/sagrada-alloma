@@ -11,6 +11,7 @@ import shared.network.rmi.NetworkRmi;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class MainClient extends Application {
     public static GameHelper game;
@@ -25,7 +26,7 @@ public class MainClient extends Application {
         primaryStage.show();
     }
 
-    public static void main(String [] args) {
+    public static void main(String[] args) {
         //uUID detection
 
         String OS = System.getProperty("os.name").toLowerCase();
@@ -39,7 +40,7 @@ public class MainClient extends Application {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 String line;
                 int i = 0;
-                while ((line = reader.readLine()) != null && i<3) {
+                while ((line = reader.readLine()) != null && i < 3) {
                     uUID = line;
                     i++;
                 }
@@ -53,7 +54,12 @@ public class MainClient extends Application {
 
             StringBuffer output = new StringBuffer();
             Process process;
-            pass = "secretpass"; //TODO Let the user provide the password
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("enter the password");
+            pass = scanner.nextLine();
+            //TODO Let the user provide the password
+
             String[] cmd = {"/bin/sh", "-c", "echo " + pass + " | sudo -S cat /sys/class/dmi/id/product_uuid"};
             try {
                 process = Runtime.getRuntime().exec(cmd);
@@ -72,12 +78,35 @@ public class MainClient extends Application {
 
             //System.out.println(uUID);
 
-        } else if(OS.indexOf("mac")>0){
+        } else if (OS.indexOf("mac") > 0) {
             //throw away this shit
+
+            StringBuffer output = new StringBuffer();
+            Process process;
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("enter the password");
+            pass = scanner.nextLine();
+            //TODO Let the user provide the password
+
+            //https://www.infoworld.com/article/3029204/macs/10-essential-os-x-command-line-tips-for-power-users.html
+            String[] cmd = {};
+            try {
+                process = Runtime.getRuntime().exec(cmd);
+                process.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.append(line + "\n");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            uUID = output.toString();
+
         }
 
-        /*MainClient.game = new GameHelper();
-        ConcurrencyManager.submit(game);*/
         launch(args);
     }
 }
