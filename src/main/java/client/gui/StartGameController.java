@@ -108,7 +108,7 @@ public class StartGameController implements Initializable {
 
     private void setCardMap() {
        paneCarta.setStyle("-fx-background-image: url('1.png');-fx-background-size: cover;");
-       paneCarta2.setStyle("-fx-background-image: url('https://i.guim.co.uk/img/media/f6afb130cb0d439635ed895df4ee65359ac8b38f/0_204_4016_2409/master/4016.jpg?w=300&q=55&auto=format&usm=12&fit=max&s=f468e7b14cd8fcf922e4214b464f5e9d');-fx-background-size: cover;");
+       paneCarta2.setStyle("-fx-background-image: url('2.png');-fx-background-size: cover;");
        paneCarta3.setStyle("-fx-background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Silvio_Berlusconi_1994.jpg/200px-Silvio_Berlusconi_1994.jpg');-fx-background-size: cover;");
        paneCarta1.setStyle("-fx-background-image: url('https://media.gettyimages.com/photos/silvio-berlusconi-attends-che-tempo-che-fa-tv-show-on-november-26-in-picture-id879849778?s=612x612');-fx-background-size: cover;");
 
