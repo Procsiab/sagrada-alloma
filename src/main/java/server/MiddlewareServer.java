@@ -10,6 +10,7 @@ import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class MiddlewareServer implements SharedMiddlewareServer {
     private static final String SERVER_INTERFACE = "MiddlewareServer";
@@ -65,6 +66,185 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
                     client.updateView(gameManager);
+                } catch (RemoteException re) {
+                    Logger.log("Error calling remote method updateView()");
+                    Logger.strace(re);
+                }
+            }
+        } else {
+            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+        }
+    }
+
+    @Override
+    public Integer chooseWindow(String uuid, ArrayList<Integer> windows) {
+        int playerId = SReferences.uuidRef.indexOf(uuid);
+        if (playerId >= 0) {
+            if (SReferences.isSocketRef.get(playerId)) {
+                Object[] args = {windows};
+                String methodName = "chooseWindow";
+                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                    return (Integer) client.invokeMethod(uuid, methodName, args);
+                } catch (Exception e) {
+                    Logger.strace(e);
+                }
+            } else {
+                SharedMiddlewareClient client = serverRmi.getExported(uuid);
+                try {
+                    return client.chooseWindow(windows);
+                } catch (RemoteException re) {
+                    Logger.log("Error calling remote method updateView()");
+                    Logger.strace(re);
+                }
+            }
+        } else {
+            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean ping(String uuid) {
+        int playerId = SReferences.uuidRef.indexOf(uuid);
+        if (playerId >= 0) {
+            if (SReferences.isSocketRef.get(playerId)) {
+                String methodName = "ping";
+                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                    return (boolean) client.invokeMethod(uuid, methodName, null);
+                } catch (Exception e) {
+                    Logger.strace(e);
+                }
+            } else {
+                SharedMiddlewareClient client = serverRmi.getExported(uuid);
+                try {
+                    return client.ping();
+                } catch (RemoteException re) {
+                    Logger.log("Error calling remote method updateView()");
+                    Logger.strace(re);
+                }
+            }
+        } else {
+            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+        }
+        return false;
+    }
+
+    @Override
+    public void aPrioriWin(String uuid) {
+        int playerId = SReferences.uuidRef.indexOf(uuid);
+        if (playerId >= 0) {
+            if (SReferences.isSocketRef.get(playerId)) {
+                String methodName = "aPrioriWin";
+                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                    client.invokeMethod(uuid, methodName, null);
+                } catch (Exception e) {
+                    Logger.strace(e);
+                }
+            } else {
+                SharedMiddlewareClient client = serverRmi.getExported(uuid);
+                try {
+                    client.aPrioriWin();
+                } catch (RemoteException re) {
+                    Logger.log("Error calling remote method updateView()");
+                    Logger.strace(re);
+                }
+            }
+        } else {
+            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+        }
+    }
+
+    @Override
+    public void enable(String uuid) {
+        int playerId = SReferences.uuidRef.indexOf(uuid);
+        if (playerId >= 0) {
+            if (SReferences.isSocketRef.get(playerId)) {
+                String methodName = "enable";
+                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                    client.invokeMethod(uuid, methodName, null);
+                } catch (Exception e) {
+                    Logger.strace(e);
+                }
+            } else {
+                SharedMiddlewareClient client = serverRmi.getExported(uuid);
+                try {
+                    client.enable();
+                } catch (RemoteException re) {
+                    Logger.log("Error calling remote method updateView()");
+                    Logger.strace(re);
+                }
+            }
+        } else {
+            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+        }
+    }
+
+    @Override
+    public void shut(String uuid) {
+        int playerId = SReferences.uuidRef.indexOf(uuid);
+        if (playerId >= 0) {
+            if (SReferences.isSocketRef.get(playerId)) {
+                String methodName = "shut";
+                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                    client.invokeMethod(uuid, methodName, null);
+                } catch (Exception e) {
+                    Logger.strace(e);
+                }
+            } else {
+                SharedMiddlewareClient client = serverRmi.getExported(uuid);
+                try {
+                    client.shut();
+                } catch (RemoteException re) {
+                    Logger.log("Error calling remote method updateView()");
+                    Logger.strace(re);
+                }
+            }
+        } else {
+            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+        }
+    }
+
+    @Override
+    public void printScore(String uuid, Integer score) {
+        int playerId = SReferences.uuidRef.indexOf(uuid);
+        if (playerId >= 0) {
+            if (SReferences.isSocketRef.get(playerId)) {
+                Object[] args = {score};
+                String methodName = "printScore";
+                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                    client.invokeMethod(uuid, methodName, args);
+                } catch (Exception e) {
+                    Logger.strace(e);
+                }
+            } else {
+                SharedMiddlewareClient client = serverRmi.getExported(uuid);
+                try {
+                    client.printScore(score);
+                } catch (RemoteException re) {
+                    Logger.log("Error calling remote method updateView()");
+                    Logger.strace(re);
+                }
+            }
+        } else {
+            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+        }
+    }
+
+    @Override
+    public void setWinner(String uuid) {
+        int playerId = SReferences.uuidRef.indexOf(uuid);
+        if (playerId >= 0) {
+            if (SReferences.isSocketRef.get(playerId)) {
+                String methodName = "setWinner";
+                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                    client.invokeMethod(uuid, methodName, null);
+                } catch (Exception e) {
+                    Logger.strace(e);
+                }
+            } else {
+                SharedMiddlewareClient client = serverRmi.getExported(uuid);
+                try {
+                    client.setWinner();
                 } catch (RemoteException re) {
                     Logger.log("Error calling remote method updateView()");
                     Logger.strace(re);

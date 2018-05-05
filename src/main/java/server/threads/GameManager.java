@@ -132,14 +132,14 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
 
         i = 0;
 
-        for (String client : players) {
+        /*for (String client : players) {
             try {
                 middlewareServer.setSGame(client, this);
             } catch (RemoteException re) {
                 Logger.log("Unable to reach client");
                 re.printStackTrace();
             }
-        }
+        }*/
 
         Random rand = new Random();
         ArrayList<Integer> a = new ArrayList<>();
@@ -282,7 +282,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                         unresponsive.remove(pla);
                     }
                     try {
-                        middlewareServer.ping(pla);
+                        middlewareServer.ping(pla); //TODO ping is boolean, check if true
                         if (!active.contains(pla))
                             active.add(pla);
                         unresponsive.remove(pla);

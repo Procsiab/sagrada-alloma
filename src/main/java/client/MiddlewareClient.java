@@ -10,6 +10,7 @@ import shared.network.Connection;
 import shared.network.socket.NetworkSocket;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public final class MiddlewareClient implements SharedMiddlewareClient {
     private static final String SERVER_INTERFACE = "MiddlewareServer";
@@ -62,5 +63,41 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public void updateView(SharedServerGameManager gameManager) {
         //it is better to access directly to StartGameController
         LogInScreenController.getGameClient().updateView(gameManager);
+    }
+
+    @Override
+    public Integer chooseWindow(ArrayList<Integer> windows) {
+        return null;
+        //TODO Call true method
+    }
+
+    @Override
+    public boolean ping() {
+        return true;
+    }
+
+    @Override
+    public void aPrioriWin() {
+        //TODO Call true method
+    }
+
+    @Override
+    public void enable() {
+        //TODO Call true method
+    }
+
+    @Override
+    public void shut() {
+        //TODO Call true method
+    }
+
+    @Override
+    public void printScore(Integer score) {
+        //TODO Call true method
+    }
+
+    @Override
+    public void setWinner() {
+        //TODO Call true method
     }
 }
