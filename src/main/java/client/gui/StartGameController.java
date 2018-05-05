@@ -73,44 +73,14 @@ public class StartGameController implements Initializable {
         setCardMap();
     }
 
-    @FXML
-    private void tiraDadi(ActionEvent event) throws IOException {
-        // QUI IL NUMERO DI DADI, COLORI E SPECIFICHE VA RECUPERATO DALLA LOGICA
-        // TRAMITE UNA CHIAMATA MI RECAPITO I VALORI E DINAMICAMENTE LI ASSEGNO
-        // AGLI OGGETTI ISTANZIATI
 
-        Box box1 = new Box();
-        box1.setWidth(100.0);
-        box1.setHeight(100.0);
-        box1.setDepth(100.0);
-        final PhongMaterial redMaterial = new PhongMaterial();
-        redMaterial.setDiffuseColor(Color.DARKRED);
-        redMaterial.setSpecularColor(Color.RED);
-        box1.setMaterial(redMaterial);
-        Box box2 = new Box();
-        box2.setWidth(100.0);
-        box2.setHeight(100.0);
-        box2.setDepth(100.0);
-        box2.setTranslateX(100);
-        target.setTranslateX(100);
-        PhongMaterial greenMaterial = new PhongMaterial();
-        redMaterial.setDiffuseColor(Color.DARKRED);
-        redMaterial.setSpecularColor(Color.BLACK);
-        box2.setMaterial(greenMaterial);
-        paneBackground.add(box1, 1, 1);
-        paneBackground.add(box2, 1, 1);
-        paneBackground.add(source, 1, 1);
-        paneBackground.add(target, 1, 1);
-
-
-    }
 
 
     private void setCardMap() {
        paneCarta.setStyle("-fx-background-image: url('1.png');-fx-background-size: cover;");
        paneCarta2.setStyle("-fx-background-image: url('2.png');-fx-background-size: cover;");
-       paneCarta3.setStyle("-fx-background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Silvio_Berlusconi_1994.jpg/200px-Silvio_Berlusconi_1994.jpg');-fx-background-size: cover;");
-       paneCarta1.setStyle("-fx-background-image: url('https://media.gettyimages.com/photos/silvio-berlusconi-attends-che-tempo-che-fa-tv-show-on-november-26-in-picture-id879849778?s=612x612');-fx-background-size: cover;");
+       paneCarta3.setStyle("-fx-background-image: url('3.png');-fx-background-size: cover;");
+       paneCarta1.setStyle("-fx-background-image: url('4.png');-fx-background-size: cover;");
 
     }
 
