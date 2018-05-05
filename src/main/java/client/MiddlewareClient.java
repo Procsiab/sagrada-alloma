@@ -2,8 +2,8 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
+import shared.GameManager;
 import shared.Logger;
-import shared.SharedServerGameManager;
 import shared.network.SharedMiddlewareClient;
 import shared.network.SharedMiddlewareServer;
 import shared.network.Connection;
@@ -44,7 +44,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public String startGame(String uuid) {
         connection.export(instance, uuid);
         if (isSocket) {
-            Object[] args = {uuid, connection.getLocalPort(), isSocket};
+            Object[] args = {uuid, connection.getIp(), connection.getLocalPort(), isSocket};
             String methodName = "startGame";
             return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
         } else {
@@ -60,7 +60,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public void updateView(SharedServerGameManager gameManager) {
+    public void updateView(GameManager gameManager) {
         //it is better to access directly to StartGameController
         LogInScreenController.getGameClient().updateView(gameManager);
     }

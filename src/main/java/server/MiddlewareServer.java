@@ -2,7 +2,6 @@ package server;
 
 import shared.GameManager;
 import shared.Logger;
-import shared.SharedServerGameManager;
 import shared.network.Connection;
 import shared.network.SharedMiddlewareClient;
 import shared.network.SharedMiddlewareServer;
@@ -50,13 +49,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         return MatchManager.getInstance().startGame("UUID", ip, port, isSocket);
     }
 
-    // sample method
-    public String startGame(){
-        return "Wed";
-    }
-
     @Override
-    public void updateView(String uuid, SharedServerGameManager gameManager) {
+    public void updateView(String uuid, GameManager gameManager) {
         int playerId = SReferences.uuidRef.indexOf(uuid);
         if (playerId >= 0) {
             if (SReferences.isSocketRef.get(playerId)) {

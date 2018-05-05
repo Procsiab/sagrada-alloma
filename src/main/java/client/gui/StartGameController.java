@@ -16,12 +16,11 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import shared.SharedServerGameManager;
+import shared.GameManager;
 
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.ReentrantLock;
@@ -31,7 +30,7 @@ public class StartGameController implements Initializable {
     private URL location;
     @FXML
     private ResourceBundle resources;
-    private SharedServerGameManager netGameManager;
+    private GameManager netGameManager;
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
@@ -64,7 +63,7 @@ public class StartGameController implements Initializable {
         //start animation for the winner
     }
 
-    public void setNetGameManager(SharedServerGameManager netGameManager) {
+    public void setNetGameManager(GameManager netGameManager) {
         this.netGameManager = netGameManager;
     }
 
@@ -135,7 +134,7 @@ public class StartGameController implements Initializable {
 
     }
 
-    public void updateView(SharedServerGameManager gameManager) {
+    public void updateView(GameManager gameManager) {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama

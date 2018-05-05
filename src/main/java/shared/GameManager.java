@@ -4,16 +4,15 @@ import server.*;
 import server.abstracts.PrivateOC;
 import server.abstracts.PublicOC;
 import server.abstracts.ToolC;
-import shared.*;
 import shared.logic.GeneralTask;
 
-import java.rmi.RemoteException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class GameManager extends GeneralTask implements SharedServerGameManager {
+public class GameManager extends GeneralTask implements Serializable {
 
     public ArrayList<String> publicRef = new ArrayList<>();
     public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();

@@ -1,15 +1,14 @@
 package shared.network;
 
-import shared.SharedServerGameManager;
+import shared.GameManager;
 
-import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface SharedMiddlewareServer extends Remote {
     String startGame(String uuid, String ip, Integer port, Boolean isSocket) throws RemoteException;
-    void updateView(String uuid, SharedServerGameManager gameManager) throws RemoteException;
+    void updateView(String uuid, GameManager gameManager) throws RemoteException;
     Integer chooseWindow(String uuid, ArrayList<Integer> windows) throws RemoteException;
     boolean ping(String uuid) throws RemoteException;
     void aPrioriWin(String uuid) throws RemoteException;

@@ -72,22 +72,15 @@ public class MainClient extends Application {
 
             //System.out.println(uUID);
         } else if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0) {
-            System.out.println("UEIII MAIALE INSERISCI LA PASSWORD");
+            /*System.out.println("UEIII MAIALE INSERISCI LA PASSWORD");
             cnsl = System.console();
             // read password into the char array
             char[] pwd = cnsl.readPassword("Password: ");
-
             // prints
             System.out.println("Password is: "+ new String(pwd));
             pass = new String(pwd);
             StringBuffer output = new StringBuffer();
             Process process;
-
-            /*Scanner scanner = new Scanner(System.in);
-            System.out.println("enter the password");
-            pass = scanner.nextLine();
-            */
-
             String[] cmd = {"/bin/sh", "-c", "echo " + pass + " | sudo -S cat /sys/class/dmi/id/product_uuid"};
             try {
                 process = Runtime.getRuntime().exec(cmd);
@@ -100,12 +93,9 @@ public class MainClient extends Application {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             uUID = output.toString();
-
-
-            //System.out.println(uUID);
-
+            //System.out.println(uUID);*/
+            uUID = "0123456789";
         } else if (OS.indexOf("mac") > 0) {
             //throw away this shit
 
