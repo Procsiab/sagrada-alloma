@@ -46,6 +46,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public String startGame(String uuid, String ip, Integer port, Boolean isSocket) {
+        System.out.println(port);
         return MatchManager.getInstance().startGame("UUID", ip, port, isSocket);
     }
 

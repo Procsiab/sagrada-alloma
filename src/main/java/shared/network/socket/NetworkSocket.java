@@ -19,6 +19,7 @@ public class NetworkSocket implements Connection {
     private ObjectInputStream inStream;
     private String IP;
     private Thread consumer;
+    private SocketServer threadServer;
 
     private final String server;
     private final Integer port;
@@ -27,7 +28,8 @@ public class NetworkSocket implements Connection {
         try {
             if (consumer == null) {
                 this.IP = InetAddress.getLocalHost().getHostAddress();
-                this.consumer = new Thread(new SocketServer(port, exportedObjects));
+                this.threadServer = new SocketServer(port, exportedObjects);
+                this.consumer = new Thread(threadServer);
                 this.consumer.start();
             }
         } catch (UnknownHostException uhe) {
@@ -88,7 +90,8 @@ public class NetworkSocket implements Connection {
 
     @Override
     public Integer getLocalPort() {
-        return socketProducer.getLocalPort();
+        System.out.println("In Network Socket la pporta vale " + threadServer.getPort());
+        return threadServer.getPort();
     }
 
     @Override

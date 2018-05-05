@@ -50,9 +50,14 @@ public class SocketServer implements Closeable, Runnable {
         prepareConnection();
         do {
             Logger.log("Waiting for clients...");
+            System.out.println("Socet server porta da comunicare" + socketConsumer.getLocalPort());
             final Socket client = acceptConnection();
             pool.submit(new SocketHandler(client, exportedObjects));
         } while (true);
+    }
+
+    public Integer getPort() {
+        return socketConsumer.getLocalPort();
     }
 
     @Override
