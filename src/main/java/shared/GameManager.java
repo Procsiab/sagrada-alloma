@@ -15,8 +15,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class GameManager extends GeneralTask implements Serializable {
 
     public ArrayList<String> publicRef = new ArrayList<>();
-    public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    public List<String> players;
+    transient public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    public ArrayList<String> players = new ArrayList<>();
     public ArrayList<String> players2 = new ArrayList<>();
     private final Integer sleepTime;
     private final Integer nMates;

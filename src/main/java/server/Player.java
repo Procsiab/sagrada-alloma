@@ -6,7 +6,9 @@ import server.abstracts.Window;
 import shared.GameManager;
 import shared.Position;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private MatchManager matchManager = MatchManager.getInstance();
     public String uUID;
     public PrivateOC privateOC;

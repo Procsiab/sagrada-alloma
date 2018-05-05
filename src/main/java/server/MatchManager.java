@@ -3,11 +3,12 @@ package server;
 import server.abstracts.*;
 import shared.logic.Locker;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MatchManager {
+public class MatchManager implements Serializable {
     public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
     public static LinkedList<String> q = new LinkedList<>();
     public static ArrayList<String> left = new ArrayList<>();
