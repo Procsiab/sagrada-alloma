@@ -127,7 +127,7 @@ public class MainClient extends Application {
 
         System.out.println("wei");
 
-        System.out.println("Scegli connessione porcel,lino, anche se non te ne sbatte molto. 'Rmi' o 'Socket' ");
+        System.out.println("Scegli connessione porcellino, anche se non te ne sbatte molto. 'Rmi' o 'Socket' ");
 
         Scanner inConnection = new Scanner(System.in);
         connection = inConnection.nextLine();
@@ -137,10 +137,10 @@ public class MainClient extends Application {
         System.out.println("Connessione selezionata: " + connection);
 
         if (connection.equals("Rmi")){
-            MiddlewareClient.setConnection(new NetworkRmi(""));
+            MiddlewareClient.setConnection(new NetworkRmi("", 0));
         }
         else if (connection.equals("Socket")){
-            MiddlewareClient.setConnection(new NetworkSocket(""));
+            MiddlewareClient.setConnection(new NetworkSocket("", 0));
         }
 
 

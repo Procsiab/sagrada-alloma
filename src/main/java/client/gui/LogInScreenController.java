@@ -16,9 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import server.MiddlewareServer;
 import shared.Logger;
-import shared.network.socket.NetworkSocket;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,11 +39,6 @@ public class LogInScreenController implements Initializable {
         StartGameController controllerGame = loader.getController();
         //TODO Access to gameClient attribute in different way (look at the linter warning)
         gameClient = controllerGame;
-        // Passo il mio controller all'esterno, va bene fatto così?
-
-
-        //TODO Let the player choose the connection type through GUI
-        MiddlewareClient.setConnection(new NetworkSocket(""));
 
         String message1 = MiddlewareClient.getInstance().startGame("UUID");
         Logger.log("Server responded as: " + message1);

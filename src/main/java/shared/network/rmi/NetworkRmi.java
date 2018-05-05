@@ -3,7 +3,6 @@ package shared.network.rmi;
 import shared.Logger;
 import shared.network.Connection;
 
-import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 
 public class NetworkRmi implements Connection {
     private static final Integer RMI_METHOD_PORT = 1099;
-    private static final Integer RMI_OBJECT_PORT = 1100;
     private static final String SERVER_ADDRESS = "localhost";
 
     private Registry rmiRegistry;
@@ -48,7 +46,7 @@ public class NetworkRmi implements Connection {
         startRegistrySetup(port);
         try {
             // Start RMI registry on this machine
-            this.rmiRegistry = LocateRegistry.createRegistry(RMI_METHOD_PORT);
+            this.rmiRegistry = LocateRegistry.createRegistry(port);
         } catch (RemoteException re) {
             Logger.log("Error in RMI Registry initialization!");
             Logger.strace(re);
@@ -60,9 +58,9 @@ public class NetworkRmi implements Connection {
         try {
             // Obtain RMI registry reference from server
             if (server.equals("")) {
-                rmiRegistry = LocateRegistry.getRegistry(SERVER_ADDRESS, RMI_METHOD_PORT);
+                rmiRegistry = LocateRegistry.getRegistry(SERVER_ADDRESS, port);
             } else {
-                rmiRegistry = LocateRegistry.getRegistry(server, RMI_METHOD_PORT);
+                rmiRegistry = LocateRegistry.getRegistry(server, port);
             }
         } catch (RemoteException re) {
             Logger.log("Error in RMI Registry connection! (server: " + server + ")");
@@ -71,11 +69,11 @@ public class NetworkRmi implements Connection {
     }
 
     public NetworkRmi() {
-        this(RMI_OBJECT_PORT);
+        this(RMI_METHOD_PORT);
     }
 
     public NetworkRmi(String server) {
-        this(server, RMI_OBJECT_PORT);
+        this(server, RMI_METHOD_PORT);
     }
 
     @Override
