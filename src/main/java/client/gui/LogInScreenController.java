@@ -42,7 +42,7 @@ public class LogInScreenController implements Initializable {
         //TODO Access to gameClient attribute in different way (look at the linter warning)
         gameClient = controllerGame;
         // Passo il mio controller all'esterno, va bene fatto così?
-        game.setGraphics(controllerGame);
+
 
         //TODO Let the player choose the connection type through GUI
         MiddlewareClient.setConnection(new NetworkSocket(""));
