@@ -25,9 +25,11 @@ public class NetworkSocket implements Connection {
 
     private void startConsumer(Integer port) {
         try {
-            this.IP = InetAddress.getLocalHost().getHostAddress();
-            this.consumer = new Thread(new SocketServer(port, exportedObjects));
-            this.consumer.start();
+            if (consumer == null) {
+                this.IP = InetAddress.getLocalHost().getHostAddress();
+                this.consumer = new Thread(new SocketServer(port, exportedObjects));
+                this.consumer.start();
+            }
         } catch (UnknownHostException uhe) {
             Logger.log("Unable to resolve local host name/address!");
             Logger.strace(uhe);
@@ -39,7 +41,10 @@ public class NetworkSocket implements Connection {
             this.IP = InetAddress.getLocalHost().getHostAddress();
             // Setup the socket which will output data to the server
             if (server.equals("")) {
-                socketProducer = new Socket(SERVER_ADDRESS, port);
+                server = SERVER_ADDRESS;
+            }
+            if (port == 0) {
+                socketProducer = new Socket(server, SOCKET_PORT);
             } else {
                 socketProducer = new Socket(server, port);
             }
@@ -88,6 +93,7 @@ public class NetworkSocket implements Connection {
 
     @Override
     public void export(Object o, String n) {
+        startConsumer(this.port);
         try {
             exportedObjects.put(n, o);
         } catch (ClassCastException cce) {

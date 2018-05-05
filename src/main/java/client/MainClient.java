@@ -140,7 +140,7 @@ public class MainClient extends Application {
             MiddlewareClient.setConnection(new NetworkRmi("", 0));
         }
         else if (connection.equals("Socket")){
-            MiddlewareClient.setConnection(new NetworkSocket(""));
+            MiddlewareClient.setConnection(new NetworkSocket("", 0));
         }
 
 
