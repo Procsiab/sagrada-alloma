@@ -34,7 +34,7 @@ public class MainServer {
 
 
         try {
-            Thread.sleep(20000);
+            Thread.sleep(40000);
         } catch (InterruptedException i){
 
         }

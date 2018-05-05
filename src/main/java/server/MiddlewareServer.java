@@ -59,6 +59,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
                     client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
+                    Logger.log("");
                     Logger.strace(e);
                 }
             } else {
