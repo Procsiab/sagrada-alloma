@@ -63,15 +63,11 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
     }
 
     public void setAction(boolean action) {
-        synchronized (lock1) {
-            this.action = action;
-        }
+        this.action = action;
     }
 
     public boolean getAction() {
-        synchronized (lock1) {
-            return action;
-        }
+        return action;
     }
 
     public void setLoser(String loser) {
@@ -280,7 +276,6 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                             unresponsive.add(pla);
                         active.remove(pla);
                     }
-
                 }
 
                 //check if all left game
@@ -328,7 +323,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                             middlewareServer.aPrioriWin(active.get(0));
                             return;
                         }
-                        //why don't change ISP
+                        //why don't change ISP?
                     }
 
                 }
@@ -351,13 +346,12 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                         }
                     this.action = false;
                     this.expected = null;
-                    middlewareServer.shut(players.get(i - 1));
+                    //middlewareServer.shut(players.get(i - 1));
                 }
                 i++;
             }
 
             while (i >= 1) {
-
                 //fitness(active);
                 //fitness(unresponsive);
 
@@ -377,7 +371,6 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                             unresponsive.add(pla);
                         active.remove(pla);
                     }
-
                 }
 
                 //check if all left game
@@ -425,7 +418,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                             middlewareServer.aPrioriWin(active.get(0));
                             return;
                         }
-                        //why don't change ISP
+                        //why don't change ISP?
                     }
 
                 }
@@ -435,6 +428,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                     middlewareServer.updateView(players.get(i - 1), this);
                     this.expected = players.get(i - 1);
                     middlewareServer.enable(players.get(i - 1));
+
 
                     while (this.action == false)
                         try {
@@ -447,7 +441,7 @@ public class GameManager extends GeneralTask implements SharedServerGameManager 
                         }
                     this.action = false;
                     this.expected = null;
-                    middlewareServer.shut(players.get(i - 1));
+                    //middlewareServer.shut(players.get(i - 1));
                 }
                 i--;
 
