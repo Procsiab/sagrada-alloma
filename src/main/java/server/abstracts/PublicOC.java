@@ -1,4 +1,6 @@
 package server.abstracts;
 
-public abstract class PublicOC {
+import java.io.Serializable;
+
+public abstract class PublicOC implements Serializable {
 }

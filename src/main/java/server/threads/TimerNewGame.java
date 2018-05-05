@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class TimerNewGame extends GeneralTask {
     public Integer sleepTime;
     NewGameManager newGameManager;
-    public final Object obj = new Object();
+    transient public final Object obj = new Object();
     private Locker safe = Locker.getSafe();
 
     TimerNewGame(Integer time, NewGameManager newGameManager) {

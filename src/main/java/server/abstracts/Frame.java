@@ -5,7 +5,9 @@ import server.Dice;
 import server.Player;
 import shared.Position;
 
-public abstract class Frame {
+import java.io.Serializable;
+
+public abstract class Frame implements Serializable {
 
     public Window window;
     private Dice[][] dicePositions;

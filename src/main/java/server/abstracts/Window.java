@@ -2,7 +2,9 @@ package server.abstracts;
 
 import server.Cell;
 
-public abstract class Window {
+import java.io.Serializable;
+
+public abstract class Window implements Serializable {
 
     public Cell[][] feature;
     public Integer tokens;

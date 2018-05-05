@@ -61,7 +61,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
 
     @Override
     public void updateView(GameManager gameManager) {
-        //it is better to access directly to StartGameController
+        //it is better to access directly from static references in MainClient
         LogInScreenController.getGameClient().updateView(gameManager);
     }
 

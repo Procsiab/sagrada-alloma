@@ -1,9 +1,10 @@
 package server;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RoundTrack {
+public class RoundTrack implements Serializable {
     public Integer turn = 0;
     public ArrayList<ArrayList<Dice>> dices = new ArrayList<>(10);
 

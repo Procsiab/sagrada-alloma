@@ -1,6 +1,8 @@
 package server.abstracts;
 
-public abstract class PrivateOC {
+import java.io.Serializable;
+
+public abstract class PrivateOC implements Serializable {
 
     private String name;
     private String description;
