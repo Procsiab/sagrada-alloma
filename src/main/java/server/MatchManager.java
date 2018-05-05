@@ -20,7 +20,6 @@ public class MatchManager implements Serializable {
     public List<Frame> frames = new ArrayList<>();
     public List<Window> windows = new ArrayList<>();
     public List<ScoreMarker> scoreMarkers = new ArrayList<>();
-    public Object locker = new Object();
 
     private static MatchManager instance = new MatchManager();
 

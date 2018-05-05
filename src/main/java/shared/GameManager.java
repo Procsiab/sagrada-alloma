@@ -16,26 +16,26 @@ public class GameManager extends GeneralTask implements Serializable {
 
     //transient middlewareserver
 
-    transient public ArrayList<String> publicRef = new ArrayList<>();
+    public ArrayList<String> publicRef = new ArrayList<>();
     transient public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    transient public ArrayList<String> players = new ArrayList<>();
-    transient public ArrayList<String> players2 = new ArrayList<>();
-    transient private final Integer sleepTime;
-    transient private final Integer nMates;
-    transient private ArrayList<Player> vPlayers;
-    transient public MatchManager matchManager = MatchManager.getInstance();
-    transient private boolean action = false;
-    transient public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
-    transient public ArrayList<PublicOC> publicOCs = new ArrayList<>();
-    transient public ArrayList<ToolC> toolCards;
-    transient public ArrayList<String> privateLeft = new ArrayList<>();
-    transient public ArrayList<String> unresponsive = new ArrayList<>();
-    transient public ArrayList<String> active = new ArrayList<>();
-    transient public String expected;
-    transient public RoundTrack roundTrack;
-    transient public boolean check1 = false;
-    transient public ArrayList<Dice> dices = new ArrayList<>();
-    transient public ArrayList<Dice> pool = new ArrayList<>();
+    public ArrayList<String> players = new ArrayList<>();
+    public ArrayList<String> players2 = new ArrayList<>();
+    private final Integer sleepTime;
+    private final Integer nMates;
+    private ArrayList<Player> vPlayers;
+    public MatchManager matchManager = MatchManager.getInstance();
+    private boolean action = false;
+    public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
+    public ArrayList<PublicOC> publicOCs = new ArrayList<>();
+    public ArrayList<ToolC> toolCards;
+    public ArrayList<String> privateLeft = new ArrayList<>();
+    public ArrayList<String> unresponsive = new ArrayList<>();
+    public ArrayList<String> active = new ArrayList<>();
+    public String expected;
+    public RoundTrack roundTrack;
+    public boolean check1 = false;
+    public ArrayList<Dice> dices = new ArrayList<>();
+    public ArrayList<Dice> pool = new ArrayList<>();
 
     public GameManager(ArrayList<String> players) {
         Random rand = new Random();

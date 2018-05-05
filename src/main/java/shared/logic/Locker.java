@@ -1,10 +1,11 @@
 package shared.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Locker {
+public class Locker implements Serializable {
 
     public static Locker safe = new Locker();
     public final ReentrantLock sLock1 = new ReentrantLock();
