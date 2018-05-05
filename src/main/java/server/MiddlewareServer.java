@@ -1,6 +1,6 @@
 package server;
 
-import server.threads.GameManager;
+import shared.GameManager;
 import shared.Logger;
 import shared.SharedServerGameManager;
 import shared.network.Connection;
@@ -48,6 +48,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     @Override
     public String startGame(String uuid, String ip, Integer port, Boolean isSocket) {
         return MatchManager.getInstance().startGame("UUID", ip, port, isSocket);
+    }
+
+    // sample method
+    public String startGame(){
+        return "Wed";
     }
 
     @Override

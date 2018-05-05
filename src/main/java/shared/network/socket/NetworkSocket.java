@@ -88,10 +88,11 @@ public class NetworkSocket implements Connection {
     @Override
     public void export(Object o, String n) {
         try {
-            Serializable s = (Serializable) o;
-            exportedObjects.put(n, s);
+            //Serializable s = (Serializable) o;
+            exportedObjects.put(n, o);
         } catch (ClassCastException cce) {
             Logger.log("Error casting given object into Serializable!");
+            Logger.strace(cce);
         }
     }
 

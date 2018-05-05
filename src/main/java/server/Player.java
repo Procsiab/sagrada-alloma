@@ -3,7 +3,7 @@ package server;
 import server.abstracts.Frame;
 import server.abstracts.PrivateOC;
 import server.abstracts.Window;
-import server.threads.GameManager;
+import shared.GameManager;
 import shared.Position;
 
 public class Player {

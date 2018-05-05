@@ -21,17 +21,13 @@ public class MatchManager {
     public List<ScoreMarker> scoreMarkers = new ArrayList<>();
     public Object locker = new Object();
 
-    private static MatchManager instance = null;
+    private static MatchManager instance = new MatchManager();
 
     public static MatchManager getInstance() {
         return instance;
     }
 
-    public static void setInstance() {
-        if (instance == null) {
-            instance = new MatchManager();
-        }
-    }
+
 
     private MatchManager() {
         //fill ArrayLists, such as toolCS... with objects
@@ -45,6 +41,7 @@ public class MatchManager {
 
     public String startGame(String uuid, String ip, Integer port, boolean isSocket) {
 
+        System.out.println("wuednclk");
 
         if (left.contains(uuid)) {
             return "You already playing asshole! Hold on while the server calls you again";

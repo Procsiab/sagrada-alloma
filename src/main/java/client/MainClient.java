@@ -135,6 +135,8 @@ public class MainClient extends Application {
 
         }
 
+        System.out.println("wei");
+
         System.out.println("Scegli connessione porcel,lino, anche se non te ne sbatte molto. 'Rmi' o 'Socket' ");
 
         Scanner inConnection = new Scanner(System.in);

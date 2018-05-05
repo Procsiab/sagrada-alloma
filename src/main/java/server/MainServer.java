@@ -16,11 +16,14 @@ public class MainServer {
         return instance;
     }
 
-    private MainServer(){
+    private MainServer() {
         super();
     }
 
     public static void main(String[] args) throws IOException {
+
+        MiddlewareServer.getInstance();
+        MatchManager.getInstance();
 
         System.out.println("\nSend 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);

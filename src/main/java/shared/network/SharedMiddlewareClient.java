@@ -2,6 +2,7 @@ package shared.network;
 
 import shared.SharedServerGameManager;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
 package shared.network.socket;
 
+import server.MiddlewareServer;
 import shared.Logger;
 
 import java.io.Closeable;
@@ -86,10 +87,10 @@ class SocketHandler implements Runnable, Closeable {
             Method m;
             if (o != null) {
                 if (argList == null) {
-                    m = o.getClass().getDeclaredMethod(methodName, parameters);
+                    m = MiddlewareServer.class.getDeclaredMethod(methodName, parameters);
                 } else {
                     Arrays.stream(argList).map(Object::getClass).collect(Collectors.toList()).toArray(parameters);
-                    m = o.getClass().getDeclaredMethod(methodName, parameters);
+                    m = MiddlewareServer.class.getDeclaredMethod(methodName, parameters);
                 }
                 m.setAccessible(true);
                 return m.invoke(getExported(callee), argList);
@@ -101,7 +102,8 @@ class SocketHandler implements Runnable, Closeable {
         } catch (ClassCastException cce) {
             Logger.log("The given object should extend Serializable!");
         } catch (NoSuchMethodException nsme) {
-            Logger.log("Requested method " + methodName + " was found in " + callee + " class!");
+            Logger.log("Requested method " + methodName + " was not found in " + callee + " class!");
+            Logger.strace(nsme);
         } catch (InvocationTargetException ite) {
             Logger.log("An exception occurred in method " + methodName + "!");
             Logger.strace(ite);

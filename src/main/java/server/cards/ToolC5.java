@@ -2,12 +2,9 @@ package server.cards;
 
 import server.Dice;
 import server.Player;
-import server.abstracts.PrivateOC;
 import server.abstracts.ToolC;
-import server.threads.GameManager;
+import shared.GameManager;
 import shared.PositionR;
-
-import javax.tools.Tool;
 
 public class ToolC5 extends ToolC {
 

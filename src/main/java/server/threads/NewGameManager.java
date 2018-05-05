@@ -1,6 +1,7 @@
 package server.threads;
 
 import server.MatchManager;
+import shared.GameManager;
 import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import shared.logic.GeneralTask;

@@ -1,10 +1,8 @@
 package server;
 
-import server.threads.GameManager;
+import shared.GameManager;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class SReferences {
 

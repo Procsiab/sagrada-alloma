@@ -1,4 +1,4 @@
-package server.threads;
+package shared;
 
 import server.*;
 import server.abstracts.PrivateOC;

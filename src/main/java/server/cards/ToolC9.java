@@ -2,9 +2,8 @@ package server.cards;
 
 import server.Dice;
 import server.Player;
-import server.abstracts.PrivateOC;
 import server.abstracts.ToolC;
-import server.threads.GameManager;
+import shared.GameManager;
 import shared.Position;
 
 public class ToolC9 extends ToolC {

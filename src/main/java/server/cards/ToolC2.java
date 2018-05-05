@@ -4,8 +4,7 @@ import server.Dice;
 import server.Player;
 import server.abstracts.ToolC;
 import shared.Position;
-import server.abstracts.PrivateOC;
-import server.threads.GameManager;
+import shared.GameManager;
 
 public class ToolC2 extends ToolC {
 
