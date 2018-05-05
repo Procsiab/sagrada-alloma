@@ -156,10 +156,10 @@ public class MainClient extends Application {
 
         Scanner inInterface = new Scanner(System.in);
         interfaccia = inInterface.nextLine();
-        while(!interfaccia.equals("Rmi") && !interfaccia.equals("Socket") ){
-            System.out.println("Connessione scelta non valida, reinserire connessione");
+        while(!interfaccia.equals("CMD") && !interfaccia.equals("GUI") ){
+            System.out.println("Interfaccia scelta non valida, reinserire connessione");
             interfaccia = inInterface.nextLine();}
-        System.out.println("Connessione selezionata: " + interfaccia);
+        System.out.println("Interfaccia Selezionata: " + interfaccia);
 
         if (interfaccia.equals("CMD")){
             isPrompt= true ;
