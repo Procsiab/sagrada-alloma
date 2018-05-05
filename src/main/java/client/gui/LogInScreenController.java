@@ -66,6 +66,7 @@ public class LogInScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Scale Transition di Sagrada LogIn
+        MainClient.logInScreenController = this;
         animazioneSagrada();
         animazioneStartGame();
 

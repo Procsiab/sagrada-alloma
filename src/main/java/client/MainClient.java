@@ -1,5 +1,6 @@
 package client;
 
+import client.gui.LogInScreenController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,9 +24,8 @@ public class MainClient extends Application {
     private static String connection;
     private static String interfaccia;
     private static boolean isPrompt;
-    /*riferimenti alle finestre
-    ...
-    */
+
+    public static LogInScreenController logInScreenController;
 
 
     /*
