@@ -1,6 +1,5 @@
 package shared.network.socket;
 
-import server.MiddlewareServer;
 import shared.Logger;
 
 import java.io.Closeable;
@@ -12,7 +11,6 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 class SocketHandler implements Runnable, Closeable {
     private Socket client;
@@ -75,25 +73,26 @@ class SocketHandler implements Runnable, Closeable {
         try {
             exportedObject = (T) exportedObjects.get(name);
         } catch (ClassCastException cce) {
-            Logger.log("Error casting Serializable object into destination class!");
+            Logger.log("Error casting exported object " + name + " into destination class!");
         }
         return exportedObject;
     }
 
     private Object invokeMethod(String callee, String methodName, Object[] argList) {
         try {
-            Class[] parameters = {};
+            Class[] parameters;
             Object o = getExported(callee);
             Method m;
             if (o != null) {
                 if (argList == null) {
-                    m = MiddlewareServer.class.getDeclaredMethod(methodName, parameters);
+                    parameters = null;
+                    m = o.getClass().getDeclaredMethod(methodName, parameters);
                 } else {
-                    Arrays.stream(argList).map(Object::getClass).collect(Collectors.toList()).toArray(parameters);
-                    m = MiddlewareServer.class.getDeclaredMethod(methodName, parameters);
+                    parameters = Arrays.stream(argList).map(Object::getClass).toArray(Class[]::new);
+                    m = o.getClass().getDeclaredMethod(methodName, parameters);
                 }
                 m.setAccessible(true);
-                return m.invoke(getExported(callee), argList);
+                return m.invoke(o, argList);
             } else {
                 throw new NullPointerException();
             }

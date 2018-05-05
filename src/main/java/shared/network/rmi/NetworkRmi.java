@@ -157,7 +157,7 @@ public class NetworkRmi implements Connection {
         } catch (ClassCastException cce) {
             Logger.log("The given object should extend Serializable!");
         } catch (NoSuchMethodException nsme) {
-            Logger.log("Requested method " + methodName + " was found in " + callee + " class!");
+            Logger.log("Requested method " + methodName + " was not found in " + callee + " class!");
         } catch (InvocationTargetException ite) {
             Logger.log("An exception occurred in method " + methodName + "!");
             Logger.strace(ite);

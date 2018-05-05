@@ -36,6 +36,7 @@ public class NetworkSocket implements Connection {
 
     private void startProducer(String server, Integer port) {
         try {
+            this.IP = InetAddress.getLocalHost().getHostAddress();
             // Setup the socket which will output data to the server
             if (server.equals("")) {
                 socketProducer = new Socket(SERVER_ADDRESS, port);
@@ -88,7 +89,6 @@ public class NetworkSocket implements Connection {
     @Override
     public void export(Object o, String n) {
         try {
-            //Serializable s = (Serializable) o;
             exportedObjects.put(n, o);
         } catch (ClassCastException cce) {
             Logger.log("Error casting given object into Serializable!");
