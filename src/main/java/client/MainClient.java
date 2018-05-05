@@ -14,9 +14,22 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class MainClient extends Application {
-    public static GameHelper game;
+    public static GameHelper game; // Game resetta scelte nel caso di stronzate
     public static String pass;
     public static String uUID = null;
+
+    /*riferimenti alle finestre
+    ...
+    */
+
+
+    /*
+    dice dado1
+    dice dado2
+    position posizione 1
+    ...
+    */
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
