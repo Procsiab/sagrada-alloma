@@ -17,20 +17,22 @@ public class NetworkSocket implements Connection {
     private Socket socketProducer;
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
-    private String IP;
-    private Thread consumer;
-    private SocketServer threadServer;
+    private String ip;
+    private Thread threadConsumer;
+    private Integer portConsumer;
 
     private final String server;
     private final Integer port;
 
     private void startConsumer(Integer port) {
         try {
-            if (consumer == null) {
-                this.IP = InetAddress.getLocalHost().getHostAddress();
-                this.threadServer = new SocketServer(port, exportedObjects);
-                this.consumer = new Thread(threadServer);
-                this.consumer.start();
+            if (threadConsumer == null) {
+                this.ip = InetAddress.getLocalHost().getHostAddress();
+                // Setup the socket that will listen for incoming connections
+                SocketServer socketConsumer = new SocketServer(port, exportedObjects);
+                this.portConsumer = socketConsumer.getPort();
+                this.threadConsumer = new Thread(socketConsumer);
+                this.threadConsumer.start();
             }
         } catch (UnknownHostException uhe) {
             Logger.log("Unable to resolve local host name/address!");
@@ -40,7 +42,7 @@ public class NetworkSocket implements Connection {
 
     private void startProducer(String server, Integer port) {
         try {
-            this.IP = InetAddress.getLocalHost().getHostAddress();
+            this.ip = InetAddress.getLocalHost().getHostAddress();
             // Setup the socket which will output data to the server
             if (server.equals("")) {
                 server = SERVER_ADDRESS;
@@ -85,13 +87,12 @@ public class NetworkSocket implements Connection {
 
     @Override
     public String getIp() {
-        return this.IP;
+        return this.ip;
     }
 
     @Override
-    public Integer getLocalPort() {
-        System.out.println("In Network Socket la pporta vale " + threadServer.getPort());
-        return threadServer.getPort();
+    public Integer getListeningPort() {
+        return this.portConsumer;
     }
 
     @Override
@@ -143,7 +144,6 @@ public class NetworkSocket implements Connection {
 
     public void close() {
         try {
-            this.consumer.interrupt();
             this.inStream.close();
             this.outStream.close();
             this.socketProducer.close();

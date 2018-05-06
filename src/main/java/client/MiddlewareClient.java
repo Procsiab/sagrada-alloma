@@ -11,6 +11,7 @@ import shared.network.socket.NetworkSocket;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public final class MiddlewareClient implements SharedMiddlewareClient {
     private static final String SERVER_INTERFACE = "MiddlewareServer";
@@ -44,13 +45,13 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public String startGame(String uuid) {
         connection.export(instance, uuid);
         if (isSocket) {
-            Object[] args = {uuid, connection.getIp(), connection.getLocalPort(), isSocket};
+            Object[] args = {uuid, connection.getIp(), connection.getListeningPort(), isSocket};
             String methodName = "startGame";
             return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
         } else {
             SharedMiddlewareServer server = connection.getExported(SERVER_INTERFACE);
             try {
-                return server.startGame(uuid, connection.getIp(), connection.getLocalPort(), isSocket);
+                return server.startGame(uuid, connection.getIp(), connection.getListeningPort(), isSocket);
             } catch (RemoteException re) {
                 Logger.log("Error calling remote method startGame()");
                 Logger.strace(re);

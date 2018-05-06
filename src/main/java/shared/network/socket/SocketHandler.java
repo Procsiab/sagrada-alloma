@@ -26,10 +26,6 @@ class SocketHandler implements Runnable, Closeable {
         ObjectInputStream in = null;
         ObjectOutputStream out = null;
         try {
-
-            System.out.println("weeeeeee SocketHandler");
-
-
             in = new ObjectInputStream(client.getInputStream());
             out = new ObjectOutputStream(client.getOutputStream());
             Object data = in.readObject();

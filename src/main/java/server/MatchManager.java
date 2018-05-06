@@ -35,13 +35,8 @@ public class MatchManager implements Serializable {
     }
 
 
-    public void print() {
-        System.out.println("Hwe");
-    }
 
     public String startGame(String uuid, String ip, Integer port, boolean isSocket) {
-
-        System.out.println("wuednclk");
 
         if (left.contains(uuid)) {
             return "You already playing asshole! Hold on while the server calls you again";

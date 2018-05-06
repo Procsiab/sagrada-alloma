@@ -82,7 +82,7 @@ public class NetworkRmi implements Connection {
     }
 
     @Override
-    public Integer getLocalPort() {
+    public Integer getListeningPort() {
         return -1;
     }
 

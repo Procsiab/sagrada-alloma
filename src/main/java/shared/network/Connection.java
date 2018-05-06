@@ -6,7 +6,7 @@ public interface Connection extends AutoCloseable {
 
     String getIp();
 
-    Integer getLocalPort();
+    Integer getListeningPort();
 
     <T> T getExported(String name);
 

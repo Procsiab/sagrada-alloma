@@ -6,8 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import shared.logic.ConcurrencyManager;
 import client.threads.GameHelper;
+import shared.Logger;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
@@ -19,22 +19,19 @@ import java.io.Console;
 public class MainClient extends Application {
     public static GameHelper game; // Game resetta scelte nel caso di stronzate
     public static String pass;
-    public static String uUID = null;
+    public static String uuid = null;
     private static Console cnsl;
     private static String connection;
     private static String interfaccia;
     private static boolean isPrompt;
 
     public static LogInScreenController logInScreenController;
-
-
     /*
     dice dado1
     dice dado2
     position posizione 1
     ...
     */
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -45,14 +42,9 @@ public class MainClient extends Application {
     }
 
     public static void main(String[] args) {
-        //uUID detection
-
-
-
-        String OS = System.getProperty("os.name").toLowerCase();
-
-
-        if (OS.indexOf("win") >= 0) {
+        // Obtain client UUID
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
             Process process;
             String cmd = "wmic csproduct get UUID";
             try {
@@ -62,16 +54,13 @@ public class MainClient extends Application {
                 String line;
                 int i = 0;
                 while ((line = reader.readLine()) != null && i < 3) {
-                    uUID = line;
+                    uuid = line;
                     i++;
                 }
-                i = 0;
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.strace(e);
             }
-
-            //System.out.println(uUID);
-        } else if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0) {
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
             /*System.out.println("UEIII MAIALE INSERISCI LA PASSWORD");
             cnsl = System.console();
             // read password into the char array
@@ -93,20 +82,15 @@ public class MainClient extends Application {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            uUID = output.toString();
-            //System.out.println(uUID);*/
-            uUID = "0123456789";
-        } else if (OS.indexOf("mac") > 0) {
-            //throw away this shit
-
+            uuid = output.toString();
+            //System.out.println(uuid);*/
+            uuid = "0123456789";
+        } else if (os.indexOf("mac") > 0) {
             StringBuffer output = new StringBuffer();
             Process process;
-
             Scanner scanner = new Scanner(System.in);
             System.out.println("enter the password");
             pass = scanner.nextLine();
-            //TODO Let the user provide the password
-
             //https://www.infoworld.com/article/3029204/macs/10-essential-os-x-command-line-tips-for-power-users.html
             String[] cmd = {};
             try {
@@ -118,24 +102,19 @@ public class MainClient extends Application {
                     output.append(line + "\n");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.strace(e);
             }
-
-            uUID = output.toString();
-
+            uuid = output.toString();
         }
 
-        System.out.println("wei");
-
-        System.out.println("Scegli connessione porcellino, anche se non te ne sbatte molto. 'Rmi' o 'Socket' ");
-
+        Logger.log("~ Choose the connection type ('Rmi' | 'Socket') ~");
         Scanner inConnection = new Scanner(System.in);
         connection = inConnection.nextLine();
-        while(!connection.equals("Rmi") && !connection.equals("Socket") ){
-            System.out.println("Connessione scelta non valida, reinserire connessione");
-            connection = inConnection.nextLine();}
-        System.out.println("Connessione selezionata: " + connection);
 
+        while(!connection.equals("Rmi") && !connection.equals("Socket") ){
+            Logger.log("Please provide a valid choice");
+            connection = inConnection.nextLine();
+        }
         if (connection.equals("Rmi")){
             MiddlewareClient.setConnection(new NetworkRmi("", 0));
         }
@@ -143,22 +122,18 @@ public class MainClient extends Application {
             MiddlewareClient.setConnection(new NetworkSocket("", 0));
         }
 
-
-        System.out.println("Uei pippo civati vuoi far una relazione grafica o da cmd? . 'CMD' o 'GUI' ");
-
+        Logger.log("~ Choose the input interface ('GUI' | 'CMD') ~");
         Scanner inInterface = new Scanner(System.in);
         interfaccia = inInterface.nextLine();
         while(!interfaccia.equals("CMD") && !interfaccia.equals("GUI") ){
-            System.out.println("Interfaccia scelta non valida, reinserire connessione");
-            interfaccia = inInterface.nextLine();}
-        System.out.println("Interfaccia Selezionata: " + interfaccia);
-
+            Logger.log("Please provide a valid choice");
+            interfaccia = inInterface.nextLine();
+        }
         if (interfaccia.equals("CMD")){
             isPrompt= true ;
         }
         else if (interfaccia.equals("GUI")){
             launch(args);
         }
-
     }
 }

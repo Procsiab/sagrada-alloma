@@ -28,14 +28,6 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         return instance;
     }
 
-    public static boolean deniedAccess(String uUID){
-        //could be useful have a method to see if client is allowed to speak to server
-        GameManager game = SReferences.gameRef.get(SReferences.uuidRef.indexOf(uUID));
-        if(game.expected.equals(uUID))
-            return false;
-        return true;
-    }
-
     public static Connection getServerSocket() {
         return serverSocket;
     }
@@ -44,10 +36,18 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         return serverRmi;
     }
 
+    //TODO Look this method
+    public static boolean deniedAccess(String uUID){
+        //could be useful have a method to see if client is allowed to speak to server
+        GameManager game = SReferences.gameRef.get(SReferences.uuidRef.indexOf(uUID));
+        if(game.expected.equals(uUID))
+            return false;
+        return true;
+    }
+
     @Override
     public String startGame(String uuid, String ip, Integer port, Boolean isSocket) {
-        System.out.println(port);
-        return MatchManager.getInstance().startGame("UUID", ip, port, isSocket);
+        return MatchManager.getInstance().startGame(uuid, ip, port, isSocket);
     }
 
     @Override
@@ -60,7 +60,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
                     client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
-                    Logger.log("");
+                    Logger.log("An error occurred while invoking method " + methodName +  " on host " +
+                            SReferences.ipRef.get(playerId) + "@" + SReferences.portRef.get(playerId));
                     Logger.strace(e);
                 }
             } else {
@@ -73,7 +74,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 }
             }
         } else {
-            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+            Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
@@ -94,12 +95,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try {
                     return client.chooseWindow(windows);
                 } catch (RemoteException re) {
-                    Logger.log("Error calling remote method updateView()");
+                    Logger.log("Error calling remote method chooseWindow()");
                     Logger.strace(re);
                 }
             }
         } else {
-            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+            Logger.log("Unable to find player with UUID " + uuid);
         }
         return -1;
     }
@@ -120,12 +121,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try {
                     return client.ping();
                 } catch (RemoteException re) {
-                    Logger.log("Error calling remote method updateView()");
+                    Logger.log("Error calling remote method ping()");
                     Logger.strace(re);
                 }
             }
         } else {
-            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+            Logger.log("Unable to find player with UUID " + uuid);
         }
         return false;
     }
@@ -146,12 +147,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try {
                     client.aPrioriWin();
                 } catch (RemoteException re) {
-                    Logger.log("Error calling remote method updateView()");
+                    Logger.log("Error calling remote method aPrioriWin()");
                     Logger.strace(re);
                 }
             }
         } else {
-            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+            Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
@@ -171,12 +172,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try {
                     client.enable();
                 } catch (RemoteException re) {
-                    Logger.log("Error calling remote method updateView()");
+                    Logger.log("Error calling remote method enable()");
                     Logger.strace(re);
                 }
             }
         } else {
-            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+            Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
@@ -196,12 +197,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try {
                     client.shut();
                 } catch (RemoteException re) {
-                    Logger.log("Error calling remote method updateView()");
+                    Logger.log("Error calling remote method shut()");
                     Logger.strace(re);
                 }
             }
         } else {
-            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+            Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
@@ -222,12 +223,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try {
                     client.printScore(score);
                 } catch (RemoteException re) {
-                    Logger.log("Error calling remote method updateView()");
+                    Logger.log("Error calling remote method printScore()");
                     Logger.strace(re);
                 }
             }
         } else {
-            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+            Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
@@ -247,12 +248,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try {
                     client.setWinner();
                 } catch (RemoteException re) {
-                    Logger.log("Error calling remote method updateView()");
+                    Logger.log("Error calling remote method setWinner()");
                     Logger.strace(re);
                 }
             }
         } else {
-            Logger.log("Unable to find player with UUID " + uuid + " in SReferences!");
+            Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 }

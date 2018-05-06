@@ -20,13 +20,14 @@ public class SocketServer implements Closeable, Runnable {
         this.port = port;
         this.pool = Executors.newCachedThreadPool();
         this.exportedObjects = objects;
+        prepareConnection();
     }
 
     private void prepareConnection() {
         try {
             // Setup the socket which will receive data from the client
             this.socketConsumer = new ServerSocket(port);
-            Logger.log("Opened socket on port " + port.toString());
+            Logger.log("Opened socket on port " + socketConsumer.getLocalPort());
         }  catch (IOException ioe) {
             Logger.log("Error while opening socket on port " + port.toString() + "!");
             Logger.strace(ioe);
@@ -47,10 +48,8 @@ public class SocketServer implements Closeable, Runnable {
 
     @Override
     public void run() {
-        prepareConnection();
         do {
             Logger.log("Waiting for clients...");
-            System.out.println("Socet server porta da comunicare" + socketConsumer.getLocalPort());
             final Socket client = acceptConnection();
             pool.submit(new SocketHandler(client, exportedObjects));
         } while (true);
