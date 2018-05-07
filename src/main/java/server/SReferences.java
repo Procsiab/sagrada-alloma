@@ -1,6 +1,7 @@
 package server;
 
 import shared.GameManager;
+import shared.Player;
 
 import java.util.ArrayList;
 

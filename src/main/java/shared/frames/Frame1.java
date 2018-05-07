@@ -1,6 +1,6 @@
-package server.frames;
+package shared.frames;
 
-import server.abstracts.Frame;
+import shared.abstracts.Frame;
 
 public class Frame1 extends Frame {
     public Frame1(){

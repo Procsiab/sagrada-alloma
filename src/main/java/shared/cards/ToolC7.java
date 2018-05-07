@@ -1,7 +1,7 @@
-package server.cards;
+package shared.cards;
 
-import server.Player;
-import server.abstracts.ToolC;
+import shared.Player;
+import shared.abstracts.ToolC;
 import shared.GameManager;
 
 public class ToolC7 extends ToolC {

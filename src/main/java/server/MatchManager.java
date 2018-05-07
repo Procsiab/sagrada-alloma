@@ -1,6 +1,6 @@
 package server;
 
-import server.abstracts.*;
+import shared.abstracts.*;
 import shared.logic.Locker;
 
 import java.io.Serializable;
@@ -19,7 +19,6 @@ public class MatchManager implements Serializable {
     public List<ToolC> toolCS = new ArrayList<>();
     public List<Frame> frames = new ArrayList<>();
     public List<Window> windows = new ArrayList<>();
-    public List<ScoreMarker> scoreMarkers = new ArrayList<>();
 
     private static MatchManager instance = new MatchManager();
 

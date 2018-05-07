@@ -26,6 +26,7 @@ public class MainClient extends Application {
     private static boolean isPrompt;
 
     public static LogInScreenController logInScreenController;
+
     /*
     dice dado1
     dice dado2

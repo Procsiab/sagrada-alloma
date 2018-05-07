@@ -1,8 +1,8 @@
-package server.cards;
+package shared.cards;
 
-import server.Dice;
-import server.Player;
-import server.abstracts.ToolC;
+import shared.Dice;
+import shared.Player;
+import shared.abstracts.ToolC;
 import shared.GameManager;
 import shared.PositionR;
 

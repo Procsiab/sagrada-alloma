@@ -1,6 +1,4 @@
-package server.abstracts;
-
-import server.Player;
+package shared.abstracts;
 
 import java.io.Serializable;
 

@@ -1,8 +1,8 @@
-package server.abstracts;
+package shared.abstracts;
 
 
-import server.Dice;
-import server.Player;
+import shared.Dice;
+import shared.Player;
 import shared.Position;
 
 import java.io.Serializable;

@@ -1,8 +1,10 @@
-package server;
+package shared;
 
-import server.abstracts.Frame;
-import server.abstracts.PrivateOC;
-import server.abstracts.Window;
+import server.MatchManager;
+import shared.Dice;
+import shared.abstracts.Frame;
+import shared.abstracts.PrivateOC;
+import shared.abstracts.Window;
 import shared.GameManager;
 import shared.Position;
 

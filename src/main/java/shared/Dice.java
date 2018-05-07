@@ -1,7 +1,6 @@
-package server;
+package shared;
 
 import java.io.Serializable;
-import java.util.Random;
 
 public class Dice implements Serializable {
 

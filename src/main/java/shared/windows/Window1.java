@@ -1,7 +1,7 @@
-package server.windows;
+package shared.windows;
 
-import server.Cell;
-import server.abstracts.Window;
+import shared.Cell;
+import shared.abstracts.Window;
 
 public class Window1 extends Window {
 

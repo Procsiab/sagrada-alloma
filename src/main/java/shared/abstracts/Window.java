@@ -1,6 +1,6 @@
-package server.abstracts;
+package shared.abstracts;
 
-import server.Cell;
+import shared.Cell;
 
 import java.io.Serializable;
 

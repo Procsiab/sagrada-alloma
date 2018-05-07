@@ -1,16 +1,14 @@
 package shared;
 
 import server.*;
-import server.abstracts.PrivateOC;
-import server.abstracts.PublicOC;
-import server.abstracts.ToolC;
+import shared.abstracts.PrivateOC;
+import shared.abstracts.PublicOC;
+import shared.abstracts.ToolC;
 import shared.logic.GeneralTask;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager extends GeneralTask implements Serializable {
 
@@ -23,7 +21,7 @@ public class GameManager extends GeneralTask implements Serializable {
     private final Integer sleepTime;
     private final Integer nMates;
     private ArrayList<Player> vPlayers;
-    public MatchManager matchManager = MatchManager.getInstance();
+    transient public MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
     public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
     public ArrayList<PublicOC> publicOCs = new ArrayList<>();

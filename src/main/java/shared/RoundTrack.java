@@ -1,5 +1,7 @@
-package server;
+package shared;
 
+
+import shared.Dice;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ public class RoundTrack implements Serializable {
 
     public RoundTrack(){
         for(int i = 1; i<10; i++){
-            dices.add(new ArrayList<Dice>());
+            dices.add(new ArrayList<>());
         }
     }
 
