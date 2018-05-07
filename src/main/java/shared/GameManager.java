@@ -249,7 +249,7 @@ public class GameManager extends GeneralTask implements Serializable {
             players2.removeAll(privateLeft);
             //fitness(players2);
             //set nPlayers (which will not change over one turn) for nDices ecc..
-
+            //check if the player can play or it has a turn to jump
 
             while (i <= players2.size()) {
 

@@ -40,7 +40,7 @@ public class LogInScreenController implements Initializable {
         //TODO Access to gameClient attribute in different way (look at the linter warning)
         gameClient = controllerGame;
 
-        String message1 = MiddlewareClient.getInstance().startGame("UUID");
+        String message1 = MiddlewareClient.getInstance().startGame(MainClient.uuid);
         Logger.log("Server responded as: " + message1);
 
         if (message1.equals("Connections successful. Please wait for other players to connect")) {
