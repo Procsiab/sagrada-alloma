@@ -13,6 +13,9 @@ import shared.network.socket.NetworkSocket;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.io.Console;
 
@@ -58,6 +61,9 @@ public class MainClient extends Application {
                     uuid = line;
                     i++;
                 }
+
+                uuid = uuid.substring(0,uuid.length()-2);
+
             } catch (Exception e) {
                 Logger.strace(e);
             }
