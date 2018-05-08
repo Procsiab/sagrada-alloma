@@ -63,6 +63,7 @@ public class LogInScreenController implements Initializable {
         animazioneSagrada();
         animazioneStartGame();
 
+        startButton.setStyle("-fx-background-color: transparent;");
 
     }
 
