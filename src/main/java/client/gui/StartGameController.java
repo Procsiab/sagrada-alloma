@@ -58,6 +58,9 @@ public class StartGameController implements Initializable {
     private ImageView cardMap;
     @FXML
     private Button tiraDadi;
+    @FXML
+    private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
+
 
     public void setWinner(){
         //start animation for the winner
@@ -115,6 +118,17 @@ public class StartGameController implements Initializable {
     @FXML
     private void fineTurno(ActionEvent event) throws IOException{
         System.out.print("\"Turno Finito\"");
+        dice1.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: cover;");
+        dice2.setStyle("-fx-background-image: url('2red.png');-fx-background-size: cover;");
+        dice3.setStyle("-fx-background-image: url('4yellow.png');-fx-background-size: cover;");
+        dice4.setStyle("-fx-background-image: url('6purple.png');-fx-background-size: cover;");
+        dice5.setStyle("-fx-background-image: url('3green.png');-fx-background-size: cover;");
+        dice6.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: cover;");
+        dice7.setStyle("-fx-background-image: url('1red.png');-fx-background-size: cover;");
+        dice8.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: cover;");
+
+
+
 
     }
 

@@ -103,15 +103,15 @@
       </GridPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Button layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
-            <Button layoutX="52.0" layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
-            <Button layoutX="104.0" layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
-            <Button layoutX="156.0" layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
-            <Button layoutX="208.0" layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
-            <Button layoutX="260.0" layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
-            <Button layoutX="312.0" layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
-            <Button layoutX="364.0" layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
-            <Button layoutY="160.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" text="Button" />
+            <Button fx:id="dice1" layoutX="14.0" layoutY="38.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
+            <Button fx:id="dice2" layoutX="110.0" layoutY="201.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
+            <Button fx:id="dice3" layoutX="156.0" layoutY="28.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
+            <Button fx:id="dice4" layoutX="110.0" layoutY="108.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
+            <Button fx:id="dice5" layoutX="260.0" layoutY="38.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
+            <Button fx:id="dice6" layoutX="208.0" layoutY="126.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
+            <Button fx:id="dice7" layoutX="299.0" layoutY="169.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
+            <Button fx:id="dice8" layoutX="351.0" layoutY="90.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
+            <Button fx:id="dice9" layoutY="160.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="52.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
