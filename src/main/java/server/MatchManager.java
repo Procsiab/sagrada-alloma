@@ -1,5 +1,6 @@
 package server;
 
+import shared.Logger;
 import shared.abstracts.*;
 import shared.logic.Locker;
 
@@ -37,7 +38,7 @@ public class MatchManager implements Serializable {
 
     public String startGame(String uuid, String ip, Integer port, boolean isSocket) {
 
-        System.out.println("Player " + uuid +" asked to connect");
+        Logger.log("Player " + uuid +" asked to connect");
 
         if (left.contains(uuid)) {
             return "You already playing asshole! Hold on while the server calls you again";

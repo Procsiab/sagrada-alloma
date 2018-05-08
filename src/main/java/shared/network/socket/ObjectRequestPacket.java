@@ -2,8 +2,8 @@ package shared.network.socket;
 
 import java.io.Serializable;
 
-class ObjectRequestPacket implements Serializable {
-    String objectName;
+final class ObjectRequestPacket implements Serializable {
+    public final String objectName;
 
     ObjectRequestPacket(String objectName) {
         this.objectName = objectName;

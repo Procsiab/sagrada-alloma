@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import client.threads.GameHelper;
+import org.fusesource.jansi.AnsiConsole;
 import shared.Logger;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
@@ -19,9 +20,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.io.Console;
 
+import static org.fusesource.jansi.Ansi.*;
+import static org.fusesource.jansi.Ansi.Color.*;
+
 public class MainClient extends Application {
     public static GameHelper game; // Game resetta scelte nel caso di stronzate
-    public static String pass;
     public static String uuid = null;
     private static Console cnsl;
     private static String connection;
@@ -46,73 +49,11 @@ public class MainClient extends Application {
     }
 
     public static void main(String[] args) {
-        // Obtain client UUID
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            Process process;
-            String cmd = "wmic csproduct get UUID";
-            try {
-                process = Runtime.getRuntime().exec(cmd);
-                process.waitFor();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                String line;
-                int i = 0;
-                while ((line = reader.readLine()) != null && i < 3) {
-                    uuid = line;
-                    i++;
-                }
 
-                uuid = uuid.substring(0,uuid.length()-2);
-
-            } catch (Exception e) {
-                Logger.strace(e);
-            }
-        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-            /*System.out.println("UEIII MAIALE INSERISCI LA PASSWORD");
-            cnsl = System.console();
-            // read password into the char array
-            char[] pwd = cnsl.readPassword("Password: ");
-            // prints
-            System.out.println("Password is: "+ new String(pwd));
-            pass = new String(pwd);
-            StringBuffer output = new StringBuffer();
-            Process process;
-            String[] cmd = {"/bin/sh", "-c", "echo " + pass + " | sudo -S cat /sys/class/dmi/id/product_uuid"};
-            try {
-                process = Runtime.getRuntime().exec(cmd);
-                process.waitFor();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    output.append(line + "\n");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            uuid = output.toString();
-            //System.out.println(uuid);*/
-            uuid = "0123456789";
-        } else if (os.indexOf("mac") > 0) {
-            StringBuffer output = new StringBuffer();
-            Process process;
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("enter the password");
-            pass = scanner.nextLine();
-            //https://www.infoworld.com/article/3029204/macs/10-essential-os-x-command-line-tips-for-power-users.html
-            String[] cmd = {};
-            try {
-                process = Runtime.getRuntime().exec(cmd);
-                process.waitFor();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    output.append(line + "\n");
-                }
-            } catch (Exception e) {
-                Logger.strace(e);
-            }
-            uuid = output.toString();
-        }
+        AnsiConsole.systemInstall();
+        String LOGO = "";
+        AnsiConsole.out().println(LOGO);
+        uuid = getUuid();
 
         Logger.log("~ Choose the connection type ('Rmi' | 'Socket') ~");
         Scanner inConnection = new Scanner(System.in);
@@ -142,5 +83,71 @@ public class MainClient extends Application {
         else if (interfaccia.equals("GUI")){
             launch(args);
         }
+    }
+
+    private static String getUuid() {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            Process process;
+            String cmd = "wmic csproduct get UUID";
+            try {
+                process = Runtime.getRuntime().exec(cmd);
+                process.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                int i = 0;
+                while ((line = reader.readLine()) != null && i < 3) {
+                    uuid = line;
+                    i++;
+                }
+                uuid = uuid.substring(0,uuid.length()-2); // Remove blanks on Windows
+            } catch (Exception e) {
+                Logger.strace(e);
+            }
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            Logger.log("~ Please provide your password (to let this program read your UUID) ~");
+            /*cnsl = System.console();
+            char[] pwd = cnsl.readPassword("Password: ");
+
+            String pass = new String(pwd);
+            StringBuilder output = new StringBuilder();
+            Process process;
+            String[] cmd = {"/bin/sh", "-c", "echo " + pass + " | sudo -S cat /sys/class/dmi/id/product_uuid"};
+
+            try {
+                process = Runtime.getRuntime().exec(cmd);
+                process.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.append(line).append('\n');
+                }
+            } catch (Exception e) {
+                Logger.strace(e);
+            }
+            uuid = output.toString();*/
+            uuid = "AAAAA-BBBBB-CCCCC-DDDDD";
+        } else if (os.contains("mac")) {
+            Logger.log("~ Please provide your password (to let this program read your UUID) ~");
+            StringBuilder output = new StringBuilder();
+            Process process;
+            Scanner scanner = new Scanner(System.in);
+            String pass = scanner.nextLine();
+            //https://www.infoworld.com/article/3029204/macs/10-essential-os-x-command-line-tips-for-power-users.html
+            String[] cmd = {};
+            try {
+                process = Runtime.getRuntime().exec(cmd);
+                process.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.append(line).append('\n');
+                }
+            } catch (Exception e) {
+                Logger.strace(e);
+            }
+            uuid = output.toString();
+        }
+        return uuid;
     }
 }
