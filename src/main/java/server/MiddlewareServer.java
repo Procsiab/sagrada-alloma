@@ -52,16 +52,16 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void updateView(String uuid, GameManager gameManager) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 Object[] args = {gameManager};
                 String methodName = "updateView";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
                     Logger.log("An error occurred while invoking method " + methodName +  " on host " +
-                            SReferences.ipRef.get(playerId) + "@" + SReferences.portRef.get(playerId));
+                            SReferences.getIpRef().get(playerId) + "@" + SReferences.getPortRef().get(playerId));
                     Logger.strace(e);
                 }
             } else {
