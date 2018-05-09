@@ -1,18 +1,18 @@
-package shared.cards;
+package shared.cards.toolC;
 
 import shared.Dice;
 import shared.Player;
 import shared.abstracts.ToolC;
-import shared.Position;
 import shared.GameManager;
+import shared.Position;
 
-public class ToolC1 extends ToolC {
+public class ToolC8 extends ToolC {
 
     private String name = "1";
     private String description = null;
 
 
     public void use(Player player, GameManager game, Dice dice, Position position){
-
+        //place that die in the cell. If not return the dice.
     }
 }

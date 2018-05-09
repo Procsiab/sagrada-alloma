@@ -1,4 +1,4 @@
-package shared.cards;
+package shared.cards.toolC;
 
 import shared.Player;
 import shared.abstracts.ToolC;

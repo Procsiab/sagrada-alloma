@@ -6,8 +6,7 @@ import client.gui.StartGameController;
 import java.util.ArrayList;
 
 public class CReferences {
-    //mainClient whether it is an object or it is static
-    //given the id of a player
+    // those can be public sine there is no need to synch them
     public static LogInScreenController controller1;
     public static StartGameController controller2;
 

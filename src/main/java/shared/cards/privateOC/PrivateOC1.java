@@ -1,4 +1,4 @@
-package shared.cards;
+package shared.cards.privateOC;
 
 import shared.abstracts.PrivateOC;
 

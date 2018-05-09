@@ -53,34 +53,37 @@ public class MainClient extends Application {
         AnsiConsole.systemInstall();
         String LOGO = "";
         AnsiConsole.out().println(LOGO);
-        uuid = getUuid();
+
+        uuid = "1";
+
+        //uuid = getUuid();
 
         Logger.log("~ Choose the connection type ('Rmi' | 'Socket') ~");
         Scanner inConnection = new Scanner(System.in);
-        connection = inConnection.nextLine();
+        connection = inConnection.nextLine().toLowerCase();
 
-        while(!connection.equals("Rmi") && !connection.equals("Socket") ){
+        while(!connection.equals("rmi") && !connection.equals("socket") ){
             Logger.log("Please provide a valid choice");
             connection = inConnection.nextLine();
         }
-        if (connection.equals("Rmi")){
+        if (connection.equals("rmi")){
             MiddlewareClient.setConnection(new NetworkRmi("", 0));
         }
-        else if (connection.equals("Socket")){
+        else if (connection.equals("socket")){
             MiddlewareClient.setConnection(new NetworkSocket("", 0));
         }
 
         Logger.log("~ Choose the input interface ('GUI' | 'CMD') ~");
         Scanner inInterface = new Scanner(System.in);
-        interfaccia = inInterface.nextLine();
-        while(!interfaccia.equals("CMD") && !interfaccia.equals("GUI") ){
+        interfaccia = inInterface.nextLine().toLowerCase();
+        while(!interfaccia.equals("cmd") && !interfaccia.equals("gui") ){
             Logger.log("Please provide a valid choice");
             interfaccia = inInterface.nextLine();
         }
-        if (interfaccia.equals("CMD")){
+        if (interfaccia.equals("cmd")){
             isPrompt= true ;
         }
-        else if (interfaccia.equals("GUI")){
+        else if (interfaccia.equals("gui")){
             launch(args);
         }
     }

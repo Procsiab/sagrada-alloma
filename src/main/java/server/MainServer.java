@@ -1,5 +1,6 @@
 package server;
 
+
 import server.threads.NewGameManager;
 import shared.GameManager;
 import shared.logic.ConcurrencyManager;
@@ -26,18 +27,9 @@ public class MainServer {
 
     public static void main(String[] args) throws IOException {
         MiddlewareServer.getInstance();
-        MatchManager.getInstance();
-        try {
-            Thread.sleep(20000);
-        } catch (InterruptedException i){
+        MatchManager.getInstance();// delete this if newGameManager access MatchManager
+        ConcurrencyManager.submit(new NewGameManager());
 
-        }
-
-        ArrayList<String> l = new ArrayList<>();
-        l.add("ty");
-        l.add("sd");
-        l.add("dkmc");
-        middlewareServer.updateView(SReferences.getUuidRef().get(0), new GameManager(l));
 
         System.out.println("\nSend 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);

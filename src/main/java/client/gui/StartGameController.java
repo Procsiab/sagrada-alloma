@@ -39,7 +39,7 @@ public class StartGameController implements Initializable {
     final Text source = new Text(50, 100, "DRAG ME");
     final Text target = new Text(300, 100, "DROP HERE");
 
-
+    //todo for each method check if you are denied accessing server
 
     public StartGameController() {
         //TODO Start server connector class

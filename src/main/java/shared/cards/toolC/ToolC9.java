@@ -1,4 +1,4 @@
-package shared.cards;
+package shared.cards.toolC;
 
 import shared.Dice;
 import shared.Player;

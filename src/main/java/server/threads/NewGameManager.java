@@ -19,17 +19,20 @@ public class NewGameManager extends GeneralTask {
     public void run() {
         super.run();
 
-        //start below when two clients connects, and handle client deletion
         TimerNewGame timerNewGame = new TimerNewGame(sleepTime, this);
         ConcurrencyManager.submit(timerNewGame);
 
-        while (true) {
+        ArrayList<String> clients;
+
+        boolean t = true;
+
+        while (t) {
             synchronized (safe.sLock2) {
                 while (MatchManager.q.size() != 4) {
                     try {
                         safe.sLock2.wait();
-                        if(start) {
-                            if(MatchManager.q.size()>1)
+                        if (start) {
+                            if (MatchManager.q.size() > 1)
                                 break;
                             start = false;
                             timerNewGame = new TimerNewGame(sleepTime, this);
@@ -40,11 +43,11 @@ public class NewGameManager extends GeneralTask {
                         Logger.log(e.toString());
                     }
                 }
-                ArrayList<String> clients = new ArrayList<>(MatchManager.q.size());
+                clients = new ArrayList<>(MatchManager.q.size());
                 clients.addAll(MatchManager.q);
                 MatchManager.q.clear();
-                ConcurrencyManager.submit(new GameManager(clients));
             }
+            ConcurrencyManager.submit(new GameManager(clients));
         }
     }
 }
