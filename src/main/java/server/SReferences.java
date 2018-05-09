@@ -73,6 +73,7 @@ public class SReferences {
                 ) {
             if (u == null) {
                 uuidRef.add(i, uUID);
+                return;
             }
             i++;
         }
