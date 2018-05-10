@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @SuppressWarnings("InfiniteLoopStatement")
 public class NewGameManager extends GeneralTask {
     private final Locker safe = Locker.getSafe();
-    private Integer sleepTime = 1000000;
+    private Integer sleepTime = 10000;
     public boolean start = false;
 
     @Override
@@ -47,6 +47,7 @@ public class NewGameManager extends GeneralTask {
                 clients.addAll(MatchManager.q);
                 MatchManager.q.clear();
             }
+            Logger.log("GmaeManager submit");
             ConcurrencyManager.submit(new GameManager(clients));
         }
     }

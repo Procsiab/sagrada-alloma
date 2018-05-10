@@ -69,15 +69,17 @@ public class MatchManager implements Serializable {
 
     public String startGame(String uuid, String ip, Integer port, boolean isSocket) {
 
-        Logger.log("Player " + uuid + " asked to connect");
-
         if (left.contains(uuid)) {
+            Logger.log("Player " + uuid + ": Connection refuse: already playing.");
             return "You already playing asshole! Hold on while the server calls you again";
         }
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
+            Logger.log("Player " + uuid + ": Connection refuse: too many players.");
             return "Too many players connected. Please try again later. Sorry for that.";
         }
+
+        Logger.log("Player " + uuid + ": Connection accepted");
 
         SReferences.addUuidRef(uuid);
         SReferences.addIpRef(uuid, ip);

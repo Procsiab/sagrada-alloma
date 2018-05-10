@@ -22,6 +22,7 @@ public class TimerNewGame extends GeneralTask {
 
     @Override
     public void run() {
+        Logger.log("timer started");
         super.run();
 
         synchronized (obj) {

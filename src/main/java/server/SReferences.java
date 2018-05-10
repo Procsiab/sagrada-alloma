@@ -1,6 +1,7 @@
 package server;
 
 import shared.GameManager;
+import shared.Logger;
 import shared.Player;
 
 import java.util.ArrayList;
@@ -19,31 +20,31 @@ public class SReferences {
     private static ArrayList<GameManager> gameRef = new ArrayList<>();
 
 
-    public static synchronized ArrayList<Boolean> getIsSocketRef() {
+    public static ArrayList<Boolean> getIsSocketRef() {
         return isSocketRef;
     }
 
-    public static synchronized ArrayList<GameManager> getGameRef() {
+    public static ArrayList<GameManager> getGameRef() {
         return gameRef;
     }
 
-    public static synchronized ArrayList<Integer> getPortRef() {
+    public static ArrayList<Integer> getPortRef() {
         return portRef;
     }
 
-    public static synchronized ArrayList<Player> getPlayerRef() {
+    public static ArrayList<Player> getPlayerRef() {
         return playerRef;
     }
 
-    public static synchronized ArrayList<String> getIpRef() {
+    public static ArrayList<String> getIpRef() {
         return ipRef;
     }
 
-    public static synchronized ArrayList<String> getUuidRef() {
+    public static ArrayList<String> getUuidRef() {
         return uuidRef;
     }
 
-    public static synchronized Integer getActivePlayer() {
+    public static Integer getActivePlayer() {
         return activePlayer;
     }
 
@@ -52,6 +53,7 @@ public class SReferences {
     }
 
     public static synchronized void addIpRef(String s, String ipRef) {
+        Logger.log("index of uuid " + s + "  is " + getUuidRef().indexOf(s));
         SReferences.ipRef.add(SReferences.getUuidRef().indexOf(s), ipRef);
     }
 
@@ -69,14 +71,10 @@ public class SReferences {
 
     public static synchronized void addUuidRef(String uUID) {
         int i = 0;
-        for (String u : uuidRef
-                ) {
-            if (u == null) {
-                uuidRef.add(i, uUID);
-                return;
-            }
+
+        while (i < uuidRef.size() && uuidRef.get(i) != null)
             i++;
-        }
+        getUuidRef().add(i, uUID);
     }
 
     public static synchronized void removeGameRef(String s) {
@@ -92,7 +90,7 @@ public class SReferences {
     }
 
     public static synchronized void removePlayerRef(String s) {
-        SReferences.playerRef.add(SReferences.getUuidRef().indexOf(s),null);
+        SReferences.playerRef.add(SReferences.getUuidRef().indexOf(s), null);
     }
 
     public static synchronized void removePortRef(String s) {

@@ -39,13 +39,14 @@ public class GameManager extends GeneralTask implements Serializable {
     public final transient Object obj2 = new Object();
 
     public GameManager(ArrayList<String> players) {
+
         Random rand = new Random();
         this.publicRef.addAll(players);
         this.players.addAll(players);
         this.sleepTime = 10000;
         this.timeout2 = 5000;
         this.nMates = players.size();
-        int i = 1;
+        int i = 0;
 
         for (String client : players) {
             vPlayers.add(new Player(i, this, publicRef.get(i)));
@@ -76,6 +77,8 @@ public class GameManager extends GeneralTask implements Serializable {
                 dices.add(new Dice('p', rand.nextInt(6)));
             i++;
         }
+
+
     }
 
     public void setAction(boolean action) {
@@ -134,6 +137,8 @@ public class GameManager extends GeneralTask implements Serializable {
 
     @Override
     public void run() {
+        super.run();
+        Logger.log("GameManager has started");
 
         int i = 0;
         int j = 0;
@@ -183,6 +188,7 @@ public class GameManager extends GeneralTask implements Serializable {
 
         while (i < players.size()) {
             Integer k;
+            Logger.log("Choose window for player " + players.get(i));
             k = middlewareServer.chooseWindow(players.get(i), (ArrayList<Integer>) a.subList(((i + 1) * 4), ((i + 2) * 4 - 1)));
             vPlayers.get(i).setWindow(k);
 
