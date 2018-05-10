@@ -22,6 +22,8 @@ public class GameManager extends GeneralTask implements Serializable {
     private ArrayList<Player> vPlayers = new ArrayList<>();
     transient public MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
+    public boolean dicePlaced = false;
+    public boolean cardEnabled = false;
     public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
     public ArrayList<PublicOC> publicOCs = new ArrayList<>();
     public ArrayList<ToolC> toolCards = new ArrayList<>();
@@ -256,6 +258,7 @@ public class GameManager extends GeneralTask implements Serializable {
         i = 0;
         a.clear();
 
+        throwDice();
 
         for (String player : players) {
             middlewareServer.updateView(player, this);

@@ -12,7 +12,14 @@ public class ToolC8 extends ToolC {
     private String description = null;
 
 
-    public void use(Player player, GameManager game, Dice dice, Position position){
-        //place that die in the cell. If not return the dice.
+    public boolean use(Player player, GameManager game, Integer n, Position position) {
+        if (player.privateTurn != 1)
+            return false;
+
+        if (player.window.setDicePosition(player, game.pool.get(n), position)) {
+            game.jump.add(player.uUID);
+            return true;
+        }
+        return false;
     }
 }

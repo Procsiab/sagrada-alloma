@@ -2,8 +2,11 @@ package shared.cards.toolC;
 
 import shared.Dice;
 import shared.Player;
+import shared.Position;
 import shared.abstracts.ToolC;
 import shared.GameManager;
+
+import java.util.Random;
 
 public class ToolC6 extends ToolC {
 
@@ -11,8 +14,12 @@ public class ToolC6 extends ToolC {
     private String description = null;
 
 
-    public void use(Player player, GameManager game, Dice dice){
+    public boolean use(Player player, GameManager game, Integer num, Position position){
+        Random rand = new Random();
+        Integer n = rand.nextInt(6);
+        Dice dice = game.pool.get(num);
+        dice.value = n;
 
-        //randomly assign new Integer
+        return (player.window.setDicePosition(player, dice, position));
     }
 }

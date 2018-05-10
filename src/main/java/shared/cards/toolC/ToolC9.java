@@ -12,7 +12,14 @@ public class ToolC9 extends ToolC {
     private String description = null;
 
 
-    public void use(Player player, GameManager game, Dice dice, Position position){
-        //place the die, obey all restriction except the one of adjacent position
+    public boolean use(Player player, GameManager game, Integer n, Position position) {
+        Dice dice = game.pool.get(n);
+        if (!player.window.checkEdgePosTurn(player, position))
+            return false;
+        if (!player.window.checkPlaceRequirements(dice, position))
+            return false;
+        player.overlay.dicePositions[position.getRow()][position.getColumn()] = dice;
+        game.pool.set(n,null);
+        return true;
     }
 }

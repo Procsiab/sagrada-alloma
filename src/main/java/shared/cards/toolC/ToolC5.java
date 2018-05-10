@@ -1,10 +1,7 @@
 package shared.cards.toolC;
 
-import shared.Dice;
-import shared.Player;
+import shared.*;
 import shared.abstracts.ToolC;
-import shared.GameManager;
-import shared.PositionR;
 
 public class ToolC5 extends ToolC {
 
@@ -12,7 +9,10 @@ public class ToolC5 extends ToolC {
     private String description = null;
 
 
-    public void use(Player player, GameManager game, Dice dice1, PositionR positionR){
-        //swap with a dice from Roundtrack
+    public void use(GameManager game, Integer pos, PositionR positionR){
+        Dice temp=game.pool.get(pos);
+        RoundTrack roundTrack = game.roundTrack;
+        game.pool.set(pos, roundTrack.dices.get(positionR.column).get(positionR.height));
+        roundTrack.dices.get(positionR.column).set(positionR.height,temp);
     }
 }

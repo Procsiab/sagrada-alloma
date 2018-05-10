@@ -12,7 +12,20 @@ public class ToolC1 extends ToolC {
     private String description = null;
 
 
-    public void use(Player player, GameManager game, Dice dice, Position position){
+    public boolean use(GameManager game, Integer pos, Integer diff) {
+        Dice dice = game.pool.get(pos);
 
+        if (diff.equals(-1)) {
+            if (dice.value.equals(1))
+                return false;
+            dice.value--;
+            return true;
+        } else if (diff.equals(1)) {
+            if (dice.value.equals(6))
+                return false;
+            dice.value++;
+            return true;
+        }
+        return false;
     }
 }

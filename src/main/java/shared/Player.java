@@ -16,6 +16,8 @@ public class Player implements Serializable {
     public Integer turno = 0;
     public Integer nPlayer;
     public Integer score;
+    public Integer privateTurn;
+    public Position lastPlaced;
     public GameManager game;
 
     public Player(int i, GameManager gameManager, String uUID) {
@@ -41,7 +43,7 @@ public class Player implements Serializable {
     }
 
     public boolean placeDice(Dice dice, Position position) {
-        return this.window.setDicePosition(dice, position, this);
+        return this.window.setDicePosition(this, dice, position);
     }
 
     public void setTokens() {
