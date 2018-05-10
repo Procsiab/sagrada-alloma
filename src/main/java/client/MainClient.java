@@ -24,7 +24,7 @@ import static org.fusesource.jansi.Ansi.*;
 import static org.fusesource.jansi.Ansi.Color.*;
 
 public class MainClient extends Application {
-    public static GameHelper game; // Game resetta scelte nel caso di stronzate
+    public static GameHelper game; //resetta scelte utente
     public static String uuid = null;
     private static Console cnsl;
     private static String connection;
