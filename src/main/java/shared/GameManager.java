@@ -24,7 +24,7 @@ public class GameManager extends GeneralTask implements Serializable {
     private boolean action = false;
     public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
     public ArrayList<PublicOC> publicOCs = new ArrayList<>();
-    public ArrayList<ToolC> toolCards;
+    public ArrayList<ToolC> toolCards = new ArrayList<>();
     public ArrayList<String> privateLeft = new ArrayList<>();
     public ArrayList<String> jump = new ArrayList<>();
     public ArrayList<Boolean> jumpB = new ArrayList<>();
@@ -37,6 +37,7 @@ public class GameManager extends GeneralTask implements Serializable {
     public ArrayList<Dice> pool = new ArrayList<>();
     public final transient Object obj = new Object();
     public final transient Object obj2 = new Object();
+    public final transient Object obj3 = new Object();
 
     public GameManager(ArrayList<String> players) {
 
@@ -129,6 +130,7 @@ public class GameManager extends GeneralTask implements Serializable {
     }
 
     public Integer score(Player player) {
+        Logger.log("scoring phase");
         Integer score = 0;
         //computation
         player.setScore(score);
@@ -189,7 +191,11 @@ public class GameManager extends GeneralTask implements Serializable {
         while (i < players.size()) {
             Integer k;
             Logger.log("Choose window for player " + players.get(i));
-            k = middlewareServer.chooseWindow(players.get(i), (ArrayList<Integer>) a.subList(((i + 1) * 4), ((i + 2) * 4 - 1)));
+            Logger.log(a.toString());
+            ArrayList<Integer> b = new ArrayList<>();
+            b.addAll(a.subList(((i) * 4), ((i + 1) * 4 - 1)));
+            k = middlewareServer.chooseWindow(players.get(i), b);
+            b.clear();
             vPlayers.get(i).setWindow(k);
 
             i++;
@@ -255,6 +261,8 @@ public class GameManager extends GeneralTask implements Serializable {
             middlewareServer.updateView(player, this);
         }
 
+
+        Logger.log("start turn manager");
 
         j = 1;
         i = 1;
@@ -408,18 +416,21 @@ public class GameManager extends GeneralTask implements Serializable {
 
                     vPlayers.get(i - 1).turno++;
 
-                    while (!this.action)
-                        try {
-                            this.wait(sleepTime);
-                            this.action = true;
-                        } catch (InterruptedException ie) {
-                            Logger.log("Thread sleep was interrupted!");
-                            Logger.strace(ie);
-                            Thread.currentThread().interrupt();
+                    synchronized (obj3) {
+                        while (!this.action) {
+                            try {
+                                this.wait(sleepTime);
+                                this.action = true;
+                            } catch (InterruptedException ie) {
+                                Logger.log("Thread sleep was interrupted!");
+                                Logger.strace(ie);
+                                Thread.currentThread().interrupt();
+                            }
+                            this.action = false;
+                            this.expected = null;
+                            //middlewareServer.shut(players.get(i - 1));
                         }
-                    this.action = false;
-                    this.expected = null;
-                    //middlewareServer.shut(players.get(i - 1));
+                    }
                 }
                 if (upward) {
                     if (i == players2.size() - 1)

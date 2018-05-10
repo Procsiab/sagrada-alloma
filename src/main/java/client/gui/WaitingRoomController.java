@@ -16,22 +16,21 @@ import java.io.IOException;
 
 public class WaitingRoomController {
 
-
+    public WaitingRoomController() {
+        MainClient.waitingRoomController = this;
+    }
 
     @FXML
     public void chooseWindow(ActionEvent event) throws IOException {
 
 
-
-
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
         Parent root1 = loader.load();
 
-            Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(startedGame);
-            window.show();
+        Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(startedGame);
+        window.show();
 
     }
 }

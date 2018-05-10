@@ -6,6 +6,7 @@ import shared.cards.privateOC.*;
 import shared.cards.publicOC.*;
 import shared.cards.toolC.*;
 import shared.logic.Locker;
+import shared.windows.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -64,6 +65,32 @@ public class MatchManager implements Serializable {
         toolCs.add(new ToolC10());
         toolCs.add(new ToolC11());
         toolCs.add(new ToolC12());
+
+        windows.add(new Window1());
+        windows.add(new Window2());
+        windows.add(new Window3());
+        windows.add(new Window4());
+        windows.add(new Window4());
+        windows.add(new Window5());
+        windows.add(new Window6());
+        windows.add(new Window7());
+        windows.add(new Window8());
+        windows.add(new Window9());
+        windows.add(new Window10());
+        windows.add(new Window11());
+        windows.add(new Window12());
+        windows.add(new Window13());
+        windows.add(new Window14());
+        windows.add(new Window15());
+        windows.add(new Window16());
+        windows.add(new Window17());
+        windows.add(new Window18());
+        windows.add(new Window19());
+        windows.add(new Window20());
+        windows.add(new Window21());
+        windows.add(new Window22());
+        windows.add(new Window23());
+        windows.add(new Window24());
     }
 
 

@@ -1,6 +1,8 @@
 package client;
 
 import client.gui.LogInScreenController;
+import client.gui.StartGameController;
+import client.gui.WaitingRoomController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,6 +34,8 @@ public class MainClient extends Application {
     private static boolean isPrompt;
 
     public static LogInScreenController logInScreenController;
+    public static WaitingRoomController waitingRoomController;
+    public static StartGameController startGameController;
 
     /*
     dice dado1

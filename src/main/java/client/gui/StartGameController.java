@@ -40,6 +40,7 @@ public class StartGameController implements Initializable {
     //todo for each method check if you are denied accessing server
 
     public StartGameController() {
+        MainClient.startGameController = this;
         //TODO Start server connector class
     }
 
