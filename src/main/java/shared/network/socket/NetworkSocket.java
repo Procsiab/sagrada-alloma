@@ -99,10 +99,15 @@ public class NetworkSocket implements Connection {
     public void export(Object o, String n) {
         startConsumer(this.port);
         try {
+            if (o == null) {
+                throw new NullPointerException();
+            }
             exportedObjects.put(n, o);
         } catch (ClassCastException cce) {
             Logger.log("Error casting given object into Serializable!");
             Logger.strace(cce);
+        } catch (NullPointerException npe) {
+            Logger.log("Cannot export null object with name " + n);
         }
     }
 

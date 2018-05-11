@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface SharedMiddlewareServer extends Remote {
+    boolean deniedAccess(String uuid) throws RemoteException;
     String startGame(String uuid, String ip, Integer port, Boolean isSocket) throws RemoteException;
     void updateView(String uuid, GameManager gameManager) throws RemoteException;
     Integer chooseWindow(String uuid, ArrayList<Integer> windows) throws RemoteException;

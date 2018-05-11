@@ -11,7 +11,6 @@ import shared.network.socket.NetworkSocket;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public final class MiddlewareClient implements SharedMiddlewareClient {
     private static final String SERVER_INTERFACE = "MiddlewareServer";
@@ -19,8 +18,8 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     private static Connection connection = null;
     private static Boolean isSocket = false;
     private static MiddlewareClient instance = new MiddlewareClient();
-    private LogInScreenController logInScreenController;
-    private StartGameController startGameController;
+    private static LogInScreenController logInScreenController;
+    private static StartGameController startGameController;
 
     private MiddlewareClient() {
         super();

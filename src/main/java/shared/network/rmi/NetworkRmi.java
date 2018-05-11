@@ -23,17 +23,17 @@ public class NetworkRmi implements Connection {
     private static final String SERVER_ADDRESS = "localhost";
 
     private Registry rmiRegistry;
-    private String IP;
+    private String ip;
     private Integer rmiObjectPort;
 
     private void startRegistrySetup(Integer port) {
         try {
             // Set the port to export RMI objects
             this.rmiObjectPort = port;
-            // Get local IP
-            this.IP = InetAddress.getLocalHost().getHostAddress();
+            // Get local ip
+            this.ip = InetAddress.getLocalHost().getHostAddress();
             // Inform the registry about server's address
-            System.setProperty("java.rmi.server.hostname", this.IP);
+            System.setProperty("java.rmi.server.hostname", this.ip);
             // Setup permissive security policy
             System.setProperty("java.rmi.server.useCodebaseOnly", "false");
         } catch (UnknownHostException uhe) {
@@ -78,7 +78,7 @@ public class NetworkRmi implements Connection {
 
     @Override
     public String getIp() {
-        return this.IP;
+        return this.ip;
     }
 
     @Override
@@ -105,6 +105,9 @@ public class NetworkRmi implements Connection {
         // Format an URL string to be used in RMI registry
         String rmiUrl = "//" + this.getIp() + ":" + RMI_METHOD_PORT.toString() + "/" + n;
         try {
+            if (o == null) {
+                throw new NullPointerException();
+            }
             // Bind the interface to that symbolic URL in the RMI registry
             Naming.rebind(rmiUrl, remotize(o));
         } catch (RemoteException re) {
@@ -112,6 +115,8 @@ public class NetworkRmi implements Connection {
             Logger.strace(re);
         } catch (MalformedURLException mue) {
             Logger.log("Error in URL formatting: " + rmiUrl);
+        } catch (NullPointerException npe) {
+            Logger.log("Cannot export null object with name " + n);
         }
     }
 
@@ -167,6 +172,6 @@ public class NetworkRmi implements Connection {
     }
 
     public void close() {
-
+        // At the moment no teardown is provided for RMI connection
     }
 }

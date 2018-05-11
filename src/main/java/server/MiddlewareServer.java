@@ -36,13 +36,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         return serverRmi;
     }
 
-    //TODO Look this method
-    public static boolean deniedAccess(String uUID){
+    @Override
+    public boolean deniedAccess(String uUID){
         //could be useful have a method to see if client is allowed to speak to server
         GameManager game = SReferences.getGameRef().get(SReferences.getUuidRef().indexOf(uUID));
-        if(game.expected.equals(uUID))
-            return false;
-        return true;
+        return game.expected.equals(uUID);
     }
 
     @Override
@@ -105,30 +103,36 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         return -1;
     }
 
+    @SuppressWarnings({"finally", "ReturnInsideFinallyBlock"})
     @Override
     public boolean ping(String uuid) {
         int playerId = SReferences.getUuidRef().indexOf(uuid);
+        boolean isReachable = false;
         if (playerId >= 0) {
             if (SReferences.getIsSocketRef().get(playerId)) {
                 String methodName = "ping";
                 try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    return (boolean) client.invokeMethod(uuid, methodName, null);
+                    isReachable = (boolean) client.invokeMethod(uuid, methodName, null);
                 } catch (Exception e) {
                     Logger.strace(e);
+                } finally {
+                    return isReachable;
                 }
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
-                    return client.ping();
+                    isReachable = client.ping();
                 } catch (RemoteException re) {
                     Logger.log("Error calling remote method ping()");
                     Logger.strace(re);
+                } finally {
+                    return isReachable;
                 }
             }
         } else {
             Logger.log("Unable to find player with UUID " + uuid);
         }
-        return false;
+        return isReachable;
     }
 
     @Override
