@@ -20,10 +20,10 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#chooseWindow" prefHeight="239.0" prefWidth="322.0" text="Button" />
-            <Button mnemonicParsing="false" onAction="#chooseWindow" prefHeight="239.0" prefWidth="327.0" text="Button" GridPane.columnIndex="2" />
-            <Button mnemonicParsing="false" onAction="#chooseWindow" prefHeight="239.0" prefWidth="340.0" text="Button" GridPane.columnIndex="3" />
-            <Button mnemonicParsing="false" onAction="#chooseWindow" prefHeight="239.0" prefWidth="329.0" text="Button" GridPane.columnIndex="1" />
+            <Button fx:id="card1" mnemonicParsing="false" onAction="#chooseWindow" prefHeight="239.0" prefWidth="322.0" text="Button" />
+            <Button fx:id="card3" mnemonicParsing="false" onAction="#chooseWindow" prefHeight="239.0" prefWidth="327.0" text="Button" GridPane.columnIndex="2" />
+            <Button fx:id="card4" mnemonicParsing="false" onAction="#chooseWindow" prefHeight="239.0" prefWidth="340.0" text="Button" GridPane.columnIndex="3" />
+            <Button fx:id="card2" mnemonicParsing="false" onAction="#chooseWindow" prefHeight="239.0" prefWidth="329.0" text="Button" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <Text layoutX="565.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SELEZIONA CARTA" wrappingWidth="150.0" />

@@ -79,10 +79,10 @@ public class StartGameController implements Initializable {
 
 
     private void setCardMap() {
-       paneCarta.setStyle("-fx-background-image: url('1.png');-fx-background-size: cover;");
-       paneCarta2.setStyle("-fx-background-image: url('2.png');-fx-background-size: cover;");
-       paneCarta3.setStyle("-fx-background-image: url('3.png');-fx-background-size: cover;");
-       paneCarta1.setStyle("-fx-background-image: url('4.png');-fx-background-size: cover;");
+       paneCarta.setStyle("-fx-background-image: url('1.png');-fx-background-size: 100% 100%;");
+       paneCarta2.setStyle("-fx-background-image: url('2.png');-fx-background-size: 100% 100%;");
+       paneCarta3.setStyle("-fx-background-image: url('3.png');-fx-background-size: 100% 100%;");
+       paneCarta1.setStyle("-fx-background-image: url('4.png');-fx-background-size: 100% 100%;");
 
     }
 
@@ -117,14 +117,14 @@ public class StartGameController implements Initializable {
     @FXML
     private void fineTurno(ActionEvent event) throws IOException{
         System.out.print("\"Turno Finito\"");
-        dice1.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: cover;");
-        dice2.setStyle("-fx-background-image: url('2red.png');-fx-background-size: cover;");
-        dice3.setStyle("-fx-background-image: url('4yellow.png');-fx-background-size: cover;");
-        dice4.setStyle("-fx-background-image: url('6purple.png');-fx-background-size: cover;");
-        dice5.setStyle("-fx-background-image: url('3green.png');-fx-background-size: cover;");
-        dice6.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: cover;");
-        dice7.setStyle("-fx-background-image: url('1red.png');-fx-background-size: cover;");
-        dice8.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: cover;");
+        dice1.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: 100% 100%;");
+        dice2.setStyle("-fx-background-image: url('2red.png');-fx-background-size: 100% 100%;");
+        dice3.setStyle("-fx-background-image: url('4yellow.png');-fx-background-size: 100% 100%;");
+        dice4.setStyle("-fx-background-image: url('6purple.png');-fx-background-size: 100% 100%;");
+        dice5.setStyle("-fx-background-image: url('3green.png');-fx-background-size: 100% 100%;");
+        dice6.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: 100% 100%;");
+        dice7.setStyle("-fx-background-image: url('1red.png');-fx-background-size: 100% 100%;");
+        dice8.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: 100% 100%;");
 
 
 
