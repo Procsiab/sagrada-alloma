@@ -31,14 +31,12 @@ public class LogInScreenController implements Initializable {
 
     @FXML public void LogIn(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/WaitingRoom.fxml"));
         Parent root1 = loader.load();
         game = MainClient.game;
 
         // Trova l'istanza di StartGameController, per poter runnare il metodo di update della view dall'esterno. Chiedere come passarlo all'esterno.
-        StartGameController controllerGame = loader.getController();
-        //TODO Access to gameClient attribute in different way (look at the linter warning)
-        gameClient = controllerGame;
+
 
         String message1 = MiddlewareClient.getInstance().startGame(MainClient.uuid);
         Logger.log("Server responded as: " + message1);

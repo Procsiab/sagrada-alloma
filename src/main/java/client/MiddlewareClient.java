@@ -62,14 +62,13 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
 
     @Override
     public void updateView(GameManager gameManager) {
-        //it is better to access directly from static references in MainClient
-        LogInScreenController.getGameClient().updateView(gameManager);
+        MainClient.startGameController.updateView(gameManager);
     }
 
     @Override
     public Integer chooseWindow(ArrayList<Integer> windows) {
         System.out.println("I'm blue");
-        return null;
+        return 2;
         //TODO Call true method
     }
 

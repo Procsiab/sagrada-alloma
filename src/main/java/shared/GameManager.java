@@ -12,36 +12,60 @@ import java.util.Random;
 
 public class GameManager extends GeneralTask implements Serializable {
 
-    //transient middlewareserver
-
     public ArrayList<String> publicRef = new ArrayList<>();
     transient public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     public ArrayList<String> players = new ArrayList<>();
     public ArrayList<String> players2 = new ArrayList<>();
     private final Integer sleepTime;
+    private final Integer timeout2;
     private final Integer nMates;
-    private ArrayList<Player> vPlayers;
+    private ArrayList<Player> vPlayers = new ArrayList<>();
     transient public MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
+    public boolean dicePlaced = false;
+    public boolean cardEnabled = false;
     public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
     public ArrayList<PublicOC> publicOCs = new ArrayList<>();
-    public ArrayList<ToolC> toolCards;
+    public ArrayList<ToolC> toolCards = new ArrayList<>();
     public ArrayList<String> privateLeft = new ArrayList<>();
+    public ArrayList<String> jump = new ArrayList<>();
+    public ArrayList<Boolean> jumpB = new ArrayList<>();
     public ArrayList<String> unresponsive = new ArrayList<>();
     public ArrayList<String> active = new ArrayList<>();
     public String expected;
-    public RoundTrack roundTrack;
+    public RoundTrack roundTrack = new RoundTrack();
     public boolean check1 = false;
     public ArrayList<Dice> dices = new ArrayList<>();
     public ArrayList<Dice> pool = new ArrayList<>();
+    public final transient Object obj = new Object();
+    public final transient Object obj2 = new Object();
+    public final transient Object obj3 = new Object();
 
     public GameManager(ArrayList<String> players) {
+
         Random rand = new Random();
         this.publicRef.addAll(players);
         this.players.addAll(players);
         this.sleepTime = 10000;
+        this.timeout2 = 5000;
         this.nMates = players.size();
-        int i = 1;
+        int i = 0;
+
+        for (String client : players) {
+            vPlayers.add(new Player(i, this, publicRef.get(i)));
+            i++;
+        }
+
+        i = 1;
+
+        for (String p :
+                publicRef) {
+            SReferences.addGameRef(p, this);
+            SReferences.addPlayerRef(p, vPlayers.get(i - 1));
+            i++;
+        }
+
+        i = 1;
 
         while (i <= 90) {
             if (1 <= i && i <= 18)
@@ -56,6 +80,8 @@ public class GameManager extends GeneralTask implements Serializable {
                 dices.add(new Dice('p', rand.nextInt(6)));
             i++;
         }
+
+
     }
 
     public void setAction(boolean action) {
@@ -81,9 +107,10 @@ public class GameManager extends GeneralTask implements Serializable {
         pool.clear();
         int num = 2 * active.size() + 1;
         int i = 0;
+        Random rand = new Random();
 
         while (i < num) {
-            pool.add(dices.remove(0));
+            pool.add(dices.remove(rand.nextInt(dices.size() - 1)));
             i++;
         }
 
@@ -105,6 +132,7 @@ public class GameManager extends GeneralTask implements Serializable {
     }
 
     public Integer score(Player player) {
+        Logger.log("scoring phase");
         Integer score = 0;
         //computation
         player.setScore(score);
@@ -113,13 +141,11 @@ public class GameManager extends GeneralTask implements Serializable {
 
     @Override
     public void run() {
+        super.run();
+        Logger.log("GameManager has started");
 
         int i = 0;
         int j = 0;
-
-        for (String client : players) {
-            vPlayers.add(new Player(1, this, publicRef.get(i)));
-        }
 
 
         i = 0;
@@ -166,7 +192,12 @@ public class GameManager extends GeneralTask implements Serializable {
 
         while (i < players.size()) {
             Integer k;
-            k = middlewareServer.chooseWindow(players.get(i), (ArrayList<Integer>) a.subList(((i + 1) * 4), ((i + 2) * 4 - 1)));
+            Logger.log("Choose window for player " + players.get(i));
+            Logger.log(a.toString());
+            ArrayList<Integer> b = new ArrayList<>();
+            b.addAll(a.subList(((i) * 4), ((i + 1) * 4 - 1)));
+            k = middlewareServer.chooseWindow(players.get(i), b);
+            b.clear();
             vPlayers.get(i).setWindow(k);
 
             i++;
@@ -184,13 +215,6 @@ public class GameManager extends GeneralTask implements Serializable {
             i++;
         }
         i = 0;
-
-        while (i < players.size()) {
-            vPlayers.get(i).setFrame(a.get(i));
-            i++;
-        }
-        i = 0;
-
 
         for (Player player : vPlayers) {
             player.setTokens();
@@ -210,9 +234,9 @@ public class GameManager extends GeneralTask implements Serializable {
         }
         i = 0;
 
-        toolCards.add(matchManager.toolCS.get(a.get(0)));
-        toolCards.add(matchManager.toolCS.get(a.get(1)));
-        toolCards.add(matchManager.toolCS.get(a.get(2)));
+        toolCards.add(matchManager.toolCs.get(a.get(0)));
+        toolCards.add(matchManager.toolCs.get(a.get(1)));
+        toolCards.add(matchManager.toolCs.get(a.get(2)));
 
         i = 0;
         a.clear();
@@ -234,24 +258,44 @@ public class GameManager extends GeneralTask implements Serializable {
         i = 0;
         a.clear();
 
+        throwDice();
 
         for (String player : players) {
             middlewareServer.updateView(player, this);
         }
 
 
+        Logger.log("start turn manager");
+
         j = 1;
         i = 1;
+        int k = 1;
+        boolean upward = true;
         while (j <= 10) {
             //fitness(left);
+
+            for (String p :
+                    players) {
+                if (middlewareServer.ping(p)) {
+                    synchronized (MatchManager.obj) {
+                        MatchManager.left.remove(p);
+                    }
+                    synchronized (obj) {
+                        privateLeft.remove(p);
+                    }
+                }
+            }
+
             players2.clear();
             players2.addAll(players);
             players2.removeAll(privateLeft);
+            active.clear();
+            unresponsive.clear();
+            active.addAll(players2);
             //fitness(players2);
             //set nPlayers (which will not change over one turn) for nDices ecc..
-            //check if the player can play or it has a turn to jump
 
-            while (i <= players2.size()) {
+            while (k <= 2 * players2.size()) {
 
                 //fitness(active);
                 //fitness(unresponsive);
@@ -280,9 +324,10 @@ public class GameManager extends GeneralTask implements Serializable {
                     return;
                 }
 
+                int p = 1;
+                int q = 1;
                 //check if global blackout
-                while (active.size() == 0) {
-                    //safe.wait(timeout2);
+                while (active.isEmpty()) {
                     for (String pla : players2
                             ) {
                         if (middlewareServer.ping(pla)) {
@@ -295,152 +340,108 @@ public class GameManager extends GeneralTask implements Serializable {
                             active.remove(pla);
                         }
                     }
+                    if (p == 3)
+                        //fuck all off
+                        return;
+                    synchronized (obj2) {
+                        try {
+                            obj2.wait(timeout2);
+                        } catch (InterruptedException e) {
+                            Logger.log("Interrupted Exception");
+                        }
+                    }
+                    p++;
                 }
 
                 //check if only one guest
+                p = 1;
                 while (active.size() + unresponsive.size() == 1) {
-                    while (active.size() == 0 && unresponsive.size() == 1) {
-                        //safe.wait(timeout2);
-                        if (privateLeft.contains(players2.get(0))) {
-                            unresponsive.clear();
-                            players2.clear();
+                    while (active.isEmpty() && unresponsive.size() == 1) {
+
+                        if (privateLeft.contains(unresponsive.get(0))) {
                             //fuck off
                             return;
                         }
 
-                        if (middlewareServer.ping(players2.get(0)))
-                            active.add(players2.get(0));
-                        unresponsive.clear();
+                        if (middlewareServer.ping(unresponsive.get(0))) {
+                            active.add(unresponsive.get(0));
+                            unresponsive.clear();
+                        }
 
+                        if (p == 3)
+                            //fuck off
+                            return;
+                        synchronized (obj2) {
+                            try {
+                                obj2.wait(timeout2);
+                            } catch (InterruptedException e) {
+                                Logger.log("Interrupted Exception");
+                            }
+                        }
+                        p++;
                     }
-                    if (active.size() == 1 && unresponsive.size() == 0) {
+                    if (active.size() == 1 && unresponsive.isEmpty()) {
 
                         if (middlewareServer.ping(active.get(0))) {
                             middlewareServer.aPrioriWin(active.get(0));
                             return;
                         }
                         //why don't change ISP?
-                    }
-
-                }
-
-                //check if active and go ahead
-                if (active.contains(players.get(i - 1))) {
-                    middlewareServer.updateView(players.get(i - 1), this);
-                    this.expected = players.get(i - 1);
-                    middlewareServer.enable(players.get(i - 1));
-
-
-                    while (this.action == false)
-                        try {
-                            this.wait(sleepTime);
-                            this.action = true;
-                        } catch (InterruptedException ie) {
-                            Logger.log("Thread sleep was interrupted!");
-                            Logger.strace(ie);
-                            Thread.currentThread().interrupt();
-                        }
-                    this.action = false;
-                    this.expected = null;
-                    //middlewareServer.shut(players.get(i - 1));
-                }
-                i++;
-            }
-
-            while (i >= 1) {
-                //fitness(active);
-                //fitness(unresponsive);
-
-                for (String pla : players2
-                        ) {
-                    if (privateLeft.contains(pla)) {
-                        active.remove(pla);
-                        unresponsive.remove(pla);
-                    }
-
-                    if (middlewareServer.ping(pla)) {
-                        if (!active.contains(pla))
-                            active.add(pla);
-                        unresponsive.remove(pla);
-                    } else {
-                        if (!unresponsive.contains(pla))
-                            unresponsive.add(pla);
-                        active.remove(pla);
-                    }
-                }
-
-                //check if all left game
-                if (active.size() + unresponsive.size() == 0) {
-                    //fuck all off
-                    return;
-                }
-
-                //check if global blackout
-                while (active.size() == 0) {
-                    //safe.wait(timeout2);
-                    for (String pla : players2
-                            ) {
-                        if (middlewareServer.ping(pla)) {
-                            if (!active.contains(pla))
-                                active.add(pla);
-                            unresponsive.remove(pla);
-                        } else {
-                            if (!unresponsive.contains(pla))
-                                unresponsive.add(pla);
-                            active.remove(pla);
-                        }
-                    }
-                }
-
-                //check if only one guest
-                while (active.size() + unresponsive.size() == 1) {
-                    while (active.size() == 0 && unresponsive.size() == 1) {
-                        //safe.wait(timeout2);
-                        if (privateLeft.contains(players2.get(0))) {
-                            unresponsive.clear();
-                            players2.clear();
+                        if (q == 3)
                             //fuck off
                             return;
+                        synchronized (obj2) {
+                            try {
+                                obj2.wait(timeout2);
+                            } catch (InterruptedException e) {
+                                Logger.log("Interrupted Exception");
+                            }
                         }
-
-                        if (middlewareServer.ping(players2.get(0)))
-                            active.add(players2.get(0));
-                        unresponsive.clear();
-
-                    }
-                    if (active.size() == 1 && unresponsive.size() == 0) {
-
-                        if (middlewareServer.ping(active.get(0))) {
-                            middlewareServer.aPrioriWin(active.get(0));
-                            return;
-                        }
-                        //why don't change ISP?
+                        q++;
                     }
 
                 }
 
-                //check if active and go ahead
-                if (active.contains(players.get(i - 1))) {
+                //check if active, doesn't have a turn to jump, then go ahead
+
+
+                if (!jumpB.get(jump.indexOf(players.get(i - 1)))) {
+                    jumpB.remove(jump.indexOf(players.get(i - 1)));
+                    jump.remove(players.get(i - 1));
+                }
+                if (jumpB.get(jump.indexOf(players.get(i - 1))))
+                    jumpB.set(jump.indexOf(players.get(i - 1)), false);
+
+                if (active.contains(players.get(i - 1)) && !jump.contains(players.get(i - 1))) {
                     middlewareServer.updateView(players.get(i - 1), this);
                     this.expected = players.get(i - 1);
                     middlewareServer.enable(players.get(i - 1));
 
+                    vPlayers.get(i - 1).turno++;
 
-                    while (this.action == false)
-                        try {
-                            this.wait(sleepTime);
-                            this.action = true;
-                        } catch (InterruptedException ie) {
-                            Logger.log("Thread sleep was interrupted!");
-                            Logger.strace(ie);
-                            Thread.currentThread().interrupt();
+                    synchronized (obj3) {
+                        while (!this.action) {
+                            try {
+                                this.wait(sleepTime);
+                                this.action = true;
+                            } catch (InterruptedException ie) {
+                                Logger.log("Thread sleep was interrupted!");
+                                Logger.strace(ie);
+                                Thread.currentThread().interrupt();
+                            }
+                            this.action = false;
+                            this.expected = null;
+                            //middlewareServer.shut(players.get(i - 1));
                         }
-                    this.action = false;
-                    this.expected = null;
-                    //middlewareServer.shut(players.get(i - 1));
+                    }
                 }
-                i--;
-
+                if (upward) {
+                    if (i == players2.size() - 1)
+                        upward = false;
+                    i++;
+                } else
+                    i--;
+                k++;
             }
             shiftPlayers();
             j++;
@@ -460,7 +461,6 @@ public class GameManager extends GeneralTask implements Serializable {
             middlewareServer.printScore(play.uUID, play.getScore());
             if (play.getScore() == points)
                 middlewareServer.setWinner(play.uUID);
-
         }
     }
 }

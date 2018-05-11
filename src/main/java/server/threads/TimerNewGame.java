@@ -22,27 +22,24 @@ public class TimerNewGame extends GeneralTask {
 
     @Override
     public void run() {
+        Logger.log("timer started");
         super.run();
 
-        while (true) {
-            synchronized (obj) {
-                try {
-                    obj.wait(sleepTime);
-                } catch (InterruptedException ie) {
-                    Logger.log("Thread sleep was interrupted!");
-                    Logger.strace(ie);
-                    Thread.currentThread().interrupt(); //Proper handling of InterruptedException
-                }
+        synchronized (obj) {
+            try {
+                obj.wait(sleepTime);
+            } catch (InterruptedException ie) {
+                Logger.log("Thread sleep was interrupted!");
+                Logger.strace(ie);
+                Thread.currentThread().interrupt(); //Proper handling of InterruptedException
             }
+        }
 
-            if(newGameManager.equals(null))
-                return;
-
-            synchronized (safe.sLock2) {
-                newGameManager.start = true;
-                safe.sLock2.notifyAll();
-                return;
-            }
+        synchronized (safe.sLock2) {
+            newGameManager.start = true;
+            safe.sLock2.notifyAll();
+            return;
         }
     }
 }
+

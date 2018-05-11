@@ -39,7 +39,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     //TODO Look this method
     public static boolean deniedAccess(String uUID){
         //could be useful have a method to see if client is allowed to speak to server
-        GameManager game = SReferences.gameRef.get(SReferences.uuidRef.indexOf(uUID));
+        GameManager game = SReferences.getGameRef().get(SReferences.getUuidRef().indexOf(uUID));
         if(game.expected.equals(uUID))
             return false;
         return true;
@@ -52,16 +52,16 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void updateView(String uuid, GameManager gameManager) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 Object[] args = {gameManager};
                 String methodName = "updateView";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
                     Logger.log("An error occurred while invoking method " + methodName +  " on host " +
-                            SReferences.ipRef.get(playerId) + "@" + SReferences.portRef.get(playerId));
+                            SReferences.getIpRef().get(playerId) + "@" + SReferences.getPortRef().get(playerId));
                     Logger.strace(e);
                 }
             } else {
@@ -80,12 +80,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public Integer chooseWindow(String uuid, ArrayList<Integer> windows) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 Object[] args = {windows};
                 String methodName = "chooseWindow";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     return (Integer) client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
                     Logger.strace(e);
@@ -107,11 +107,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public boolean ping(String uuid) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 String methodName = "ping";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     return (boolean) client.invokeMethod(uuid, methodName, null);
                 } catch (Exception e) {
                     Logger.strace(e);
@@ -133,11 +133,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void aPrioriWin(String uuid) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 String methodName = "aPrioriWin";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     client.invokeMethod(uuid, methodName, null);
                 } catch (Exception e) {
                     Logger.strace(e);
@@ -158,11 +158,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void enable(String uuid) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 String methodName = "enable";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     client.invokeMethod(uuid, methodName, null);
                 } catch (Exception e) {
                     Logger.strace(e);
@@ -183,11 +183,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void shut(String uuid) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 String methodName = "shut";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     client.invokeMethod(uuid, methodName, null);
                 } catch (Exception e) {
                     Logger.strace(e);
@@ -208,12 +208,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void printScore(String uuid, Integer score) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 Object[] args = {score};
                 String methodName = "printScore";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
                     Logger.strace(e);
@@ -234,11 +234,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void setWinner(String uuid) {
-        int playerId = SReferences.uuidRef.indexOf(uuid);
+        int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
-            if (SReferences.isSocketRef.get(playerId)) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
                 String methodName = "setWinner";
-                try (Connection client = new NetworkSocket(SReferences.ipRef.get(playerId), SReferences.portRef.get(playerId))) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     client.invokeMethod(uuid, methodName, null);
                 } catch (Exception e) {
                     Logger.strace(e);
