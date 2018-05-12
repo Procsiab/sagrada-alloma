@@ -70,7 +70,6 @@ public class MatchManager implements Serializable {
         windows.add(new Window2());
         windows.add(new Window3());
         windows.add(new Window4());
-        windows.add(new Window4());
         windows.add(new Window5());
         windows.add(new Window6());
         windows.add(new Window7());
