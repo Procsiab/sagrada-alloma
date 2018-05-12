@@ -5,62 +5,47 @@ import client.MiddlewareClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import shared.Logger;
 
 import java.awt.*;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class WaitingRoomController implements Initializable {
-    @FXML private Button card1,card2,card3,card4;
-    private String selectedCard ;
-    public WaitingRoomController() {
-        MainClient.waitingRoomController = this;
-    }
+public class WaitingRoomController {
+    @FXML private AnchorPane paneTest;
+    @FXML private Button buttonTest;
 
-
-    @FXML
-    public void chooseWindow(ActionEvent event) throws IOException {
-
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
+    // Load cards to be chosen and then then passed into choosenCard variable. This variable is used in ChooseWindowController
+    // in order to load the 4 available cards.
+    public void chooseWindow(ArrayList<Integer> listaCarte) throws IOException {
+        MainClient.choosenCards = listaCarte;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChooseWindow.fxml"));
         Parent root1 = loader.load();
-        System.out.println("Button pressed " + ((Button) event.getSource()).getId());
-        selectedCard = ((Button) event.getSource()).getId();
-        System.out.println(selectedCard);
+
         Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage window = (Stage) paneTest.getScene().getWindow();
         window.setScene(startedGame);
         window.show();
 
     }
+    @FXML
+    private void testLoad(ActionEvent event) throws IOException{
+        ArrayList testArray = new ArrayList<Integer>();
+        Collections.addAll(testArray, 1, 2, 4, 6);
 
-    public void initialize(URL location, ResourceBundle resources) {
-        // Add transition and other stuff
-        loadCards();
 
-    }
+        chooseWindow( testArray );
 
-    private void loadCards(){
-       // TODO: Implement call to method which return the 4 randomic cards chosen by server.
-
-       // Backround set to test
-        card1.setStyle("-fx-background-image: url('1.png');-fx-background-size: 100% 100% ;");
-        card2.setStyle("-fx-background-image: url('2.png');-fx-background-size: 100% 100%;");
-        card3.setStyle("-fx-background-image: url('3.png');-fx-background-size: 100% 100%;");
-        card4.setStyle("-fx-background-image: url('4.png');-fx-background-size: 100% 100%;");
 
 
     }
-
-
 
 }

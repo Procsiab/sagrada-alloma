@@ -2,7 +2,7 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
-import client.gui.WaitingRoomController;
+import client.gui.ChooseWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,13 +17,8 @@ import shared.network.socket.NetworkSocket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import java.io.Console;
-
-import static org.fusesource.jansi.Ansi.*;
-import static org.fusesource.jansi.Ansi.Color.*;
 
 public class MainClient extends Application {
     public static GameHelper game; //resetta scelte utente
@@ -34,8 +29,9 @@ public class MainClient extends Application {
     private static boolean isPrompt;
 
     public static LogInScreenController logInScreenController;
-    public static WaitingRoomController waitingRoomController;
+    public static ChooseWindowController chooseWindowController;
     public static StartGameController startGameController;
+    public static ArrayList<Integer> choosenCards;
 
     /*
     dice dado1
