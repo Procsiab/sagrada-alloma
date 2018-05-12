@@ -48,8 +48,8 @@ public class GameManager extends GeneralTask implements Serializable {
         Random rand = new Random();
         this.publicRef.addAll(players);
         this.players.addAll(players);
-        this.sleepTime = 10000;
-        this.timeout2 = 5000;
+        this.sleepTime = 20;
+        this.timeout2 = 10;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
@@ -460,25 +460,26 @@ public class GameManager extends GeneralTask implements Serializable {
                     synchronized (obj3) {
                         while (!this.action) {
                             try {
-                                this.wait(sleepTime);
+                                obj3.wait(sleepTime);
                                 this.action = true;
                             } catch (InterruptedException ie) {
                                 Logger.log("Thread sleep was interrupted!");
                                 Logger.strace(ie);
                                 Thread.currentThread().interrupt();
                             }
-                            this.action = false;
-                            this.expected = null;
-                            //middlewareServer.shut(players.get(i - 1));
                         }
+                        this.action = false;
+                        this.expected = null;
+                        //middlewareServer.shut(players.get(i - 1));
                     }
                 }
-                if (upward) {
-                    if (i == players2.size() - 1)
+                if (upward){
+                    if (i == players2.size())
                         upward = false;
-                    i++;
-                } else
-                    i--;
+                    else
+                        i++;
+                    } else
+                        i--;
                 k++;
             }
             shiftPlayers();
@@ -487,6 +488,8 @@ public class GameManager extends GeneralTask implements Serializable {
         i = 0;
         int points = 0;
         int temp;
+
+
         for (Player player : vPlayers
                 ) {
             temp = score(vPlayers.get(i));
