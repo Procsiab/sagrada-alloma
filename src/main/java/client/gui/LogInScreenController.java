@@ -36,7 +36,7 @@ public class LogInScreenController implements Initializable {
         game = MainClient.game;
 
 
-        String message1 = MiddlewareClient.getInstance().startGame(MainClient.uuid);
+        String message1 = MiddlewareClient.getInstance().startGame();
         Logger.log("Server responded as: " + message1);
 
         if (message1.equals("Connections successful. Please wait for other players to connect")) {

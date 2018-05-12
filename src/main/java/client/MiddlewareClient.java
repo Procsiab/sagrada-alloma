@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public final class MiddlewareClient implements SharedMiddlewareClient {
     private static final String SERVER_INTERFACE = "MiddlewareServer";
 
+    private static String uuid = MainClient.uuid;
     private static Connection connection = null;
     private static Boolean isSocket = false;
     private static MiddlewareClient instance = new MiddlewareClient();
@@ -41,7 +42,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public String startGame(String uuid) {
+    public String startGame() {
         connection.export(instance, uuid);
         if (isSocket) {
             Object[] args = {uuid, connection.getIp(), connection.getListeningPort(), isSocket};
@@ -100,5 +101,23 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     @Override
     public void setWinner() {
         //TODO Call true method
+    }
+
+    public boolean chooseWindowBack(Integer window){
+        connection.export(instance, uuid);
+        if (isSocket) {
+            Object[] args = {uuid, window};
+            String methodName = "chooseWindowBack";
+            return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } else {
+            SharedMiddlewareServer server = connection.getExported(SERVER_INTERFACE);
+            try {
+                return server.chooseWindowBack(uuid, window);
+            } catch (RemoteException re) {
+                Logger.log("Error calling remote method chooseWindowBack");
+                Logger.strace(re);
+                return false;
+            }
+        }
     }
 }

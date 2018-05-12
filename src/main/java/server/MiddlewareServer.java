@@ -37,10 +37,10 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public boolean deniedAccess(String uUID){
+    public boolean deniedAccess(String uUID) {
         //could be useful have a method to see if client is allowed to speak to server
         GameManager game = SReferences.getGameRef().get(SReferences.getUuidRef().indexOf(uUID));
-        return game.expected.equals(uUID);
+        return !game.expected.equals(uUID);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
                     client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
-                    Logger.log("An error occurred while invoking method " + methodName +  " on host " +
+                    Logger.log("An error occurred while invoking method " + methodName + " on host " +
                             SReferences.getIpRef().get(playerId) + "@" + SReferences.getPortRef().get(playerId));
                     Logger.strace(e);
                 }
@@ -84,7 +84,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 Object[] args = {windows};
                 String methodName = "chooseWindow";
                 try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    return (boolean)client.invokeMethod(uuid, methodName, args);
+                    return (boolean) client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
                     Logger.strace(e);
                 }
@@ -260,5 +260,10 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         } else {
             Logger.log("Unable to find player with UUID " + uuid);
         }
+    }
+
+    public boolean chooseWindowBack(String uuid, Integer window) {
+        Integer k = SReferences.getUuidRef().indexOf(uuid);
+        return SReferences.getPlayerRef().get(k).setWindow(window);
     }
 }

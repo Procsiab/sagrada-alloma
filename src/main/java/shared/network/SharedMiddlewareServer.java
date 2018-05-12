@@ -17,4 +17,5 @@ public interface SharedMiddlewareServer extends Remote {
     void shut(String uuid) throws RemoteException;
     void printScore(String uuid, Integer score) throws RemoteException;
     void setWinner(String uuid) throws RemoteException;
+    boolean chooseWindowBack(String uuid, Integer window) throws RemoteException;
 }

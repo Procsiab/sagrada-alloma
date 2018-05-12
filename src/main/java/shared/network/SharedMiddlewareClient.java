@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface SharedMiddlewareClient extends Remote {
-    String startGame(String uuid) throws RemoteException;
+    String startGame() throws RemoteException;
     void updateView(GameManager gameManager) throws RemoteException;
     boolean chooseWindow(ArrayList<Integer> windows) throws RemoteException;
     boolean ping() throws RemoteException;
@@ -16,4 +16,5 @@ public interface SharedMiddlewareClient extends Remote {
     void shut() throws RemoteException;
     void printScore(Integer score) throws RemoteException;
     void setWinner() throws RemoteException;
+    boolean chooseWindowBack(Integer window) throws RemoteException;
 }

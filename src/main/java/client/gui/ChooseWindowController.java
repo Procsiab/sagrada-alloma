@@ -1,6 +1,7 @@
 package client.gui;
 
 import client.MainClient;
+import client.MiddlewareClient;
 import com.sun.tools.javac.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +20,8 @@ import java.util.ResourceBundle;
 
 public class ChooseWindowController implements Initializable {
     @FXML private Button card1,card2,card3,card4;
-    private String selectedCard ;
+    private Integer  tempSelectedCard, selectedCard;
+    private MiddlewareClient middlewareClient = MiddlewareClient.getInstance();
     public ChooseWindowController() {
         MainClient.chooseWindowController = this;
     }
@@ -32,7 +34,10 @@ public class ChooseWindowController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
         Parent root1 = loader.load();
         System.out.println("Button pressed " + ((Button) event.getSource()).getId());
-        selectedCard = ((Button) event.getSource()).getId();
+        tempSelectedCard.parseInt(((Button) event.getSource()).getText());
+        selectedCard = MainClient.choosenCards.get(tempSelectedCard);
+
+        middlewareClient.chooseWindowBack(selectedCard);
 
         System.out.println(selectedCard);
 
