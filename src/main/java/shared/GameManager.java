@@ -53,7 +53,7 @@ public class GameManager extends GeneralTask implements Serializable {
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
-        for (i=0;i<players.size();i++){
+        for (i = 0; i < players.size(); i++) {
             this.obj4.add(new Object());
         }
 
@@ -228,7 +228,9 @@ public class GameManager extends GeneralTask implements Serializable {
             synchronized (obj4.get(i)) {
                 while (vPlayer.window == null) {
                     try {
+                        this.expected = player;
                         obj4.get(i).wait(timeout2);
+                        this.expected = null;
                         vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
                     } catch (InterruptedException e) {
                         Logger.log("Interrupted Exception");
