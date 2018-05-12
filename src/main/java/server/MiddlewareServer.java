@@ -77,14 +77,14 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public Integer chooseWindow(String uuid, ArrayList<Integer> windows) {
+    public boolean chooseWindow(String uuid, ArrayList<Integer> windows) {
         int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
             if (SReferences.getIsSocketRef().get(playerId)) {
                 Object[] args = {windows};
                 String methodName = "chooseWindow";
                 try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    return (Integer) client.invokeMethod(uuid, methodName, args);
+                    return (boolean)client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
                     Logger.strace(e);
                 }
@@ -99,8 +99,9 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             }
         } else {
             Logger.log("Unable to find player with UUID " + uuid);
+            return false;
         }
-        return -1;
+        return true;
     }
 
     @SuppressWarnings({"finally", "ReturnInsideFinallyBlock"})

@@ -65,9 +65,9 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public Integer chooseWindow(ArrayList<Integer> windows) {
+    public boolean chooseWindow(ArrayList<Integer> windows) {
         System.out.println("I'm blue");
-        return 2;
+        return true;
         //TODO Call true method
     }
 

@@ -207,7 +207,7 @@ public class GameManager extends GeneralTask implements Serializable {
             ArrayList<Integer> b = new ArrayList<>();
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
             Logger.log(b.toString());
-            k = middlewareServer.chooseWindow(players.get(i), b);
+            middlewareServer.chooseWindow(players.get(i), b);
             b.clear();
 
             //vPlayers.get(i).setWindow(k);

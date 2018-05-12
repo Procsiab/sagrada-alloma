@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface SharedMiddlewareClient extends Remote {
     String startGame(String uuid) throws RemoteException;
     void updateView(GameManager gameManager) throws RemoteException;
-    Integer chooseWindow(ArrayList<Integer> windows) throws RemoteException;
+    boolean chooseWindow(ArrayList<Integer> windows) throws RemoteException;
     boolean ping() throws RemoteException;
     void aPrioriWin() throws RemoteException;
     void enable() throws RemoteException;
