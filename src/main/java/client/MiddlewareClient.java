@@ -104,7 +104,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     public boolean chooseWindowBack(Integer window){
-        connection.export(instance, uuid);
+        //connection.export(instance, uuid);
         if (isSocket) {
             Object[] args = {uuid, window};
             String methodName = "chooseWindowBack";

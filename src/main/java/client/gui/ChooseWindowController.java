@@ -35,8 +35,8 @@ public class ChooseWindowController implements Initializable {
         Parent root1 = loader.load();
         System.out.println("Button pressed " + ((Button) event.getSource()).getId());
         tempSelectedCard = tempSelectedCard.parseInt(((Button) event.getSource()).getText());
-        System.out.println(MainClient.choosenCards.get(1));
-        selectedCard = MainClient.choosenCards.get(tempSelectedCard);
+        //System.out.println(MainClient.choosenCards.get(1));
+        selectedCard = MainClient.choosenCards.get(tempSelectedCard-1);
 
         middlewareClient.chooseWindowBack(selectedCard);
 

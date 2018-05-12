@@ -48,7 +48,7 @@ public class GameManager extends GeneralTask implements Serializable {
         Random rand = new Random();
         this.publicRef.addAll(players);
         this.players.addAll(players);
-        this.sleepTime = 10000;
+        this.sleepTime = 20000;
         this.timeout2 = 10000;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
