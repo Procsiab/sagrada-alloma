@@ -68,7 +68,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     @Override
     public boolean chooseWindow(ArrayList<Integer> windows) {
         System.out.println("CHOOSE WINDOW TEST");
-        //MainClient.waitingRoomController.chooseWindow(windows);
+        MainClient.waitingRoomController.chooseWindow(windows);
         return true;
         //TODO Call true method
     }

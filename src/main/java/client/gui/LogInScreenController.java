@@ -35,8 +35,6 @@ public class LogInScreenController implements Initializable {
         Parent root1 = loader.load();
         game = MainClient.game;
 
-        // Trova l'istanza di StartGameController, per poter runnare il metodo di update della view dall'esterno. Chiedere come passarlo all'esterno.
-
 
         String message1 = MiddlewareClient.getInstance().startGame(MainClient.uuid);
         Logger.log("Server responded as: " + message1);
