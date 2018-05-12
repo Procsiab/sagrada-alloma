@@ -34,7 +34,8 @@ public class ChooseWindowController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
         Parent root1 = loader.load();
         System.out.println("Button pressed " + ((Button) event.getSource()).getId());
-        tempSelectedCard.parseInt(((Button) event.getSource()).getText());
+        tempSelectedCard = tempSelectedCard.parseInt(((Button) event.getSource()).getText());
+        System.out.println(MainClient.choosenCards.get(1));
         selectedCard = MainClient.choosenCards.get(tempSelectedCard);
 
         middlewareClient.chooseWindowBack(selectedCard);
