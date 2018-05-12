@@ -461,6 +461,7 @@ public class GameManager extends GeneralTask implements Serializable {
                     synchronized (obj3) {
                         while (!this.action) {
                             try {
+                                Logger.log("listening for dice thrown or toolcard");
                                 obj3.wait(sleepTime);
                                 this.action = true;
                             } catch (InterruptedException ie) {
