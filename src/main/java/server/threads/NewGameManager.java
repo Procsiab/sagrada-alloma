@@ -13,14 +13,14 @@ import java.util.ArrayList;
 public class NewGameManager extends GeneralTask {
     private final Locker safe = Locker.getSafe();
     private Integer sleepTime = 10000;
-    public boolean start = false;
+    public boolean start = true;
 
     @Override
     public void run() {
         super.run();
 
         TimerNewGame timerNewGame = new TimerNewGame(sleepTime, this);
-        ConcurrencyManager.submit(timerNewGame);
+        //ConcurrencyManager.submit(timerNewGame);
 
         ArrayList<String> clients;
 
@@ -35,7 +35,7 @@ public class NewGameManager extends GeneralTask {
                             if (MatchManager.q.size() > 1)
                                 break;
                             start = false;
-                            timerNewGame = new TimerNewGame(sleepTime, this);
+                            //timerNewGame = new TimerNewGame(sleepTime, this);
                             ConcurrencyManager.submit(timerNewGame);
                         }
                     } catch (Exception e) {

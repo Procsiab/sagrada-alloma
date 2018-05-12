@@ -38,8 +38,11 @@ public class Player implements Serializable {
         privateOC = matchManager.privateOCs.get(n);
     }
 
-    public void setWindow(Integer n) {
+    public boolean setWindow(Integer n) {
+        if(this.window != null)
+            return false;
         this.window = matchManager.windows.get(n);
+        return true;
     }
 
     public boolean placeDice(Dice dice, Position position) {

@@ -4,6 +4,7 @@ import server.*;
 import shared.abstracts.PrivateOC;
 import shared.abstracts.PublicOC;
 import shared.abstracts.ToolC;
+import shared.abstracts.Window;
 import shared.logic.GeneralTask;
 
 import java.io.Serializable;
@@ -40,6 +41,7 @@ public class GameManager extends GeneralTask implements Serializable {
     public final transient Object obj = new Object();
     public final transient Object obj2 = new Object();
     public final transient Object obj3 = new Object();
+    public final transient ArrayList<Object> obj4;
 
     public GameManager(ArrayList<String> players) {
 
@@ -49,12 +51,19 @@ public class GameManager extends GeneralTask implements Serializable {
         this.sleepTime = 10000;
         this.timeout2 = 5000;
         this.nMates = players.size();
-        int i = 0;
+        this.obj4 = new ArrayList<>(players.size());
+        int i;
+        for (i=0;i<players.size();i++){
+            this.obj4.add(new Object());
+        }
+
+        i = 0;
 
         for (String client : players) {
             vPlayers.add(new Player(i, this, publicRef.get(i)));
             i++;
         }
+
 
         i = 1;
 
@@ -190,22 +199,49 @@ public class GameManager extends GeneralTask implements Serializable {
         }
         i = 0;
 
+        Logger.log(a.toString());
+
         while (i < players.size()) {
             Integer k;
             Logger.log("Choose window for player " + players.get(i));
-            Logger.log(a.toString());
             ArrayList<Integer> b = new ArrayList<>();
-            b.addAll(a.subList(((i) * 4), ((i + 1) * 4 - 1)));
+            b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
+            Logger.log(b.toString());
             k = middlewareServer.chooseWindow(players.get(i), b);
             b.clear();
-            vPlayers.get(i).setWindow(k);
+
+            //vPlayers.get(i).setWindow(k);
 
             i++;
         }
+
         i = 0;
+        int s = 0;
+        Window window;
+        Player vPlayer;
+        boolean t = true;
+
+        for (String player :
+                players) {
+            s = SReferences.getUuidRef().indexOf(player);
+            vPlayer = SReferences.getPlayerRef().get(s);
+            synchronized (obj4.get(i)) {
+                while (vPlayer.window == null) {
+                    try {
+                        obj4.get(i).wait(timeout2);
+                        vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
+                    } catch (InterruptedException e) {
+                        Logger.log("Interrupted Exception");
+                        e.printStackTrace();
+                    }
+                }
+            }
+            i++;
+        }
+        s = 0;
 
         a.clear();
-
+        i = 0;
         j = rand.nextInt(4);
         while (i < players.size()) {
             while (a.contains(j)) {
@@ -404,14 +440,14 @@ public class GameManager extends GeneralTask implements Serializable {
 
                 //check if active, doesn't have a turn to jump, then go ahead
 
-
-                if (!jumpB.get(jump.indexOf(players.get(i - 1)))) {
-                    jumpB.remove(jump.indexOf(players.get(i - 1)));
-                    jump.remove(players.get(i - 1));
+                if (jump.contains(players.get(i - 1))) {
+                    if (!jumpB.get(jump.indexOf(players.get(i - 1)))) {
+                        jumpB.remove(jump.indexOf(players.get(i - 1)));
+                        jump.remove(players.get(i - 1));
+                    }
+                    if (jumpB.get(jump.indexOf(players.get(i - 1))))
+                        jumpB.set(jump.indexOf(players.get(i - 1)), false);
                 }
-                if (jumpB.get(jump.indexOf(players.get(i - 1))))
-                    jumpB.set(jump.indexOf(players.get(i - 1)), false);
-
                 if (active.contains(players.get(i - 1)) && !jump.contains(players.get(i - 1))) {
                     middlewareServer.updateView(players.get(i - 1), this);
                     this.expected = players.get(i - 1);
