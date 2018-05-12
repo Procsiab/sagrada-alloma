@@ -61,8 +61,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
 
     @Override
     public void updateView(GameManager gameManager) {
-        //temporarily commented because startgamecontroller is not yet open due to probems to chooseWindow
-        //MainClient.startGameController.updateView(gameManager);
+        MainClient.startGameController.updateView(gameManager);
     }
 
     @Override

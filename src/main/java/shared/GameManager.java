@@ -298,10 +298,11 @@ public class GameManager extends GeneralTask implements Serializable {
 
         throwDice();
 
+        /*
         for (String player : players) {
             middlewareServer.updateView(player, this);
         }
-
+*/
 
         Logger.log("start turn manager");
 

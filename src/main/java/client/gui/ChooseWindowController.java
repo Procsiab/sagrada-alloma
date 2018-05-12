@@ -33,7 +33,9 @@ public class ChooseWindowController implements Initializable {
         Parent root1 = loader.load();
         System.out.println("Button pressed " + ((Button) event.getSource()).getId());
         selectedCard = ((Button) event.getSource()).getId();
+
         System.out.println(selectedCard);
+
         Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(startedGame);
