@@ -1,6 +1,7 @@
 package client.gui;
 
 import client.MainClient;
+import com.sun.tools.javac.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,12 +49,20 @@ public class ChooseWindowController implements Initializable {
 
     private void loadCards(){
        // TODO: Implement call to method which return the 4 randomic cards chosen by server.
+        int i,j,k,g;
+        i = MainClient.choosenCards.get(0);
+        j = MainClient.choosenCards.get(1);
+        k = MainClient.choosenCards.get(2);
+        g = MainClient.choosenCards.get(3);
 
+
+
+        // IMPORTANT: use "+ variable +" in order to use a variable and not a fixed value!
        // Backround set to test
-        card1.setStyle("-fx-background-image: url('1.png');-fx-background-size: 100% 100% ;");
-        card2.setStyle("-fx-background-image: url('2.png');-fx-background-size: 100% 100%;");
-        card3.setStyle("-fx-background-image: url('3.png');-fx-background-size: 100% 100%;");
-        card4.setStyle("-fx-background-image: url('4.png');-fx-background-size: 100% 100%;");
+        card1.setStyle("-fx-background-image: url('"+i+".png');-fx-background-size: 100% 100% ;");
+        card2.setStyle("-fx-background-image: url('"+j+".png');-fx-background-size: 100% 100%;");
+        card3.setStyle("-fx-background-image: url('"+k+".png');-fx-background-size: 100% 100%;");
+        card4.setStyle("-fx-background-image: url('"+g+".png');-fx-background-size: 100% 100%;");
 
 
     }
