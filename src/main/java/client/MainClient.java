@@ -3,6 +3,7 @@ package client;
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
 import client.gui.ChooseWindowController;
+import client.gui.WaitingRoomController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +32,7 @@ public class MainClient extends Application {
     public static LogInScreenController logInScreenController;
     public static ChooseWindowController chooseWindowController;
     public static StartGameController startGameController;
+    public static WaitingRoomController waitingRoomController;
     public static ArrayList<Integer> choosenCards;
 
     /*
@@ -54,7 +56,7 @@ public class MainClient extends Application {
         String LOGO = "";
         AnsiConsole.out().println(LOGO);
 
-        uuid = "2";
+        uuid = "1";
 
         //uuid = getUuid();
 
