@@ -3,6 +3,7 @@ package client.gui;
 import client.MainClient;
 import client.MiddlewareClient;
 import com.sun.tools.javac.Main;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import shared.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,6 +48,28 @@ public class ChooseWindowController implements Initializable {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(startedGame);
         window.show();
+
+    }
+
+    @FXML
+    public void startGameViewForced(){
+        Logger.log("gameView starts now");
+        //todo: implement here forced method
+        /*Platform.runLater(
+                () -> {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
+                    try {
+
+
+
+
+
+                    } catch (IOException Exception) {
+                        System.out.println("View not found. Error while loading");
+
+                    }
+                }
+        );*/
 
     }
 

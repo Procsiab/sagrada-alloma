@@ -56,7 +56,7 @@ public class MainClient extends Application {
         String LOGO = "";
         AnsiConsole.out().println(LOGO);
 
-        uuid = "3";
+        uuid = "777787";
 
         Logger.log(uuid);
 

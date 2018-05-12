@@ -1,9 +1,9 @@
 package shared.cards.toolC;
 
 import shared.Dice;
-import shared.Player;
-import shared.abstracts.ToolC;
-import shared.GameManager;
+import server.Player;
+import server.abstracts.ToolC;
+import server.threads.GameManager;
 
 import java.util.Random;
 

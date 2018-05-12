@@ -15,5 +15,6 @@ public class GameHelper extends GeneralTask {
     @Override
     public void run() {
         super.run();
+        //set to null appropriate instance variables
     }
 }

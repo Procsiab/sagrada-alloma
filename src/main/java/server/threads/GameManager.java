@@ -1,17 +1,22 @@
-package shared;
+package server.threads;
 
 import server.*;
-import shared.abstracts.PrivateOC;
-import shared.abstracts.PublicOC;
-import shared.abstracts.ToolC;
-import shared.abstracts.Window;
+import shared.Dice;
+import shared.Logger;
+import server.Player;
+import shared.RoundTrack;
+import server.abstracts.PrivateOC;
+import server.abstracts.PublicOC;
+import server.abstracts.ToolC;
+import server.abstracts.Window;
+import shared.TransferObjects.PlayerT;
 import shared.logic.GeneralTask;
+import shared.TransferObjects.GameManagerT;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameManager extends GeneralTask implements Serializable {
+public class GameManager extends GeneralTask {
 
     public ArrayList<String> publicRef = new ArrayList<>();
     transient public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
@@ -104,6 +109,19 @@ public class GameManager extends GeneralTask implements Serializable {
     public void setLoser(String loser) {
         this.privateLeft.add(loser);
         MatchManager.left.add(loser);
+    }
+
+    public void updateView(String uuid) {
+
+        ArrayList<PlayerT> vPlayersT = new ArrayList<>();
+        for (Player player :
+                this.vPlayers) {
+            vPlayersT.add(new PlayerT(player.uUID, player.privateOC, player.window, player.overlay,
+                    player.turno, player.tokens, player.score, player.privateTurn, player.lastPlaced));
+        }
+        vPlayersT.trimToSize();
+        middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCs,
+                toolCards, roundTrack, pool));
     }
 
     public void shiftPlayers() {
@@ -231,7 +249,10 @@ public class GameManager extends GeneralTask implements Serializable {
                         this.expected = player;
                         obj4.get(i).wait(timeout2);
                         this.expected = null;
-                        vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
+                        if(vPlayer.window==null) {
+                            vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
+                            middlewareServer.startGameViewForced(vPlayer.uUID);
+                        }
                     } catch (InterruptedException e) {
                         Logger.log("Interrupted Exception");
                         e.printStackTrace();
@@ -452,7 +473,7 @@ public class GameManager extends GeneralTask implements Serializable {
                         jumpB.set(jump.indexOf(players.get(i - 1)), false);
                 }
                 if (active.contains(players.get(i - 1)) && !jump.contains(players.get(i - 1))) {
-                    middlewareServer.updateView(players.get(i - 1), this);
+                    this.updateView(players.get(i - 1));
                     this.expected = players.get(i - 1);
                     middlewareServer.enable(players.get(i - 1));
 
@@ -475,13 +496,13 @@ public class GameManager extends GeneralTask implements Serializable {
                         //middlewareServer.shut(players.get(i - 1));
                     }
                 }
-                if (upward){
+                if (upward) {
                     if (i == players2.size())
                         upward = false;
                     else
                         i++;
-                    } else
-                        i--;
+                } else
+                    i--;
                 k++;
             }
             shiftPlayers();

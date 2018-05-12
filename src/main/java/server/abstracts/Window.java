@@ -1,5 +1,6 @@
-package shared.abstracts;
+package server.abstracts;
 
+import server.Player;
 import shared.*;
 
 import java.io.Serializable;
@@ -44,12 +45,12 @@ public abstract class Window implements Serializable {
 
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 5; j++) {
-                if (overlay.dicePositions[i][j] != null) {
+
+                if (overlay.getDicePositions()[i][j]!= null) {
                     position.setColumn(j);
                     position.setRow(i);
-                    esito = false;
-
-                    dice = overlay.dicePositions[i][j - 1];
+                                        esito = false;
+                    dice = overlay.getDicePositions()[i][j - 1];
                     if (position.getRow() >= 0 && position.getColumn() - 1 >= 0)
                         if (position1.getRow().equals(position.getRow()) &&
                                 position1.getColumn().equals(position.getColumn() - 1))
@@ -61,7 +62,7 @@ public abstract class Window implements Serializable {
                                 position1.getColumn().equals(position.getColumn() - 1))
                             esito = true;
 
-                    dice = overlay.dicePositions[i - 1][j];
+                    dice = overlay.getDicePositions()[i - 1][j];
                     if (position.getRow() - 1 >= 0 && position.getColumn() >= 0)
                         if (position1.getRow().equals(position.getRow() - 1) &&
                                 position1.getColumn().equals(position.getColumn()))
@@ -73,7 +74,7 @@ public abstract class Window implements Serializable {
                                 position1.getColumn().equals(position.getColumn() + 1))
                             esito = true;
 
-                    dice = overlay.dicePositions[i][j + 1];
+                    dice = overlay.getDicePositions()[i][j + 1];
                     if (position.getRow() >= 0 && position.getColumn() + 1 <= 4)
                         if (position1.getRow().equals(position.getRow()) &&
                                 position1.getColumn().equals(position.getColumn() + 1))
@@ -85,7 +86,7 @@ public abstract class Window implements Serializable {
                                 position1.getColumn().equals(position.getColumn() + 1))
                             esito = true;
 
-                    dice = overlay.dicePositions[i + 1][j];
+                    dice = overlay.getDicePositions()[i + 1][j];
                     if (position.getRow() + 1 <= 3 && position.getColumn() >= 0)
                         if (position1.getRow().equals(position.getRow() + 1) &&
                                 position1.getColumn().equals(position.getColumn()))
@@ -113,7 +114,7 @@ public abstract class Window implements Serializable {
 
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 5; j++) {
-                if (overlay.dicePositions[i][j] != null) {
+                if (overlay.getDicePositions()[i][j] != null) {
                     position.setColumn(j);
                     position.setRow(i);
                     esito = false;
@@ -190,7 +191,7 @@ public abstract class Window implements Serializable {
 
     public boolean setDicePosition(Player player, Dice dice, Position position) {
         if (checkDicePosition(player, dice, position)) {
-            player.overlay.dicePositions[position.row][position.column] = dice;
+            player.overlay.setDicePositions(dice, position);
             return true;
         } else return false;
     }

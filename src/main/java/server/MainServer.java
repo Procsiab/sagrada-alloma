@@ -2,14 +2,11 @@ package server;
 
 
 import server.threads.NewGameManager;
-import shared.GameManager;
 import shared.logic.ConcurrencyManager;
 import shared.network.SharedMiddlewareServer;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Vector;
 
 public class MainServer {
     //create an object of MainServer

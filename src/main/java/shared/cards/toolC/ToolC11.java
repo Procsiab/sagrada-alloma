@@ -1,12 +1,10 @@
 package shared.cards.toolC;
 
-import javafx.geometry.Pos;
-import server.MatchManager;
 import shared.Dice;
-import shared.Player;
+import server.Player;
 import shared.Position;
-import shared.abstracts.ToolC;
-import shared.GameManager;
+import server.abstracts.ToolC;
+import server.threads.GameManager;
 
 import java.util.Random;
 

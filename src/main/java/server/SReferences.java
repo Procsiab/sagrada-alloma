@@ -1,8 +1,7 @@
 package server;
 
-import shared.GameManager;
+import server.threads.GameManager;
 import shared.Logger;
-import shared.Player;
 
 import java.util.ArrayList;
 

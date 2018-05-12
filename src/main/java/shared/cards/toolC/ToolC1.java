@@ -1,10 +1,8 @@
 package shared.cards.toolC;
 
 import shared.Dice;
-import shared.Player;
-import shared.abstracts.ToolC;
-import shared.Position;
-import shared.GameManager;
+import server.abstracts.ToolC;
+import server.threads.GameManager;
 
 public class ToolC1 extends ToolC {
 

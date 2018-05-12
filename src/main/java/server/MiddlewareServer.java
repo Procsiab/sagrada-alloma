@@ -1,7 +1,8 @@
 package server;
 
-import shared.GameManager;
+import server.threads.GameManager;
 import shared.Logger;
+import shared.TransferObjects.GameManagerT;
 import shared.network.Connection;
 import shared.network.SharedMiddlewareClient;
 import shared.network.SharedMiddlewareServer;
@@ -49,7 +50,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public void updateView(String uuid, GameManager gameManager) {
+    public void updateView(String uuid, GameManagerT gameManager) {
         int playerId = SReferences.getUuidRef().indexOf(uuid);
         if (playerId >= 0) {
             if (SReferences.getIsSocketRef().get(playerId)) {
@@ -265,5 +266,31 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     public boolean chooseWindowBack(String uuid, Integer window) {
         Integer k = SReferences.getUuidRef().indexOf(uuid);
         return SReferences.getPlayerRef().get(k).setWindow(window);
+    }
+
+    public boolean startGameViewForced(String uUID) {
+        int playerId = SReferences.getUuidRef().indexOf(uUID);
+        if (playerId >= 0) {
+            if (SReferences.getIsSocketRef().get(playerId)) {
+                String methodName = "startGameViewForced";
+                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
+                    return (boolean) client.invokeMethod(uUID, methodName, null);
+                } catch (Exception e) {
+                    Logger.strace(e);
+                }
+            } else {
+                SharedMiddlewareClient client = serverRmi.getExported(uUID);
+                try {
+                    return client.startGameViewForced();
+                } catch (RemoteException re) {
+                    Logger.log("Error calling remote method shut()");
+                    Logger.strace(re);
+                }
+            }
+        } else {
+            Logger.log("Unable to find player with UUID " + uUID);
+
+        }
+        return false;
     }
 }

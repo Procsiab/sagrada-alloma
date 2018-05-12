@@ -2,8 +2,9 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
-import shared.GameManager;
+import server.threads.GameManager;
 import shared.Logger;
+import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareClient;
 import shared.network.SharedMiddlewareServer;
 import shared.network.Connection;
@@ -61,7 +62,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public void updateView(GameManager gameManager) {
+    public void updateView(GameManagerT gameManager) {
         MainClient.startGameController.updateView(gameManager);
     }
 
@@ -71,6 +72,11 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         MainClient.waitingRoomController.chooseWindow(windows);
         return true;
         //TODO Call true method
+    }
+
+    public boolean startGameViewForced(){
+        MainClient.chooseWindowController.startGameViewForced();
+        return true;
     }
 
     @Override

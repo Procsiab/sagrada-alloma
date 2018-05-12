@@ -1,10 +1,9 @@
 package shared.cards.toolC;
 
 import shared.Dice;
-import shared.Player;
-import shared.abstracts.ToolC;
+import server.Player;
+import server.abstracts.ToolC;
 import shared.Position;
-import shared.GameManager;
 
 public class ToolC2 extends ToolC {
 
@@ -12,7 +11,7 @@ public class ToolC2 extends ToolC {
     private String description = null;
 
     public boolean use(Player player, Position pos1, Position pos2) {
-        Dice[][] dicePositions = player.overlay.dicePositions;
+        Dice[][] dicePositions = player.overlay.getDicePositions();
         Dice dice = dicePositions[pos1.getRow()][pos2.getColumn()];
         if (!player.window.checkAdjDicesFull(player.overlay, pos2, dice)) {
             return false;

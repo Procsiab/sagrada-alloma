@@ -1,4 +1,4 @@
-package shared.abstracts;
+package server.abstracts;
 
 import java.io.Serializable;
 

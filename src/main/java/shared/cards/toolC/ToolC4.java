@@ -1,10 +1,9 @@
 package shared.cards.toolC;
 
 import shared.Dice;
-import shared.Player;
-import shared.abstracts.ToolC;
+import server.Player;
+import server.abstracts.ToolC;
 import shared.Position;
-import shared.GameManager;
 
 public class ToolC4 extends ToolC {
 
@@ -14,7 +13,7 @@ public class ToolC4 extends ToolC {
     //todo: imprecisione nel testo
 
     public boolean use(Player player, Position pos1a, Position pos2a, Position pos1b, Position pos2b ) {
-        Dice[][] dicePositions = player.overlay.dicePositions;
+        Dice[][] dicePositions = player.overlay.getDicePositions();
         Dice dice1 = dicePositions[pos1a.getRow()][pos1a.getColumn()];
         Dice dice2 = dicePositions[pos2a.getRow()][pos2a.getColumn()];
 

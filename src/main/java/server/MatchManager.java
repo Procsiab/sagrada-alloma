@@ -1,7 +1,7 @@
 package server;
 
 import shared.Logger;
-import shared.abstracts.*;
+import server.abstracts.*;
 import shared.cards.privateOC.*;
 import shared.cards.publicOC.*;
 import shared.cards.toolC.*;

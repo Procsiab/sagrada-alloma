@@ -1,7 +1,9 @@
 package shared.cards.toolC;
 
+import server.Player;
+import server.threads.GameManager;
 import shared.*;
-import shared.abstracts.ToolC;
+import server.abstracts.ToolC;
 
 public class ToolC12 extends ToolC {
 
@@ -16,8 +18,8 @@ public class ToolC12 extends ToolC {
 
     public boolean use(Player player, GameManager game, Position position1a, Position position2a, Position position1b, Position position2b, PositionR positionR) {
         char color = game.roundTrack.dices.get(positionR.column).get(positionR.height).color;
-        if (color != player.overlay.dicePositions[position1a.getRow()][position1a.getColumn()].color
-                || color != player.overlay.dicePositions[position2a.getRow()][position2a.getColumn()].color)
+        if (color != player.overlay.getDicePositions()[position1a.getRow()][position1a.getColumn()].color
+                || color != player.overlay.getDicePositions()[position2a.getRow()][position2a.getColumn()].color)
             return false;
 
         //check the restrictions and move dices

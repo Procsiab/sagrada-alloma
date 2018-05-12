@@ -1,13 +1,16 @@
-package shared;
+package server;
 
-import server.MatchManager;
-import shared.abstracts.PrivateOC;
-import shared.abstracts.Window;
+import server.threads.GameManager;
+import shared.Dice;
+import shared.Overlay;
+import shared.Position;
+import server.abstracts.PrivateOC;
+import server.abstracts.Window;
 
 import java.io.Serializable;
 
-public class Player implements Serializable {
-    private MatchManager matchManager = MatchManager.getInstance();
+public class Player{
+    private transient MatchManager matchManager = MatchManager.getInstance();
     public String uUID;
     public PrivateOC privateOC;
     public Window window;
@@ -16,7 +19,7 @@ public class Player implements Serializable {
     public Integer turno = 0;
     public Integer nPlayer;
     public Integer score;
-    public Integer privateTurn;
+    public Integer privateTurn; //can be either 1 or 2
     public Position lastPlaced;
     public GameManager game;
 

@@ -11,12 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
-import shared.GameManager;
+import server.threads.GameManager;
+import shared.TransferObjects.GameManagerT;
 
 
 import java.io.IOException;
@@ -106,7 +103,7 @@ public class StartGameController implements Initializable {
 
     }
 
-    public void updateView(GameManager gameManager) {
+    public void updateView(GameManagerT gameManager) {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama

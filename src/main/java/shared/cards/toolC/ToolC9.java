@@ -1,9 +1,9 @@
 package shared.cards.toolC;
 
 import shared.Dice;
-import shared.Player;
-import shared.abstracts.ToolC;
-import shared.GameManager;
+import server.Player;
+import server.abstracts.ToolC;
+import server.threads.GameManager;
 import shared.Position;
 
 public class ToolC9 extends ToolC {
@@ -18,7 +18,7 @@ public class ToolC9 extends ToolC {
             return false;
         if (!player.window.checkPlaceRequirements(dice, position))
             return false;
-        player.overlay.dicePositions[position.getRow()][position.getColumn()] = dice;
+        player.overlay.getDicePositions()[position.getRow()][position.getColumn()] = dice;
         game.pool.set(n,null);
         return true;
     }
