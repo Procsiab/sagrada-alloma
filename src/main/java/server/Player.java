@@ -4,10 +4,8 @@ import server.threads.GameManager;
 import shared.Dice;
 import shared.Overlay;
 import shared.Position;
-import server.abstracts.PrivateOC;
-import server.abstracts.Window;
-
-import java.io.Serializable;
+import shared.abstracts.PrivateOC;
+import shared.abstracts.Window;
 
 public class Player{
     private MatchManager matchManager = MatchManager.getInstance();

@@ -1,6 +1,6 @@
 package shared.windows;
 
-import server.abstracts.Window;
+import shared.abstracts.Window;
 
 public class Window5 extends Window {
 

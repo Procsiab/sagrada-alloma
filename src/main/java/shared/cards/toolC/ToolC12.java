@@ -3,7 +3,7 @@ package shared.cards.toolC;
 import server.Player;
 import server.threads.GameManager;
 import shared.*;
-import server.abstracts.ToolC;
+import shared.abstracts.ToolC;
 
 public class ToolC12 extends ToolC {
 

@@ -1,6 +1,8 @@
 package shared;
 
-public class Overlay {
+import java.io.Serializable;
+
+public class Overlay implements Serializable {
     private Dice[][] dicePositions = new Dice[4][5];
 
     public synchronized Dice[][] getDicePositions() {

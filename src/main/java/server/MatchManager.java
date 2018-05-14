@@ -1,14 +1,13 @@
 package server;
 
 import shared.Logger;
-import server.abstracts.*;
+import shared.abstracts.*;
 import shared.cards.privateOC.*;
 import shared.cards.publicOC.*;
 import shared.cards.toolC.*;
 import shared.logic.Locker;
 import shared.windows.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

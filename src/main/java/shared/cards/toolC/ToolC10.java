@@ -1,6 +1,6 @@
 package shared.cards.toolC;
 
-import server.abstracts.ToolC;
+import shared.abstracts.ToolC;
 import server.threads.GameManager;
 
 public class ToolC10 extends ToolC {

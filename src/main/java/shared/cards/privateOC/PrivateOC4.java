@@ -1,6 +1,6 @@
 package shared.cards.privateOC;
 
-import server.abstracts.PrivateOC;
+import shared.abstracts.PrivateOC;
 
 public class PrivateOC4 extends PrivateOC {
 }

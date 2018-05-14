@@ -1,7 +1,7 @@
 package shared.cards.toolC;
 
 import shared.Dice;
-import server.abstracts.ToolC;
+import shared.abstracts.ToolC;
 import server.threads.GameManager;
 
 public class ToolC1 extends ToolC {

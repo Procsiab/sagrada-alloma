@@ -2,7 +2,7 @@ package shared.cards.toolC;
 
 import shared.Dice;
 import server.Player;
-import server.abstracts.ToolC;
+import shared.abstracts.ToolC;
 import shared.Position;
 
 public class ToolC2 extends ToolC {

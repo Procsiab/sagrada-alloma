@@ -1,11 +1,8 @@
 package shared.TransferObjects;
 
-import server.MatchManager;
-import server.MiddlewareServer;
-import server.Player;
-import server.abstracts.PrivateOC;
-import server.abstracts.PublicOC;
-import server.abstracts.ToolC;
+import shared.abstracts.PrivateOC;
+import shared.abstracts.PublicOC;
+import shared.abstracts.ToolC;
 import shared.Dice;
 import shared.RoundTrack;
 
