@@ -19,14 +19,14 @@ import java.util.Random;
 public class GameManager extends GeneralTask {
 
     public ArrayList<String> publicRef = new ArrayList<>();
-    transient public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     public ArrayList<String> players = new ArrayList<>();
     public ArrayList<String> players2 = new ArrayList<>();
     private final Integer sleepTime;
     private final Integer timeout2;
     private final Integer nMates;
     private ArrayList<Player> vPlayers = new ArrayList<>();
-    transient public MatchManager matchManager = MatchManager.getInstance();
+    public MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
     public boolean dicePlaced = false;
     public boolean cardEnabled = false;
@@ -43,10 +43,10 @@ public class GameManager extends GeneralTask {
     public boolean check1 = false;
     public ArrayList<Dice> dices = new ArrayList<>();
     public ArrayList<Dice> pool = new ArrayList<>();
-    public final transient Object obj = new Object();
-    public final transient Object obj2 = new Object();
-    public final transient Object obj3 = new Object();
-    public final transient ArrayList<Object> obj4;
+    public final Object obj = new Object();
+    public final Object obj2 = new Object();
+    public final Object obj3 = new Object();
+    public final ArrayList<Object> obj4;
 
     public GameManager(ArrayList<String> players) {
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MatchManager implements Serializable {
+public class MatchManager {
     public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
     public static LinkedList<String> q = new LinkedList<>();
     public static ArrayList<String> left = new ArrayList<>();
@@ -22,7 +22,7 @@ public class MatchManager implements Serializable {
     public List<PublicOC> publicOCs = new ArrayList<>();
     public List<ToolC> toolCs = new ArrayList<>();
     public List<Window> windows = new ArrayList<>();
-    public static transient final Object obj = new Object();
+    public static final Object obj = new Object();
 
     private static MatchManager instance = new MatchManager();
 
@@ -93,27 +93,27 @@ public class MatchManager implements Serializable {
     }
 
 
-    public String startGame(String uuid, String ip, Integer port, boolean isSocket) {
+    public String startGame(String uUID, String ip, Integer port, boolean isSocket) {
 
-        if (left.contains(uuid)) {
-            Logger.log("Player " + uuid + ": Connection refuse: already playing.");
+        if (left.contains(uUID) || SReferences.contains(uUID)) {
+            Logger.log("Player " + uUID + ": has connection refused: already playing.");
             return "You already playing asshole! Hold on while the server calls you again";
         }
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
-            Logger.log("Player " + uuid + ": Connection refuse: too many players.");
+            Logger.log("Player " + uUID + ": has connection refused: too many players.");
             return "Too many players connected. Please try again later. Sorry for that.";
         }
 
-        Logger.log("Player " + uuid + ": Connection accepted");
+        Logger.log("Player " + uUID + ": Connection accepted");
 
-        SReferences.addUuidRef(uuid);
-        SReferences.addIpRef(uuid, ip);
-        SReferences.addPortRef(uuid, port);
-        SReferences.addIsSocketRef(uuid, isSocket);
+        SReferences.addUuidRef(uUID);
+        SReferences.addIpRef(uUID, ip);
+        SReferences.addPortRef(uUID, port);
+        SReferences.addIsSocketRef(uUID, isSocket);
 
         synchronized (safe.sLock2) {
-            q.addLast(uuid);
+            q.addLast(uUID);
             safe.sLock2.notifyAll();
         }
 
@@ -126,10 +126,7 @@ public class MatchManager implements Serializable {
                 return false;
         }
 
-        SReferences.removeUuidRef(uUID);
-        SReferences.removeIpRef(uUID);
-        SReferences.removePortRef(uUID);
-        SReferences.removeIsSocketRef(uUID);
+        SReferences.removeRef(uUID);
 
         //you may call a function client-side that delete client from its match
         return true;

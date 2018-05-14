@@ -18,27 +18,32 @@ public class SReferences {
     private static ArrayList<Player> playerRef = new ArrayList<>();
     private static ArrayList<GameManager> gameRef = new ArrayList<>();
 
-
+    @Deprecated
     public static ArrayList<Boolean> getIsSocketRef() {
         return isSocketRef;
     }
 
+    @Deprecated
     public static ArrayList<GameManager> getGameRef() {
         return gameRef;
     }
 
+    @Deprecated
     public static ArrayList<Integer> getPortRef() {
         return portRef;
     }
 
+    @Deprecated
     public static ArrayList<Player> getPlayerRef() {
         return playerRef;
     }
 
+    @Deprecated
     public static ArrayList<String> getIpRef() {
         return ipRef;
     }
 
+    @Deprecated
     public static ArrayList<String> getUuidRef() {
         return uuidRef;
     }
@@ -47,66 +52,110 @@ public class SReferences {
         return activePlayer;
     }
 
-    public static synchronized void addGameRef(String s, GameManager gameRef) {
-        SReferences.gameRef.add(SReferences.getUuidRef().indexOf(s), gameRef);
+    public static Boolean getIsSocketRefEnhanced(String s) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return null;
+        return isSocketRef.get(index);
     }
 
-    public static synchronized void addIpRef(String s, String ipRef) {
-        Logger.log("index of uuid " + s + "  is " + getUuidRef().indexOf(s));
-        SReferences.ipRef.add(SReferences.getUuidRef().indexOf(s), ipRef);
+    public static GameManager getGameRefEnhanced(String s) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return null;
+        return gameRef.get(index);
     }
 
-    public static synchronized void addIsSocketRef(String s, Boolean isSocketRef) {
-        SReferences.isSocketRef.add(SReferences.getUuidRef().indexOf(s), isSocketRef);
+    public static Integer getPortRefEnhanced(String s) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return null;
+        return portRef.get(index);
     }
 
-    public static synchronized void addPlayerRef(String s, Player playerRef) {
-        SReferences.playerRef.add(SReferences.getUuidRef().indexOf(s), playerRef);
+    public static Player getPlayerRefEnhanced(String s) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return null;
+        return playerRef.get(index);
     }
 
-    public static synchronized void addPortRef(String s, Integer portRef) {
-        SReferences.portRef.add(SReferences.getUuidRef().indexOf(s), portRef);
+    public static String getIpRefEnhanced(String s) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return null;
+        return ipRef.get(index);
     }
 
-    public static synchronized void addUuidRef(String uUID) {
+    public static synchronized boolean addGameRef(String s, GameManager gameRef) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return false;
+        SReferences.gameRef.add(index, gameRef);
+        return true;
+    }
+
+    public static synchronized boolean addIpRef(String s, String ipRef) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return false;
+        SReferences.ipRef.add(index, ipRef);
+        return true;
+    }
+
+    public static synchronized boolean addIsSocketRef(String s, Boolean isSocketRef) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return false;
+        SReferences.isSocketRef.add(index, isSocketRef);
+        return true;
+    }
+
+    public static synchronized boolean addPlayerRef(String s, Player playerRef) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return false;
+        SReferences.playerRef.add(index, playerRef);
+        return true;
+    }
+
+    public static synchronized boolean addPortRef(String s, Integer portRef) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return false;
+        SReferences.portRef.add(index, portRef);
+        return true;
+    }
+
+    public static synchronized boolean addUuidRef(String uUID) {
         int i = 0;
+
+        if (uuidRef.contains(uUID))
+            return false;
 
         while (i < uuidRef.size() && uuidRef.get(i) != null)
             i++;
-        getUuidRef().add(i, uUID);
-    }
-
-    public static synchronized void removeGameRef(String s) {
-        SReferences.gameRef.add(SReferences.getUuidRef().indexOf(s), null);
-    }
-
-    public static synchronized void removeIpRef(String s) {
-        SReferences.ipRef.add(SReferences.getUuidRef().indexOf(s), null);
-    }
-
-    public static synchronized void removeIsSocketRef(String s) {
-        SReferences.isSocketRef.add(SReferences.getUuidRef().indexOf(s), null);
-    }
-
-    public static synchronized void removePlayerRef(String s) {
-        SReferences.playerRef.add(SReferences.getUuidRef().indexOf(s), null);
-    }
-
-    public static synchronized void removePortRef(String s) {
-        SReferences.portRef.add(SReferences.getUuidRef().indexOf(s), null);
-    }
-
-    public static synchronized void removeUuidRef(String s) {
-        SReferences.uuidRef.add(SReferences.getUuidRef().indexOf(s), null);
-    }
-
-    public static synchronized void incrementActivePlayer() {
+        SReferences.uuidRef.add(i, uUID);
         SReferences.activePlayer++;
+        return true;
     }
 
-    public static synchronized void decrementActivePlayer() {
+    public static synchronized boolean contains(String s) {
+        return uuidRef.contains(s);
+    }
+
+    public static synchronized boolean removeRef(String s) {
+        Integer index = uuidRef.indexOf(s);
+        if (index == -1)
+            return false;
+        SReferences.gameRef.add(index, null);
+        SReferences.ipRef.add(index, null);
+        SReferences.isSocketRef.add(index, null);
+        SReferences.playerRef.add(index, null);
+        SReferences.portRef.add(index, null);
+        SReferences.uuidRef.add(index, null);
         SReferences.activePlayer--;
+        return true;
     }
+
 }
-
-

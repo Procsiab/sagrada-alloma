@@ -10,7 +10,7 @@ import server.abstracts.Window;
 import java.io.Serializable;
 
 public class Player{
-    private transient MatchManager matchManager = MatchManager.getInstance();
+    private MatchManager matchManager = MatchManager.getInstance();
     public String uUID;
     public PrivateOC privateOC;
     public Window window;
