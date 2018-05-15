@@ -89,6 +89,8 @@ class SocketHandler implements Runnable, Closeable {
             if (e instanceof SharedMiddlewareClient) {
                 SharedMiddlewareClient o = (SharedMiddlewareClient) e;
                 switch (methodName) {
+                    case "startGame":
+                        return o.startGame();
                     case "updateView":
                         o.updateView((GameManagerT) argList[0]);
                         break;
@@ -111,6 +113,8 @@ class SocketHandler implements Runnable, Closeable {
                     case "setWinner":
                         o.setWinner();
                         break;
+                    case "chooseWindowBack":
+                        return o.chooseWindowBack((Integer) argList[0]);
                     case "startGameViewForced":
                         o.startGameViewForced();
                         break;
