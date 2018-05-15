@@ -80,7 +80,7 @@ class SocketHandler implements Runnable, Closeable {
         return exportedObject;
     }
 
-    private Object invokeMethod(String callee, String methodName, Object[] argList) {
+    public Object invokeMethod(String callee, String methodName, Object[] argList) {
         try {
             Object e = getExported(callee);
             if (e == null) {
@@ -127,8 +127,33 @@ class SocketHandler implements Runnable, Closeable {
                 switch (methodName) {
                     case "startGame":
                         return o.startGame((String) argList[0], (String) argList[1], (Integer) argList[2], (Boolean) argList[3]);
+                    case "updateView":
+                        o.updateView((String) argList[0], (GameManagerT) argList[1]);
+                        break;
+                    case "chooseWindow":
+                        return o.chooseWindow((String) argList[0], (ArrayList<Integer>) argList[1]);
+                    case "ping":
+                        return o.ping((String) argList[0]);
+                    case "aPrioriWin":
+                        o.aPrioriWin((String) argList[0]);
+                        break;
+                    case "enable":
+                        o.enable((String) argList[0]);
+                        break;
+                    case "shut":
+                        o.shut((String) argList[0]);
+                        break;
+                    case "printScore":
+                        o.printScore((String) argList[0], (Integer) argList[1]);
+                        break;
+                    case "setWinner":
+                        o.setWinner((String) argList[0]);
+                        break;
                     case "chooseWindowBack":
                         return o.chooseWindowBack((String) argList[0], (Integer) argList[1]);
+                    case "startGameViewForced":
+                        o.startGameViewForced((String) argList[0]);
+                        break;
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareServer!");
                         break;
@@ -139,9 +164,9 @@ class SocketHandler implements Runnable, Closeable {
         } catch (NullPointerException npe) {
             Logger.log("Could not find requested object " + callee + " among exported ones!");
         } catch (ClassCastException cce) {
-            Logger.log("The given object should extend Serializable!");
+            Logger.log("Cast type exception: do your parameters extend Serializable?");
         } catch (RemoteException re) {
-            Logger.log("Error calling method " + methodName);
+            Logger.log("Error calling remote method " + methodName);
             Logger.strace(re);
         }
         return null;

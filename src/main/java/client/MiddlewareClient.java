@@ -2,15 +2,10 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
-import server.threads.GameManager;
-import shared.Logger;
 import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareClient;
-import shared.network.SharedMiddlewareServer;
 import shared.network.Connection;
 import shared.network.socket.NetworkSocket;
-
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public final class MiddlewareClient implements SharedMiddlewareClient {
@@ -43,22 +38,18 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
+    public boolean deniedAccess() {
+        Object[] args = {uuid};
+        String methodName = "deniedAccess";
+        return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+    }
+
+    @Override
     public String startGame() {
         connection.export(instance, uuid);
-        if (isSocket) {
-            Object[] args = {uuid, connection.getIp(), connection.getListeningPort(), isSocket};
-            String methodName = "startGame";
-            return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
-        } else {
-            SharedMiddlewareServer server = connection.getExported(SERVER_INTERFACE);
-            try {
-                return server.startGame(uuid, connection.getIp(), connection.getListeningPort(), isSocket);
-            } catch (RemoteException re) {
-                Logger.log("Error calling remote method startGame()");
-                Logger.strace(re);
-            }
-            return "Cannot contact server!";
-        }
+        Object[] args = {uuid, connection.getIp(), connection.getListeningPort(), isSocket};
+        String methodName = "startGame";
+        return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
     }
 
     @Override
@@ -109,21 +100,9 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         //TODO Call true method
     }
 
-    public boolean chooseWindowBack(Integer window){
-        //connection.export(instance, uuid);
-        if (isSocket) {
-            Object[] args = {uuid, window};
-            String methodName = "chooseWindowBack";
-            return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
-        } else {
-            SharedMiddlewareServer server = connection.getExported(SERVER_INTERFACE);
-            try {
-                return server.chooseWindowBack(uuid, window);
-            } catch (RemoteException re) {
-                Logger.log("Error calling remote method chooseWindowBack");
-                Logger.strace(re);
-                return false;
-            }
-        }
+    public boolean chooseWindowBack(Integer window) {
+        Object[] args = {uuid, window};
+        String methodName = "chooseWindowBack";
+        return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
     }
 }
