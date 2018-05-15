@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Console;
 
+import static org.fusesource.jansi.Ansi.*;
+import static org.fusesource.jansi.Ansi.Color.*;
+
 public class MainClient extends Application {
     public static GameHelper game; //resetta scelte utente
     public static String uuid = null;
@@ -51,10 +54,10 @@ public class MainClient extends Application {
     }
 
     public static void main(String[] args) {
-
+        System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
-        String LOGO = "";
-        AnsiConsole.out().println(LOGO);
+        AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").eraseScreen());
+        AnsiConsole.systemUninstall();
 
         uuid = "774778657";
 

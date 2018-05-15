@@ -56,8 +56,8 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
             } catch (RemoteException re) {
                 Logger.log("Error calling remote method startGame()");
                 Logger.strace(re);
-                return "Cannot contact server!";
             }
+            return "Cannot contact server!";
         }
     }
 

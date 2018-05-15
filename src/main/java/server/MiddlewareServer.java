@@ -9,9 +9,11 @@ import shared.network.SharedMiddlewareServer;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+@SuppressWarnings("ConstantConditions")
 public class MiddlewareServer implements SharedMiddlewareServer {
     private static final String SERVER_INTERFACE = "MiddlewareServer";
 
@@ -37,11 +39,32 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         return serverRmi;
     }
 
+    private Object callSocketMethod(String uuid, String methodName, Object[] args) {
+        try {
+            try (Connection client = new NetworkSocket(SReferences.getIpRefEnhanced(uuid), SReferences.getPortRefEnhanced(uuid))) {
+                Object ret = client.invokeMethod(uuid, methodName, args);
+                return ret;
+            } catch (Exception e) {
+                Logger.log("An error occurred while invoking method " + methodName + " on host " +
+                        SReferences.getIpRefEnhanced(uuid) + "@" + SReferences.getPortRefEnhanced(uuid));
+                Logger.strace(e);
+            }
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find parameter for player with UUID " + uuid);
+            Logger.strace(npe);
+        }
+        return null;
+    }
+
     @Override
-    public boolean deniedAccess(String uUID) {
-        //could be useful have a method to see if client is allowed to speak to server
-        GameManager game = SReferences.getGameRef().get(SReferences.getUuidRef().indexOf(uUID));
-        return !game.expected.equals(uUID);
+    public boolean deniedAccess(String uuid) {
+        try {
+            GameManager game = SReferences.getGameRefEnhanced(uuid);
+            return !game.expected.equals(uuid);
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uuid);
+        }
+        return true;
     }
 
     @Override
@@ -51,18 +74,9 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void updateView(String uuid, GameManagerT gameManager) {
-        int playerId = SReferences.getUuidRef().indexOf(uuid);
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                Object[] args = {gameManager};
-                String methodName = "updateView";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    client.invokeMethod(uuid, methodName, args);
-                } catch (Exception e) {
-                    Logger.log("An error occurred while invoking method " + methodName + " on host " +
-                            SReferences.getIpRef().get(playerId) + "@" + SReferences.getPortRef().get(playerId));
-                    Logger.strace(e);
-                }
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                callSocketMethod(uuid, "updateView", new Object[] {gameManager});
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
@@ -72,23 +86,16 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                     Logger.strace(re);
                 }
             }
-        } else {
+        } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
     @Override
     public boolean chooseWindow(String uuid, ArrayList<Integer> windows) {
-        int playerId = SReferences.getUuidRef().indexOf(uuid);
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                Object[] args = {windows};
-                String methodName = "chooseWindow";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    return (boolean) client.invokeMethod(uuid, methodName, args);
-                } catch (Exception e) {
-                    Logger.strace(e);
-                }
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                return (boolean) callSocketMethod(uuid, "chooseWindow", new Object[] {windows});
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
@@ -98,28 +105,19 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                     Logger.strace(re);
                 }
             }
-        } else {
+        } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             return false;
         }
         return true;
     }
 
-    @SuppressWarnings({"finally", "ReturnInsideFinallyBlock"})
     @Override
     public boolean ping(String uuid) {
-        int playerId = SReferences.getUuidRef().indexOf(uuid);
         boolean isReachable = false;
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                String methodName = "ping";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    isReachable = (boolean) client.invokeMethod(uuid, methodName, null);
-                } catch (Exception e) {
-                    Logger.strace(e);
-                } finally {
-                    return isReachable;
-                }
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                isReachable = (boolean) callSocketMethod(uuid, "ping", null);
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
@@ -127,11 +125,9 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 } catch (RemoteException re) {
                     Logger.log("Error calling remote method ping()");
                     Logger.strace(re);
-                } finally {
-                    return isReachable;
                 }
             }
-        } else {
+        } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
         return isReachable;
@@ -139,15 +135,9 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void aPrioriWin(String uuid) {
-        int playerId = SReferences.getUuidRef().indexOf(uuid);
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                String methodName = "aPrioriWin";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    client.invokeMethod(uuid, methodName, null);
-                } catch (Exception e) {
-                    Logger.strace(e);
-                }
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                callSocketMethod(uuid, "aPrioriWin", null);
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
@@ -157,22 +147,16 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                     Logger.strace(re);
                 }
             }
-        } else {
+        } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
     @Override
     public void enable(String uuid) {
-        int playerId = SReferences.getUuidRef().indexOf(uuid);
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                String methodName = "enable";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    client.invokeMethod(uuid, methodName, null);
-                } catch (Exception e) {
-                    Logger.strace(e);
-                }
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                callSocketMethod(uuid, "enable", null);
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
@@ -182,22 +166,16 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                     Logger.strace(re);
                 }
             }
-        } else {
+        } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
     @Override
     public void shut(String uuid) {
-        int playerId = SReferences.getUuidRef().indexOf(uuid);
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                String methodName = "shut";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    client.invokeMethod(uuid, methodName, null);
-                } catch (Exception e) {
-                    Logger.strace(e);
-                }
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                callSocketMethod(uuid, "shut", null);
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
@@ -207,23 +185,16 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                     Logger.strace(re);
                 }
             }
-        } else {
+        } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
     @Override
     public void printScore(String uuid, Integer score) {
-        int playerId = SReferences.getUuidRef().indexOf(uuid);
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                Object[] args = {score};
-                String methodName = "printScore";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    client.invokeMethod(uuid, methodName, args);
-                } catch (Exception e) {
-                    Logger.strace(e);
-                }
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                callSocketMethod(uuid, "printScore", new Object[] {score});
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
@@ -233,22 +204,16 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                     Logger.strace(re);
                 }
             }
-        } else {
+        } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
     @Override
     public void setWinner(String uuid) {
-        int playerId = SReferences.getUuidRef().indexOf(uuid);
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                String methodName = "setWinner";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    client.invokeMethod(uuid, methodName, null);
-                } catch (Exception e) {
-                    Logger.strace(e);
-                }
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                callSocketMethod(uuid, "setWinner", null);
             } else {
                 SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
@@ -258,28 +223,27 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                     Logger.strace(re);
                 }
             }
-        } else {
+        } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
     }
 
     public boolean chooseWindowBack(String uuid, Integer window) {
-        Integer k = SReferences.getUuidRef().indexOf(uuid);
-        return SReferences.getPlayerRef().get(k).setWindow(window);
+        try {
+            return SReferences.getPlayerRefEnhanced(uuid).setWindow(window);
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uuid);
+            Logger.strace(npe);
+        }
+        return false;
     }
 
-    public boolean startGameViewForced(String uUID) {
-        int playerId = SReferences.getUuidRef().indexOf(uUID);
-        if (playerId >= 0) {
-            if (SReferences.getIsSocketRef().get(playerId)) {
-                String methodName = "startGameViewForced";
-                try (Connection client = new NetworkSocket(SReferences.getIpRef().get(playerId), SReferences.getPortRef().get(playerId))) {
-                    return (boolean) client.invokeMethod(uUID, methodName, null);
-                } catch (Exception e) {
-                    Logger.strace(e);
-                }
+    public boolean startGameViewForced(String uuid) {
+        try {
+            if (SReferences.getIsSocketRefEnhanced(uuid)) {
+                return (boolean) callSocketMethod(uuid, "startGameViewForced", null);
             } else {
-                SharedMiddlewareClient client = serverRmi.getExported(uUID);
+                SharedMiddlewareClient client = serverRmi.getExported(uuid);
                 try {
                     return client.startGameViewForced();
                 } catch (RemoteException re) {
@@ -287,9 +251,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                     Logger.strace(re);
                 }
             }
-        } else {
-            Logger.log("Unable to find player with UUID " + uUID);
-
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uuid);
         }
         return false;
     }
