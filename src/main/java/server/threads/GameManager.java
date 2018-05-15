@@ -113,16 +113,15 @@ public class GameManager extends GeneralTask {
     }
 
     public void updateView(String uuid) {
-
         ArrayList<PlayerT> vPlayersT = new ArrayList<>();
         for (Player player :
                 this.vPlayers) {
-            vPlayersT.add(new PlayerT(player.uUID, player.privateOC, player.window, player.overlay,
+            vPlayersT.add(new PlayerT(player.privateOC, player.window, player.overlay,
                     player.turno, player.tokens, player.score, player.privateTurn, player.lastPlaced));
         }
         vPlayersT.trimToSize();
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCs,
-                toolCards, roundTrack, pool, tCtokens));
+                toolCards, roundTrack, pool, tCtokens,players.indexOf(uuid)));
     }
 
     public void shiftPlayers() {
