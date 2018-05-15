@@ -15,6 +15,7 @@ public class SocketServer implements Closeable, Runnable {
     private Integer port;
     private ExecutorService pool;
     private Map<String, Object> exportedObjects;
+    private boolean runForever = true;
 
     SocketServer(Integer port, Map<String, Object> objects) {
         this.port = port;
@@ -52,7 +53,7 @@ public class SocketServer implements Closeable, Runnable {
             Logger.log("Waiting for clients...");
             final Socket client = acceptConnection();
             pool.submit(new SocketHandler(client, exportedObjects));
-        } while (true);
+        } while (runForever);
     }
 
     public Integer getPort() {
@@ -67,5 +68,6 @@ public class SocketServer implements Closeable, Runnable {
             Logger.log("Error closing socket after stopping server");
         }
         this.pool.shutdown();
+        this.runForever = false;
     }
 }

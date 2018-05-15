@@ -9,7 +9,6 @@ import shared.network.SharedMiddlewareServer;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 

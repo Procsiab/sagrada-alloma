@@ -56,7 +56,7 @@ public class MainClient extends Application {
     public static void main(String[] args) {
         System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
-        AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").eraseScreen());
+        AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
         AnsiConsole.systemUninstall();
 
         uuid = "774778657";
