@@ -180,8 +180,7 @@ public class NetworkRmi implements Connection {
                     case "chooseWindowBack":
                         return o.chooseWindowBack((Integer) argList[0]);
                     case "startGameViewForced":
-                        o.startGameViewForced();
-                        break;
+                        return o.startGameViewForced();
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareClient!");
                         break;
@@ -218,8 +217,7 @@ public class NetworkRmi implements Connection {
                     case "chooseWindowBack":
                         return o.chooseWindowBack((String) argList[0], (Integer) argList[1]);
                     case "startGameViewForced":
-                        o.startGameViewForced((String) argList[0]);
-                        break;
+                        return o.startGameViewForced((String) argList[0]);
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareServer!");
                         break;

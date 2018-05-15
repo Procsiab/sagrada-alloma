@@ -80,7 +80,7 @@ class SocketHandler implements Runnable, Closeable {
         return exportedObject;
     }
 
-    public Object invokeMethod(String callee, String methodName, Object[] argList) {
+    private Object invokeMethod(String callee, String methodName, Object[] argList) {
         try {
             Object e = getExported(callee);
             if (e == null) {
@@ -89,6 +89,8 @@ class SocketHandler implements Runnable, Closeable {
             if (e instanceof SharedMiddlewareClient) {
                 SharedMiddlewareClient o = (SharedMiddlewareClient) e;
                 switch (methodName) {
+                    case "deniedAccess":
+                        return o.deniedAccess();
                     case "startGame":
                         return o.startGame();
                     case "updateView":
@@ -116,8 +118,7 @@ class SocketHandler implements Runnable, Closeable {
                     case "chooseWindowBack":
                         return o.chooseWindowBack((Integer) argList[0]);
                     case "startGameViewForced":
-                        o.startGameViewForced();
-                        break;
+                        return o.startGameViewForced();
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareClient!");
                         break;
@@ -125,6 +126,8 @@ class SocketHandler implements Runnable, Closeable {
             } else if (e instanceof SharedMiddlewareServer) {
                 SharedMiddlewareServer o = (SharedMiddlewareServer) e;
                 switch (methodName) {
+                    case "deniedAccess":
+                        return o.deniedAccess((String) argList[0]);
                     case "startGame":
                         return o.startGame((String) argList[0], (String) argList[1], (Integer) argList[2], (Boolean) argList[3]);
                     case "updateView":
@@ -152,8 +155,7 @@ class SocketHandler implements Runnable, Closeable {
                     case "chooseWindowBack":
                         return o.chooseWindowBack((String) argList[0], (Integer) argList[1]);
                     case "startGameViewForced":
-                        o.startGameViewForced((String) argList[0]);
-                        break;
+                        return o.startGameViewForced((String) argList[0]);
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareServer!");
                         break;
