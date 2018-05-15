@@ -33,7 +33,7 @@ public class GameManager extends GeneralTask {
     public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
     public ArrayList<PublicOC> publicOCs = new ArrayList<>();
     public ArrayList<ToolC> toolCards = new ArrayList<>();
-    public ArrayList<Integer> tCtokens =  new ArrayList<>();
+    public ArrayList<Integer> tCtokens = new ArrayList<>();
     public ArrayList<String> privateLeft = new ArrayList<>();
     public ArrayList<String> jump = new ArrayList<>();
     public ArrayList<Boolean> jumpB = new ArrayList<>();
@@ -121,7 +121,7 @@ public class GameManager extends GeneralTask {
         }
         vPlayersT.trimToSize();
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCs,
-                toolCards, roundTrack, pool, tCtokens,players.indexOf(uuid)));
+                toolCards, roundTrack, pool, tCtokens, players.indexOf(uuid)));
     }
 
     public void shiftPlayers() {
@@ -241,23 +241,25 @@ public class GameManager extends GeneralTask {
 
         for (String player :
                 players) {
+            Logger.log("aaaiisis");
             s = SReferences.getUuidRef().indexOf(player);
             vPlayer = SReferences.getPlayerRef().get(s);
+            Logger.log(vPlayer.toString());
             synchronized (obj4.get(i)) {
-                while (vPlayer.window == null) {
                     try {
                         this.expected = player;
                         obj4.get(i).wait(timeout2);
                         this.expected = null;
-                        if(vPlayer.window==null) {
+                        if (vPlayer.window == null) {
                             vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
+
                             middlewareServer.startGameViewForced(vPlayer.uUID);
+                            Logger.log("startgame forced");
                         }
                     } catch (InterruptedException e) {
                         Logger.log("Interrupted Exception");
                         e.printStackTrace();
                     }
-                }
             }
             i++;
         }

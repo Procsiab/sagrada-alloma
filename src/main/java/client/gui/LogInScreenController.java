@@ -45,6 +45,9 @@ public class LogInScreenController implements Initializable {
             window.setScene(startedGame);
             window.show();
         }
+        if (message1.equals("You already playing asshole! Hold on while the server calls you again")){
+        //todo: start StartGameController
+            }
     }
 
     public static StartGameController getGameClient() {

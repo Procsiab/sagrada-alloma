@@ -2,6 +2,8 @@ package server;
 
 import server.threads.GameManager;
 import shared.Logger;
+import shared.network.SharedMiddlewareClient;
+import shared.network.SharedMiddlewareServer;
 
 import java.util.ArrayList;
 

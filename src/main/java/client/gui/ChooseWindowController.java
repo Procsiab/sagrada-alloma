@@ -56,7 +56,6 @@ public class ChooseWindowController implements Initializable {
 
     public void startGameViewForced(){
         Logger.log("gameView starts now");
-        //todo: implement here forced method
         Platform.runLater(
                 () -> {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
