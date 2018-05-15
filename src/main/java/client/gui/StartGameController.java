@@ -14,10 +14,12 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import server.threads.GameManager;
 import shared.TransferObjects.GameManagerT;
+import shared.TransferObjects.PlayerT;
 
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.ReentrantLock;
@@ -34,6 +36,7 @@ public class StartGameController implements Initializable {
     private GameHelper game = MainClient.game;
 
 
+
     //todo for each method check if you are denied accessing server
 
     public StartGameController() {
@@ -48,7 +51,8 @@ public class StartGameController implements Initializable {
     @FXML
     private GridPane paneBackground;
     @FXML
-    private GridPane paneCarta,paneCarta2,paneCarta3,paneCarta1;
+    private GridPane paneCarta0,paneCarta1,paneCarta2,paneCarta3;
+    private ArrayList<GridPane> listaGriglie;
 
     @FXML
     private ImageView cardMap;
@@ -69,19 +73,28 @@ public class StartGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
         backGroundTransition();
-        setCardMap();
+        //TODO : FAR FUNZIONARE loadArray
+        //loadArray();
+        // setCardMap();
+    }
+
+    private void loadArray(){
+        listaGriglie.add(paneCarta0);
+        listaGriglie.add(paneCarta1);
+        listaGriglie.add(paneCarta2);
+        listaGriglie.add(paneCarta3);
+
     }
 
 
 
+   /* private void setCardMap() {
+       paneCarta0.setStyle("-fx-background-image: url('1.png');-fx-background-size: 100% 100%;");
+       paneCarta1.setStyle("-fx-background-image: url('2.png');-fx-background-size: 100% 100%;");
+       paneCarta2.setStyle("-fx-background-image: url('3.png');-fx-background-size: 100% 100%;");
+       paneCarta3.setStyle("-fx-background-image: url('4.png');-fx-background-size: 100% 100%;");
 
-    private void setCardMap() {
-       paneCarta.setStyle("-fx-background-image: url('1.png');-fx-background-size: 100% 100%;");
-       paneCarta2.setStyle("-fx-background-image: url('2.png');-fx-background-size: 100% 100%;");
-       paneCarta3.setStyle("-fx-background-image: url('3.png');-fx-background-size: 100% 100%;");
-       paneCarta1.setStyle("-fx-background-image: url('4.png');-fx-background-size: 100% 100%;");
-
-    }
+    } */
 
 
     private void loadBackground() {
@@ -105,6 +118,26 @@ public class StartGameController implements Initializable {
 
     public void updateView(GameManagerT gameManager) {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
+        ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
+        int numberofplayer = playersLocal.size();
+        int counterPosition = gameManager.pos;
+        System.out.println("Valore counterPosition:" + counterPosition);
+        System.out.println("Valore gameManager:" + gameManager.pos);
+        for (int i = 0; i < playersLocal.size(); i++) {
+            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
+            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
+
+            if(counterPosition>playersLocal.size()-1)
+                counterPosition=0;
+            System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
+
+
+            //TODO : CORREGGERE QUESTO, PER IL RESTO FUNZIONA
+            //listaGriglie.get(i).setStyle("-fx-background-image: url('Window1.png');-fx-background-size: 100% 100%;");
+            counterPosition++;
+
+        }
+
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
         //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match

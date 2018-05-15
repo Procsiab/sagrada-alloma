@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import shared.Logger;
@@ -24,6 +25,7 @@ public class ChooseWindowController implements Initializable {
     @FXML private Button card1,card2,card3,card4;
     private Integer  tempSelectedCard, selectedCard;
     private MiddlewareClient middlewareClient = MiddlewareClient.getInstance();
+    @FXML  private AnchorPane chooseWindowPane;
     public ChooseWindowController() {
         MainClient.chooseWindowController = this;
     }
@@ -51,25 +53,25 @@ public class ChooseWindowController implements Initializable {
 
     }
 
-    @FXML
+
     public void startGameViewForced(){
         Logger.log("gameView starts now");
         //todo: implement here forced method
-        /*Platform.runLater(
+        Platform.runLater(
                 () -> {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
-                    try {
-
-
-
-
-
-                    } catch (IOException Exception) {
+                    try{
+                    Parent root1 = loader.load();
+                    Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
+                    Stage window = (Stage) chooseWindowPane.getScene().getWindow();
+                    window.setScene(startedGame);
+                    window.show();}
+                    catch (IOException Exception) {
                         System.out.println("View not found. Error while loading");
 
                     }
                 }
-        );*/
+        );
 
     }
 
@@ -91,10 +93,10 @@ public class ChooseWindowController implements Initializable {
 
         // IMPORTANT: use "+ variable +" in order to use a variable and not a fixed value!
        // Backround set to test
-        card1.setStyle("-fx-background-image: url('"+i+".png');-fx-background-size: 100% 100% ;");
-        card2.setStyle("-fx-background-image: url('"+j+".png');-fx-background-size: 100% 100%;");
-        card3.setStyle("-fx-background-image: url('"+k+".png');-fx-background-size: 100% 100%;");
-        card4.setStyle("-fx-background-image: url('"+g+".png');-fx-background-size: 100% 100%;");
+        card1.setStyle("-fx-background-image: url('Window"+i+".png');-fx-background-size: 100% 100% ;");
+        card2.setStyle("-fx-background-image: url('Window"+j+".png');-fx-background-size: 100% 100%;");
+        card3.setStyle("-fx-background-image: url('Window"+k+".png');-fx-background-size: 100% 100%;");
+        card4.setStyle("-fx-background-image: url('Window"+g+".png');-fx-background-size: 100% 100%;");
 
 
     }
