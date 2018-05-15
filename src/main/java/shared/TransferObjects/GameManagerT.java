@@ -17,9 +17,10 @@ public class GameManagerT implements Serializable {
     public final ArrayList<ToolC> toolCards;
     public final RoundTrack roundTrack;
     public final ArrayList<Dice> pool;
+    public final ArrayList<Integer> tCtokens;
 
     public GameManagerT(ArrayList<PlayerT> vPlayers, ArrayList<PrivateOC> privateOCs, ArrayList<PublicOC> publicOCs,
-                        ArrayList<ToolC> toolCards, RoundTrack roundTrack, ArrayList<Dice> pool) {
+                        ArrayList<ToolC> toolCards, RoundTrack roundTrack, ArrayList<Dice> pool, ArrayList<Integer> tCtokens) {
 
         this.vPlayers = vPlayers;
         this.privateOCs = privateOCs;
@@ -27,5 +28,6 @@ public class GameManagerT implements Serializable {
         this.toolCards = toolCards;
         this.roundTrack =roundTrack;
         this.pool = pool;
+        this.tCtokens = tCtokens;
     }
 }

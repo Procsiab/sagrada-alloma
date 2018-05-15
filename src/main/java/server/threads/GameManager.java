@@ -33,6 +33,7 @@ public class GameManager extends GeneralTask {
     public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
     public ArrayList<PublicOC> publicOCs = new ArrayList<>();
     public ArrayList<ToolC> toolCards = new ArrayList<>();
+    public ArrayList<Integer> tCtokens =  new ArrayList<>();
     public ArrayList<String> privateLeft = new ArrayList<>();
     public ArrayList<String> jump = new ArrayList<>();
     public ArrayList<Boolean> jumpB = new ArrayList<>();
@@ -121,7 +122,7 @@ public class GameManager extends GeneralTask {
         }
         vPlayersT.trimToSize();
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCs,
-                toolCards, roundTrack, pool));
+                toolCards, roundTrack, pool, tCtokens));
     }
 
     public void shiftPlayers() {
