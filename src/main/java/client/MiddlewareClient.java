@@ -2,6 +2,7 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
+import shared.Logger;
 import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareClient;
 import shared.network.Connection;
@@ -67,6 +68,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
 
     public boolean startGameViewForced(){
         MainClient.chooseWindowController.startGameViewForced();
+        Logger.log("OK client start forced");
         return true;
     }
 

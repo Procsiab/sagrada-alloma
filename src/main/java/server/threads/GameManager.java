@@ -54,8 +54,8 @@ public class GameManager extends GeneralTask {
         Random rand = new Random();
         this.publicRef.addAll(players);
         this.players.addAll(players);
-        this.sleepTime = 20000;
-        this.timeout2 = 10000;
+        this.sleepTime = 10000;
+        this.timeout2 = 5000;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
@@ -158,14 +158,6 @@ public class GameManager extends GeneralTask {
         this.toolCards = toolCards;
     }
 
-    public Integer score(Player player) {
-        Logger.log("scoring phase");
-        Integer score = 0;
-        //computation
-        player.setScore(score);
-        return score;
-    }
-
     @Override
     public void run() {
         super.run();
@@ -225,6 +217,10 @@ public class GameManager extends GeneralTask {
             ArrayList<Integer> b = new ArrayList<>();
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
             Logger.log(b.toString());
+            for (Integer y :
+                    b) {
+                y++;
+            }
             middlewareServer.chooseWindow(players.get(i), b);
             b.clear();
 
@@ -242,24 +238,23 @@ public class GameManager extends GeneralTask {
         for (String player :
                 players) {
             Logger.log("aaaiisis");
-            s = SReferences.getUuidRef().indexOf(player);
-            vPlayer = SReferences.getPlayerRef().get(s);
+            vPlayer = SReferences.getPlayerRefEnhanced(player);
             Logger.log(vPlayer.toString());
             synchronized (obj4.get(i)) {
-                    try {
-                        this.expected = player;
-                        obj4.get(i).wait(timeout2);
-                        this.expected = null;
-                        if (vPlayer.window == null) {
-                            vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
+                try {
+                    this.expected = player;
+                    obj4.get(i).wait(timeout2);
+                    this.expected = null;
+                    if (vPlayer.window == null) {
+                        vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
 
-                            middlewareServer.startGameViewForced(vPlayer.uUID);
-                            Logger.log("startgame forced");
-                        }
-                    } catch (InterruptedException e) {
-                        Logger.log("Interrupted Exception");
-                        e.printStackTrace();
+                        middlewareServer.startGameViewForced(vPlayer.uUID);
+                        Logger.log("startgame forced");
                     }
+                } catch (InterruptedException e) {
+                    Logger.log("Interrupted Exception");
+                    e.printStackTrace();
+                }
             }
             i++;
         }
@@ -508,6 +503,7 @@ public class GameManager extends GeneralTask {
                 k++;
             }
             shiftPlayers();
+            //now k doesn't update so while run once
             j++;
         }
         i = 0;
@@ -517,7 +513,7 @@ public class GameManager extends GeneralTask {
 
         for (Player player : vPlayers
                 ) {
-            temp = score(vPlayers.get(i));
+            temp = vPlayers.get(i).setScore();
             if (temp > points)
                 points = temp;
             i++;
@@ -528,5 +524,6 @@ public class GameManager extends GeneralTask {
             if (play.getScore() == points)
                 middlewareServer.setWinner(play.uUID);
         }
+        Logger.log("END OF GAME");
     }
 }

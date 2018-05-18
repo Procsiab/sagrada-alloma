@@ -1,5 +1,6 @@
 package shared.abstracts;
 
+import server.MiddlewareServer;
 import server.Player;
 import shared.*;
 
@@ -8,10 +9,11 @@ import java.io.Serializable;
 public abstract class Window implements Serializable {
 
     public Cell[][] cells;
-    public Integer tokens;
+    public Integer tokens = 0;
     private Dice[][] dicePositions;
     public Integer color;
     public Position lastPlacedPosition;
+
 
     public Cell[][] getCells() {
         return cells;

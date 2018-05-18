@@ -113,7 +113,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     public boolean chooseWindowBack(String uuid, Integer window) {
         try {
-            return SReferences.getPlayerRefEnhanced(uuid).setWindow(window);
+            return SReferences.getPlayerRefEnhanced(uuid).setWindow(window-1);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);

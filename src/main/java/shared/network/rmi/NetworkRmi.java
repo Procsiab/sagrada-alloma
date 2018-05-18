@@ -159,7 +159,7 @@ public class NetworkRmi implements Connection {
                         o.updateView((GameManagerT) argList[0]);
                         break;
                     case "chooseWindow":
-                        return o.chooseWindow((ArrayList<Integer>) argList[0]);
+                        o.chooseWindow((ArrayList<Integer>) argList[0]);
                     case "ping":
                         return o.ping();
                     case "aPrioriWin":

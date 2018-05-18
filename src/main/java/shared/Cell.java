@@ -2,8 +2,8 @@ package shared;
 
 public class Cell {
 
-    public Integer value;
-    public char color;
+    public Integer value = 0;
+    public char color = 'c';
 
 
     public Integer getValue() {
