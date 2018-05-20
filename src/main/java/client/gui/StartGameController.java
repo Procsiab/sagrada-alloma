@@ -52,7 +52,7 @@ public class StartGameController implements Initializable {
     private GridPane paneBackground;
     @FXML
     private GridPane paneCarta0,paneCarta1,paneCarta2,paneCarta3;
-    private ArrayList<GridPane> listaGriglie;
+    private ArrayList<GridPane> listaGriglie = new ArrayList<>();
 
     @FXML
     private ImageView cardMap;
@@ -74,7 +74,8 @@ public class StartGameController implements Initializable {
         loadBackground();
         backGroundTransition();
         //TODO : FAR FUNZIONARE loadArray
-        //loadArray();
+        loadArray();
+
         // setCardMap();
     }
 
@@ -130,10 +131,10 @@ public class StartGameController implements Initializable {
             if(counterPosition>playersLocal.size()-1)
                 counterPosition=0;
             System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
-
-
-            //TODO : CORREGGERE QUESTO, PER IL RESTO FUNZIONA
-            //listaGriglie.get(i).setStyle("-fx-background-image: url('Window1.png');-fx-background-size: 100% 100%;");
+            System.out.println(playersLocal.get(counterPosition).window.toString());
+            //TODO : INSERIRE LA CARTA EFFETTIVA. PRENDERE DALL'ARRAY DELLE CARTE SCELTE DA GAME MANAGER LA CARTA
+            // INSERIRE IL NOME DELLA FINESTRA AL POSTO DI WINDOW 1. RECUPERARLO DAL PLAYER T. CHIEDERE COME
+            listaGriglie.get(i).setStyle("-fx-background-image: url('Window1.png');-fx-background-size: 100% 100%;");
             counterPosition++;
 
         }
