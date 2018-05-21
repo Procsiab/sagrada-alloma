@@ -119,6 +119,7 @@ public class StartGameController implements Initializable {
 
     public void updateView(GameManagerT gameManager) {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
+        String nomeCarta;
         ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
         int numberofplayer = playersLocal.size();
         int counterPosition = gameManager.pos;
@@ -131,10 +132,11 @@ public class StartGameController implements Initializable {
             if(counterPosition>playersLocal.size()-1)
                 counterPosition=0;
             System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
-            System.out.println(playersLocal.get(counterPosition).window.toString());
+            System.out.println(playersLocal.get(counterPosition).window.getNome());
+            nomeCarta = playersLocal.get(counterPosition).window.getNome();
             //TODO : INSERIRE LA CARTA EFFETTIVA. PRENDERE DALL'ARRAY DELLE CARTE SCELTE DA GAME MANAGER LA CARTA
             // INSERIRE IL NOME DELLA FINESTRA AL POSTO DI WINDOW 1. RECUPERARLO DAL PLAYER T. CHIEDERE COME
-            listaGriglie.get(i).setStyle("-fx-background-image: url('Window1.png');-fx-background-size: 100% 100%;");
+            listaGriglie.get(i).setStyle("-fx-background-image: url('"+nomeCarta+".png');-fx-background-size: 100% 100%;");
             counterPosition++;
 
         }

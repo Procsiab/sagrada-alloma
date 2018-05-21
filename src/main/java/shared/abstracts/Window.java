@@ -31,6 +31,8 @@ public abstract class Window implements Serializable {
         this.tokens = tokens;
     }
 
+    public abstract String getNome();
+
     public boolean checkEdgePosTurn(Player player, Position position) {
         if (player.turno != 1)
             return true;
