@@ -5,10 +5,12 @@ import client.gui.StartGameController;
 import shared.Dice;
 import shared.Logger;
 import shared.Position;
+import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareClient;
 import shared.network.Connection;
 import shared.network.socket.NetworkSocket;
+
 import java.util.ArrayList;
 
 public final class MiddlewareClient implements SharedMiddlewareClient {
@@ -107,12 +109,41 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public Boolean chooseWindowBack(Integer window) {
         Object[] args = {uuid, window};
         String methodName = "chooseWindowBack";
-        return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        Boolean ret = (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        if (ret != null) {
+            return ret;
+        } else {
+            return false;
+        }
     }
 
     public Boolean placeDice(Dice d, Position p) {
         Object[] args = {uuid, d, p};
         String methodName = "placeDice";
-        return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        Boolean ret = (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        if (ret != null) {
+            return ret;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+        Object[] args = {uuid, i1, p1, p2, p3, p4, pr, i2, i3};
+        String methodName = "useToolC";
+        Boolean ret = (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        if (ret != null) {
+            return ret;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void exitGame2() {
+        Object[] args = {uuid};
+        String methodName = "exitGame2";
+        connection.invokeMethod(SERVER_INTERFACE, methodName, args);
     }
 }

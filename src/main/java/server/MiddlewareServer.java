@@ -4,6 +4,7 @@ import server.threads.GameManager;
 import shared.Dice;
 import shared.Logger;
 import shared.Position;
+import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.Connection;
 import shared.network.SharedMiddlewareServer;
@@ -80,12 +81,22 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public Boolean chooseWindow(String uuid, ArrayList<Integer> windows) {
-        return (boolean) forwardMethod(uuid, "chooseWindow", new Object[] {windows});
+        Boolean ret = (Boolean) forwardMethod(uuid, "chooseWindow", new Object[] {windows});
+        if (ret != null) {
+            return ret;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Boolean ping(String uuid) {
-        return (Boolean) forwardMethod(uuid, "ping", null);
+        Boolean ret = (Boolean) forwardMethod(uuid, "ping", null);
+        if (ret != null) {
+            return ret;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -124,7 +135,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     public Boolean startGameViewForced(String uuid) {
-        return (Boolean) forwardMethod(uuid, "startGameViewForced", null);
+        Boolean ret = (Boolean) forwardMethod(uuid, "startGameViewForced", null);
+        if (ret != null) {
+            return ret;
+        } else {
+            return false;
+        }
     }
 
     public Boolean placeDice(String uuid, Dice d, Position p) {
@@ -135,5 +151,26 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             Logger.strace(npe);
         }
         return false;
+    }
+
+    @Override
+    public Boolean useToolC(String uuid, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+        try {
+            return SReferences.getPlayerRefEnhanced(uuid).useToolC(i1, p1, p2, p3, p4, pr, i2, i3);
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uuid);
+            Logger.strace(npe);
+        }
+        return false;
+    }
+
+    @Override
+    public void exitGame2(String uuid) {
+        try {
+            SReferences.getGameRefEnhanced(uuid).exitGame2(uuid);
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uuid);
+            Logger.strace(npe);
+        }
     }
 }

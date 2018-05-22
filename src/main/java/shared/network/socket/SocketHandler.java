@@ -3,6 +3,7 @@ package shared.network.socket;
 import shared.Dice;
 import shared.Logger;
 import shared.Position;
+import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareClient;
 import shared.network.SharedMiddlewareServer;
@@ -123,6 +124,11 @@ class SocketHandler implements Runnable, Closeable {
                         return o.startGameViewForced();
                     case "placeDice":
                         return o.placeDice((Dice) argList[0], (Position) argList[1]);
+                    case "useToolC":
+                        return o.useToolC((Integer) argList[0], (Position) argList[1], (Position) argList[2], (Position) argList[3], (Position) argList[4], (PositionR) argList[5], (Integer) argList[6], (Integer) argList[7]);
+                    case "exitGame2":
+                        o.exitGame2();
+                        break;
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareClient!");
                         break;
@@ -162,6 +168,11 @@ class SocketHandler implements Runnable, Closeable {
                         return o.startGameViewForced((String) argList[0]);
                     case "placeDice":
                         return o.placeDice((String) argList[0], (Dice) argList[1], (Position) argList[2]);
+                    case "useToolC":
+                        return o.useToolC((String) argList[0], (Integer) argList[1], (Position) argList[2], (Position) argList[3], (Position) argList[4], (Position) argList[5], (PositionR) argList[6], (Integer) argList[7], (Integer) argList[8]);
+                    case "exitGame2":
+                        o.exitGame2((String) argList[0]);
+                        break;
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareServer!");
                         break;

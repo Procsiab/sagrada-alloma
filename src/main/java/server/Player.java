@@ -1,11 +1,9 @@
 package server;
 
+import javafx.geometry.Pos;
 import net.bytebuddy.description.field.FieldDescription;
 import server.threads.GameManager;
-import shared.Dice;
-import shared.Logger;
-import shared.Overlay;
-import shared.Position;
+import shared.*;
 import shared.abstracts.PrivateOC;
 import shared.abstracts.PublicOC;
 import shared.abstracts.Window;
@@ -75,7 +73,8 @@ public class Player {
         return true;
     }
 
-    public boolean useToolC(){
+    public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3){
+        //TODO Implement method
         return true;
     }
 

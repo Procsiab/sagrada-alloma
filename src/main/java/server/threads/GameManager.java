@@ -158,6 +158,10 @@ public class GameManager extends GeneralTask {
         this.toolCards = toolCards;
     }
 
+    public void exitGame2(String uuid) {
+        //TODO Implement method
+    }
+
     @Override
     public void run() {
         super.run();
