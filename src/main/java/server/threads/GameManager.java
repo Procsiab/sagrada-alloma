@@ -217,10 +217,14 @@ public class GameManager extends GeneralTask {
             ArrayList<Integer> b = new ArrayList<>();
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
             Logger.log(b.toString());
+            k=0;
             for (Integer y :
                     b) {
                 y++;
+                b.set(k,y);
+                k++;
             }
+            Logger.log(b.toString());
             middlewareServer.chooseWindow(players.get(i), b);
             b.clear();
 

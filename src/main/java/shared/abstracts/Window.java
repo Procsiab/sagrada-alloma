@@ -13,6 +13,7 @@ public abstract class Window implements Serializable {
     private Dice[][] dicePositions;
     public Integer color;
     public Position lastPlacedPosition;
+    private String name;
 
 
     public Cell[][] getCells() {
@@ -31,7 +32,13 @@ public abstract class Window implements Serializable {
         this.tokens = tokens;
     }
 
-    public abstract String getNome();
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getNome(){
+        return name;
+    }
 
     public boolean checkEdgePosTurn(Player player, Position position) {
         if (player.turno != 1)

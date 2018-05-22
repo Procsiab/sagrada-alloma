@@ -6,7 +6,7 @@ import shared.cards.privateOC.*;
 import shared.cards.publicOC.*;
 import shared.cards.toolC.*;
 import shared.logic.Locker;
-import shared.windows.*;
+import shared.cards.windows.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

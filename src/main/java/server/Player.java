@@ -58,7 +58,7 @@ public class Player{
         }
 
             score = score + tokens;
-        Logger.log("score of player " +this+ "is" +score.toString());
+        Logger.log("score of player " +this+ " is " +score.toString());
 
         return score;
     }
@@ -68,6 +68,7 @@ public class Player{
     }
 
     public boolean setWindow(Integer n) {
+        Logger.log(n.toString());
         if(this.window != null)
             return false;
         this.window = matchManager.windows.get(n);
