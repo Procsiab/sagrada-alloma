@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <GridPane fx:id="paneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.StartGameController">
    <columnConstraints>
@@ -126,6 +129,36 @@
                   <Font name="Castellar" size="33.0" />
                </font>
             </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <children>
+            <ImageView fitHeight="90.0" fitWidth="65.0" layoutX="24.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@1blue.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="90.0" fitWidth="65.0" layoutX="108.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@1blue.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="90.0" fitWidth="65.0" layoutX="227.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@1blue.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="90.0" fitWidth="65.0" layoutX="174.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@1blue.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tokens : " />
+            <Text fx:id="numTokens" layoutX="61.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children>
       </AnchorPane>
    </children>

@@ -12,7 +12,7 @@ import shared.abstracts.Window;
 
 import java.util.ArrayList;
 
-public class Player{
+public class Player {
     private MatchManager matchManager = MatchManager.getInstance();
     public String uUID;
     public PrivateOC privateOC;
@@ -36,17 +36,17 @@ public class Player{
         return score;
     }
 
-    public Integer setScore(){
+    public Integer setScore() {
         ArrayList<PublicOC> publicOCS = game.publicOCs;
-        for (PublicOC card:
-             publicOCS) {
+        for (PublicOC card :
+                publicOCS) {
             score = score + card.use(this);
         }
 
         int i = 0;
         int j = 0;
 
-        while (i<5) {
+        while (i < 5) {
             while (j < 4) {
                 Dice dice = overlay.getDicePositions()[i][j];
                 if (dice != null)
@@ -57,8 +57,8 @@ public class Player{
             i++;
         }
 
-            score = score + tokens;
-        Logger.log("score of player " +this+ " is " +score.toString());
+        score = score + tokens;
+        Logger.log("score of player " + this + " is " + score.toString());
 
         return score;
     }
@@ -69,7 +69,7 @@ public class Player{
 
     public boolean setWindow(Integer n) {
         Logger.log(n.toString());
-        if(this.window != null)
+        if (this.window != null)
             return false;
         this.window = matchManager.windows.get(n);
         return true;

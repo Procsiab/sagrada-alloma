@@ -1,7 +1,7 @@
 package shared;
 
 import java.io.Serializable;
-
+@Deprecated
 public class Overlay implements Serializable {
     private Dice[][] dicePositions = new Dice[4][5];
 

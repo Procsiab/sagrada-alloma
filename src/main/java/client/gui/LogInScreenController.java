@@ -47,6 +47,12 @@ public class LogInScreenController implements Initializable {
         }
         if (message1.equals("You already playing asshole! Hold on while the server calls you again")){
         //todo: start StartGameController
+            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
+            Parent root2  = loader1.load();
+            Scene startedGame2 = new Scene(root2, 1280, 800, Color.WHITE);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(startedGame2);
+            window.show();
             }
     }
 

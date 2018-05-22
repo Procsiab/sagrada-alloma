@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import server.threads.GameManager;
 import shared.TransferObjects.GameManagerT;
@@ -60,6 +61,8 @@ public class StartGameController implements Initializable {
     private Button tiraDadi;
     @FXML
     private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
+    @FXML
+    private Text numTokens;
 
 
     public void setWinner(){
@@ -119,7 +122,7 @@ public class StartGameController implements Initializable {
 
     public void updateView(GameManagerT gameManager) {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
-        String nomeCarta;
+        String nomeCarta,numeroTokens;
         ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
         int numberofplayer = playersLocal.size();
         int counterPosition = gameManager.pos;
@@ -140,7 +143,8 @@ public class StartGameController implements Initializable {
             counterPosition++;
 
         }
-
+        numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
+        numTokens.setText(numeroTokens);
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
         //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
