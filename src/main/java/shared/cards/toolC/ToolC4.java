@@ -15,7 +15,7 @@ public class ToolC4 extends ToolC {
         Dice dice1 = dicePositions[pos1a.getRow()][pos1a.getColumn()];
         Dice dice2 = dicePositions[pos2a.getRow()][pos2a.getColumn()];
 
-        if(player.window.setDicePosition(player,dice1,pos2a)&& player.window.setDicePosition(player,dice2,pos2b)){
+        if(player.window.setDicePositionFromPool(player,dice1,pos2a)&& player.window.setDicePositionFromPool(player,dice2,pos2b)){
             dicePositions[pos1a.getRow()][pos1a.getColumn()] = null;
             dicePositions[pos2a.getRow()][pos2a.getColumn()] = null;
             player.game.updateView(player.uUID);

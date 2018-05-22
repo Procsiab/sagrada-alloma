@@ -20,6 +20,6 @@ public class ToolC6 extends ToolC {
         Dice dice = game.pool.get(num);
         dice.value = n;
 
-        return (player.window.setDicePosition(player, dice, position));
+        return (player.window.setDicePosition(player, num, dice, position));
     }
 }

@@ -61,6 +61,9 @@ public class StartGameController implements Initializable {
     private Button tiraDadi;
     @FXML
     private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
+
+    @FXML
+    private ArrayList<Button> listaDadi = new ArrayList<>();
     @FXML
     private Text numTokens;
 
@@ -78,7 +81,7 @@ public class StartGameController implements Initializable {
         backGroundTransition();
         //TODO : FAR FUNZIONARE loadArray
         loadArray();
-
+        loadDadi();
         // setCardMap();
     }
 
@@ -87,6 +90,22 @@ public class StartGameController implements Initializable {
         listaGriglie.add(paneCarta1);
         listaGriglie.add(paneCarta2);
         listaGriglie.add(paneCarta3);
+
+    }
+
+
+    private void loadDadi(){
+        listaDadi.add(dice1);
+        listaDadi.add(dice2);
+        listaDadi.add(dice3);
+        listaDadi.add(dice4);
+        listaDadi.add(dice5);
+        listaDadi.add(dice6);
+        listaDadi.add(dice7);
+        listaDadi.add(dice8);
+        listaDadi.add(dice9);
+
+
 
     }
 
@@ -123,6 +142,7 @@ public class StartGameController implements Initializable {
     public void updateView(GameManagerT gameManager) {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
         String nomeCarta,numeroTokens;
+        int numDadi;
         ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
         int numberofplayer = playersLocal.size();
         int counterPosition = gameManager.pos;
@@ -143,12 +163,28 @@ public class StartGameController implements Initializable {
             counterPosition++;
 
         }
+        // GET TOKENS
         numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
         numTokens.setText(numeroTokens);
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
         //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
         //che stanno nel server.
+
+        // SET DADI POOL
+         numDadi= gameManager.pool.size();
+        System.out.println("Numero di dadi :" + numDadi);
+        for (int i = 0; i < numDadi; i++){
+            System.out.println("Valore di i nel ciclo:" + i);
+            // INSERIRE EFFETIVO VALORE DEL DADO
+            listaDadi.get(i).setStyle("-fx-background-image: url('1blue.png');-fx-background-size: 100% 100%;");
+
+        }
+
+
+
+
+
     }
 
     @FXML
@@ -180,6 +216,10 @@ public class StartGameController implements Initializable {
 
     }
 
+    public void diceClicked(ActionEvent e){
+
+    }
+
     //TODO Implement the following methods
 
     public void enable() {
@@ -191,9 +231,6 @@ public class StartGameController implements Initializable {
     }
 
 
-    public void chooseWindow(List<Integer> windows) {
-
-    }
 
     public void printScore(Integer score) {
 

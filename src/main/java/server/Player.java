@@ -1,7 +1,5 @@
 package server;
 
-import javafx.geometry.Pos;
-import net.bytebuddy.description.field.FieldDescription;
 import server.threads.GameManager;
 import shared.*;
 import shared.abstracts.PrivateOC;
@@ -65,21 +63,26 @@ public class Player {
         privateOC = matchManager.privateOCs.get(n);
     }
 
-    public boolean setWindow(Integer n) {
-        Logger.log(n.toString());
+    public boolean setWindowFromC(Integer n) {
         if (this.window != null)
             return false;
         this.window = matchManager.windows.get(n);
         return true;
     }
 
-    public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3){
+    public boolean setWindow(Integer n) {
+        this.window = matchManager.windows.get(n);
+        return true;
+    }
+
+    public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         //TODO Implement method
         return true;
     }
 
-    public boolean placeDice(Dice dice, Position position) {
-        return this.window.setDicePosition(this, dice, position);
+    public boolean placeDice(Integer index, Position position) {
+        ArrayList<Dice> pool = game.pool;
+        return this.window.setDicePositionFromPool(this, index, pool.get(index), position);
     }
 
     public void setTokens() {

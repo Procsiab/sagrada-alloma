@@ -1,6 +1,5 @@
 package shared.network;
 
-import shared.Dice;
 import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
@@ -22,7 +21,7 @@ public interface SharedMiddlewareClient extends Remote {
     void setWinner() throws RemoteException;
     Boolean chooseWindowBack(Integer window) throws RemoteException;
     Boolean startGameViewForced() throws RemoteException;
-    Boolean placeDice(Dice d, Position p) throws RemoteException;
+    Boolean placeDice(Integer index, Position p) throws RemoteException;
     Boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) throws RemoteException;
     void exitGame2() throws RemoteException;
 }

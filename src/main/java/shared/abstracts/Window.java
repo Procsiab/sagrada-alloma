@@ -2,6 +2,7 @@ package shared.abstracts;
 
 import server.MiddlewareServer;
 import server.Player;
+import server.SReferences;
 import shared.*;
 
 import java.io.Serializable;
@@ -32,11 +33,11 @@ public abstract class Window implements Serializable {
         this.tokens = tokens;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getNome(){
+    public String getNome() {
         return name;
     }
 
@@ -57,10 +58,10 @@ public abstract class Window implements Serializable {
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 5; j++) {
 
-                if (overlay.getDicePositions()[i][j]!= null) {
+                if (overlay.getDicePositions()[i][j] != null) {
                     position.setColumn(j);
                     position.setRow(i);
-                                        esito = false;
+                    esito = false;
                     dice = overlay.getDicePositions()[i][j - 1];
                     if (position.getRow() >= 0 && position.getColumn() - 1 >= 0)
                         if (position1.getRow().equals(position.getRow()) &&
@@ -200,7 +201,15 @@ public abstract class Window implements Serializable {
         return checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
     }
 
-    public boolean setDicePosition(Player player, Dice dice, Position position) {
+    public boolean setDicePositionFromPool(Player player, Integer index, Dice dice, Position position) {
+        if (checkDicePosition(player, dice, position)) {
+            player.overlay.setDicePositions(dice, position);
+            SReferences.getGameRefEnhanced(player.uUID).pool.set(index, null);
+            return true;
+        } else return false;
+    }
+
+    public boolean setDicePosition(Player player, Integer index, Dice dice, Position position) {
         if (checkDicePosition(player, dice, position)) {
             player.overlay.setDicePositions(dice, position);
             return true;

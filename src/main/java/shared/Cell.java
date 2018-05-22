@@ -1,6 +1,8 @@
 package shared;
 
-public class Cell {
+import java.io.Serializable;
+
+public class Cell implements Serializable {
 
     public Integer value = 0;
     public char color = 'c';

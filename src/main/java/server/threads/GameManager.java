@@ -132,7 +132,7 @@ public class GameManager extends GeneralTask {
 
     public void throwDice() {
         pool.clear();
-        int num = 2 * active.size() + 1;
+        Integer num = 2 * active.size() + 1;
         int i = 0;
         Random rand = new Random();
 
@@ -160,6 +160,26 @@ public class GameManager extends GeneralTask {
 
     public void exitGame2(String uuid) {
         //TODO Implement method
+    }
+
+    public void checkActive() {
+        for (String pla : players2
+                ) {
+            if (privateLeft.contains(pla)) {
+                active.remove(pla);
+                unresponsive.remove(pla);
+            }
+
+            if (middlewareServer.ping(pla)) {
+                if (!active.contains(pla))
+                    active.add(pla);
+                unresponsive.remove(pla);
+            } else {
+                if (!unresponsive.contains(pla))
+                    unresponsive.add(pla);
+                active.remove(pla);
+            }
+        }
     }
 
     @Override
@@ -221,11 +241,11 @@ public class GameManager extends GeneralTask {
             ArrayList<Integer> b = new ArrayList<>();
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
             Logger.log(b.toString());
-            k=0;
+            k = 0;
             for (Integer y :
                     b) {
                 y++;
-                b.set(k,y);
+                b.set(k, y);
                 k++;
             }
             Logger.log(b.toString());
@@ -245,7 +265,6 @@ public class GameManager extends GeneralTask {
 
         for (String player :
                 players) {
-            Logger.log("aaaiisis");
             vPlayer = SReferences.getPlayerRefEnhanced(player);
             Logger.log(vPlayer.toString());
             synchronized (obj4.get(i)) {
@@ -322,8 +341,6 @@ public class GameManager extends GeneralTask {
         i = 0;
         a.clear();
 
-        throwDice();
-
         /*
         for (String player : players) {
             middlewareServer.updateView(player, this);
@@ -358,30 +375,16 @@ public class GameManager extends GeneralTask {
             unresponsive.clear();
             active.addAll(players2);
             //fitness(players2);
-            //set nPlayers (which will not change over one turn) for nDices ecc..
+
+            checkActive();
+            throwDice();
 
             while (k <= 2 * players2.size()) {
 
                 //fitness(active);
                 //fitness(unresponsive);
 
-                for (String pla : players2
-                        ) {
-                    if (privateLeft.contains(pla)) {
-                        active.remove(pla);
-                        unresponsive.remove(pla);
-                    }
-
-                    if (middlewareServer.ping(pla)) {
-                        if (!active.contains(pla))
-                            active.add(pla);
-                        unresponsive.remove(pla);
-                    } else {
-                        if (!unresponsive.contains(pla))
-                            unresponsive.add(pla);
-                        active.remove(pla);
-                    }
-                }
+                checkActive();
 
                 //check if all left game
                 if (active.size() + unresponsive.size() == 0) {

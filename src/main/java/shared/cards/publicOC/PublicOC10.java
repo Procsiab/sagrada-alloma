@@ -21,7 +21,7 @@ public class PublicOC10 extends PublicOC {
 
     public Integer use(Player player) {
         Dice[][] dices = player.overlay.getDicePositions().clone();
-        return computate(dices, 'b', 0, 0);
+        return computate(dices, 'b', 0, 0, false);
     }
 
     /*
@@ -40,18 +40,22 @@ public class PublicOC10 extends PublicOC {
                     computate(dices, color, r + 1, c - 1);
         }
     */
-    public Integer computate(Dice[][] dices, Character color, Integer r, Integer c) {
+
+    //add dA (diagonally adj in modo che non conti per ognuno la prima volta)
+    public Integer computate(Dice[][] dices, Character color, Integer r, Integer c, Boolean dA) {
+
+        if(dA)
 
         if (r > 3 || r < 0 || c > 4 || c < 0)
             return 0;
         if (dices[r][c] == null)
             return 0;
         if (dices[r][c].getColor() != color)
-            return 1 + computate(dices, dices[r][c].getColor(), r, c);
+            return 1 + computate(dices, dices[r][c].getColor(), r, c, false?);
         dices[r][c] = null;
-        return 1 + computate(dices, color, r - 1, c - 1) +
-                computate(dices, color, r - 1, c + 1) +
-                computate(dices, color, r + 1, c + 1) +
-                computate(dices, color, r + 1, c - 1);
+        return 1 + computate(dices, color, r - 1, c - 1,false?) +
+                computate(dices, color, r - 1, c + 1,false?) +
+                computate(dices, color, r + 1, c + 1,false?) +
+                computate(dices, color, r + 1, c - 1,false?);
     }
 }

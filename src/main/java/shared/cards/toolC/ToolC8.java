@@ -15,7 +15,7 @@ public class ToolC8 extends ToolC {
         if (player.privateTurn != 1)
             return false;
 
-        if (player.window.setDicePosition(player, game.pool.get(n), position)) {
+        if (player.window.setDicePositionFromPool(player, game.pool.get(n), position)) {
             game.jump.add(player.uUID);
             return true;
         }

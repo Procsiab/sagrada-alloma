@@ -123,7 +123,7 @@ class SocketHandler implements Runnable, Closeable {
                     case "startGameViewForced":
                         return o.startGameViewForced();
                     case "placeDice":
-                        return o.placeDice((Dice) argList[0], (Position) argList[1]);
+                        return o.placeDice((Integer) argList[0], (Position) argList[1]);
                     case "useToolC":
                         return o.useToolC((Integer) argList[0], (Position) argList[1], (Position) argList[2], (Position) argList[3], (Position) argList[4], (PositionR) argList[5], (Integer) argList[6], (Integer) argList[7]);
                     case "exitGame2":
@@ -167,7 +167,7 @@ class SocketHandler implements Runnable, Closeable {
                     case "startGameViewForced":
                         return o.startGameViewForced((String) argList[0]);
                     case "placeDice":
-                        return o.placeDice((String) argList[0], (Dice) argList[1], (Position) argList[2]);
+                        return o.placeDice((String) argList[0], (Integer) argList[1], (Position) argList[2]);
                     case "useToolC":
                         return o.useToolC((String) argList[0], (Integer) argList[1], (Position) argList[2], (Position) argList[3], (Position) argList[4], (Position) argList[5], (PositionR) argList[6], (Integer) argList[7], (Integer) argList[8]);
                     case "exitGame2":

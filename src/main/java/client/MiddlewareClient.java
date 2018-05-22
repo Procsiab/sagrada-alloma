@@ -2,7 +2,6 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
-import shared.Dice;
 import shared.Logger;
 import shared.Position;
 import shared.PositionR;
@@ -117,8 +116,8 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         }
     }
 
-    public Boolean placeDice(Dice d, Position p) {
-        Object[] args = {uuid, d, p};
+    public Boolean placeDice(Integer index, Position p) {
+        Object[] args = {uuid, index, p};
         String methodName = "placeDice";
         Boolean ret = (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
         if (ret != null) {

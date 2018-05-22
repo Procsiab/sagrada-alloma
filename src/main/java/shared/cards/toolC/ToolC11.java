@@ -25,6 +25,6 @@ public class ToolC11 extends ToolC {
         game.dices.set(k, game.pool.get(n));
         game.pool.set(n, dice);
 
-        return player.window.setDicePosition(player, dice, position);
+        return player.window.setDicePosition(player, n, dice, position);
     }
 }
