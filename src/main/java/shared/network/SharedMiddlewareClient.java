@@ -1,6 +1,5 @@
 package shared.network;
 
-import server.threads.GameManager;
 import shared.Dice;
 import shared.Position;
 import shared.TransferObjects.GameManagerT;
@@ -10,17 +9,17 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface SharedMiddlewareClient extends Remote {
-    boolean deniedAccess() throws RemoteException;
+    Boolean deniedAccess() throws RemoteException;
     String startGame() throws RemoteException;
     void updateView(GameManagerT gameManager) throws RemoteException;
-    boolean chooseWindow(ArrayList<Integer> windows) throws RemoteException;
-    boolean ping() throws RemoteException;
+    Boolean chooseWindow(ArrayList<Integer> windows) throws RemoteException;
+    Boolean ping() throws RemoteException;
     void aPrioriWin() throws RemoteException;
     void enable() throws RemoteException;
     void shut() throws RemoteException;
     void printScore(Integer score) throws RemoteException;
     void setWinner() throws RemoteException;
-    boolean chooseWindowBack(Integer window) throws RemoteException;
-    boolean startGameViewForced() throws RemoteException;
-    boolean placeDice(Dice d, Position p) throws RemoteException;
+    Boolean chooseWindowBack(Integer window) throws RemoteException;
+    Boolean startGameViewForced() throws RemoteException;
+    Boolean placeDice(Dice d, Position p) throws RemoteException;
 }

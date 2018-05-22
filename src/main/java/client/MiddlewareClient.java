@@ -41,7 +41,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public boolean deniedAccess() {
+    public Boolean deniedAccess() {
         Object[] args = {uuid};
         String methodName = "deniedAccess";
         return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
@@ -61,21 +61,21 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public boolean chooseWindow(ArrayList<Integer> windows) {
+    public Boolean chooseWindow(ArrayList<Integer> windows) {
         System.out.println("CHOOSE WINDOW TEST");
         MainClient.waitingRoomController.chooseWindow(windows);
         return true;
         //TODO Call true method
     }
 
-    public boolean startGameViewForced(){
+    public Boolean startGameViewForced(){
         MainClient.chooseWindowController.startGameViewForced();
         Logger.log("OK client start forced");
         return true;
     }
 
     @Override
-    public boolean ping() {
+    public Boolean ping() {
         return true;
     }
 
@@ -104,13 +104,13 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         //TODO Call true method
     }
 
-    public boolean chooseWindowBack(Integer window) {
+    public Boolean chooseWindowBack(Integer window) {
         Object[] args = {uuid, window};
         String methodName = "chooseWindowBack";
         return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
     }
 
-    public boolean placeDice(Dice d, Position p) {
+    public Boolean placeDice(Dice d, Position p) {
         Object[] args = {uuid, d, p};
         String methodName = "placeDice";
         return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);

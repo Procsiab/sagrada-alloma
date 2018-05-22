@@ -58,7 +58,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public boolean deniedAccess(String uuid) {
+    public Boolean deniedAccess(String uuid) {
         try {
             GameManager game = SReferences.getGameRefEnhanced(uuid);
             return !game.expected.equals(uuid);
@@ -79,13 +79,13 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public boolean chooseWindow(String uuid, ArrayList<Integer> windows) {
+    public Boolean chooseWindow(String uuid, ArrayList<Integer> windows) {
         return (boolean) forwardMethod(uuid, "chooseWindow", new Object[] {windows});
     }
 
     @Override
-    public boolean ping(String uuid) {
-        return (boolean) forwardMethod(uuid, "ping", null);
+    public Boolean ping(String uuid) {
+        return (Boolean) forwardMethod(uuid, "ping", null);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         forwardMethod(uuid, "setWinner", null);
     }
 
-    public boolean chooseWindowBack(String uuid, Integer window) {
+    public Boolean chooseWindowBack(String uuid, Integer window) {
         try {
             return SReferences.getPlayerRefEnhanced(uuid).setWindow(window-1);
         } catch (NullPointerException npe) {
@@ -123,11 +123,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         return false;
     }
 
-    public boolean startGameViewForced(String uuid) {
-        return (boolean) forwardMethod(uuid, "startGameViewForced", null);
+    public Boolean startGameViewForced(String uuid) {
+        return (Boolean) forwardMethod(uuid, "startGameViewForced", null);
     }
 
-    public boolean placeDice(String uuid, Dice d, Position p) {
+    public Boolean placeDice(String uuid, Dice d, Position p) {
         try {
             return SReferences.getPlayerRefEnhanced(uuid).placeDice(d, p);
         } catch (NullPointerException npe) {
