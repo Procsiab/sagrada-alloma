@@ -1,6 +1,8 @@
 package shared.network;
 
 import server.threads.GameManager;
+import shared.Dice;
+import shared.Position;
 import shared.TransferObjects.GameManagerT;
 
 import java.rmi.Remote;
@@ -20,4 +22,5 @@ public interface SharedMiddlewareServer extends Remote {
     void setWinner(String uuid) throws RemoteException;
     boolean chooseWindowBack(String uuid, Integer window) throws RemoteException;
     boolean startGameViewForced(String uuid) throws RemoteException;
+    boolean placeDice(String uuid, Dice d, Position p) throws RemoteException;
 }

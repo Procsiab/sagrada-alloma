@@ -1,7 +1,9 @@
 package server;
 
 import server.threads.GameManager;
+import shared.Dice;
 import shared.Logger;
+import shared.Position;
 import shared.TransferObjects.GameManagerT;
 import shared.network.Connection;
 import shared.network.SharedMiddlewareServer;
@@ -123,5 +125,15 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     public boolean startGameViewForced(String uuid) {
         return (boolean) forwardMethod(uuid, "startGameViewForced", null);
+    }
+
+    public boolean placeDice(String uuid, Dice d, Position p) {
+        try {
+            return SReferences.getPlayerRefEnhanced(uuid).placeDice(d, p);
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uuid);
+            Logger.strace(npe);
+        }
+        return false;
     }
 }

@@ -2,7 +2,9 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
+import shared.Dice;
 import shared.Logger;
+import shared.Position;
 import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareClient;
 import shared.network.Connection;
@@ -105,6 +107,12 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public boolean chooseWindowBack(Integer window) {
         Object[] args = {uuid, window};
         String methodName = "chooseWindowBack";
+        return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+    }
+
+    public boolean placeDice(Dice d, Position p) {
+        Object[] args = {uuid, d, p};
+        String methodName = "placeDice";
         return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
     }
 }

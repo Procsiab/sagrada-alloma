@@ -1,6 +1,8 @@
 package shared.network.rmi;
 
+import shared.Dice;
 import shared.Logger;
+import shared.Position;
 import shared.TransferObjects.GameManagerT;
 import shared.network.Connection;
 import shared.network.SharedMiddlewareClient;
@@ -181,6 +183,8 @@ public class NetworkRmi implements Connection {
                         return o.chooseWindowBack((Integer) argList[0]);
                     case "startGameViewForced":
                         return o.startGameViewForced();
+                    case "placeDice":
+                        return o.placeDice((Dice) argList[0], (Position) argList[1]);
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareClient!");
                         break;
@@ -218,6 +222,8 @@ public class NetworkRmi implements Connection {
                         return o.chooseWindowBack((String) argList[0], (Integer) argList[1]);
                     case "startGameViewForced":
                         return o.startGameViewForced((String) argList[0]);
+                    case "placeDice":
+                        return o.placeDice((String) argList[0], (Dice) argList[1], (Position) argList[2]);
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareServer!");
                         break;
