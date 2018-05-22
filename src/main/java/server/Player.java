@@ -75,6 +75,10 @@ public class Player {
         return true;
     }
 
+    public boolean useToolC(){
+        return true;
+    }
+
     public boolean placeDice(Dice dice, Position position) {
         return this.window.setDicePosition(this, dice, position);
     }
