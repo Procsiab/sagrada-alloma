@@ -14,8 +14,8 @@ public class ToolC8 extends ToolC {
     public boolean use(Player player, GameManager game, Integer n, Position position) {
         if (player.privateTurn != 1)
             return false;
-
-        if (player.window.setDicePositionFromPool(player, game.pool.get(n), position)) {
+//warning
+        if (player.window.setDicePositionFromPool(player,0, game.pool.get(n), position)) {
             game.jump.add(player.uUID);
             return true;
         }
