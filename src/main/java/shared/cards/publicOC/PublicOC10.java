@@ -13,10 +13,10 @@ public class PublicOC10 extends PublicOC {
         int i = 0;
         int j = 0;
         int sum = 0;
-        while (i < 3) {
+        while (i < 4) {
             j = 0;
-            while (j < 4) {
-                sum = sum + computate(dices, 'a', i, j, false);
+            while (j < 5) {
+                sum = sum + computate(dices, 'a', i, j, -1);
                 j++;
             }
             i++;
@@ -25,26 +25,24 @@ public class PublicOC10 extends PublicOC {
     }
 
 
-    public Integer computate(Dice[][] dices, Character color, Integer r, Integer c, Boolean dA) {
+    public Integer computate(Dice[][] dices, Character color, Integer r, Integer c, Integer dA) {
 
         if (r > 3 || r < 0 || c > 4 || c < 0)
             return 0;
         if (dices[r][c] == null)
             return 0;
         if (dices[r][c].getColor() != color)
-            return computate(dices, dices[r][c].getColor(), r, c, false);
-        if (dA) {
-            dices[r][c] = null;
-            return 1 + computate(dices, color, r - 1, c - 1, true) +
-                    computate(dices, color, r - 1, c + 1, true) +
-                    computate(dices, color, r + 1, c + 1, true) +
-                    computate(dices, color, r + 1, c - 1, true);
-        }
+            return computate(dices, dices[r][c].getColor(), r, c, -1);
         dices[r][c] = null;
-        return computate(dices, color, r - 1, c - 1, true) +
-                computate(dices, color, r - 1, c + 1, true) +
-                computate(dices, color, r + 1, c + 1, true) +
-                computate(dices, color, r + 1, c - 1, true);
+        if (dA == 2)
+            dA = 1;
+        if (dA == 0)
+            dA = 2;
+        if (dA == -1)
+            dA = 0;
+        return dA + computate(dices, color, r - 1, c - 1, dA) +
+                computate(dices, color, r - 1, c + 1, dA) +
+                computate(dices, color, r + 1, c + 1, dA) +
+                computate(dices, color, r + 1, c - 1, dA);
     }
-
 }
