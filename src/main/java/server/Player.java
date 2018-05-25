@@ -2,9 +2,9 @@ package server;
 
 import server.threads.GameManager;
 import shared.*;
-import shared.abstracts.PrivateOC;
-import shared.abstracts.PublicOC;
-import shared.abstracts.Window;
+import shared.abstractsShared.PrivateOC;
+import server.abstractsServer.PublicOC;
+import shared.abstractsShared.Window;
 
 import java.util.ArrayList;
 
@@ -20,6 +20,8 @@ public class Player {
     public Integer score = 0;
     public Integer privateTurn; //can be either 1 or 2
     public Position lastPlaced;
+    public boolean hasPlacedDice = false;
+    public boolean hasUsedTc = false;
     public GameManager game;
 
     public Player(int i, GameManager gameManager, String uUID) {
@@ -76,12 +78,17 @@ public class Player {
     }
 
     public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
-        //TODO Implement method
-        return true;
+        if(this.hasUsedTc)
+            return false;
+        return game.toolCards.get(i1).use(game, this, p1, p2, p3, p4, pr, i2, i3);
     }
 
     public boolean placeDice(Integer index, Position position) {
+        if (this.hasPlacedDice)
+            return false;
         ArrayList<Dice> pool = game.pool;
+        if (pool.get(index) == null)
+            return false;
         return this.window.setDicePositionFromPool(this, index, pool.get(index), position);
     }
 

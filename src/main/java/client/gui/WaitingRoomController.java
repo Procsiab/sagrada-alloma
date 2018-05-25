@@ -26,8 +26,8 @@ public class WaitingRoomController {
     private AnchorPane paneTest;
 
 
-    // Load cards to be chosen and then then passed into choosenCard variable. This variable is used in ChooseWindowController
-    // in order to load the 4 available cards.
+    // Load cardsShared to be chosen and then then passed into choosenCard variable. This variable is used in ChooseWindowController
+    // in order to load the 4 available cardsShared.
     public WaitingRoomController() {
         MainClient.waitingRoomController = this;
     }

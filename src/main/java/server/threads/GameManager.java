@@ -5,10 +5,12 @@ import shared.Dice;
 import shared.Logger;
 import server.Player;
 import shared.RoundTrack;
-import shared.abstracts.PrivateOC;
-import shared.abstracts.PublicOC;
-import shared.abstracts.ToolC;
-import shared.abstracts.Window;
+import shared.TransferObjects.PublicOCT;
+import shared.TransferObjects.ToolCT;
+import shared.abstractsShared.PrivateOC;
+import server.abstractsServer.PublicOC;
+import server.abstractsServer.ToolC;
+import shared.abstractsShared.Window;
 import shared.TransferObjects.PlayerT;
 import shared.logic.GeneralTask;
 import shared.TransferObjects.GameManagerT;
@@ -100,16 +102,13 @@ public class GameManager extends GeneralTask {
     }
 
     public void setAction(boolean action) {
-        this.action = action;
+        synchronized (obj3) {
+            this.action = action;
+        }
     }
 
     public boolean getAction() {
         return action;
-    }
-
-    public void setLoser(String loser) {
-        this.privateLeft.add(loser);
-        MatchManager.left.add(loser);
     }
 
     public void updateView(String uuid) {
@@ -120,8 +119,21 @@ public class GameManager extends GeneralTask {
                     player.turno, player.tokens, player.score, player.privateTurn, player.lastPlaced));
         }
         vPlayersT.trimToSize();
-        middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCs,
-                toolCards, roundTrack, pool, tCtokens, players.indexOf(uuid)));
+
+        ArrayList<PublicOCT> publicOCsT= new ArrayList<>();
+        for (PublicOC card:
+             publicOCs) {
+            publicOCsT.add(new PublicOCT(card.name));
+        }
+
+        ArrayList<ToolCT> toolCsT = new ArrayList<>();
+        for (ToolC card:
+                toolCards) {
+            toolCsT.add(new ToolCT(card.name));
+        }
+
+        middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCsT,
+                toolCsT, roundTrack, pool, tCtokens, players.indexOf(uuid)));
     }
 
     public void shiftPlayers() {
@@ -158,8 +170,13 @@ public class GameManager extends GeneralTask {
         this.toolCards = toolCards;
     }
 
-    public void exitGame2(String uuid) {
-        //TODO Implement method
+    public void endTurn(String uUID){
+        setAction(true);
+    }
+
+    public void exitGame2(String loser) {
+        this.privateLeft.add(loser);
+        MatchManager.left.add(loser);
     }
 
     public void checkActive() {
@@ -234,7 +251,7 @@ public class GameManager extends GeneralTask {
         i = 0;
 
         Logger.log(a.toString());
-
+//join the following two loops
         while (i < players.size()) {
             Integer k;
             Logger.log("Choose window for player " + players.get(i));
@@ -320,6 +337,9 @@ public class GameManager extends GeneralTask {
         toolCards.add(matchManager.toolCs.get(a.get(0)));
         toolCards.add(matchManager.toolCs.get(a.get(1)));
         toolCards.add(matchManager.toolCs.get(a.get(2)));
+
+        //this is necessary since the tokens required may be affected
+        toolCards = (ArrayList<ToolC>) toolCards.clone();
 
         i = 0;
         a.clear();
@@ -500,8 +520,10 @@ public class GameManager extends GeneralTask {
                             }
                         }
                         this.action = false;
-                        this.expected = null;
-                        //middlewareServer.shut(players.get(i - 1));
+                        this.expected = "none";
+                        middlewareServer.shut(players.get(i - 1));
+                        vPlayers.get(i-1).hasUsedTc = false;
+                        vPlayers.get(i-1).hasPlacedDice = false;
                     }
                 }
                 if (upward) {

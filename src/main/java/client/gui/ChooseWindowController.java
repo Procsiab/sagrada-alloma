@@ -81,7 +81,7 @@ public class ChooseWindowController implements Initializable {
     }
 
     private void loadCards(){
-       // TODO: Implement call to method which return the 4 randomic cards chosen by server.
+       // TODO: Implement call to method which return the 4 randomic cardsShared chosen by server.
         int i,j,k,g;
         i = MainClient.choosenCards.get(0);
         j = MainClient.choosenCards.get(1);

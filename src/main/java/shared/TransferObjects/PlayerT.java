@@ -1,7 +1,7 @@
 package shared.TransferObjects;
 
-import shared.abstracts.PrivateOC;
-import shared.abstracts.Window;
+import shared.abstractsShared.PrivateOC;
+import shared.abstractsShared.Window;
 import shared.Overlay;
 import shared.Position;
 

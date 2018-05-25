@@ -1,21 +1,33 @@
 package shared;
 
-import server.threads.GameManager;
 
 import java.io.Serializable;
 public class Overlay implements Serializable {
     private Dice[][] dicePositions = new Dice[4][5];
 
+    public Dice getDice(Position pos){
+        return dicePositions[pos.getRow()][pos.getColumn()];
+    }
 
-    public synchronized Dice[][] getDicePositions() {
+    public void setDices(Dice[][] dices) {
+        this.dicePositions = dices;
+    }
+
+    public boolean busy(Position position) {
+        if (dicePositions[position.getRow()][position.getColumn()] != null)
+            return false;
+        return true;
+    }
+
+    public boolean busy(Position position1, Position position2) {
+        return busy(position1) && busy(position2);
+    }
+
+    public Dice[][] getDicePositions() {
         return dicePositions;
     }
 
-    public synchronized Boolean setDicePositions(Dice dice, Position position) {
-        if (dicePositions[position.getRow()][position.getColumn()] == null) {
-            this.dicePositions[position.getRow()][position.getColumn()] = dice;
-            return true;
-        }
-        return false;
+    public void setDicePosition(Dice dice, Position position) {
+        this.dicePositions[position.getRow()][position.getColumn()] = dice;
     }
 }
