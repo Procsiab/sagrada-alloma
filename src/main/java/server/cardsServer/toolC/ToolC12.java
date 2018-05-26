@@ -35,7 +35,7 @@ public class ToolC12 extends ToolC {
         Dice dice1 = dicePositions[p1.getRow()][p1.getColumn()];
 
         //warning
-        if(player.window.setDicePositionFromPool(player,0,dice1,p2)){
+        if(player.window.setDicePositionFromPool(player,0, p2)){
             dicePositions[p1.getRow()][p1.getColumn()] = null;
             dicePositions[p2.getRow()][p2.getColumn()] = null;
             player.game.updateView(player.uUID);
@@ -58,7 +58,7 @@ public class ToolC12 extends ToolC {
         Dice dice2 = dicePositions[pos2a.getRow()][pos2a.getColumn()];
 
         //warning
-        if(player.window.setDicePositionFromPool(player,0,dice1,pos2a)&& player.window.setDicePositionFromPool(player,0,dice2,pos2b)){
+        if(player.window.setDicePositionFromPool(player,0, pos2a)&& player.window.setDicePositionFromPool(player,0, pos2b)){
             dicePositions[pos1a.getRow()][pos1a.getColumn()] = null;
             dicePositions[pos2a.getRow()][pos2a.getColumn()] = null;
             player.game.updateView(player.uUID);

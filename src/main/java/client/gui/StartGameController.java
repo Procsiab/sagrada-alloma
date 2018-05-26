@@ -155,8 +155,8 @@ public class StartGameController implements Initializable {
             if(counterPosition>playersLocal.size()-1)
                 counterPosition=0;
             System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
-            System.out.println(playersLocal.get(counterPosition).window.getNome());
-            nomeCarta = playersLocal.get(counterPosition).window.getNome();
+            System.out.println(playersLocal.get(counterPosition).window.getName());
+            nomeCarta = playersLocal.get(counterPosition).window.getName();
             //TODO : INSERIRE LA CARTA EFFETTIVA. PRENDERE DALL'ARRAY DELLE CARTE SCELTE DA GAME MANAGER LA CARTA
             // INSERIRE IL NOME DELLA FINESTRA AL POSTO DI WINDOW 1. RECUPERARLO DAL PLAYER T. CHIEDERE COME
             listaGriglie.get(i).setStyle("-fx-background-image: url('"+nomeCarta+".png');-fx-background-size: 100% 100%;");

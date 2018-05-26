@@ -1,9 +1,13 @@
 package shared.TransferObjects;
 
-public class ToolCT {
-    public final String name;
+import java.io.Serializable;
 
-    public ToolCT(String name){
+public class ToolCT implements Serializable {
+    public final String name;
+    public final Integer tokensRequired;
+
+    public ToolCT(String name, Integer tokens){
         this.name = name;
+        this.tokensRequired = tokens;
     }
 }

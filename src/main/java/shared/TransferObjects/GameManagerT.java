@@ -1,5 +1,6 @@
 package shared.TransferObjects;
 
+import shared.Logger;
 import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.ToolC;
 import shared.Dice;
@@ -16,7 +17,6 @@ public class GameManagerT implements Serializable {
     public final ArrayList<ToolCT> toolCards;
     public final RoundTrack roundTrack;
     public final ArrayList<Dice> pool;
-    public final ArrayList<Integer> tCtokens;
     public final Integer pos;
 
     public GameManagerT(ArrayList<PlayerT> vPlayers, ArrayList<PrivateOC> privateOCs, ArrayList<PublicOCT> publicOCs,
@@ -29,7 +29,6 @@ public class GameManagerT implements Serializable {
         this.toolCards = toolCards;
         this.roundTrack = roundTrack;
         this.pool = pool;
-        this.tCtokens = tCtokens;
         this.pos = pos;
     }
 }

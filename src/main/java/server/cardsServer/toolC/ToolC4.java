@@ -11,10 +11,14 @@ public class ToolC4 extends ToolC {
 
     public ToolC4() {
         this.name = "toolC4";
+        this.description ="p1 is the original position, p2 is the allegedly future position, same applies" +
+                " to p3 and p4";
     }
 
     @Override
     public boolean ableAndSettle(Player player) {
+        if(player.hasUsedTc)
+            return false;
         Integer tokens = player.tokens;
         if (tokens < tokensRequired)
             return false;
@@ -30,35 +34,9 @@ public class ToolC4 extends ToolC {
         if (!ableAndSettle(player))
             return false;
 
-        Dice[][] dicePositions = player.overlay.getDicePositions();
-        Dice dice1 = dicePositions[p1.getRow()][p2.getColumn()];
-        if (!player.overlay.busy(p1))
+        if(p1==null ||p2==null||p3==null||p4==null)
             return false;
-        if (player.overlay.busy(p2))
-            return false;
-        if (!player.window.checkDicePosition(player, dice1, p2))
-            return false;
-        player.overlay.setDicePosition(null, p1);
-        player.overlay.setDicePosition(dice1, p2);
 
-        Dice dice2 = dicePositions[p1.getRow()][p2.getColumn()];
-        if (!player.overlay.busy(p3)) {
-            player.overlay.setDicePosition(dice1, p1);
-            player.overlay.setDicePosition(null, p2);
-            return false;
-        }
-        if (player.overlay.busy(p4)) {
-            player.overlay.setDicePosition(dice1, p1);
-            player.overlay.setDicePosition(null, p2);
-            return false;
-        }
-        if (!player.window.checkDicePosition(player, dice2, p3)) {
-            player.overlay.setDicePosition(dice1, p1);
-            player.overlay.setDicePosition(null, p2);
-            return false;
-        }
-        player.overlay.setDicePosition(null, p3);
-        player.overlay.setDicePosition(dice1, p4);
-        return true;
+        return player.window.moveDicePosition(player,p1,p2,p3,p4);
     }
 }

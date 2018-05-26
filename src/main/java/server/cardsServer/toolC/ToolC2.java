@@ -11,10 +11,13 @@ public class ToolC2 extends ToolC {
 
     public ToolC2() {
         this.name = "toolC2";
+        this.description = "p1 is the original position, p2 is the allegedly future position";
     }
 
     @Override
     public boolean ableAndSettle(Player player) {
+        if (player.hasUsedTc)
+            return false;
         Integer tokens = player.tokens;
         if (tokens < tokensRequired)
             return false;
@@ -29,22 +32,8 @@ public class ToolC2 extends ToolC {
 
         if (!ableAndSettle(player))
             return false;
-
-        Dice[][] dicePositions = player.overlay.getDicePositions();
-        Dice dice = dicePositions[p1.getRow()][p2.getColumn()];
-        if (!player.overlay.busy(p1))
+        if (p1 == null || p2 == null)
             return false;
-        if (player.overlay.busy(p2))
-            return false;
-        if (!player.window.checkAdjDicesFull(player.overlay, p2, dice))
-            return false;
-        if (!player.window.checkEdgePosTurn(player, p2))
-            return false;
-        if (!player.window.checkPlaceValueRequirements(dice, p2))
-            return false;
-
-        player.overlay.setDicePosition(null,p1);
-        player.overlay.setDicePosition(dice,p2);
-        return true;
+        return player.window.moveDicePositionNoColor(player, p1, p2);
     }
 }

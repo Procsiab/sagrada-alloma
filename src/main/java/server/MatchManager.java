@@ -2,13 +2,17 @@ package server;
 
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.ToolC;
+import server.abstractsServer.Window;
 import shared.Logger;
 import shared.abstractsShared.*;
-import shared.cardsShared.privateOC.*;
+import shared.cardsShared.privateOC.PrivateOC2;
+import shared.cardsShared.privateOC.PrivateOC4;
+import shared.cardsShared.privateOC.PrivateOC5;
 import server.cardsServer.publicOC.*;
 import server.cardsServer.toolC.*;
+import shared.cardsShared.privateOC.PrivateOC1;
 import shared.logic.Locker;
-import shared.cardsShared.windows.*;
+import server.cardsServer.windows.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -5,15 +5,12 @@ import shared.Dice;
 import shared.Logger;
 import server.Player;
 import shared.RoundTrack;
-import shared.TransferObjects.PublicOCT;
-import shared.TransferObjects.ToolCT;
+import shared.TransferObjects.*;
 import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.ToolC;
-import shared.abstractsShared.Window;
-import shared.TransferObjects.PlayerT;
+import server.abstractsServer.Window;
 import shared.logic.GeneralTask;
-import shared.TransferObjects.GameManagerT;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,6 +24,7 @@ public class GameManager extends GeneralTask {
     private final Integer sleepTime;
     private final Integer timeout2;
     private final Integer nMates;
+    private ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
     public MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
@@ -68,7 +66,9 @@ public class GameManager extends GeneralTask {
         i = 0;
 
         for (String client : players) {
-            vPlayers.add(new Player(i, this, publicRef.get(i)));
+            Player player = new Player(i, this, publicRef.get(i));
+            vPlayers.add(player);
+            vPlayersFixed.add(player);
             i++;
         }
 
@@ -113,10 +113,14 @@ public class GameManager extends GeneralTask {
 
     public void updateView(String uuid) {
         ArrayList<PlayerT> vPlayersT = new ArrayList<>();
+
         for (Player player :
-                this.vPlayers) {
-            vPlayersT.add(new PlayerT(player.privateOC, player.window, player.overlay,
-                    player.turno, player.tokens, player.score, player.privateTurn, player.lastPlaced));
+                this.vPlayersFixed) {
+            WindowT windowT = new WindowT(player.window.name,player.window.cells);
+            PlayerT playerT = new PlayerT(player.privateOC, windowT, player.overlay,
+                    player.turno, player.tokens, player.score, player.privateTurn,
+                    player.lastPlaced);
+            vPlayersT.add(playerT);
         }
         vPlayersT.trimToSize();
 
@@ -129,7 +133,7 @@ public class GameManager extends GeneralTask {
         ArrayList<ToolCT> toolCsT = new ArrayList<>();
         for (ToolC card:
                 toolCards) {
-            toolCsT.add(new ToolCT(card.name));
+            toolCsT.add(new ToolCT(card.name,card.tokensRequired));
         }
 
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCsT,
@@ -302,6 +306,12 @@ public class GameManager extends GeneralTask {
             }
             i++;
         }
+
+        for (Player player : vPlayers) {
+            player.tokens = player.window.tokens;
+        }
+
+
         s = 0;
 
         a.clear();
@@ -314,12 +324,6 @@ public class GameManager extends GeneralTask {
             a.add(j);
             i++;
         }
-        i = 0;
-
-        for (Player player : vPlayers) {
-            player.setTokens();
-        }
-
 
         i = 0;
         a.clear();

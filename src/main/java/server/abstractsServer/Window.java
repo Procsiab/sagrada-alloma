@@ -1,4 +1,4 @@
-package shared.abstractsShared;
+package server.abstractsServer;
 
 import server.Player;
 import server.SReferences;
@@ -13,7 +13,7 @@ public abstract class Window implements Serializable {
     private Dice[][] dicePositions;
     public Integer color;
     public Position lastPlacedPosition;
-    private String name;
+    public String name;
 
 
     public Cell[][] getCells() {
@@ -200,27 +200,78 @@ public abstract class Window implements Serializable {
         return checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
     }
 
-    public boolean setDicePositionFromPool(Player player, Integer index, Dice dice, Position position) {
-        if (checkDicePosition(player, dice, position))
-            if (!player.overlay.busy(position)) {
-                player.overlay.setDicePosition(dice, position);
-                SReferences.getGameRefEnhanced(player.uUID).pool.set(index, null);
-                return true;
-            }
+    public boolean setDicePositionFromPool(Player player, Integer index, Position position) {
+
+        if (index == null || position == null)
+            return false;
+
+        Dice dice = player.game.pool.get(index);
+        if (dice == null)
+            return false;
+
+        if (player.overlay.busy(position))
+            return false;
+
+        if (checkDicePosition(player, dice, position)) {
+            player.overlay.setDicePosition(dice, position);
+            SReferences.getGameRefEnhanced(player.uUID).pool.set(index, null);
+            return true;
+        }
         return false;
     }
 
-    public boolean setDicePosition(Player player, Integer index, Dice dice, Position position) {
-        if (checkDicePosition(player, dice, position)) {
-            player.overlay.setDicePosition(dice, position);
+    public boolean moveDicePosition(Player player, Position p1, Position p2) {
+
+        if (p1 == null || p2 == null)
+            return false;
+
+        Dice dice = player.overlay.getDice(p1);
+        if (dice == null)
+            return false;
+
+        if (player.overlay.busy(p2))
+            return false;
+
+        if (checkDicePosition(player, dice, p2)) {
+            player.overlay.setDicePosition(dice, p2);
+            player.overlay.setDicePosition(null, p1);
             return true;
-        } else return false;
+        }
+        return false;
     }
 
+    public boolean moveDicePosition(Player player, Position p1, Position p2, Position p3, Position p4) {
 
+        if (p1 == null || p2 == null || p3 == null || p4 == null)
+            return false;
+
+        Dice dice1 = player.overlay.getDice(p1);
+        Dice dice2 = player.overlay.getDice(p2);
+        if (dice1 == null || dice2 == null)
+            return false;
+
+        if (player.overlay.busy(p2))
+            return false;
+        if (player.overlay.busy(p4))
+            return false;
+
+        if (checkDicePosition(player, dice1, p2)) {
+            player.overlay.setDicePosition(dice1, p2);
+            player.overlay.setDicePosition(null, p1);
+            if (checkDicePosition(player, dice2, p4)) {
+                player.overlay.setDicePosition(dice2, p4);
+                player.overlay.setDicePosition(null, p3);
+                return true;
+            }
+        }
+        player.overlay.setDicePosition(dice1, p1);
+        player.overlay.setDicePosition(null, p2);
+        player.overlay.setDicePosition(dice2, p3);
+        player.overlay.setDicePosition(null, p4);
+        return false;
+    }
 
     public boolean checkDicePosition(Player player, Dice dice, Position position) {
-        Integer esito = 0;
         Overlay overlay = player.overlay;
 
 
@@ -232,6 +283,78 @@ public abstract class Window implements Serializable {
             return false;
 
         if (!checkPlaceRequirements(dice, position))
+            return false;
+        return true;
+    }
+
+    public boolean moveDicePositionNoShade(Player player, Position p1, Position p2) {
+
+        if (p1 == null || p2 == null)
+            return false;
+
+        Dice dice = player.overlay.getDice(p1);
+        if (dice == null)
+            return false;
+
+        if (player.overlay.busy(p2))
+            return false;
+
+        if (checkDicePosition(player, dice, p2)) {
+            player.overlay.setDicePosition(dice, p2);
+            player.overlay.setDicePosition(null, p1);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkDicePositionNoShade(Player player, Dice dice, Position position) {
+        Overlay overlay = player.overlay;
+
+
+        if (!checkEdgePosTurn(player, position))
+            return false;
+
+
+        if (!checkAdjDicesFull(overlay, position, dice))
+            return false;
+
+        if (!checkPlaceColorRequirements(dice, position))
+            return false;
+        return true;
+    }
+
+    public boolean moveDicePositionNoColor(Player player, Position p1, Position p2) {
+
+        if (p1 == null || p2 == null)
+            return false;
+
+        Dice dice = player.overlay.getDice(p1);
+        if (dice == null)
+            return false;
+
+        if (player.overlay.busy(p2))
+            return false;
+
+        if (checkDicePosition(player, dice, p2)) {
+            player.overlay.setDicePosition(dice, p2);
+            player.overlay.setDicePosition(null, p1);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkDicePositionNoColor(Player player, Dice dice, Position position) {
+        Overlay overlay = player.overlay;
+
+
+        if (!checkEdgePosTurn(player, position))
+            return false;
+
+
+        if (!checkAdjDicesFull(overlay, position, dice))
+            return false;
+
+        if (!checkPlaceValueRequirements(dice, position))
             return false;
         return true;
     }

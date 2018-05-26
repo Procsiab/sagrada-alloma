@@ -1,7 +1,8 @@
 package shared.TransferObjects;
 
+import shared.Dice;
 import shared.abstractsShared.PrivateOC;
-import shared.abstractsShared.Window;
+import server.abstractsServer.Window;
 import shared.Overlay;
 import shared.Position;
 
@@ -9,7 +10,7 @@ import java.io.Serializable;
 
 public class PlayerT implements Serializable {
     public final PrivateOC privateOC;
-    public final Window window;
+    public final WindowT window;
     public final Overlay overlay;
     public final Integer tokens;
     public final Integer turno;
@@ -18,7 +19,7 @@ public class PlayerT implements Serializable {
     public final Position lastPlaced;
 
     public PlayerT(PrivateOC privateOC,
-                   Window window, Overlay overlay,
+                   WindowT window, Overlay overlay,
                    Integer tokens, Integer turno,
                    Integer score, Integer privateTurn,
                    Position lastPlaced) {
@@ -31,5 +32,6 @@ public class PlayerT implements Serializable {
         this.score = score;
         this.privateTurn = privateTurn;
         this.lastPlaced = lastPlaced;
+
     }
 }

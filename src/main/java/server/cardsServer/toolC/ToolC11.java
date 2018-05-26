@@ -40,6 +40,6 @@ public class ToolC11 extends ToolC {
         game.dices.set(k, game.pool.get(i2));
         game.pool.set(i2, dice);
 
-        return player.window.setDicePosition(player, i2, dice, p1);
+        return player.window.setDicePositionFromPool(player,i2, p1);
     }
 }

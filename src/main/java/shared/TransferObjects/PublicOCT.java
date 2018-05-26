@@ -1,7 +1,9 @@
 package shared.TransferObjects;
 
 
-public class PublicOCT {
+import java.io.Serializable;
+
+public class PublicOCT implements Serializable {
     public final String name;
 
     public PublicOCT(String name){

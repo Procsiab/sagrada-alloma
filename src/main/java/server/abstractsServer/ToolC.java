@@ -11,6 +11,7 @@ public abstract class ToolC implements Serializable {
 
     public Integer tokensRequired = 1;
     public String name;
+    public String description;
 
     public abstract boolean ableAndSettle(Player player);
 

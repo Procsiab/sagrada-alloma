@@ -4,7 +4,7 @@ import server.threads.GameManager;
 import shared.*;
 import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.PublicOC;
-import shared.abstractsShared.Window;
+import server.abstractsServer.Window;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class Player {
     public Integer turno = 0;
     public Integer nPlayer;
     public Integer score = 0;
-    public Integer privateTurn; //can be either 1 or 2
+    public Integer privateTurn = 0; //can be either 1 or 2
     public Position lastPlaced;
     public boolean hasPlacedDice = false;
     public boolean hasUsedTc = false;
@@ -44,12 +44,12 @@ public class Player {
         int i = 0;
         int j = 0;
 
-        while (i < 5) {
-            while (j < 4) {
+        while (i < 4) {
+            while (j < 5) {
                 Dice dice = overlay.getDicePositions()[i][j];
                 if (dice != null)
                     if (dice.color == privateOC.color)
-                        score++;
+                        score = score + dice.value;
                 j++;
             }
             i++;
@@ -78,7 +78,7 @@ public class Player {
     }
 
     public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
-        if(this.hasUsedTc)
+        if (this.hasUsedTc)
             return false;
         return game.toolCards.get(i1).use(game, this, p1, p2, p3, p4, pr, i2, i3);
     }
@@ -89,10 +89,6 @@ public class Player {
         ArrayList<Dice> pool = game.pool;
         if (pool.get(index) == null)
             return false;
-        return this.window.setDicePositionFromPool(this, index, pool.get(index), position);
-    }
-
-    public void setTokens() {
-        this.tokens = this.window.tokens;
+        return this.window.setDicePositionFromPool(this, index, position);
     }
 }

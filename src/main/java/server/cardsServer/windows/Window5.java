@@ -1,6 +1,6 @@
-package shared.cardsShared.windows;
+package server.cardsServer.windows;
 import shared.Cell;
-import shared.abstractsShared.Window;
+import server.abstractsServer.Window;
 
 public class Window5 extends Window {
 
