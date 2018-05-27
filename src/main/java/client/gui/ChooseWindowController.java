@@ -22,12 +22,24 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ChooseWindowController implements Initializable {
-    @FXML private Button card1,card2,card3,card4;
+
+    // Logic Variables
     private Integer  tempSelectedCard, selectedCard;
     private MiddlewareClient middlewareClient = MiddlewareClient.getInstance();
+
+    // GUI Variables
+    @FXML private Button card1,card2,card3,card4;
     @FXML  private AnchorPane chooseWindowPane;
+
     public ChooseWindowController() {
         MainClient.chooseWindowController = this;
+    }
+
+
+    public void initialize(URL location, ResourceBundle resources) {
+        // Add transition and other stuff
+        loadCards();
+
     }
 
 
@@ -39,13 +51,9 @@ public class ChooseWindowController implements Initializable {
         Parent root1 = loader.load();
         System.out.println("Button pressed " + ((Button) event.getSource()).getId());
         tempSelectedCard = tempSelectedCard.parseInt(((Button) event.getSource()).getText());
-        //System.out.println(MainClient.choosenCards.get(1));
         selectedCard = MainClient.choosenCards.get(tempSelectedCard-1);
-
         middlewareClient.chooseWindowBack(selectedCard);
-
         System.out.println(selectedCard);
-
         Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(startedGame);
@@ -74,12 +82,6 @@ public class ChooseWindowController implements Initializable {
 
     }
 
-    public void initialize(URL location, ResourceBundle resources) {
-        // Add transition and other stuff
-        loadCards();
-
-    }
-
     private void loadCards(){
        // TODO: Implement call to method which return the 4 randomic cardsShared chosen by server.
         int i,j,k,g;
@@ -91,7 +93,6 @@ public class ChooseWindowController implements Initializable {
 
 
         // IMPORTANT: use "+ variable +" in order to use a variable and not a fixed value!
-       // Backround set to test
         card1.setStyle("-fx-background-image: url('Window"+i+".png');-fx-background-size: 100% 100% ;");
         card2.setStyle("-fx-background-image: url('Window"+j+".png');-fx-background-size: 100% 100%;");
         card3.setStyle("-fx-background-image: url('Window"+k+".png');-fx-background-size: 100% 100%;");

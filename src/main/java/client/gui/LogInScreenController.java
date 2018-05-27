@@ -24,10 +24,27 @@ import java.util.ResourceBundle;
 
 public class LogInScreenController implements Initializable {
 
-    @FXML private ImageView sagradaImage;
-    @FXML private Button startButton;
+    // Logic Variables
     private static StartGameController gameClient;
     private GameHelper game;
+
+    // GUI Variables
+    @FXML private ImageView sagradaImage;
+    @FXML private Button startButton;
+
+    public static StartGameController getGameClient() {
+        return gameClient;
+    }
+
+    // Initialization
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        MainClient.logInScreenController = this;
+        animazioneSagrada();
+        animazioneStartGame();
+        startButton.setStyle("-fx-background-color: transparent;");
+
+    }
 
     @FXML public void LogIn(ActionEvent event) throws IOException {
 
@@ -56,22 +73,8 @@ public class LogInScreenController implements Initializable {
             }
     }
 
-    public static StartGameController getGameClient() {
-        return gameClient;
-    }
 
-    //Animazioni schermata di Login
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //Scale Transition di Sagrada LogIn
-        MainClient.logInScreenController = this;
-        animazioneSagrada();
-        animazioneStartGame();
-
-        startButton.setStyle("-fx-background-color: transparent;");
-
-    }
-
+    // Support methods for animation
     private void animazioneStartGame() {
         FadeTransition ft = new FadeTransition(Duration.millis(3000), startButton);
         ft.setFromValue(1.0);

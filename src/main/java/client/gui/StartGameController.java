@@ -27,48 +27,37 @@ import java.util.ResourceBundle;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class StartGameController implements Initializable {
-    @FXML
-    private URL location;
-    @FXML
-    private ResourceBundle resources;
+    // Logic Variables
     private GameManager netGameManager;
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
     private GameHelper game = MainClient.game;
 
-
-
-    //todo for each method check if you are denied accessing server
-
-    public StartGameController() {
-        MainClient.startGameController = this;
-        //TODO Start server connector class
-    }
-
-    public void print(String s) {
-        System.out.println(s);
-    }
-
+    // FXML GUI Variables
     @FXML
     private GridPane paneBackground;
     @FXML
     private GridPane paneCarta0,paneCarta1,paneCarta2,paneCarta3;
-    private ArrayList<GridPane> listaGriglie = new ArrayList<>();
-
-    @FXML
-    private ImageView cardMap;
     @FXML
     private Button tiraDadi;
     @FXML
     private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
-
-    @FXML
-    private ArrayList<Button> listaDadi = new ArrayList<>();
     @FXML
     private Text numTokens;
+
+    // Utility Variables
+    private ArrayList<GridPane> listaGriglie = new ArrayList<>();
+    private ArrayList<Button> listaDadi = new ArrayList<>();
     private Button selectedButton;
 
+
+
+    //todo for each method check if you are denied accessing server
+    public StartGameController() {
+        MainClient.startGameController = this;
+        //TODO Start server connector class
+    }
 
 
     public void setWinner(){
@@ -78,6 +67,8 @@ public class StartGameController implements Initializable {
     public void setNetGameManager(GameManager netGameManager) {
         this.netGameManager = netGameManager;
     }
+
+
 
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
@@ -91,13 +82,19 @@ public class StartGameController implements Initializable {
 
     public void updateView(GameManagerT gameManager) {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
+
+        // Useful variables
+
         String nomeCarta,numeroTokens;
         int numDadi;
         ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
-        int numberofplayer = playersLocal.size();
         int counterPosition = gameManager.pos;
+
         System.out.println("Valore counterPosition:" + counterPosition);
         System.out.println("Valore gameManager:" + gameManager.pos);
+
+        //Loading mapCards into view
+
         for (int i = 0; i < playersLocal.size(); i++) {
             System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
             System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
@@ -107,18 +104,16 @@ public class StartGameController implements Initializable {
             System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
             System.out.println(playersLocal.get(counterPosition).window.getName());
             nomeCarta = playersLocal.get(counterPosition).window.getName();
-            //TODO : INSERIRE LA CARTA EFFETTIVA. PRENDERE DALL'ARRAY DELLE CARTE SCELTE DA GAME MANAGER LA CARTA
-            // INSERIRE IL NOME DELLA FINESTRA AL POSTO DI WINDOW 1. RECUPERARLO DAL PLAYER T. CHIEDERE COME
-            System.out.println("PRIMA DI LISTA GRIGLIE");
-            // LISTA GRIGLIE ORA NON RIESCE AD ACCEDERCI!!!
+
             listaGriglie.get(i).setStyle("-fx-background-image: url('"+nomeCarta+".png');-fx-background-size: 100% 100%;");
-            System.out.println("DOPO LISTA GRIGLIE");
             counterPosition++;
 
         }
+
         // GET TOKENS
         numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
         numTokens.setText(numeroTokens);
+
         //avendo questi aggiorni la grafica all'inizio di ogni turno.
         //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
         //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
@@ -132,15 +127,12 @@ public class StartGameController implements Initializable {
             // INSERIRE EFFETIVO VALORE DEL DADO
             int numero = gameManager.pool.get(i).value;
             char color = gameManager.pool.get(i).color;
+            System.out.println("Numero :" + numero + "\n");
+            System.out.println("Colore :" + numDadi + "\n");
+
             listaDadi.get(i).setStyle("-fx-background-image: url('"+numero+""+color+".png');-fx-background-size: 100% 100%;");
-
+            }
         }
-
-
-
-
-
-    }
 
     @FXML
     private void fineTurno(ActionEvent event) throws IOException{
@@ -149,14 +141,14 @@ public class StartGameController implements Initializable {
     }
 
     @FXML
-    private void handleMouseClicked(ActionEvent e){
+    private void onClickMap(ActionEvent e){
         System.out.println("MouseEntered");
         Node source = (Node)e.getSource() ;
         System.out.println(source);
 
         Integer colIndex = GridPane.getColumnIndex(source);
         Integer rowIndex = GridPane.getRowIndex(source);
-        //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
 
     }
 
@@ -179,7 +171,6 @@ public class StartGameController implements Initializable {
 
     }
 
-
     private void loadDadi(){
         listaDadi.add(dice1);
         listaDadi.add(dice2);
@@ -194,7 +185,6 @@ public class StartGameController implements Initializable {
 
 
     }
-
 
     private void loadBackground() {
         BackgroundImage myBI = new BackgroundImage(new Image("https://www.freevector.com/uploads/vector/preview/27785/Sagrada_Familia_Building.jpg", 1280, 800, false, true),
@@ -217,7 +207,7 @@ public class StartGameController implements Initializable {
 
     // END SUPPORT METHODS
 
-  //  public void diceClicked(ActionEvent e){
+    //  public void diceClicked(ActionEvent e){
 
    // }
 
