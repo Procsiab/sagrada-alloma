@@ -111,13 +111,7 @@ public class StartGameController implements Initializable {
 
 
 
-   /* private void setCardMap() {
-       paneCarta0.setStyle("-fx-background-image: url('1.png');-fx-background-size: 100% 100%;");
-       paneCarta1.setStyle("-fx-background-image: url('2.png');-fx-background-size: 100% 100%;");
-       paneCarta2.setStyle("-fx-background-image: url('3.png');-fx-background-size: 100% 100%;");
-       paneCarta3.setStyle("-fx-background-image: url('4.png');-fx-background-size: 100% 100%;");
 
-    } */
 
 
     private void loadBackground() {
