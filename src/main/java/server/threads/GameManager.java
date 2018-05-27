@@ -304,7 +304,7 @@ public class GameManager extends GeneralTask {
             if (vPlayer.window == null) {
                 vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
                 middlewareServer.startGameViewForced(vPlayer.uUID);
-                Logger.log("startgame forced" + vPlayer.window.toString());
+                Logger.log("startgame forced " + vPlayer.window.name);
             }
             i++;
         }
