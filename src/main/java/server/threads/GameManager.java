@@ -24,6 +24,7 @@ public class GameManager extends GeneralTask {
     private final Integer sleepTime;
     private final Integer timeout2;
     public final Integer timeout3; //for windows
+    public final Integer timeout4; //pausetta
     private final Integer nMates;
     private ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
@@ -59,6 +60,7 @@ public class GameManager extends GeneralTask {
         this.sleepTime = 10000;
         this.timeout2 = 5000;
         this.timeout3 = 8000;
+        this.timeout4 = 2000;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
@@ -308,6 +310,17 @@ public class GameManager extends GeneralTask {
             }
             i++;
         }
+
+
+        synchronized (obj5) {
+            try {
+                obj5.wait(timeout4);
+            } catch (InterruptedException e) {
+                Logger.log("Interrupted Exception");
+                e.printStackTrace();
+            }
+        }
+
 
         i = 0;
 

@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import server.threads.GameManager;
+import shared.Logger;
 import shared.TransferObjects.GameManagerT;
 import shared.TransferObjects.PlayerT;
 
