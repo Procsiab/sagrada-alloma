@@ -31,11 +31,13 @@ public class NewGameManager extends GeneralTask {
                     try {
                         safe.sLock2.wait();
                         if (start) {
-                            if (MatchManager.q.size() > 1)
+                            if (MatchManager.q.size() > 1) {
+                                start = false;
                                 break;
-                            start = false;
+                            }
                             //timerNewGame = new TimerNewGame(sleepTime, this);
                             ConcurrencyManager.submit(timerNewGame);
+
                         }
                     } catch (Exception e) {
                         Logger.log("Error waiting on lock!");

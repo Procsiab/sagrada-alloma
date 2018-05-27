@@ -21,6 +21,7 @@ public class GameManager extends GeneralTask {
     public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     public ArrayList<String> players = new ArrayList<>();
     public ArrayList<String> players2 = new ArrayList<>();
+    public ArrayList<String> playersFixed = new ArrayList<>();
     private final Integer sleepTime;
     private final Integer timeout2;
     public final Integer timeout3; //for windows
@@ -141,8 +142,9 @@ public class GameManager extends GeneralTask {
             toolCsT.add(new ToolCT(card.name, card.tokensRequired));
         }
 
+        System.out.println(publicRef.indexOf(uuid));
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCsT,
-                toolCsT, roundTrack, pool, tCtokens, players.indexOf(uuid)));
+                toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uuid)));
     }
 
     public void shiftPlayers() {
@@ -557,6 +559,7 @@ public class GameManager extends GeneralTask {
                 k++;
             }
             shiftPlayers();
+            upward =true;
             k = 1;
             i = 1;
             j++;
