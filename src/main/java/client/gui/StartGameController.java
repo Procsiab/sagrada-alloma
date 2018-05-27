@@ -83,6 +83,8 @@ public class StartGameController implements Initializable {
         backGroundTransition();
         loadArray();
         loadDadi();
+        System.out.print("INIZIALIZZAZIONE COMPLETATA");
+
     }
 
 
