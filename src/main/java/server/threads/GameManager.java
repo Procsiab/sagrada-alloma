@@ -23,6 +23,7 @@ public class GameManager extends GeneralTask {
     public ArrayList<String> players2 = new ArrayList<>();
     private final Integer sleepTime;
     private final Integer timeout2;
+    public final Integer timeout3; //for windows
     private final Integer nMates;
     private ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
@@ -48,6 +49,7 @@ public class GameManager extends GeneralTask {
     public final Object obj2 = new Object();
     public final Object obj3 = new Object();
     public final ArrayList<Object> obj4;
+    public final Object obj5 = new Object();
 
     public GameManager(ArrayList<String> players) {
 
@@ -56,6 +58,7 @@ public class GameManager extends GeneralTask {
         this.players.addAll(players);
         this.sleepTime = 10000;
         this.timeout2 = 5000;
+        this.timeout3 = 8000;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
@@ -116,7 +119,7 @@ public class GameManager extends GeneralTask {
 
         for (Player player :
                 this.vPlayersFixed) {
-            WindowT windowT = new WindowT(player.window.name,player.window.cells);
+            WindowT windowT = new WindowT(player.window.name, player.window.cells);
             PlayerT playerT = new PlayerT(player.privateOC, windowT, player.overlay,
                     player.turno, player.tokens, player.score, player.privateTurn,
                     player.lastPlaced);
@@ -124,16 +127,16 @@ public class GameManager extends GeneralTask {
         }
         vPlayersT.trimToSize();
 
-        ArrayList<PublicOCT> publicOCsT= new ArrayList<>();
-        for (PublicOC card:
-             publicOCs) {
+        ArrayList<PublicOCT> publicOCsT = new ArrayList<>();
+        for (PublicOC card :
+                publicOCs) {
             publicOCsT.add(new PublicOCT(card.name));
         }
 
         ArrayList<ToolCT> toolCsT = new ArrayList<>();
-        for (ToolC card:
+        for (ToolC card :
                 toolCards) {
-            toolCsT.add(new ToolCT(card.name,card.tokensRequired));
+            toolCsT.add(new ToolCT(card.name, card.tokensRequired));
         }
 
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCsT,
@@ -174,7 +177,7 @@ public class GameManager extends GeneralTask {
         this.toolCards = toolCards;
     }
 
-    public void endTurn(String uUID){
+    public void endTurn(String uUID) {
         setAction(true);
     }
 
@@ -278,9 +281,19 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
+        this.expected = "all";
+        synchronized (obj5) {
+            try {
+                obj5.wait(timeout2);
+            } catch (InterruptedException e) {
+                Logger.log("Interrupted Exception");
+                e.printStackTrace();
+            }
+        }
+        this.expected = "none";
+
         i = 0;
         int s = 0;
-        Window window;
         Player vPlayer;
         boolean t = true;
 
@@ -288,25 +301,15 @@ public class GameManager extends GeneralTask {
                 players) {
             vPlayer = SReferences.getPlayerRefEnhanced(player);
             Logger.log(vPlayer.toString());
-            synchronized (obj4.get(i)) {
-                try {
-                    this.expected = "all";
-                    obj4.get(i).wait(timeout2);
-                    //this.expected = "none";
-                    if (vPlayer.window == null) {
-                        vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
-                        middlewareServer.startGameViewForced(vPlayer.uUID);
-                        Logger.log("startgame forced");
-                    }
-                } catch (InterruptedException e) {
-                    Logger.log("Interrupted Exception");
-                    e.printStackTrace();
-                }
+            if (vPlayer.window == null) {
+                vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
+                middlewareServer.startGameViewForced(vPlayer.uUID);
+                Logger.log("startgame forced");
             }
             i++;
         }
 
-        //todo: high security violation. Accessible from all clients now. Need fix in short time.
+        i = 0;
 
         for (Player player : vPlayers) {
             player.tokens = player.window.tokens;
@@ -406,8 +409,8 @@ public class GameManager extends GeneralTask {
 
             while (k <= 2 * players2.size()) {
 
-                //fitness(active);
-                //fitness(unresponsive);
+                String remotePlayer = players.get(i - 1);
+                Player localPlayer = SReferences.getPlayerRefEnhanced(remotePlayer);
 
                 checkActive();
 
@@ -497,20 +500,20 @@ public class GameManager extends GeneralTask {
 
                 //check if active, doesn't have a turn to jump, then go ahead
 
-                if (jump.contains(players.get(i - 1))) {
-                    if (!jumpB.get(jump.indexOf(players.get(i - 1)))) {
-                        jumpB.remove(jump.indexOf(players.get(i - 1)));
-                        jump.remove(players.get(i - 1));
+                if (jump.contains(remotePlayer)) {
+                    if (!jumpB.get(jump.indexOf(remotePlayer))) {
+                        jumpB.remove(jump.indexOf(remotePlayer));
+                        jump.remove(remotePlayer);
                     }
-                    if (jumpB.get(jump.indexOf(players.get(i - 1))))
-                        jumpB.set(jump.indexOf(players.get(i - 1)), false);
+                    if (jumpB.get(jump.indexOf(remotePlayer)))
+                        jumpB.set(jump.indexOf(remotePlayer), false);
                 }
-                if (active.contains(players.get(i - 1)) && !jump.contains(players.get(i - 1))) {
-                    this.updateView(players.get(i - 1));
-                    this.expected = players.get(i - 1);
-                    middlewareServer.enable(players.get(i - 1));
+                if (active.contains(remotePlayer) && !jump.contains(remotePlayer)) {
+                    this.updateView(remotePlayer);
+                    this.expected = remotePlayer;
+                    middlewareServer.enable(remotePlayer);
 
-                    vPlayers.get(i - 1).turno++;
+                    localPlayer.turno++;
 
                     synchronized (obj3) {
                         while (!this.action) {
@@ -526,9 +529,9 @@ public class GameManager extends GeneralTask {
                         }
                         this.action = false;
                         this.expected = "none";
-                        middlewareServer.shut(players.get(i - 1));
-                        vPlayers.get(i-1).hasUsedTc = false;
-                        vPlayers.get(i-1).hasPlacedDice = false;
+                        middlewareServer.shut(remotePlayer);
+                        localPlayer.hasUsedTc = false;
+                        localPlayer.hasPlacedDice = false;
                     }
                 }
                 if (upward) {
@@ -541,7 +544,8 @@ public class GameManager extends GeneralTask {
                 k++;
             }
             shiftPlayers();
-            //now k doesn't update so while run once
+            k = 1;
+            i = 1;
             j++;
         }
         i = 0;
