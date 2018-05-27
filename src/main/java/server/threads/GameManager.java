@@ -92,15 +92,15 @@ public class GameManager extends GeneralTask {
 
         while (i <= 90) {
             if (1 <= i && i <= 18)
-                dices.add(new Dice('r', rand.nextInt(6)));
+                dices.add(new Dice('r', 1+rand.nextInt(5)));
             else if (19 <= i && i <= 36)
-                dices.add(new Dice('y', rand.nextInt(6)));
+                dices.add(new Dice('y', 1+rand.nextInt(5)));
             else if (37 <= i && i <= 54)
-                dices.add(new Dice('g', rand.nextInt(6)));
+                dices.add(new Dice('g', 1+rand.nextInt(5)));
             else if (55 <= i && i <= 72)
-                dices.add(new Dice('b', rand.nextInt(6)));
+                dices.add(new Dice('b', 1+rand.nextInt(5)));
             else if (73 <= i && i <= 90)
-                dices.add(new Dice('p', rand.nextInt(6)));
+                dices.add(new Dice('p', 1+rand.nextInt(5)));
             i++;
         }
 
@@ -233,10 +233,10 @@ public class GameManager extends GeneralTask {
         Random rand = new Random();
         ArrayList<Integer> a = new ArrayList<>();
 
-        j = rand.nextInt(5);
+        j = rand.nextInt(4);
         while (i < players.size()) {
             while (a.contains(j)) {
-                j = rand.nextInt(5);
+                j = rand.nextInt(4);
             }
             a.add(j);
             i++;
@@ -251,10 +251,10 @@ public class GameManager extends GeneralTask {
 
         a.clear();
 
-        j = rand.nextInt(24);
+        j = rand.nextInt(23);
         while (i < 4 * players.size()) {
             while (a.contains(j)) {
-                j = rand.nextInt(24);
+                j = rand.nextInt(23);
             }
             a.add(j);
             i++;
@@ -262,7 +262,7 @@ public class GameManager extends GeneralTask {
         i = 0;
 
         Logger.log(a.toString());
-//join the following two loops
+
         while (i < players.size()) {
             Integer k;
             Logger.log("Choose window for player " + players.get(i));
@@ -328,11 +328,13 @@ public class GameManager extends GeneralTask {
 
         for (Player player : vPlayers) {
             player.tokens = player.window.tokens;
+            System.out.println("i tokens del player son "+player.tokens);
         }
 
 
         s = 0;
 
+        /*
         a.clear();
         i = 0;
         j = rand.nextInt(4);
@@ -343,14 +345,14 @@ public class GameManager extends GeneralTask {
             a.add(j);
             i++;
         }
-
+*/
         i = 0;
         a.clear();
 
-        j = rand.nextInt(12);
+        j = rand.nextInt(11);
         while (i < 3) {
             while (a.contains(j)) {
-                j = rand.nextInt(12);
+                j = rand.nextInt(11);
             }
             a.add(j);
             i++;
@@ -367,10 +369,10 @@ public class GameManager extends GeneralTask {
         i = 0;
         a.clear();
 
-        j = rand.nextInt(10);
+        j = rand.nextInt(9);
         while (i < 3) {
             while (a.contains(j)) {
-                j = rand.nextInt(10);
+                j = rand.nextInt(9);
             }
             a.add(j);
             i++;

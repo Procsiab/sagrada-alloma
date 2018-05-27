@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class NewGameManager extends GeneralTask {
     private final Locker safe = Locker.getSafe();
     private Integer sleepTime = 10000;
-    public boolean start = true;
+    public boolean start = false;
 
     @Override
     public void run() {

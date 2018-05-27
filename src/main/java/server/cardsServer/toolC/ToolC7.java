@@ -37,7 +37,7 @@ public class ToolC7 extends ToolC {
         Random rand = new Random();
         for (Dice d :
                 game.pool) {
-            d.value = rand.nextInt(6);
+            d.value = 1 +rand.nextInt(5);
         }
         return true;
     }
