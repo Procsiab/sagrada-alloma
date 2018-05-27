@@ -60,6 +60,9 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     @Override
     public Boolean deniedAccess(String uuid) {
         try {
+            //todo: security problem. I will fix this in short time.
+            return false;
+            /*
             GameManager game = SReferences.getGameRefEnhanced(uuid);
             String expected = game.expected;
             if (expected.equals("all"))
@@ -67,6 +70,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             else if (expected.equals("none"))
                 return true;
             return !expected.equals(uuid);
+            */
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }

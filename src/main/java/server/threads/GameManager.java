@@ -290,12 +290,11 @@ public class GameManager extends GeneralTask {
             Logger.log(vPlayer.toString());
             synchronized (obj4.get(i)) {
                 try {
-                    this.expected = player;
+                    this.expected = "all";
                     obj4.get(i).wait(timeout2);
-                    this.expected = null;
+                    //this.expected = "none";
                     if (vPlayer.window == null) {
                         vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
-
                         middlewareServer.startGameViewForced(vPlayer.uUID);
                         Logger.log("startgame forced");
                     }
@@ -306,6 +305,8 @@ public class GameManager extends GeneralTask {
             }
             i++;
         }
+
+        //todo: high security violation. Accessible from all clients now. Need fix in short time.
 
         for (Player player : vPlayers) {
             player.tokens = player.window.tokens;
