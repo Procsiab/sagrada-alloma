@@ -66,6 +66,8 @@ public class StartGameController implements Initializable {
     private ArrayList<Button> listaDadi = new ArrayList<>();
     @FXML
     private Text numTokens;
+    private Button selectedButton;
+
 
 
     public void setWinner(){
@@ -79,11 +81,92 @@ public class StartGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
         backGroundTransition();
-        //TODO : FAR FUNZIONARE loadArray
         loadArray();
         loadDadi();
-        // setCardMap();
     }
+
+
+    public void updateView(GameManagerT gameManager) {
+        System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
+        String nomeCarta,numeroTokens;
+        int numDadi;
+        ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
+        int numberofplayer = playersLocal.size();
+        int counterPosition = gameManager.pos;
+        System.out.println("Valore counterPosition:" + counterPosition);
+        System.out.println("Valore gameManager:" + gameManager.pos);
+        for (int i = 0; i < playersLocal.size(); i++) {
+            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
+            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
+
+            if(counterPosition>playersLocal.size()-1)
+                counterPosition=0;
+            System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
+            System.out.println(playersLocal.get(counterPosition).window.getName());
+            nomeCarta = playersLocal.get(counterPosition).window.getName();
+            //TODO : INSERIRE LA CARTA EFFETTIVA. PRENDERE DALL'ARRAY DELLE CARTE SCELTE DA GAME MANAGER LA CARTA
+            // INSERIRE IL NOME DELLA FINESTRA AL POSTO DI WINDOW 1. RECUPERARLO DAL PLAYER T. CHIEDERE COME
+            System.out.println("PRIMA DI LISTA GRIGLIE");
+            // LISTA GRIGLIE ORA NON RIESCE AD ACCEDERCI!!!
+            listaGriglie.get(i).setStyle("-fx-background-image: url('"+nomeCarta+".png');-fx-background-size: 100% 100%;");
+            System.out.println("DOPO LISTA GRIGLIE");
+            counterPosition++;
+
+        }
+        // GET TOKENS
+        numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
+        numTokens.setText(numeroTokens);
+        //avendo questi aggiorni la grafica all'inizio di ogni turno.
+        //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
+        //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
+        //che stanno nel server.
+
+        // LOAD POOL
+        numDadi= gameManager.pool.size();
+        System.out.println("Numero di dadi :" + numDadi);
+        for (int i = 0; i < numDadi; i++){
+            System.out.println("Valore di i nel ciclo:" + i);
+            // INSERIRE EFFETIVO VALORE DEL DADO
+            int numero = gameManager.pool.get(i).value;
+            char color = gameManager.pool.get(i).color;
+            listaDadi.get(i).setStyle("-fx-background-image: url('"+numero+""+color+".png');-fx-background-size: 100% 100%;");
+
+        }
+
+
+
+
+
+    }
+
+    @FXML
+    private void fineTurno(ActionEvent event) throws IOException{
+        System.out.print("\"Turno Finito\"");
+
+    }
+
+    @FXML
+    private void handleMouseClicked(ActionEvent e){
+        System.out.println("MouseEntered");
+        Node source = (Node)e.getSource() ;
+        System.out.println(source);
+
+        Integer colIndex = GridPane.getColumnIndex(source);
+        Integer rowIndex = GridPane.getRowIndex(source);
+        //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+
+    }
+
+
+    @FXML
+    private void setSelectedButton(ActionEvent event){
+        //selectedButton = event.getSource();
+
+    }
+
+
+    // SUPPORT METHODS FOR THE MAIN ONES!
+
 
     private void loadArray(){
         listaGriglie.add(paneCarta0);
@@ -110,10 +193,6 @@ public class StartGameController implements Initializable {
     }
 
 
-
-
-
-
     private void loadBackground() {
         BackgroundImage myBI = new BackgroundImage(new Image("https://www.freevector.com/uploads/vector/preview/27785/Sagrada_Familia_Building.jpg", 1280, 800, false, true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
@@ -133,86 +212,11 @@ public class StartGameController implements Initializable {
 
     }
 
-    public void updateView(GameManagerT gameManager) {
-        System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
-        String nomeCarta,numeroTokens;
-        int numDadi;
-        ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
-        int numberofplayer = playersLocal.size();
-        int counterPosition = gameManager.pos;
-        System.out.println("Valore counterPosition:" + counterPosition);
-        System.out.println("Valore gameManager:" + gameManager.pos);
-        for (int i = 0; i < playersLocal.size(); i++) {
-            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
-            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
+    // END SUPPORT METHODS
 
-            if(counterPosition>playersLocal.size()-1)
-                counterPosition=0;
-            System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
-            System.out.println(playersLocal.get(counterPosition).window.getName());
-            nomeCarta = playersLocal.get(counterPosition).window.getName();
-            //TODO : INSERIRE LA CARTA EFFETTIVA. PRENDERE DALL'ARRAY DELLE CARTE SCELTE DA GAME MANAGER LA CARTA
-            // INSERIRE IL NOME DELLA FINESTRA AL POSTO DI WINDOW 1. RECUPERARLO DAL PLAYER T. CHIEDERE COME
-            listaGriglie.get(i).setStyle("-fx-background-image: url('"+nomeCarta+".png');-fx-background-size: 100% 100%;");
-            counterPosition++;
+  //  public void diceClicked(ActionEvent e){
 
-        }
-        // GET TOKENS
-        numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
-        numTokens.setText(numeroTokens);
-        //avendo questi aggiorni la grafica all'inizio di ogni turno.
-        //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
-        //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
-        //che stanno nel server.
-
-        // SET DADI POOL
-         numDadi= gameManager.pool.size();
-        System.out.println("Numero di dadi :" + numDadi);
-        for (int i = 0; i < numDadi; i++){
-            System.out.println("Valore di i nel ciclo:" + i);
-            // INSERIRE EFFETIVO VALORE DEL DADO
-            listaDadi.get(i).setStyle("-fx-background-image: url('1blue.png');-fx-background-size: 100% 100%;");
-
-        }
-
-
-
-
-
-    }
-
-    @FXML
-    private void fineTurno(ActionEvent event) throws IOException{
-        System.out.print("\"Turno Finito\"");
-        dice1.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: 100% 100%;");
-        dice2.setStyle("-fx-background-image: url('2red.png');-fx-background-size: 100% 100%;");
-        dice3.setStyle("-fx-background-image: url('4yellow.png');-fx-background-size: 100% 100%;");
-        dice4.setStyle("-fx-background-image: url('6purple.png');-fx-background-size: 100% 100%;");
-        dice5.setStyle("-fx-background-image: url('3green.png');-fx-background-size: 100% 100%;");
-        dice6.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: 100% 100%;");
-        dice7.setStyle("-fx-background-image: url('1red.png');-fx-background-size: 100% 100%;");
-        dice8.setStyle("-fx-background-image: url('1blue.png');-fx-background-size: 100% 100%;");
-
-
-
-
-    }
-
-    @FXML
-    private void handleMouseClicked(ActionEvent e){
-        System.out.println("MouseEntered");
-        Node source = (Node)e.getSource() ;
-        System.out.println(source);
-
-        Integer colIndex = GridPane.getColumnIndex(source);
-        Integer rowIndex = GridPane.getRowIndex(source);
-        //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
-
-    }
-
-    public void diceClicked(ActionEvent e){
-
-    }
+   // }
 
     //TODO Implement the following methods
 
