@@ -13,6 +13,7 @@ public class NewGameManager extends GeneralTask {
     private final Locker safe = Locker.getSafe();
     private Integer sleepTime = 10000;
     public boolean start = false;
+    public boolean timer = false;
 
     @Override
     public void run() {
@@ -30,15 +31,18 @@ public class NewGameManager extends GeneralTask {
                 while (MatchManager.q.size() != 4) {
                     try {
                         safe.sLock2.wait();
-                        if (start) {
-                            if (MatchManager.q.size() > 1) {
+                        if (MatchManager.q.size() > 1) {
+                            if (!timer) {
+                                ConcurrencyManager.submit(timerNewGame);
+                                timer=true;
+                            }
+                            if(start) {
                                 start = false;
                                 break;
                             }
                             //timerNewGame = new TimerNewGame(sleepTime, this);
-                            ConcurrencyManager.submit(timerNewGame);
-
                         }
+
                     } catch (Exception e) {
                         Logger.log("Error waiting on lock!");
                         Logger.log(e.toString());

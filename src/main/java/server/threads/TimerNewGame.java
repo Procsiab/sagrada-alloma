@@ -36,6 +36,7 @@ public class TimerNewGame extends GeneralTask {
         }
 
         synchronized (safe.sLock2) {
+            newGameManager.timer = false;
             newGameManager.start = true;
             safe.sLock2.notifyAll();
             return;

@@ -139,7 +139,7 @@ public class GameManager extends GeneralTask {
         ArrayList<ToolCT> toolCsT = new ArrayList<>();
         for (ToolC card :
                 toolCards) {
-            toolCsT.add(new ToolCT(card.name, card.tokensRequired));
+            toolCsT.add(new ToolCT(card.name, card.tokensRequired, card.description));
         }
 
         System.out.println(publicRef.indexOf(uuid));
