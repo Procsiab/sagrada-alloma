@@ -3,8 +3,6 @@ package server;
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.ToolC;
 import server.abstractsServer.Window;
-import server.threads.GameManager;
-import server.threads.NewGameManager;
 import shared.Logger;
 import shared.abstractsShared.*;
 import shared.cardsShared.privateOC.PrivateOC2;
@@ -13,8 +11,6 @@ import shared.cardsShared.privateOC.PrivateOC5;
 import server.cardsServer.publicOC.*;
 import server.cardsServer.toolC.*;
 import shared.cardsShared.privateOC.PrivateOC1;
-import shared.logic.ConcurrencyManager;
-import shared.logic.Locker;
 import server.cardsServer.windows.*;
 
 import java.util.ArrayList;
@@ -114,23 +110,14 @@ public class MatchManager {
         }
 
         Logger.log("Player " + uUID + ": Connection accepted");
-
-        SReferences.addUuidRef(uUID);
-        SReferences.addIpRef(uUID, ip);
-        SReferences.addPortRef(uUID, port);
-        SReferences.addIsSocketRef(uUID, isSocket);
-
         synchronized (obj2) {
-            q.addLast(uUID);
-            if(q.size()==4){
-                clients = new ArrayList<>(q.size());
-                clients.addAll(q);
-                q.clear();
-                NewGameManager.setStart(false);
 
-                Logger.log("GmaeManager submit");
-                ConcurrencyManager.submit(new GameManager(clients));
-            }
+            SReferences.addUuidRef(uUID);
+            SReferences.addIpRef(uUID, ip);
+            SReferences.addPortRef(uUID, port);
+            SReferences.addIsSocketRef(uUID, isSocket);
+
+            q.addLast(uUID);
             obj2.notifyAll();
         }
 
@@ -139,14 +126,13 @@ public class MatchManager {
 
     public boolean exitGame1(String uUID) {
         synchronized (obj2) {
-            if (!q.remove(uUID))
-                return false;
+            if (q.remove(uUID)) {
+                //you may call a function client-side that delete client from its match
+                SReferences.removeRef(uUID);
+                return true;
+            }
+
+            return false;
         }
-
-        SReferences.removeRef(uUID);
-
-        //you may call a function client-side that delete client from its match
-        return true;
     }
-
 }

@@ -4,20 +4,15 @@ import server.MatchManager;
 import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import shared.logic.GeneralTask;
-import shared.logic.Locker;
 
 import java.util.ArrayList;
 import java.util.Queue;
-import java.util.concurrent.locks.Lock;
 
 @SuppressWarnings("InfiniteLoopStatement")
-public class NewGameManager extends GeneralTask {
-    private Integer sleepTime = 10000;
+public class GameGenerator4 extends GeneralTask {
     public final Object obj = MatchManager.obj2;
-    public static boolean start = false;
-
     public synchronized static void setStart(Boolean value) {
-        start = value;
+        GameGenerator2_3.setStart(value);
     }
 
     @Override
@@ -30,7 +25,7 @@ public class NewGameManager extends GeneralTask {
         while (t) {
             try {
                 synchronized (obj) {
-                    if (queue.size() < 2 || !start)
+                    if (queue.size() != 4)
                         obj.wait();
                     else {
                         clients = new ArrayList<>(queue.size());
@@ -41,12 +36,6 @@ public class NewGameManager extends GeneralTask {
                         Logger.log("GmaeManager submit");
                         ConcurrencyManager.submit(new GameManager(clients));
                     }
-                }
-                if (start)
-                    Thread.sleep(sleepTime);
-                else if (queue.size() > 1) {
-                    Thread.sleep(sleepTime);
-                    setStart(true);
                 }
             } catch (Exception e) {
                 Logger.log("Error waiting on lock!");

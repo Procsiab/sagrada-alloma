@@ -1,7 +1,8 @@
 package server;
 
 
-import server.threads.NewGameManager;
+import server.threads.GameGenerator2_3;
+import server.threads.GameGenerator4;
 import shared.logic.ConcurrencyManager;
 import shared.network.SharedMiddlewareServer;
 
@@ -25,7 +26,8 @@ public class MainServer {
     public static void main(String[] args) throws IOException {
         MiddlewareServer.getInstance();
         MatchManager.getInstance();// delete this if newGameManager access MatchManager
-        ConcurrencyManager.submit(new NewGameManager());
+        ConcurrencyManager.submit(new GameGenerator2_3());
+        ConcurrencyManager.submit(new GameGenerator4());
 
 
         System.out.println("\nSend 'exit' command to teardown...");
