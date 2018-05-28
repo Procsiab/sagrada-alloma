@@ -61,7 +61,7 @@ public class GameManager extends GeneralTask {
         this.sleepTime = 10000;
         this.timeout2 = 5000;
         this.timeout3 = 8000;
-        this.timeout4 = 5000;
+        this.timeout4 = 8000;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
@@ -92,15 +92,15 @@ public class GameManager extends GeneralTask {
 
         while (i <= 90) {
             if (1 <= i && i <= 18)
-                dices.add(new Dice('r', 1+rand.nextInt(5)));
+                dices.add(new Dice('r', 1 + rand.nextInt(5)));
             else if (19 <= i && i <= 36)
-                dices.add(new Dice('y', 1+rand.nextInt(5)));
+                dices.add(new Dice('y', 1 + rand.nextInt(5)));
             else if (37 <= i && i <= 54)
-                dices.add(new Dice('g', 1+rand.nextInt(5)));
+                dices.add(new Dice('g', 1 + rand.nextInt(5)));
             else if (55 <= i && i <= 72)
-                dices.add(new Dice('b', 1+rand.nextInt(5)));
+                dices.add(new Dice('b', 1 + rand.nextInt(5)));
             else if (73 <= i && i <= 90)
-                dices.add(new Dice('p', 1+rand.nextInt(5)));
+                dices.add(new Dice('p', 1 + rand.nextInt(5)));
             i++;
         }
 
@@ -186,8 +186,12 @@ public class GameManager extends GeneralTask {
     }
 
     public void exitGame2(String loser) {
-        this.privateLeft.add(loser);
-        MatchManager.left.add(loser);
+        synchronized (MatchManager.obj) {
+            MatchManager.left.add(loser);
+        }
+        synchronized (obj) {
+            this.privateLeft.add(loser);
+        }
     }
 
     public void checkActive() {
@@ -560,7 +564,7 @@ public class GameManager extends GeneralTask {
                 k++;
             }
             shiftPlayers();
-            upward =true;
+            upward = true;
             k = 1;
             i = 1;
             j++;

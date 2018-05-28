@@ -7,59 +7,51 @@ import shared.logic.GeneralTask;
 import shared.logic.Locker;
 
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.concurrent.locks.Lock;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class NewGameManager extends GeneralTask {
-    private final Locker safe = Locker.getSafe();
     private Integer sleepTime = 10000;
-    public final Object obj = new Object();
-    public boolean start = false;
-    public boolean timer = false;
+    public final Object obj = MatchManager.obj2;
+    public static boolean start = false;
+
+    public synchronized static void setStart(Boolean value) {
+        start = value;
+    }
 
     @Override
     public void run() {
         super.run();
 
-        //ConcurrencyManager.submit(timerNewGame);
-
         ArrayList<String> clients;
-
+        Queue<String> queue = MatchManager.q;
         boolean t = true;
-        TimerNewGame timerNewGame = new TimerNewGame(sleepTime, this, obj);
-
         while (t) {
-            synchronized (safe.sLock2) {
-                while (MatchManager.q.size() != 4) {
-                    try {
-                        safe.sLock2.wait();
-                        if (MatchManager.q.size() > 1) {
-                            if (!timer) {
-                                timerNewGame.openDeadEnd();
-                                ConcurrencyManager.submit(timerNewGame);
-                                timer=true;
-                            }
-                            if(start) {
-                                timerNewGame.setDeadEnd();
-                                synchronized (obj){
-                                    obj.notifyAll();
-                                }
-                                timer = false;
-                                start = false;
-                                break;
-                            }
-                        }
+            try {
+                synchronized (obj) {
+                    if (queue.size() < 2 || !start)
+                        obj.wait();
+                    else {
+                        clients = new ArrayList<>(queue.size());
+                        clients.addAll(queue);
+                        queue.clear();
+                        setStart(false);
 
-                    } catch (Exception e) {
-                        Logger.log("Error waiting on lock!");
-                        Logger.log(e.toString());
+                        Logger.log("GmaeManager submit");
+                        ConcurrencyManager.submit(new GameManager(clients));
                     }
                 }
-                clients = new ArrayList<>(MatchManager.q.size());
-                clients.addAll(MatchManager.q);
-                MatchManager.q.clear();
+                if (start)
+                    Thread.sleep(sleepTime);
+                else if (queue.size() > 1) {
+                    Thread.sleep(sleepTime);
+                    setStart(true);
+                }
+            } catch (Exception e) {
+                Logger.log("Error waiting on lock!");
+                Logger.log(e.toString());
             }
-            Logger.log("GmaeManager submit");
-            ConcurrencyManager.submit(new GameManager(clients));
         }
     }
 }

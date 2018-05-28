@@ -3,6 +3,8 @@ package server;
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.ToolC;
 import server.abstractsServer.Window;
+import server.threads.GameManager;
+import server.threads.NewGameManager;
 import shared.Logger;
 import shared.abstractsShared.*;
 import shared.cardsShared.privateOC.PrivateOC2;
@@ -11,6 +13,7 @@ import shared.cardsShared.privateOC.PrivateOC5;
 import server.cardsServer.publicOC.*;
 import server.cardsServer.toolC.*;
 import shared.cardsShared.privateOC.PrivateOC1;
+import shared.logic.ConcurrencyManager;
 import shared.logic.Locker;
 import server.cardsServer.windows.*;
 
@@ -21,14 +24,14 @@ import java.util.List;
 public class MatchManager {
     public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
     public static LinkedList<String> q = new LinkedList<>();
+    public ArrayList<String> clients = new ArrayList<>();
     public static ArrayList<String> left = new ArrayList<>();
-    public final Locker safe = Locker.getSafe();
     public List<PrivateOC> privateOCs = new ArrayList<>();
     public List<PublicOC> publicOCs = new ArrayList<>();
     public List<ToolC> toolCs = new ArrayList<>();
     public List<Window> windows = new ArrayList<>();
     public static final Object obj = new Object();
-
+    public static final Object obj2 = new Object();
     private static MatchManager instance = new MatchManager();
 
     public static MatchManager getInstance() {
@@ -117,16 +120,25 @@ public class MatchManager {
         SReferences.addPortRef(uUID, port);
         SReferences.addIsSocketRef(uUID, isSocket);
 
-        synchronized (safe.sLock2) {
+        synchronized (obj2) {
             q.addLast(uUID);
-            safe.sLock2.notifyAll();
+            if(q.size()==4){
+                clients = new ArrayList<>(q.size());
+                clients.addAll(q);
+                q.clear();
+                NewGameManager.setStart(false);
+
+                Logger.log("GmaeManager submit");
+                ConcurrencyManager.submit(new GameManager(clients));
+            }
+            obj2.notifyAll();
         }
 
         return "Connections successful. Please wait for other players to connect";
     }
 
     public boolean exitGame1(String uUID) {
-        synchronized (safe.sLock2) {
+        synchronized (obj2) {
             if (!q.remove(uUID))
                 return false;
         }
