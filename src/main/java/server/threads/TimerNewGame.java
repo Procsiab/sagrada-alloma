@@ -11,13 +11,23 @@ import java.util.Arrays;
 
 public class TimerNewGame extends GeneralTask {
     public Integer sleepTime;
-    NewGameManager newGameManager;
-    transient public final Object obj = new Object();
+    public NewGameManager newGameManager;
+    public boolean deadEnd;
+    public final Object obj;
     private Locker safe = Locker.getSafe();
 
-    TimerNewGame(Integer time, NewGameManager newGameManager) {
+    TimerNewGame(Integer time, NewGameManager newGameManager, Object obj) {
         sleepTime = time;
         this.newGameManager = newGameManager;
+        this.obj = obj;
+    }
+
+    public void setDeadEnd(){
+        this.deadEnd = true;
+    }
+
+    public void openDeadEnd(){
+        this.deadEnd = false;
     }
 
     @Override
@@ -28,6 +38,8 @@ public class TimerNewGame extends GeneralTask {
         synchronized (obj) {
             try {
                 obj.wait(sleepTime);
+                if(deadEnd)
+                    return;
             } catch (InterruptedException ie) {
                 Logger.log("Thread sleep was interrupted!");
                 Logger.strace(ie);
@@ -39,7 +51,6 @@ public class TimerNewGame extends GeneralTask {
             newGameManager.timer = false;
             newGameManager.start = true;
             safe.sLock2.notifyAll();
-            return;
         }
     }
 }

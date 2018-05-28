@@ -61,7 +61,7 @@ public class GameManager extends GeneralTask {
         this.sleepTime = 10000;
         this.timeout2 = 5000;
         this.timeout3 = 8000;
-        this.timeout4 = 2000;
+        this.timeout4 = 5000;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
@@ -328,7 +328,6 @@ public class GameManager extends GeneralTask {
 
         for (Player player : vPlayers) {
             player.tokens = player.window.tokens;
-            System.out.println("i tokens del player son "+player.tokens);
         }
 
 

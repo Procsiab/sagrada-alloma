@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class NewGameManager extends GeneralTask {
     private final Locker safe = Locker.getSafe();
     private Integer sleepTime = 10000;
+    public final Object obj = new Object();
     public boolean start = false;
     public boolean timer = false;
 
@@ -19,12 +20,12 @@ public class NewGameManager extends GeneralTask {
     public void run() {
         super.run();
 
-        TimerNewGame timerNewGame = new TimerNewGame(sleepTime, this);
         //ConcurrencyManager.submit(timerNewGame);
 
         ArrayList<String> clients;
 
         boolean t = true;
+        TimerNewGame timerNewGame = new TimerNewGame(sleepTime, this, obj);
 
         while (t) {
             synchronized (safe.sLock2) {
@@ -33,14 +34,19 @@ public class NewGameManager extends GeneralTask {
                         safe.sLock2.wait();
                         if (MatchManager.q.size() > 1) {
                             if (!timer) {
+                                timerNewGame.openDeadEnd();
                                 ConcurrencyManager.submit(timerNewGame);
                                 timer=true;
                             }
                             if(start) {
+                                timerNewGame.setDeadEnd();
+                                synchronized (obj){
+                                    obj.notifyAll();
+                                }
+                                timer = false;
                                 start = false;
                                 break;
                             }
-                            //timerNewGame = new TimerNewGame(sleepTime, this);
                         }
 
                     } catch (Exception e) {
