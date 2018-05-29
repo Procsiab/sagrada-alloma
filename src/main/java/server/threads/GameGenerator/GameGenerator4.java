@@ -1,6 +1,8 @@
-package server.threads;
+package server.threads.GameGenerator;
 
 import server.MatchManager;
+import server.threads.GameGenerator.GameGenerator2_3;
+import server.threads.GameManager;
 import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import shared.logic.GeneralTask;
@@ -11,7 +13,7 @@ import java.util.Queue;
 @SuppressWarnings("InfiniteLoopStatement")
 public class GameGenerator4 extends GeneralTask {
     public final Object obj = MatchManager.obj2;
-    public synchronized static void setStart(Boolean value) {
+    public static synchronized void setStart(Boolean value) {
         GameGenerator2_3.setStart(value);
     }
 

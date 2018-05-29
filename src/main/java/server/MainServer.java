@@ -1,8 +1,8 @@
 package server;
 
 
-import server.threads.GameGenerator2_3;
-import server.threads.GameGenerator4;
+import server.threads.GameGenerator.GameGenerator2_3;
+import server.threads.GameGenerator.GameGenerator4;
 import shared.logic.ConcurrencyManager;
 import shared.network.SharedMiddlewareServer;
 

@@ -290,14 +290,12 @@ public class GameManager extends GeneralTask {
         }
 
         this.expected = "all";
-        synchronized (obj5) {
             try {
-                obj5.wait(timeout2);
+                Thread.sleep(timeout2);
             } catch (InterruptedException e) {
                 Logger.log("Interrupted Exception");
                 e.printStackTrace();
             }
-        }
         this.expected = "none";
 
         i = 0;
@@ -318,14 +316,12 @@ public class GameManager extends GeneralTask {
         }
 
 
-        synchronized (obj5) {
             try {
-                obj5.wait(timeout4);
+                Thread.sleep(timeout4);
             } catch (InterruptedException e) {
                 Logger.log("Interrupted Exception");
                 e.printStackTrace();
             }
-        }
 
 
         i = 0;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class SReferences {
 
-    //CAUTION: Do not synchronize on Safe.slock2
+    //CAUTION: Do not synchronize on obj on MatchManager
 
     private static Integer activePlayer = 0;
 
