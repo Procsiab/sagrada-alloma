@@ -1,6 +1,7 @@
 package client.gui;
 
 import client.MainClient;
+import client.MiddlewareClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import server.threads.GameManager;
 import shared.Logger;
+import shared.Position;
 import shared.TransferObjects.GameManagerT;
 import shared.TransferObjects.PlayerT;
 
@@ -33,6 +35,7 @@ public class StartGameController implements Initializable {
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
     private GameHelper game = MainClient.game;
+    private MiddlewareClient middlewareClient = MiddlewareClient.getInstance();
 
     // FXML GUI Variables
     @FXML
@@ -40,16 +43,18 @@ public class StartGameController implements Initializable {
     @FXML
     private GridPane paneCarta0,paneCarta1,paneCarta2,paneCarta3;
     @FXML
-    private Button tiraDadi;
+    private Button placeDice;
     @FXML
     private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
     @FXML
     private Text numTokens;
 
     // Utility Variables
+    int posizionePoolDice;
+    Integer colIndex;
+    Integer rowIndex;
     private ArrayList<GridPane> listaGriglie = new ArrayList<>();
     private ArrayList<Button> listaDadi = new ArrayList<>();
-    private Button selectedButton;
 
 
 
@@ -75,6 +80,11 @@ public class StartGameController implements Initializable {
         backGroundTransition();
         loadArray();
         loadDadi();
+        // OTTIMIZZARE INSERENDO QUESTO DUPLICATO IN UNA FUNZIONE
+        for (int i = 0; i < listaDadi.size(); i++){
+            listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+
+        }
         System.out.print("INIZIALIZZAZIONE COMPLETATA");
 
     }
@@ -131,7 +141,13 @@ public class StartGameController implements Initializable {
             System.out.println("Colore :" + numDadi + "\n");
 
             listaDadi.get(i).setStyle("-fx-background-image: url('"+numero+""+color+".png');-fx-background-size: 100% 100%;");
+
             }
+        for (int i = numDadi; i < listaDadi.size(); i++){
+            listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+
+        }
+
         }
 
     @FXML
@@ -146,16 +162,41 @@ public class StartGameController implements Initializable {
         Node source = (Node)e.getSource() ;
         System.out.println(source);
 
-        Integer colIndex = GridPane.getColumnIndex(source);
-        Integer rowIndex = GridPane.getRowIndex(source);
-        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+        colIndex = paneCarta0.getColumnIndex(source);
+        rowIndex = paneCarta0.getRowIndex(source);
+        System.out.println(colIndex);
+        System.out.println(rowIndex);
+
+
+        //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
 
     }
 
 
     @FXML
-    private void setSelectedButton(ActionEvent event){
-        //selectedButton = event.getSource();
+    private void setSelectedDice(ActionEvent event){
+        Node selectedDice = (Node)event.getSource();
+        String nomeDado = selectedDice.getId();
+        System.out.println(nomeDado);
+
+        posizionePoolDice = listaDadi.indexOf(selectedDice);
+        System.out.println(posizionePoolDice);
+
+
+
+    }
+
+    @FXML
+    private void placeDice(ActionEvent event){
+        System.out.print("\"Entrata Dado \"");
+
+        Position diceGridPosition =  new Position();
+        diceGridPosition.setRow(rowIndex);
+        diceGridPosition.setRow(colIndex);
+
+        middlewareClient.placeDice( posizionePoolDice , diceGridPosition );
+        System.out.print("\"Dado Posizionato\"");
+
 
     }
 
@@ -207,9 +248,6 @@ public class StartGameController implements Initializable {
 
     // END SUPPORT METHODS
 
-    //  public void diceClicked(ActionEvent e){
-
-   // }
 
     //TODO Implement the following methods
 
