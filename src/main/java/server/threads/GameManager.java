@@ -255,8 +255,8 @@ public class GameManager extends GeneralTask {
         a.clear();
 
         j = rand.nextInt(22);
-        while (i < 4 * players.size()) {
-            while (a.contains(j) && j % 2 == 0) {
+        while (i < 2 * players.size()) {
+            while (a.contains(j) || j % 2 == 0) {
                 j = rand.nextInt(22);
             }
             a.add(j);
