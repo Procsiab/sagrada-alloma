@@ -59,7 +59,7 @@ public class MainClient extends Application {
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
         AnsiConsole.systemUninstall();
 
-        uuid = "77347173084071787170469797327625117978472379714181158181398218326213548623546";
+        uuid = "773471730840717871704697973276251179784723797141811581813982183262135486235462631511758873548";
 
         Logger.log(uuid);
 

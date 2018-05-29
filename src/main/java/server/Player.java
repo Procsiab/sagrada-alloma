@@ -77,6 +77,10 @@ public class Player {
         return true;
     }
 
+    public void setTokens() {
+        this.tokens = this.window.getTokens();
+    }
+
     public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         if (this.hasUsedTc)
             return false;

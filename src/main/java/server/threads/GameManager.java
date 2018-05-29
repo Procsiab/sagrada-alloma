@@ -123,7 +123,7 @@ public class GameManager extends GeneralTask {
                 this.vPlayersFixed) {
             WindowT windowT = new WindowT(player.window.getName(), player.window.getCells());
             PlayerT playerT = new PlayerT(player.privateOC, windowT, player.overlay,
-                    player.turno, player.tokens, player.score, player.privateTurn,
+                    player.tokens, player.turno, player.score, player.privateTurn,
                     player.lastPlaced);
             vPlayersT.add(playerT);
         }
@@ -256,7 +256,7 @@ public class GameManager extends GeneralTask {
 
         j = rand.nextInt(22);
         while (i < 2 * players.size()) {
-            while (a.contains(j) || j % 2 == 0) {
+            while (a.contains(j) || j % 2 == 1) {
                 j = rand.nextInt(22);
             }
             a.add(j);
@@ -326,7 +326,7 @@ public class GameManager extends GeneralTask {
         i = 0;
 
         for (Player player : vPlayers) {
-            player.tokens = player.window.getTokens();
+            player.setTokens();
         }
 
 
