@@ -10,8 +10,8 @@ import shared.Position;
 public class ToolC2 extends ToolC {
 
     public ToolC2() {
-        this.name = "toolC2";
-        this.description = "p1 is the original position, p2 is the allegedly future position";
+        this.setName("toolC2");
+        this.setDescription("p1 is the original position, p2 is the allegedly future position");
     }
 
     @Override
@@ -19,10 +19,10 @@ public class ToolC2 extends ToolC {
         if (player.hasUsedTc)
             return false;
         Integer tokens = player.tokens;
-        if (tokens < tokensRequired)
+        if (tokens < this.getTokensRequired())
             return false;
-        player.tokens = tokens - tokensRequired;
-        tokensRequired = 2;
+        player.tokens = tokens - this.getTokensRequired();
+        this.setTokensRequired(2);
         player.hasUsedTc = true;
         return true;
     }

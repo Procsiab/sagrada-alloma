@@ -8,12 +8,9 @@ import java.io.Serializable;
 
 public abstract class Window implements Serializable {
 
-    public Cell[][] cells;
-    public Integer tokens = 0;
-    private Dice[][] dicePositions;
-    public Integer color;
-    public Position lastPlacedPosition;
-    public String name;
+    private Cell[][] cells;
+    private Integer tokens = 0;
+    private String name;
 
 
     public Cell[][] getCells() {
@@ -36,7 +33,7 @@ public abstract class Window implements Serializable {
         this.name = name;
     }
 
-    public String getNome() {
+    public String getName() {
         return name;
     }
 
@@ -116,7 +113,6 @@ public abstract class Window implements Serializable {
         }
         return true;
     }
-
 
     public boolean checkAdjDices(Overlay overlay, Position position1) {
         int i, j;
@@ -299,7 +295,7 @@ public abstract class Window implements Serializable {
         if (player.overlay.busy(p2))
             return false;
 
-        if (checkDicePosition(player, dice, p2)) {
+        if (checkDicePositionNoShade(player, dice, p2)) {
             player.overlay.setDicePosition(dice, p2);
             player.overlay.setDicePosition(null, p1);
             return true;
@@ -335,7 +331,7 @@ public abstract class Window implements Serializable {
         if (player.overlay.busy(p2))
             return false;
 
-        if (checkDicePosition(player, dice, p2)) {
+        if (checkDicePositionNoColor(player, dice, p2)) {
             player.overlay.setDicePosition(dice, p2);
             player.overlay.setDicePosition(null, p1);
             return true;

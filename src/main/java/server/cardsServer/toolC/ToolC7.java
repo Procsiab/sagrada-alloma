@@ -11,16 +11,18 @@ import java.util.Random;
 
 public class ToolC7 extends ToolC {
     public ToolC7() {
-        this.name = "toolC7";
+        this.setName("toolC7");
     }
 
     @Override
     public boolean ableAndSettle(Player player) {
-        Integer tokens = player.tokens;
-        if (tokens < tokensRequired)
+        if(player.hasUsedTc)
             return false;
-        player.tokens = tokens - tokensRequired;
-        tokensRequired = 2;
+        Integer tokens = player.tokens;
+        if (tokens < this.getTokensRequired())
+            return false;
+        player.tokens = tokens - this.getTokensRequired();
+        this.setTokensRequired(2);
         player.hasUsedTc = true;
         return true;
     }

@@ -58,10 +58,8 @@ public class StartGameController implements Initializable {
 
 
 
-    //todo for each method check if you are denied accessing server
     public StartGameController() {
         MainClient.startGameController = this;
-        //TODO Start server connector class
     }
 
 
@@ -83,7 +81,6 @@ public class StartGameController implements Initializable {
         // OTTIMIZZARE INSERENDO QUESTO DUPLICATO IN UNA FUNZIONE
         for (int i = 0; i < listaDadi.size(); i++){
             listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
-
         }
         System.out.print("INIZIALIZZAZIONE COMPLETATA");
 

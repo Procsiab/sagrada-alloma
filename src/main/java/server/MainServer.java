@@ -3,16 +3,19 @@ package server;
 
 import server.threads.GameGenerator.GameGenerator2_3;
 import server.threads.GameGenerator.GameGenerator4;
+import server.threads.GameManager;
+import shared.Logger;
 import shared.logic.ConcurrencyManager;
 import shared.network.SharedMiddlewareServer;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainServer {
     //create an object of MainServer
     private static final MainServer instance = new MainServer();
-    public static SharedMiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    public SharedMiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     // List of players connected
 
     public static MainServer getInstance() {
@@ -24,11 +27,9 @@ public class MainServer {
     }
 
     public static void main(String[] args) throws IOException {
-        MiddlewareServer.getInstance();
         MatchManager.getInstance();// delete this if newGameManager access MatchManager
         ConcurrencyManager.submit(new GameGenerator2_3());
         ConcurrencyManager.submit(new GameGenerator4());
-
 
         System.out.println("\nSend 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);

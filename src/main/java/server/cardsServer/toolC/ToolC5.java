@@ -8,16 +8,18 @@ import server.abstractsServer.ToolC;
 public class ToolC5 extends ToolC {
 
     public ToolC5() {
-        this.name = "toolC5";
+        this.setName("toolC5");
     }
 
     @Override
     public boolean ableAndSettle(Player player) {
-        Integer tokens = player.tokens;
-        if (tokens < tokensRequired)
+        if(player.hasUsedTc)
             return false;
-        player.tokens = tokens - tokensRequired;
-        tokensRequired = 2;
+        Integer tokens = player.tokens;
+        if (tokens < this.getTokensRequired())
+            return false;
+        player.tokens = tokens - this.getTokensRequired();
+        this.setTokensRequired(2);
         player.hasUsedTc = true;
         return true;
     }

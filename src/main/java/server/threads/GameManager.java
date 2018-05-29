@@ -9,7 +9,6 @@ import shared.TransferObjects.*;
 import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.ToolC;
-import server.abstractsServer.Window;
 import shared.logic.GeneralTask;
 
 import java.util.ArrayList;
@@ -122,7 +121,7 @@ public class GameManager extends GeneralTask {
 
         for (Player player :
                 this.vPlayersFixed) {
-            WindowT windowT = new WindowT(player.window.name, player.window.cells);
+            WindowT windowT = new WindowT(player.window.getName(), player.window.getCells());
             PlayerT playerT = new PlayerT(player.privateOC, windowT, player.overlay,
                     player.turno, player.tokens, player.score, player.privateTurn,
                     player.lastPlaced);
@@ -139,7 +138,7 @@ public class GameManager extends GeneralTask {
         ArrayList<ToolCT> toolCsT = new ArrayList<>();
         for (ToolC card :
                 toolCards) {
-            toolCsT.add(new ToolCT(card.name, card.tokensRequired, card.description));
+            toolCsT.add(new ToolCT(card.getName(), card.getTokensRequired(), card.getDescription()));
         }
 
         System.out.println(publicRef.indexOf(uuid));
@@ -255,18 +254,18 @@ public class GameManager extends GeneralTask {
 
         a.clear();
 
-        j = rand.nextInt(23);
+        j = rand.nextInt(22);
         while (i < 4 * players.size()) {
-            while (a.contains(j)) {
-                j = rand.nextInt(23);
+            while (a.contains(j) && j % 2 == 0) {
+                j = rand.nextInt(22);
             }
             a.add(j);
+            a.add(j + 1);
             i++;
         }
         i = 0;
 
         Logger.log(a.toString());
-
         while (i < players.size()) {
             Integer k;
             Logger.log("Choose window for player " + players.get(i));
@@ -290,12 +289,12 @@ public class GameManager extends GeneralTask {
         }
 
         this.expected = "all";
-            try {
-                Thread.sleep(timeout2);
-            } catch (InterruptedException e) {
-                Logger.log("Interrupted Exception");
-                e.printStackTrace();
-            }
+        try {
+            Thread.sleep(timeout2);
+        } catch (InterruptedException e) {
+            Logger.log("Interrupted Exception");
+            e.printStackTrace();
+        }
         this.expected = "none";
 
         i = 0;
@@ -310,24 +309,24 @@ public class GameManager extends GeneralTask {
             if (vPlayer.window == null) {
                 vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
                 middlewareServer.startGameViewForced(vPlayer.uUID);
-                Logger.log("startgame forced " + vPlayer.window.name);
+                Logger.log("startgame forced " + vPlayer.window.getName());
             }
             i++;
         }
 
 
-            try {
-                Thread.sleep(timeout4);
-            } catch (InterruptedException e) {
-                Logger.log("Interrupted Exception");
-                e.printStackTrace();
-            }
+        try {
+            Thread.sleep(timeout4);
+        } catch (InterruptedException e) {
+            Logger.log("Interrupted Exception");
+            e.printStackTrace();
+        }
 
 
         i = 0;
 
         for (Player player : vPlayers) {
-            player.tokens = player.window.tokens;
+            player.tokens = player.window.getTokens();
         }
 
 
@@ -358,12 +357,10 @@ public class GameManager extends GeneralTask {
         }
         i = 0;
 
-        toolCards.add(matchManager.toolCs.get(a.get(0)));
-        toolCards.add(matchManager.toolCs.get(a.get(1)));
-        toolCards.add(matchManager.toolCs.get(a.get(2)));
+        toolCards.add(matchManager.toolCs.get(a.get(0)).deepClone());
+        toolCards.add(matchManager.toolCs.get(a.get(1)).deepClone());
+        toolCards.add(matchManager.toolCs.get(a.get(2)).deepClone());
 
-        //this is necessary since the tokens required may be affected
-        toolCards = (ArrayList<ToolC>) toolCards.clone();
 
         i = 0;
         a.clear();

@@ -10,10 +10,10 @@ import server.threads.GameManager;
 public class ToolC1 extends ToolC {
 
     public ToolC1() {
-        this.name = "toolC1";
-        this.description = "i2 is the position of the selected dice, " +
+        this.setName("toolC1");
+        this.setDescription("i2 is the position of the selected dice, " +
                 "i3 is the +1 o -1 you want to add to the drafted dice " +
-                "p1 is the position where you want your dice to be";
+                "p1 is the position where you want your dice to be");
     }
 
     @Override
@@ -23,10 +23,10 @@ public class ToolC1 extends ToolC {
         if (player.hasPlacedDice)
             return false;
         Integer tokens = player.tokens;
-        if (tokens < tokensRequired)
+        if (tokens < this.getTokensRequired())
             return false;
-        player.tokens = tokens - tokensRequired;
-        tokensRequired = 2;
+        player.tokens = tokens - this.getTokensRequired();
+        this.setTokensRequired(2);
         player.hasUsedTc = true;
         player.hasPlacedDice = true;
         return true;
