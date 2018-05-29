@@ -59,7 +59,7 @@ public class GameManager extends GeneralTask {
         this.publicRef.addAll(players);
         this.players.addAll(players);
         this.sleepTime = 10000;
-        this.timeout2 = 5000;
+        this.timeout2 = 8000;
         this.timeout3 = 5000;
         this.timeout4 = 8000;
         this.nMates = players.size();
