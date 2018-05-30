@@ -74,7 +74,6 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
             MainClient.waitingRoomController.chooseWindow(windows);
         }
         return true;
-        //TODO Call true method
     }
 
     public Boolean startGameViewForced(){
@@ -95,26 +94,51 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     @Override
     public void aPrioriWin() {
         //TODO Call true method
+        if (MainClient.isPrompt()) {
+            //Call method for CLI
+        } else {
+            //Call method for GUI
+        }
     }
 
     @Override
     public void enable() {
         //TODO Call true method
+        if (MainClient.isPrompt()) {
+            //Call method for CLI
+        } else {
+            //Call method for GUI
+        }
     }
 
     @Override
     public void shut() {
         //TODO Call true method
+        if (MainClient.isPrompt()) {
+            //Call method for CLI
+        } else {
+            //Call method for GUI
+        }
     }
 
     @Override
     public void printScore(Integer score) {
         //TODO Call true method
+        if (MainClient.isPrompt()) {
+            //Call method for CLI
+        } else {
+            //Call method for GUI
+        }
     }
 
     @Override
     public void setWinner() {
         //TODO Call true method
+        if (MainClient.isPrompt()) {
+            //Call method for CLI
+        } else {
+            //Call method for GUI
+        }
     }
 
     public Boolean chooseWindowBack(Integer window) {
@@ -156,5 +180,26 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         Object[] args = {uuid};
         String methodName = "exitGame2";
         connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+    }
+
+    @Override
+    public boolean endTurn() {
+        //TODO Call true method
+        if (MainClient.isPrompt()) {
+            //Call method for CLI
+        } else {
+            //Call method for GUI
+        }
+        return true;
+    }
+
+    @Override
+    public void updateViewFromC() {
+        //TODO Call true method
+        if (MainClient.isPrompt()) {
+            //Call method for CLI
+        } else {
+            //Call method for GUI
+        }
     }
 }

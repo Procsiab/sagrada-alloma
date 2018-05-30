@@ -3,7 +3,6 @@ package client.cli;
 import client.MiddlewareClient;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
-import shared.Logger;
 import shared.TransferObjects.GameManagerT;
 
 import java.util.ArrayList;
@@ -13,6 +12,9 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class MainCLI {
     private final Scanner readInput = new Scanner(System.in);
+    private Integer functionId;
+    private ArrayList<Integer> windows;
+    private GameManagerT gm;
 
     public MainCLI() {
         super();
@@ -27,13 +29,30 @@ public class MainCLI {
 
         String resp = MiddlewareClient.getInstance().startGame();
         AnsiConsole.out().println(ansi().fgBrightRed().a("Server response: ").fgDefault().a(resp));
-        if (resp.equals("Connections successful. Please wait for other players to connect")) {
-            waitingRoom();
-        }
+
+        boolean stop = false;
+        do {
+            String s = readInput.nextLine();
+            switch (functionId) {
+                case 1: // chooseWindow()
+                    int i = Integer.parseInt(s);
+                    if (windows.contains(i)) {
+                        MiddlewareClient.getInstance().chooseWindowBack(i);
+                    } else {
+                        wrongCommand();
+                    }
+                    break;
+                case 2: // updateView()
+                    break;
+                default:
+                    break;
+            }
+        } while (!stop);
     }
 
-    private void waitingRoom() {
-        //TODO Implement waiting
+    private void wrongCommand() {
+        AnsiConsole.out().println(ansi().fgBrightRed().a("[ERROR] ").fgBrightYellow()
+                .a("Wrong input, check for typos!").fgDefault());
     }
 
     public void chooseWindow(ArrayList<Integer> windows) {
@@ -43,7 +62,8 @@ public class MainCLI {
             AnsiConsole.out().print(w.toString() + "\t");
         }
         AnsiConsole.out().println();
-        MiddlewareClient.getInstance().chooseWindowBack(readInput.nextInt());
+        this.windows = windows;
+        functionId = 1;
     }
 
     public void startGameViewForced() {
@@ -51,6 +71,8 @@ public class MainCLI {
     }
 
     public void updateView(GameManagerT gm) {
-        AnsiConsole.out().println(ansi().fgBrightGreen().a("I was updated with " + gm.toString()));
+        AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:"));
+        this.gm = gm;
+        functionId = 2;
     }
 }

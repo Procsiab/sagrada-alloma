@@ -191,6 +191,12 @@ public class NetworkRmi implements Connection {
                     case "exitGame2":
                         o.exitGame2();
                         break;
+                    case "endTurn":
+                        o.endTurn();
+                        break;
+                    case "updateViewFromC":
+                        o.updateViewFromC();
+                        break;
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareClient!");
                         break;
@@ -234,6 +240,12 @@ public class NetworkRmi implements Connection {
                         return o.useToolC((String) argList[0], (Integer) argList[1], (Position) argList[2], (Position) argList[3], (Position) argList[4], (Position) argList[5], (PositionR) argList[6], (Integer) argList[7], (Integer) argList[8]);
                     case "exitGame2":
                         o.exitGame2((String) argList[0]);
+                        break;
+                    case "endTurn":
+                        o.endTurn((String) argList[0]);
+                        break;
+                    case "updateViewFromC":
+                        o.updateViewFromC((String) argList[0]);
                         break;
                     default:
                         Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareServer!");
