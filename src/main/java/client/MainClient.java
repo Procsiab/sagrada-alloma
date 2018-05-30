@@ -1,5 +1,6 @@
 package client;
 
+import client.cli.MainCLI;
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
 import client.gui.ChooseWindowController;
@@ -27,15 +28,16 @@ import static org.fusesource.jansi.Ansi.Color.*;
 public class MainClient extends Application {
     public static GameHelper game; //resetta scelte utente
     public static String uuid = null;
+    private static boolean isPrompt = false;
     private static Console cnsl;
     private static String connection;
     private static String interfaccia;
-    private static boolean isPrompt;
 
     public static LogInScreenController logInScreenController;
     public static ChooseWindowController chooseWindowController;
     public static StartGameController startGameController;
     public static WaitingRoomController waitingRoomController;
+    public static MainCLI cliController;
     public static ArrayList<Integer> choosenCards;
 
     /*
@@ -44,6 +46,10 @@ public class MainClient extends Application {
     position posizione 1
     ...
     */
+
+    public static boolean isPrompt() {
+        return isPrompt;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -56,22 +62,19 @@ public class MainClient extends Application {
     public static void main(String[] args) {
         System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
+        AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
-        AnsiConsole.systemUninstall();
 
-        uuid = "773471730840717871704697973276251179784723797141811581813982183262135486235462631511758873548";
-
-        Logger.log(uuid);
-
+        uuid = "1";
         //uuid = getUuid();
+        Logger.log("UUID: " + uuid);
 
-        Logger.log("~ Choose the connection type ('Rmi' | 'Socket') ~");
-        Scanner inConnection = new Scanner(System.in);
-        connection = inConnection.nextLine().toLowerCase();
-
+        AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the connection type ('Rmi' | 'Socket')").fgDefault());
+        Scanner scan = new Scanner(System.in);
+        connection = scan.nextLine().toLowerCase();
         while(!connection.equals("rmi") && !connection.equals("socket") ){
-            Logger.log("Please provide a valid choice");
-            connection = inConnection.nextLine();
+            AnsiConsole.out().println(ansi().fgBrightRed().a("Please provide a valid choice").fgDefault());
+            connection = scan.nextLine();
         }
         if (connection.equals("rmi")){
             MiddlewareClient.setConnection(new NetworkRmi("", 0));
@@ -80,15 +83,16 @@ public class MainClient extends Application {
             MiddlewareClient.setConnection(new NetworkSocket("", 0));
         }
 
-        Logger.log("~ Choose the input interface ('GUI' | 'CMD') ~");
-        Scanner inInterface = new Scanner(System.in);
-        interfaccia = inInterface.nextLine().toLowerCase();
+        AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the input interface ('GUI' | 'CMD')").fgDefault());
+        interfaccia = scan.nextLine().toLowerCase();
         while(!interfaccia.equals("cmd") && !interfaccia.equals("gui") ){
-            Logger.log("Please provide a valid choice");
-            interfaccia = inInterface.nextLine();
+            AnsiConsole.out().println(ansi().fgBrightRed().a("Please provide a valid choice").fgDefault());
+            interfaccia = scan.nextLine();
         }
         if (interfaccia.equals("cmd")){
-            isPrompt= true ;
+            isPrompt = true;
+            cliController = new MainCLI();
+            cliController.launch();
         }
         else if (interfaccia.equals("gui")){
             launch(args);

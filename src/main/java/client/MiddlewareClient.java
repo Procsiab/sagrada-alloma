@@ -58,19 +58,31 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
 
     @Override
     public void updateView(GameManagerT gameManager) {
-        MainClient.startGameController.updateView(gameManager);
+        if (MainClient.isPrompt()) {
+            MainClient.cliController.updateView(gameManager);
+        } else {
+            MainClient.startGameController.updateView(gameManager);
+        }
     }
 
     @Override
     public Boolean chooseWindow(ArrayList<Integer> windows) {
-        System.out.println("CHOOSE WINDOW TEST");
-        MainClient.waitingRoomController.chooseWindow(windows);
+        Logger.log("Choose window test");
+        if (MainClient.isPrompt()) {
+            MainClient.cliController.chooseWindow(windows);
+        } else {
+            MainClient.waitingRoomController.chooseWindow(windows);
+        }
         return true;
         //TODO Call true method
     }
 
     public Boolean startGameViewForced(){
-        MainClient.chooseWindowController.startGameViewForced();
+        if (MainClient.isPrompt()) {
+            MainClient.cliController.startGameViewForced();
+        } else {
+            MainClient.chooseWindowController.startGameViewForced();
+        }
         Logger.log("OK client start forced");
         return true;
     }

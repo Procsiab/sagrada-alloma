@@ -64,9 +64,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             String expected = game.expected;
             if (expected.equals("all"))
                 return false;
-            else if (expected.equals("none"))
+            else if (expected.equals("none")) {
+                Logger.log("Denied access for UUID " + uuid);
                 return true;
-            return !expected.equals(uuid);
+            } else
+                return !expected.equals(uuid);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
