@@ -11,7 +11,7 @@ import java.util.Set;
 public class PublicOC4 extends PublicOC {
     public Integer use(Player player) {
         //gain 5 points for each row with no repeated colors
-        Overlay overlay = player.overlay;
+        Overlay overlay = player.getOverlay();
 
         int i = 0;
         int j = 0;

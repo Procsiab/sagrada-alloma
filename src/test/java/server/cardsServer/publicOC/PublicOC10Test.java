@@ -34,7 +34,7 @@ class PublicOC10Test {
         dices[3][2] = new Dice('r', 5);
 
         Player player = new Player(0, new GameManager(new ArrayList<String>()), "prova");
-        player.overlay.setDices(dices);
+        player.getOverlay().setDices(dices);
 
         Integer score = oc.use(player);
 

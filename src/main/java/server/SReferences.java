@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class SReferences {
 
-    //CAUTION: Do not synchronize on obj on MatchManager
+    //CAUTION: Do not synchronize on obj2 on MatchManager
 
     private static Integer activePlayer = 0;
 

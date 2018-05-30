@@ -58,17 +58,17 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public Boolean deniedAccess(String uuid) {
+    public Boolean deniedAccess(String uUID) {
         try {
-            GameManager game = SReferences.getGameRefEnhanced(uuid);
-            String expected = game.expected;
+            GameManager game = SReferences.getGameRefEnhanced(uUID);
+            String expected = game.getExpected();
             if (expected.equals("all"))
                 return false;
             else if (expected.equals("none"))
                 return true;
-            return !expected.equals(uuid);
-        } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
+            return !expected.equals(uUID);
+        }  catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uUID);
         }
         return true;
     }

@@ -4,6 +4,6 @@ import shared.abstractsShared.PrivateOC;
 
 public class PrivateOC5 extends PrivateOC {
     public PrivateOC5(){
-        this.color = 'g';
+        this.setColor('g');
     }
 }

@@ -7,7 +7,7 @@ import server.abstractsServer.PublicOC;
 public class PublicOC10 extends PublicOC {
 
     public Integer use(Player player) {
-        Dice[][] dices = player.overlay.getDicePositions().clone();
+        Dice[][] dices = player.getOverlay().getDicePositions().clone();
         int i = 0;
         int j = 0;
         int sum = 0;

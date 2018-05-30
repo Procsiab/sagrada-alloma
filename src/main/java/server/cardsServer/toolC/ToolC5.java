@@ -9,33 +9,31 @@ public class ToolC5 extends ToolC {
 
     public ToolC5() {
         this.setName("toolC5");
+        this.setDescription("i2 is the index of dice in the pool, p1 is the position where you want your dice to be" +
+                " pr is the position in the roundtrack");
     }
 
     @Override
-    public boolean ableAndSettle(Player player) {
-        if(player.hasUsedTc)
+    public boolean ableAndSettle(Player player, Integer i1) {
+        if (player.usedTcAndPlacedDice())
             return false;
-        Integer tokens = player.tokens;
-        if (tokens < this.getTokensRequired())
+        Integer tokens = player.getTokens();
+        Integer tokensRequired = player.getGame().getTCtokens(i1);
+        if (tokens < tokensRequired)
             return false;
-        player.tokens = tokens - this.getTokensRequired();
-        this.setTokensRequired(2);
-        player.hasUsedTc = true;
+        player.setTokens(tokens - tokensRequired);
+        player.getGame().addTCtokens(i1);
         return true;
     }
 
 
-    public boolean use(GameManager game, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player))
+        if (!ableAndSettle(player, i1))
             return false;
-        //controllo di tutti i valori in ingresso, null pointer ecc... (even for the remaining TCards)
+        if (i2 == null || p1== null || pr == null)
+            return false;
 
-        /*Dice temp = player.overlay.getDice(player.lastPlaced);
-        RoundTrack roundTrack = game.roundTrack;
-        player.overlay.setDicePosition(roundTrack.dices.get(pr.column).get(pr.height),player.lastPlaced);
-        roundTrack.dices.get(pr.column).set(pr.height, temp);*/
-
-        return false;
+        return player.getWindow().moveDiceWindowRoundtrack(game,player,p1,pr);
     }
 }

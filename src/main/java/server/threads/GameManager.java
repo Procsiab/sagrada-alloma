@@ -1,6 +1,7 @@
 package server.threads;
 
 import server.*;
+import server.abstractsServer.Window;
 import shared.Dice;
 import shared.Logger;
 import server.Player;
@@ -9,52 +10,51 @@ import shared.TransferObjects.*;
 import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.ToolC;
-import shared.logic.GeneralTask;
+import shared.concurrency.GeneralTask;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class GameManager extends GeneralTask {
 
-    public ArrayList<String> publicRef = new ArrayList<>();
-    public MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    public ArrayList<String> players = new ArrayList<>();
-    public ArrayList<String> players2 = new ArrayList<>();
-    public ArrayList<String> playersFixed = new ArrayList<>();
+    private ArrayList<String> publicRef = new ArrayList<>();
+    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    private ArrayList<String> players = new ArrayList<>();
+    private ArrayList<String> players2 = new ArrayList<>();
+    private ArrayList<String> playersFixed = new ArrayList<>();
     private final Integer sleepTime;
     private final Integer timeout2;
-    public final Integer timeout3; //for windows
-    public final Integer timeout4; //pausetta
+    private final Integer timeout3; //for windows
+    private final Integer timeout4; //pausetta
     private final Integer nMates;
     private ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
-    public MatchManager matchManager = MatchManager.getInstance();
+    private MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
-    public boolean dicePlaced = false;
-    public boolean cardEnabled = false;
-    public ArrayList<PrivateOC> privateOCs = new ArrayList<>();
-    public ArrayList<PublicOC> publicOCs = new ArrayList<>();
-    public ArrayList<ToolC> toolCards = new ArrayList<>();
-    public ArrayList<Integer> tCtokens = new ArrayList<>();
-    public ArrayList<String> privateLeft = new ArrayList<>();
-    public ArrayList<String> jump = new ArrayList<>();
-    public ArrayList<Boolean> jumpB = new ArrayList<>();
-    public ArrayList<String> unresponsive = new ArrayList<>();
-    public ArrayList<String> active = new ArrayList<>();
-    public String expected;
-    public RoundTrack roundTrack = new RoundTrack();
-    public boolean check1 = false;
-    public ArrayList<Dice> dices = new ArrayList<>();
-    public ArrayList<Dice> pool = new ArrayList<>();
-    public final Object obj = new Object();
-    public final Object obj2 = new Object();
-    public final Object obj3 = new Object();
-    public final ArrayList<Object> obj4;
-    public final Object obj5 = new Object();
+    private ArrayList<PrivateOC> privateOCs = new ArrayList<>();
+    private ArrayList<PublicOC> publicOCs = new ArrayList<>();
+    private ArrayList<ToolC> toolCards = new ArrayList<>();
+    private ArrayList<Integer> tCtokens = new ArrayList<>();
+    private ArrayList<String> privateLeft = new ArrayList<>();
+    private ArrayList<String> jump = new ArrayList<>();
+    private ArrayList<Boolean> jumpB = new ArrayList<>();
+    private ArrayList<String> unresponsive = new ArrayList<>();
+    private ArrayList<String> active = new ArrayList<>();
+    private String expected;
+    private RoundTrack roundTrack = new RoundTrack();
+    private boolean check1 = false;
+    private ArrayList<Dice> dices = new ArrayList<>();
+    private ArrayList<Dice> pool = new ArrayList<>();
+    private final Object obj = new Object();
+    private final Object obj2 = new Object();
+    private final Object obj3 = new Object();
+    private final ArrayList<Object> obj4;
+    private final Object obj5 = new Object();
 
     public GameManager(ArrayList<String> players) {
 
         Random rand = new Random();
+        this.expected = "none";
         this.publicRef.addAll(players);
         this.players.addAll(players);
         this.sleepTime = 10000;
@@ -87,6 +87,12 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
+        i =1;
+        while (i<=3) {
+            tCtokens.add(1);
+            i++;
+        }
+
         i = 1;
 
         while (i <= 90) {
@@ -116,15 +122,236 @@ public class GameManager extends GeneralTask {
         return action;
     }
 
+    public void settCtokens(ArrayList<Integer> tCtokens) {
+        this.tCtokens = tCtokens;
+    }
+
+    public void setPublicOCs(ArrayList<PublicOC> publicOCs) {
+        this.publicOCs = publicOCs;
+    }
+
+    public void setPrivateOCs(ArrayList<PrivateOC> privateOCs) {
+        this.privateOCs = privateOCs;
+    }
+
+    public void setMatchManager(MatchManager matchManager) {
+        this.matchManager = matchManager;
+    }
+
+    public MatchManager getMatchManager() {
+        return matchManager;
+    }
+
+    public void setPlayers(ArrayList<String> players) {
+        this.players = players;
+    }
+
+    public ArrayList<Player> getvPlayers() {
+        return vPlayers;
+    }
+
+    public ArrayList<Player> getvPlayersFixed() {
+        return vPlayersFixed;
+    }
+
+    public ArrayList<PrivateOC> getPrivateOCs() {
+        return privateOCs;
+    }
+
+    public ArrayList<PublicOC> getPublicOCs() {
+        return publicOCs;
+    }
+
+    public ArrayList<String> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<String> getPlayers2() {
+        return players2;
+    }
+
+    public ArrayList<String> getPlayersFixed() {
+        return playersFixed;
+    }
+
+    public ArrayList<String> getPrivateLeft() {
+        return privateLeft;
+    }
+
+    public ArrayList<String> getPublicRef() {
+        return publicRef;
+    }
+
+    public ArrayList<ToolC> getToolCards() {
+        return toolCards;
+    }
+
+    public boolean isAction() {
+        return action;
+    }
+
+    public Integer getnMates() {
+        return nMates;
+    }
+
+    public Integer getSleepTime() {
+        return sleepTime;
+    }
+
+    public Integer getTimeout2() {
+        return timeout2;
+    }
+
+    public Integer getTimeout3() {
+        return timeout3;
+    }
+
+    public Integer getTimeout4() {
+        return timeout4;
+    }
+
+    public MiddlewareServer getMiddlewareServer() {
+        return middlewareServer;
+    }
+
+    public void setMiddlewareServer(MiddlewareServer middlewareServer) {
+        this.middlewareServer = middlewareServer;
+    }
+
+    public void setPlayers2(ArrayList<String> players2) {
+        this.players2 = players2;
+    }
+
+    public void setPlayersFixed(ArrayList<String> playersFixed) {
+        this.playersFixed = playersFixed;
+    }
+
+    public void setPublicRef(ArrayList<String> publicRef) {
+        this.publicRef = publicRef;
+    }
+
+    public void setvPlayers(ArrayList<Player> vPlayers) {
+        this.vPlayers = vPlayers;
+    }
+
+    public ArrayList<String> getJump() {
+        return jump;
+    }
+
+    public void setvPlayersFixed(ArrayList<Player> vPlayersFixed) {
+        this.vPlayersFixed = vPlayersFixed;
+    }
+
+    public void setJump(ArrayList<String> jump) {
+        this.jump = jump;
+    }
+
+    public Object getObj2() {
+        return obj2;
+    }
+
+    public Object getObj() {
+        return obj;
+    }
+
+    public void setPrivateLeft(ArrayList<String> privateLeft) {
+        this.privateLeft = privateLeft;
+    }
+
+    public ArrayList<Boolean> getJumpB() {
+        return jumpB;
+    }
+
+    public ArrayList<Dice> getDices() {
+        return dices;
+    }
+
+    public ArrayList<Dice> getPool() {
+        return pool;
+    }
+
+    public ArrayList<Object> getObj4() {
+        return obj4;
+    }
+
+    public ArrayList<String> getActive() {
+        return active;
+    }
+
+    public ArrayList<String> getUnresponsive() {
+        return unresponsive;
+    }
+
+    public boolean isCheck1() {
+        return check1;
+    }
+
+    public Object getObj3() {
+        return obj3;
+    }
+
+    public Object getObj5() {
+        return obj5;
+    }
+
+    public RoundTrack getRoundTrack() {
+        return roundTrack;
+    }
+
+    public String getExpected() {
+        return expected;
+    }
+
+    public void setActive(ArrayList<String> active) {
+        this.active = active;
+    }
+
+    public void setCheck1(boolean check1) {
+        this.check1 = check1;
+    }
+
+    public void setDices(ArrayList<Dice> dices) {
+        this.dices = dices;
+    }
+
+    public void setExpected(String expected) {
+        this.expected = expected;
+    }
+
+    public void setJumpB(ArrayList<Boolean> jumpB) {
+        this.jumpB = jumpB;
+    }
+
+    public void setPool(ArrayList<Dice> pool) {
+        this.pool = pool;
+    }
+
+    public void setRoundTrack(RoundTrack roundTrack) {
+        this.roundTrack = roundTrack;
+    }
+
+    public void setUnresponsive(ArrayList<String> unresponsive) {
+        this.unresponsive = unresponsive;
+    }
+
+    public Integer getTCtokens(Integer pos) {
+        return tCtokens.get(pos);
+    }
+
+    public void addTCtokens(Integer pos){
+        tCtokens.set(pos,2);
+    }
+
     public void updateView(String uuid) {
         ArrayList<PlayerT> vPlayersT = new ArrayList<>();
 
         for (Player player :
                 this.vPlayersFixed) {
-            WindowT windowT = new WindowT(player.window.getName(), player.window.getCells());
-            PlayerT playerT = new PlayerT(player.privateOC, windowT, player.overlay,
-                    player.tokens, player.turno, player.score, player.privateTurn,
-                    player.lastPlaced);
+            Window window = player.getWindow();
+            WindowT windowT = new WindowT(window.getName(), window.getCells());
+            PlayerT playerT = new PlayerT(player.getPrivateOC(), windowT, player.getOverlay(),
+                    player.getTokens(), player.getTurno(), player.getScore(), player.getPrivateTurn(),
+                    player.getLastPlaced());
             vPlayersT.add(playerT);
         }
         vPlayersT.trimToSize();
@@ -135,15 +362,24 @@ public class GameManager extends GeneralTask {
             publicOCsT.add(new PublicOCT(card.name));
         }
 
+        int i =0;
         ArrayList<ToolCT> toolCsT = new ArrayList<>();
         for (ToolC card :
                 toolCards) {
-            toolCsT.add(new ToolCT(card.getName(), card.getTokensRequired(), card.getDescription()));
+            toolCsT.add(new ToolCT(card.getName(), tCtokens.get(i), card.getDescription()));
+            i++;
         }
 
         System.out.println(publicRef.indexOf(uuid));
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCsT,
                 toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uuid)));
+    }
+
+    public void updateView() {
+        for (String player :
+                active) {
+            updateView(player);
+        }
     }
 
     public void shiftPlayers() {
@@ -175,7 +411,6 @@ public class GameManager extends GeneralTask {
         }
     }
 
-
     public void setToolCards(ArrayList<ToolC> toolCards) {
         this.toolCards = toolCards;
     }
@@ -185,8 +420,8 @@ public class GameManager extends GeneralTask {
     }
 
     public void exitGame2(String loser) {
-        synchronized (MatchManager.obj) {
-            MatchManager.left.add(loser);
+        synchronized (MatchManager.getObj()) {
+            MatchManager.getLeft().add(loser);
         }
         synchronized (obj) {
             this.privateLeft.add(loser);
@@ -306,10 +541,10 @@ public class GameManager extends GeneralTask {
                 players) {
             vPlayer = SReferences.getPlayerRefEnhanced(player);
             Logger.log(vPlayer.toString());
-            if (vPlayer.window == null) {
+            if (vPlayer.getWindow() == null) {
                 vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
-                middlewareServer.startGameViewForced(vPlayer.uUID);
-                Logger.log("startgame forced " + vPlayer.window.getName());
+                middlewareServer.startGameViewForced(vPlayer.getuUID());
+                Logger.log("startgame forced " + vPlayer.getWindow().getName());
             }
             i++;
         }
@@ -331,19 +566,6 @@ public class GameManager extends GeneralTask {
 
 
         s = 0;
-
-        /*
-        a.clear();
-        i = 0;
-        j = rand.nextInt(4);
-        while (i < players.size()) {
-            while (a.contains(j)) {
-                j = rand.nextInt(4);
-            }
-            a.add(j);
-            i++;
-        }
-*/
         i = 0;
         a.clear();
 
@@ -357,9 +579,9 @@ public class GameManager extends GeneralTask {
         }
         i = 0;
 
-        toolCards.add(matchManager.toolCs.get(a.get(0)).deepClone());
-        toolCards.add(matchManager.toolCs.get(a.get(1)).deepClone());
-        toolCards.add(matchManager.toolCs.get(a.get(2)).deepClone());
+        toolCards.add(matchManager.getToolCs().get(a.get(0)));
+        toolCards.add(matchManager.getToolCs().get(a.get(1)));
+        toolCards.add(matchManager.getToolCs().get(a.get(2)));
 
 
         i = 0;
@@ -375,18 +597,12 @@ public class GameManager extends GeneralTask {
         }
         i = 0;
 
-        publicOCs.add(matchManager.publicOCs.get(a.get(0)));
-        publicOCs.add(matchManager.publicOCs.get(a.get(1)));
-        publicOCs.add(matchManager.publicOCs.get(a.get(2)));
+        publicOCs.add(matchManager.getPublicOCs().get(a.get(0)));
+        publicOCs.add(matchManager.getPublicOCs().get(a.get(1)));
+        publicOCs.add(matchManager.getPublicOCs().get(a.get(2)));
 
         i = 0;
         a.clear();
-
-        /*
-        for (String player : players) {
-            middlewareServer.updateView(player, this);
-        }
-*/
 
         Logger.log("start turn manager");
 
@@ -400,8 +616,8 @@ public class GameManager extends GeneralTask {
             for (String p :
                     players) {
                 if (middlewareServer.ping(p)) {
-                    synchronized (MatchManager.obj) {
-                        MatchManager.left.remove(p);
+                    synchronized (MatchManager.getObj()) {
+                        MatchManager.getLeft().remove(p);
                     }
                     synchronized (obj) {
                         privateLeft.remove(p);
@@ -522,11 +738,11 @@ public class GameManager extends GeneralTask {
                         jumpB.set(jump.indexOf(remotePlayer), false);
                 }
                 if (active.contains(remotePlayer) && !jump.contains(remotePlayer)) {
-                    this.updateView(remotePlayer);
+                    this.updateView();
                     this.expected = remotePlayer;
                     middlewareServer.enable(remotePlayer);
 
-                    localPlayer.turno++;
+                    localPlayer.incrementTurn();
 
                     synchronized (obj3) {
                         while (!this.action) {
@@ -543,8 +759,7 @@ public class GameManager extends GeneralTask {
                         this.action = false;
                         this.expected = "none";
                         middlewareServer.shut(remotePlayer);
-                        localPlayer.hasUsedTc = false;
-                        localPlayer.hasPlacedDice = false;
+                        localPlayer.clearUsedTcAndPlacedDice();
                     }
                 }
                 if (upward) {
@@ -576,9 +791,9 @@ public class GameManager extends GeneralTask {
         }
         for (Player play : vPlayers
                 ) {
-            middlewareServer.printScore(play.uUID, play.getScore());
+            middlewareServer.printScore(play.getuUID(), play.getScore());
             if (play.getScore() == points)
-                middlewareServer.setWinner(play.uUID);
+                middlewareServer.setWinner(play.getuUID());
         }
         Logger.log("END OF GAME");
     }

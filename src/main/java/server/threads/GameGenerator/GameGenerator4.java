@@ -1,18 +1,17 @@
 package server.threads.GameGenerator;
 
 import server.MatchManager;
-import server.threads.GameGenerator.GameGenerator2_3;
 import server.threads.GameManager;
 import shared.Logger;
-import shared.logic.ConcurrencyManager;
-import shared.logic.GeneralTask;
+import shared.concurrency.ConcurrencyManager;
+import shared.concurrency.GeneralTask;
 
 import java.util.ArrayList;
 import java.util.Queue;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class GameGenerator4 extends GeneralTask {
-    public final Object obj = MatchManager.obj2;
+    public final Object obj2 = MatchManager.getObj2();
     public static synchronized void setStart(Boolean value) {
         GameGenerator2_3.setStart(value);
     }
@@ -22,13 +21,13 @@ public class GameGenerator4 extends GeneralTask {
         super.run();
 
         ArrayList<String> clients;
-        Queue<String> queue = MatchManager.q;
+        Queue<String> queue = MatchManager.getQ();
         boolean t = true;
         while (t) {
             try {
-                synchronized (obj) {
+                synchronized (obj2) {
                     if (queue.size() != 4)
-                        obj.wait();
+                        obj2.wait();
                     else {
                         clients = new ArrayList<>(queue.size());
                         clients.addAll(queue);

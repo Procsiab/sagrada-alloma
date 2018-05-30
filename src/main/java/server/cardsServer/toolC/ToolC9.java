@@ -14,34 +14,34 @@ public class ToolC9 extends ToolC {
     }
 
     @Override
-    public boolean ableAndSettle(Player player) {
-        if(player.hasUsedTc)
+    public boolean ableAndSettle(Player player, Integer i1) {
+        if (player.usedTc())
             return false;
-        Integer tokens = player.tokens;
-        if (tokens < this.getTokensRequired())
+        Integer tokens = player.getTokens();
+        Integer tokensRequired = player.getGame().getTCtokens(i1);
+        if (tokens < tokensRequired)
             return false;
-        player.tokens = tokens - this.getTokensRequired();
-        this.setTokensRequired(2);
-        player.hasUsedTc = true;
+        player.setTokens(tokens - tokensRequired);
+        player.getGame().addTCtokens(i1);
         return true;
     }
 
     @Override
-    public boolean use(GameManager game, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player))
+        if (!ableAndSettle(player,i1 ))
             return false;
-        Dice dice = game.pool.get(i2);
+        Dice dice = game.getPool().get(i2);
 
-        if (!player.window.checkEdgePosTurn(player, p1))
+        if (!player.getWindow().checkEdgePosTurn(player, p1))
             return false;
-        if (!player.window.checkPlaceRequirements(dice, p1))
+        if (!player.getWindow().checkPlaceRequirements(dice, p1))
             return false;
 
         //check if in the surroundings there is not an other dice
 
-        player.overlay.getDicePositions()[p1.getRow()][p1.getColumn()] = dice;
-        game.pool.set(i2, null);
+        player.getOverlay().getDicePositions()[p1.getRow()][p1.getColumn()] = dice;
+        game.getPool().set(i2, null);
         return true;
     }
 }

@@ -17,31 +17,28 @@ public class ToolC1 extends ToolC {
     }
 
     @Override
-    public boolean ableAndSettle(Player player) {
-        if (player.hasUsedTc)
+    public boolean ableAndSettle(Player player, Integer i1) {
+        if (player.usedTcAndPlacedDice())
             return false;
-        if (player.hasPlacedDice)
+        Integer tokens = player.getTokens();
+        Integer tokensRequired = player.getGame().getTCtokens(i1);
+        if (tokens < tokensRequired)
             return false;
-        Integer tokens = player.tokens;
-        if (tokens < this.getTokensRequired())
-            return false;
-        player.tokens = tokens - this.getTokensRequired();
-        this.setTokensRequired(2);
-        player.hasUsedTc = true;
-        player.hasPlacedDice = true;
+        player.setTokens(tokens - tokensRequired);
+        player.getGame().addTCtokens(i1);
         return true;
     }
 
     @Override
-    public boolean use(GameManager game, Player player, Position p1, Position p2,
+    public boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2,
                        Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player))
+        if (!ableAndSettle(player, i1))
             return false;
         if (i2 == null || i3 == null || p1 == null)
             return false;
 
-        Dice dice = game.pool.get(i2);
+        Dice dice = game.getPool().get(i2);
 
         if (dice == null)
             return false;
@@ -56,7 +53,7 @@ public class ToolC1 extends ToolC {
             dice.value++;
         } else return false;
 
-        if (player.window.setDicePositionFromPool(player, i2, p2))
+        if (player.getWindow().setDiceFromPool(player, i2, p2))
             return true;
 
         if (i3.equals(-1)) {

@@ -3,13 +3,10 @@ package server;
 
 import server.threads.GameGenerator.GameGenerator2_3;
 import server.threads.GameGenerator.GameGenerator4;
-import server.threads.GameManager;
-import shared.Logger;
-import shared.logic.ConcurrencyManager;
+import shared.concurrency.ConcurrencyManager;
 import shared.network.SharedMiddlewareServer;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainServer {
