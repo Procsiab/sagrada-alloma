@@ -3,18 +3,16 @@ package server.threads.GameGenerator;
 import server.MatchManager;
 import server.threads.GameManager;
 import shared.Logger;
-import shared.logic.ConcurrencyManager;
-import shared.logic.GeneralTask;
-import shared.logic.Locker;
+import shared.concurrency.ConcurrencyManager;
+import shared.concurrency.GeneralTask;
 
 import java.util.ArrayList;
 import java.util.Queue;
-import java.util.concurrent.locks.Lock;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class GameGenerator2_3 extends GeneralTask {
     private Integer sleepTime = 15000;
-    public final Object obj = MatchManager.obj2;
+    public final Object obj2 = MatchManager.getObj2();
     public static boolean start = false;
 
     public synchronized static void setStart(Boolean value) {
@@ -26,13 +24,13 @@ public class GameGenerator2_3 extends GeneralTask {
         super.run();
 
         ArrayList<String> clients;
-        Queue<String> queue = MatchManager.q;
+        Queue<String> queue = MatchManager.getQ();
         boolean t = true;
         while (t) {
             try {
-                synchronized (obj) {
+                synchronized (obj2) {
                     if (queue.size() == 4 || queue.size() < 2 || !start)
-                        obj.wait();
+                        obj2.wait();
                     else {
                         clients = new ArrayList<>(queue.size());
                         clients.addAll(queue);

@@ -7,13 +7,31 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RoundTrack implements Serializable {
-    public Integer turn = 0;
-    public ArrayList<ArrayList<Dice>> dices = new ArrayList<>(10);
+    private Integer turn = 0;
+    private ArrayList<ArrayList<Dice>> dices = new ArrayList<>(10);
 
-    public RoundTrack(){
-        for(int i = 1; i<10; i++){
+    public RoundTrack() {
+        for (int i = 1; i < 10; i++) {
             dices.add(new ArrayList<>());
         }
     }
 
+    public ArrayList<ArrayList<Dice>> getDices() {
+        return dices;
+    }
+
+    public boolean busy(PositionR positionR) {
+        Dice dice = this.dices.get(positionR.column).get(positionR.column);
+        if (dice == null)
+            return false;
+        return true;
+    }
+
+    public void setDice(Dice dice, PositionR positionR) {
+        this.dices.get(positionR.column).set(positionR.column, dice);
+    }
+
+    public Dice getDice(PositionR positionR){
+        return this.dices.get(positionR.column).get(positionR.column);
+    }
 }

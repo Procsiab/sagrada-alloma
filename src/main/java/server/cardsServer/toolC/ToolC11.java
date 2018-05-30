@@ -7,6 +7,7 @@ import shared.PositionR;
 import server.abstractsServer.ToolC;
 import server.threads.GameManager;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ToolC11 extends ToolC {
@@ -16,32 +17,35 @@ public class ToolC11 extends ToolC {
     }
 
     @Override
-    public boolean ableAndSettle(Player player) {
-        if(player.hasUsedTc)
+    public boolean ableAndSettle(Player player, Integer i1) {
+        if (player.usedTc())
             return false;
-        Integer tokens = player.tokens;
-        if (tokens < this.getTokensRequired())
+        Integer tokens = player.getTokens();
+        Integer tokensRequired = player.getGame().getTCtokens(i1);
+        if (tokens < tokensRequired)
             return false;
-        player.tokens = tokens - this.getTokensRequired();
-        this.setTokensRequired(2);
-        player.hasUsedTc = true;
+        player.setTokens(tokens - tokensRequired);
+        player.getGame().addTCtokens(i1);
         return true;
     }
 
 
-    public boolean use(GameManager game, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player))
-            return false;  Dice dice = null;
+        if (!ableAndSettle(player,i1 ))
+            return false;
+
+        Dice dice = null;
+        ArrayList<Dice> dices =game.getDices();
         Random rand = new Random();
         int k = 0;
         while (dice == null) {
-            k = rand.nextInt(game.dices.size() - 1);
-            dice = game.dices.get(k);
+            k = rand.nextInt(dices.size() - 1);
+            dice = dices.get(k);
         }
-        game.dices.set(k, game.pool.get(i2));
-        game.pool.set(i2, dice);
+        dices.set(k, game.getPool().get(i2));
+        game.getPool().set(i2, dice);
 
-        return player.window.setDicePositionFromPool(player,i2, p1);
+        return player.getWindow().setDiceFromPool(player,i2, p1);
     }
 }

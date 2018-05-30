@@ -13,27 +13,23 @@ import server.cardsServer.toolC.*;
 import shared.cardsShared.privateOC.PrivateOC1;
 import server.cardsServer.windows.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class MatchManager {
-    public static final Integer MAX_ACTIVE_PLAYER_REFS = 250;
-    public static LinkedList<String> q = new LinkedList<>();
-    public ArrayList<String> clients = new ArrayList<>();
-    public static ArrayList<String> left = new ArrayList<>();
-    public List<PrivateOC> privateOCs = new ArrayList<>();
-    public List<PublicOC> publicOCs = new ArrayList<>();
-    public List<ToolC> toolCs = new ArrayList<>();
-    public List<Window> windows = new ArrayList<>();
-    public static final Object obj = new Object();
-    public static final Object obj2 = new Object();
+    private static final Integer MAX_ACTIVE_PLAYER_REFS = 250; //config
+    private static LinkedList<String> q = new LinkedList<>();
+    private ArrayList<String> clients = new ArrayList<>();
+    private static ArrayList<String> left = new ArrayList<>();
+    private ArrayList<PrivateOC> privateOCs = new ArrayList<>();
+    private ArrayList<PublicOC> publicOCs = new ArrayList<>();
+    private ArrayList<ToolC> toolCs = new ArrayList<>();
+    private ArrayList<Window> windows = new ArrayList<>();
+    private static final Object obj = new Object();
+    private static final Object obj2 = new Object();
     private static MatchManager instance = new MatchManager();
-
-    public static MatchManager getInstance() {
-        return instance;
-    }
-
 
     private MatchManager() {
         super();
@@ -96,6 +92,9 @@ public class MatchManager {
         windows.add(new Window24());
     }
 
+    public static MatchManager getInstance() {
+        return instance;
+    }
 
     public String startGame(String uUID, String ip, Integer port, boolean isSocket) {
 
@@ -134,5 +133,77 @@ public class MatchManager {
 
             return false;
         }
+    }
+
+    public ArrayList<String> getClients() {
+        return clients;
+    }
+
+    public static ArrayList<String> getLeft() {
+        return left;
+    }
+
+    public static Integer getMaxActivePlayerRefs() {
+        return MAX_ACTIVE_PLAYER_REFS;
+    }
+
+    public static LinkedList<String> getQ() {
+        return q;
+    }
+
+    public ArrayList<PrivateOC> getPrivateOCs() {
+        return privateOCs;
+    }
+
+    public ArrayList<PublicOC> getPublicOCs() {
+        return publicOCs;
+    }
+
+    public ArrayList<ToolC> getToolCs() {
+        return toolCs;
+    }
+
+    public ArrayList<Window> getWindows() {
+        return windows;
+    }
+
+    public static Object getObj() {
+        return obj;
+    }
+
+    public static Object getObj2() {
+        return obj2;
+    }
+
+    public void setClients(ArrayList<String> clients) {
+        this.clients = clients;
+    }
+
+    public static void setInstance(MatchManager instance) {
+        MatchManager.instance = instance;
+    }
+
+    public static void setLeft(ArrayList<String> left) {
+        MatchManager.left = left;
+    }
+
+    public void setPrivateOCs(ArrayList<PrivateOC> privateOCs) {
+        this.privateOCs = privateOCs;
+    }
+
+    public void setPublicOCs(ArrayList<PublicOC> publicOCs) {
+        this.publicOCs = publicOCs;
+    }
+
+    public static void setQ(LinkedList<String> q) {
+        MatchManager.q = q;
+    }
+
+    public void setToolCs(ArrayList<ToolC> toolCs) {
+        this.toolCs = toolCs;
+    }
+
+    public void setWindows(ArrayList<Window> windows) {
+        this.windows = windows;
     }
 }

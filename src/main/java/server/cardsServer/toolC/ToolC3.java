@@ -1,7 +1,6 @@
 package server.cardsServer.toolC;
 
 import server.threads.GameManager;
-import shared.Dice;
 import server.Player;
 import shared.PositionR;
 import server.abstractsServer.ToolC;
@@ -14,25 +13,25 @@ public class ToolC3 extends ToolC {
     }
 
     @Override
-    public boolean ableAndSettle(Player player) {
-        if (player.hasUsedTc)
+    public boolean ableAndSettle(Player player, Integer i1) {
+        if (player.usedTc())
             return false;
-        Integer tokens = player.tokens;
-        if (tokens < this.getTokensRequired())
+        Integer tokens = player.getTokens();
+        Integer tokensRequired = player.getGame().getTCtokens(i1);
+        if (tokens < tokensRequired)
             return false;
-        player.tokens = tokens - this.getTokensRequired();
-        this.setTokensRequired(2);
-        player.hasUsedTc = true;
+        player.setTokens(tokens - tokensRequired);
+        player.getGame().addTCtokens(i1);
         return true;
     }
 
 
-    public boolean use(GameManager game, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player))
+        if (!ableAndSettle(player, i1))
             return false;
         if (p1 == null || p2 == null)
             return false;
-        return player.window.moveDicePositionNoShade(player, p1, p2);
+        return player.getWindow().moveDiceNoShade(player, p1, p2);
     }
 }

@@ -1,4 +1,4 @@
-package shared.logic;
+package shared.concurrency;
 
 
 

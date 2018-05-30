@@ -1,7 +1,6 @@
 package client.threads;
 
-import client.gui.StartGameController;
-import shared.logic.GeneralTask;
+import shared.concurrency.GeneralTask;
 
 public class GameHelper extends GeneralTask {
 
