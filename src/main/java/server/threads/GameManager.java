@@ -37,7 +37,6 @@ public class GameManager extends GeneralTask {
     private ArrayList<Integer> tCtokens = new ArrayList<>();
     private ArrayList<String> privateLeft = new ArrayList<>();
     private ArrayList<String> jump = new ArrayList<>();
-    private ArrayList<Boolean> jumpB = new ArrayList<>();
     private ArrayList<String> unresponsive = new ArrayList<>();
     private ArrayList<String> active = new ArrayList<>();
     private String expected;
@@ -258,10 +257,6 @@ public class GameManager extends GeneralTask {
         this.privateLeft = privateLeft;
     }
 
-    public ArrayList<Boolean> getJumpB() {
-        return jumpB;
-    }
-
     public ArrayList<Dice> getDices() {
         return dices;
     }
@@ -316,10 +311,6 @@ public class GameManager extends GeneralTask {
 
     public void setExpected(String expected) {
         this.expected = expected;
-    }
-
-    public void setJumpB(ArrayList<Boolean> jumpB) {
-        this.jumpB = jumpB;
     }
 
     public void setPool(ArrayList<Dice> pool) {
@@ -729,15 +720,10 @@ public class GameManager extends GeneralTask {
 
                 //check if active, doesn't have a turn to jump, then go ahead
 
-                if (jump.contains(remotePlayer)) {
-                    if (!jumpB.get(jump.indexOf(remotePlayer))) {
-                        jumpB.remove(jump.indexOf(remotePlayer));
-                        jump.remove(remotePlayer);
-                    }
-                    if (jumpB.get(jump.indexOf(remotePlayer)))
-                        jumpB.set(jump.indexOf(remotePlayer), false);
+                if (jump.contains(remotePlayer)&&!privateLeft.contains(remotePlayer)) {
+                    jump.remove(remotePlayer);
                 }
-                if (active.contains(remotePlayer) && !jump.contains(remotePlayer)) {
+                else if (active.contains(remotePlayer)) {
                     this.updateView();
                     this.expected = remotePlayer;
                     middlewareServer.enable(remotePlayer);
