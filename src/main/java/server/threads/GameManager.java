@@ -22,10 +22,10 @@ public class GameManager extends GeneralTask {
     private ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> players2 = new ArrayList<>();
     private ArrayList<String> playersFixed = new ArrayList<>();
-    private final Integer sleepTime;
-    private final Integer timeout2;
-    private final Integer timeout3; //for windows
-    private final Integer timeout4; //pausetta
+    private final Integer sleepTime; //config
+    private final Integer timeout2; //config
+    private final Integer timeout3; //for windows config
+    private final Integer timeout4; //pausetta config
     private final Integer nMates;
     private ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();

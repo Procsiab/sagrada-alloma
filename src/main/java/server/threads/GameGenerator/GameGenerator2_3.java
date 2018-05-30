@@ -11,9 +11,9 @@ import java.util.Queue;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class GameGenerator2_3 extends GeneralTask {
-    private Integer sleepTime = 15000;
-    public final Object obj2 = MatchManager.getObj2();
-    public static boolean start = false;
+    private Integer sleepTime = 15000; //config
+    private final Object obj2 = MatchManager.getObj2();
+    private static boolean start = false;
 
     public synchronized static void setStart(Boolean value) {
         start = value;

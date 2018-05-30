@@ -61,7 +61,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     public Boolean deniedAccess(String uuid) {
         try {
             GameManager game = SReferences.getGameRefEnhanced(uuid);
-            String expected = game.expected;
+            String expected = game.getExpected();
             if (expected.equals("all"))
                 return false;
             else if (expected.equals("none")) {

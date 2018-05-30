@@ -11,8 +11,8 @@ import java.util.Queue;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class GameGenerator4 extends GeneralTask {
-    public final Object obj2 = MatchManager.getObj2();
-    public static synchronized void setStart(Boolean value) {
+    private final Object obj2 = MatchManager.getObj2();
+    private static synchronized void setStart(Boolean value) {
         GameGenerator2_3.setStart(value);
     }
 
