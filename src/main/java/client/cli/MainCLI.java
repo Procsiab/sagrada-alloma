@@ -3,6 +3,7 @@ package client.cli;
 import client.MiddlewareClient;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
+import shared.Cell;
 import shared.TransferObjects.GameManagerT;
 
 import java.util.ArrayList;
@@ -43,6 +44,24 @@ public class MainCLI {
                     }
                     break;
                 case 2: // updateView()
+                    switch (s) {
+                        case "dice":
+                            AnsiConsole.out().print(ansi().fgBrightRed()
+                                    .a("Input the number of the dice you want to pick: ").fgDefault());
+                            break;
+                        case "card":
+                            AnsiConsole.out().print(ansi().fgBrightRed()
+                                    .a("Input the number of the tool card you want to use: ").fgDefault());
+                            break;
+                        case "end":
+                            AnsiConsole.out().println(ansi().fgBrightRed()
+                                    .a("You ended your turn: wait for your opponents").fgDefault());
+                            MiddlewareClient.getInstance().endTurn();
+                            break;
+                        default:
+                            wrongCommand();
+                            break;
+                    }
                     break;
                 default:
                     break;
@@ -55,7 +74,7 @@ public class MainCLI {
                 .a("Wrong input, check for typos!").fgDefault());
     }
 
-    public void chooseWindow(ArrayList<Integer> windows) {
+    public void chooseWindow(ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
         AnsiConsole.out().println(ansi().fgBrightRed().a("Please select a window to play with, among the following:")
                 .fgDefault());
         for (Integer w : windows) {

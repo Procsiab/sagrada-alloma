@@ -1,6 +1,7 @@
 package server;
 
 import server.threads.GameManager;
+import shared.Cell;
 import shared.Logger;
 import shared.Position;
 import shared.PositionR;
@@ -86,8 +87,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public Boolean chooseWindow(String uuid, ArrayList<Integer> windows) {
-        Boolean ret = (Boolean) forwardMethod(uuid, "chooseWindow", new Object[]{windows});
+    public Boolean chooseWindow(String uuid, ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
+        Boolean ret = (Boolean) forwardMethod(uuid, "chooseWindow", new Object[]{windows, matrices});
         if (ret != null) {
             return ret;
         } else {
@@ -187,16 +188,14 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public boolean endTurn(String uuid) {
+    public void endTurn(String uuid) {
         try {
             if (deniedAccess(uuid))
-                return false;
+                return;
             SReferences.getGameRefEnhanced(uuid).endTurn(uuid);
-            return true;
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
-            return false;
         }
     }
 

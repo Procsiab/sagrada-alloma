@@ -1,9 +1,6 @@
 package shared.network.socket;
 
-import shared.Dice;
-import shared.Logger;
-import shared.Position;
-import shared.PositionR;
+import shared.*;
 import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareClient;
 import shared.network.SharedMiddlewareServer;
@@ -100,7 +97,7 @@ class SocketHandler implements Runnable, Closeable {
                         o.updateView((GameManagerT) argList[0]);
                         break;
                     case "chooseWindow":
-                        return o.chooseWindow((ArrayList<Integer>) argList[0]);
+                        return o.chooseWindow((ArrayList<Integer>) argList[0], (ArrayList<Cell[][]>) argList[1]);
                     case "ping":
                         return o.ping();
                     case "aPrioriWin":
@@ -150,7 +147,7 @@ class SocketHandler implements Runnable, Closeable {
                         o.updateView((String) argList[0], (GameManagerT) argList[1]);
                         break;
                     case "chooseWindow":
-                        return o.chooseWindow((String) argList[0], (ArrayList<Integer>) argList[1]);
+                        return o.chooseWindow((String) argList[0], (ArrayList<Integer>) argList[1], (ArrayList<Cell[][]>) argList[2]);
                     case "ping":
                         return o.ping((String) argList[0]);
                     case "aPrioriWin":

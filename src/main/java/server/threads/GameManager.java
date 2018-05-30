@@ -493,7 +493,10 @@ public class GameManager extends GeneralTask {
                     b) {
                 matrices.add(matchManager.getWindows().get(y).getCells());
                 y++;
+                //Check this corrections
                 b.add(y);
+                k++;
+                b.set(k, y);
             }
             Logger.log(b.toString());
             middlewareServer.chooseWindow(players.get(i), b, matrices);

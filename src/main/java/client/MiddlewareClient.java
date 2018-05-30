@@ -2,6 +2,7 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
+import shared.Cell;
 import shared.Logger;
 import shared.Position;
 import shared.PositionR;
@@ -66,10 +67,10 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public Boolean chooseWindow(ArrayList<Integer> windows) {
+    public Boolean chooseWindow(ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
         Logger.log("Choose window test");
         if (MainClient.isPrompt()) {
-            MainClient.cliController.chooseWindow(windows);
+            MainClient.cliController.chooseWindow(windows, matrices);
         } else {
             MainClient.waitingRoomController.chooseWindow(windows);
         }
@@ -184,23 +185,16 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public boolean endTurn() {
-        //TODO Call true method
-        if (MainClient.isPrompt()) {
-            //Call method for CLI
-        } else {
-            //Call method for GUI
-        }
-        return true;
+    public void endTurn() {
+        Object[] args = {uuid};
+        String methodName = "endTurn";
+        connection.invokeMethod(SERVER_INTERFACE, methodName, args);
     }
 
     @Override
     public void updateViewFromC() {
-        //TODO Call true method
-        if (MainClient.isPrompt()) {
-            //Call method for CLI
-        } else {
-            //Call method for GUI
-        }
+        Object[] args = {uuid};
+        String methodName = "updateViewFromC";
+        connection.invokeMethod(SERVER_INTERFACE, methodName, args);
     }
 }
