@@ -336,7 +336,7 @@ public class GameManager extends GeneralTask {
         for (Player player :
                 this.vPlayersFixed) {
             Window window = player.getWindow();
-            WindowT windowT = new WindowT(window.getName(), window.getCells());
+            WindowT windowT = new WindowT(window.getName(), window.getMatrices());
             PlayerT playerT = new PlayerT(player.getPrivateOC(), windowT, player.getOverlay(),
                     player.getTokens(), player.getTurno(), player.getScore(), player.getPrivateTurn(),
                     player.getLastPlaced());
@@ -358,7 +358,6 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        System.out.println(publicRef.indexOf(uuid));
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCsT,
                 toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uuid)));
     }
@@ -383,7 +382,7 @@ public class GameManager extends GeneralTask {
         Random rand = new Random();
 
         while (i < num) {
-            pool.add(dices.remove(rand.nextInt(dices.size() - 1)));
+            pool.add(dices.set(rand.nextInt(dices.size() - 1), null));
             i++;
         }
 
@@ -491,12 +490,10 @@ public class GameManager extends GeneralTask {
             k = 0;
             for (Integer y :
                     b) {
-                matrices.add(matchManager.getWindows().get(y).getCells());
+                matrices.add(matchManager.getWindows().get(y).getMatrices());
                 y++;
-                //Check this corrections
-                b.add(y);
+                b.set(k,y);
                 k++;
-                b.set(k, y);
             }
             Logger.log(b.toString());
             middlewareServer.chooseWindow(players.get(i), b, matrices);

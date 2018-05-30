@@ -23,7 +23,7 @@ public class PublicOC10 extends PublicOC {
     }
 
 
-    public Integer computate(Dice[][] dices, Character color, Integer r, Integer c, Integer dA) {
+    private Integer computate(Dice[][] dices, Character color, Integer r, Integer c, Integer dA) {
 
         if (r > 3 || r < 0 || c > 4 || c < 0)
             return 0;

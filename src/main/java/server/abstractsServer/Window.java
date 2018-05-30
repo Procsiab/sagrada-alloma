@@ -9,21 +9,21 @@ import java.io.Serializable;
 
 public abstract class Window implements Serializable {
 
-    private Cell[][] cells;
+    private Cell[][] matrices;
     private Integer tokens = 0;
     private String name;
 
 
-    public Cell[][] getCells() {
-        return cells;
+    public Cell[][] getMatrices() {
+        return matrices;
     }
 
     public Integer getTokens() {
         return tokens;
     }
 
-    public void setCells(Cell[][] cells) {
-        this.cells = cells;
+    public void setMatrices(Cell[][] matrices) {
+        this.matrices = matrices;
     }
 
     public void setTokens(Integer tokens) {
@@ -175,19 +175,55 @@ public abstract class Window implements Serializable {
         return true;
     }
 
+    public boolean notAdjacentToAny(Overlay overlay, Position position1) {
+        Position position = new Position(position1.getRow() - 1, position1.getColumn() - 1);
+        if (position.getRow() >= 0 && position.getColumn() >= 0)
+            if (overlay.busy(position))
+                return false;
+        position = new Position(position1.getRow() - 1, position1.getColumn());
+        if (position.getRow() >= 0 && position.getColumn() >= 0)
+            if (overlay.busy(position))
+                return false;
+        position = new Position(position1.getRow() - 1, position1.getColumn() + 1);
+        if (position.getRow() >= 0 && position.getColumn() >= 0)
+            if (overlay.busy(position))
+                return false;
+        position = new Position(position1.getRow(), position1.getColumn() + 1);
+        if (position.getRow() >= 0 && position.getColumn() >= 0)
+            if (overlay.busy(position))
+                return false;
+        position = new Position(position1.getRow() + 1, position1.getColumn() + 1);
+        if (position.getRow() >= 0 && position.getColumn() >= 0)
+            if (overlay.busy(position))
+                return false;
+        position = new Position(position1.getRow() + 1, position1.getColumn());
+        if (position.getRow() >= 0 && position.getColumn() >= 0)
+            if (overlay.busy(position))
+                return false;
+        position = new Position(position1.getRow() + 1, position1.getColumn() - 1);
+        if (position.getRow() >= 0 && position.getColumn() >= 0)
+            if (overlay.busy(position))
+                return false;
+        position = new Position(position1.getRow(), position1.getColumn() - 1);
+        if (position.getRow() >= 0 && position.getColumn() >= 0)
+            if (overlay.busy(position))
+                return false;
+        return true;
+    }
+
     public boolean checkPlaceColorRequirements(Dice dice, Position position) {
-        if (this.getCells()[position.getRow()][position.getColumn()] == null)
+        if (this.getMatrices()[position.getRow()][position.getColumn()] == null)
             return true;
-        if (dice.getColor() != this.getCells()[position.getRow()][position.getColumn()].getColor()) {
+        if (dice.getColor() != this.getMatrices()[position.getRow()][position.getColumn()].getColor()) {
             return false;
         }
         return true;
     }
 
     public boolean checkPlaceValueRequirements(Dice dice, Position position) {
-        if (this.getCells()[position.getRow()][position.getColumn()] == null)
+        if (this.getMatrices()[position.getRow()][position.getColumn()] == null)
             return true;
-        if (dice.getValue() != this.getCells()[position.getRow()][position.getColumn()].getValue()) {
+        if (dice.getValue() != this.getMatrices()[position.getRow()][position.getColumn()].getValue()) {
             return false;
         }
         return true;
@@ -249,7 +285,7 @@ public abstract class Window implements Serializable {
         if (dice1 == null || dice2 == null)
             return false;
 
-        if (overlay.busy(p2,p4))
+        if (overlay.busy(p2, p4))
             return false;
 
         if (checkDice(player, dice1, p2)) {
@@ -361,7 +397,7 @@ public abstract class Window implements Serializable {
     public boolean moveDiceWindowRoundtrack(GameManager gameManager, Player player, Position p1, PositionR pr) {
 
         RoundTrack roundTrack = gameManager.getRoundTrack();
-        if(roundTrack.busy(pr))
+        if (roundTrack.busy(pr))
             return false;
         if (player.getOverlay().busy(p1))
             return false;
@@ -369,11 +405,37 @@ public abstract class Window implements Serializable {
 
         Dice diceRoundtrack = roundTrack.getDice(pr);
 
-        if (!checkDice(player,diceRoundtrack,p1))
+        if (!checkDice(player, diceRoundtrack, p1))
             return false;
 
         roundTrack.setDice(player.getOverlay().getDice(p1), pr);
-        player.getOverlay().setDicePosition(diceRoundtrack,p1);
+        player.getOverlay().setDicePosition(diceRoundtrack, p1);
+        return true;
+    }
+
+    public boolean moveDiceAlone(Player player, Position p1, Position p2) {
+
+        if (p1 == null || p2 == null)
+            return false;
+
+        Dice dice = player.getOverlay().getDice(p1);
+        if (dice == null)
+            return false;
+
+        if (player.getOverlay().busy(p2))
+            return false;
+
+        if (!checkEdgePosTurn(player, p2))
+            return false;
+
+        if (!notAdjacentToAny(player.getOverlay(), p2))
+            return false;
+
+        if (!checkPlaceRequirements(dice, p2))
+            return false;
+
+        player.getOverlay().setDicePosition(dice, p2);
+        player.getOverlay().setDicePosition(null, p1);
         return true;
     }
 }

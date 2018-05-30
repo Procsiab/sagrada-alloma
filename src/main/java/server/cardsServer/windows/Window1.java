@@ -29,7 +29,7 @@ public class Window1 extends Window {
         cells[3][3] = new Cell('b');
         cells[3][4] = new Cell('y');
 
-        setCells(cells);
+        setMatrices(cells);
         setTokens(4);
     }
 }

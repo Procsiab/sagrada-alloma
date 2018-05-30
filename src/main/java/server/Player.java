@@ -212,7 +212,7 @@ public class Player {
     }
 
     public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
-        if(i1<0||i1>2)
+        if (i1 == null || i1 < 0 || i1 > 2)
             return false;
         return game.getToolCards().get(i1).use(game, i1, this, p1, p2, p3, p4, pr, i2, i3);
     }

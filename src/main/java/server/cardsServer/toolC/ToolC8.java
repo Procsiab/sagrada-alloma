@@ -10,11 +10,12 @@ public class ToolC8 extends ToolC {
 
     public ToolC8() {
         this.setName("toolC8");
+        this.setDescription("i2 is the position of the dice and p1 is the possibly final position of the dice");
     }
 
     @Override
     public boolean ableAndSettle(Player player, Integer i1) {
-        if (player.usedTc())
+        if (player.usedTcAndPlacedDice())
             return false;
         Integer tokens = player.getTokens();
         Integer tokensRequired = player.getGame().getTCtokens(i1);
@@ -31,10 +32,13 @@ public class ToolC8 extends ToolC {
         if (!ableAndSettle(player, i1))
             return false;
 
-        if (player.getPrivateTurn() != 1)
+        if (player.getPrivateTurn() == 1)
             return false;
 
-        if (player.getWindow().setDiceFromPool(player,0, p1)) {
+        if (i2 == null || p1 == null)
+            return false;
+
+        if (player.getWindow().setDiceFromPool(player, i2, p1)) {
             game.getJump().add(player.getuUID());
             return true;
         }

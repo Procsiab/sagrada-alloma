@@ -9,6 +9,8 @@ public class ToolC12 extends ToolC {
 
     public ToolC12() {
         this.setName("toolC12");
+        this.setDescription("p1 is the currrent position, p2 is the possibly next position " +
+                "same applies to p3 and p4, pr is the position on the roundtrack");
     }
 
     @Override
@@ -27,14 +29,24 @@ public class ToolC12 extends ToolC {
 
     public boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player,i1))
+        if (!ableAndSettle(player, i1))
             return false;
-        //check if null?
+        if (p1 == null || p2 == null || p3 == null || p4 == null)
+            return false;
+
+        Dice diceRoundrack = game.getRoundTrack().getDice(pr);
+        if (diceRoundrack == null)
+            return false;
+
+        Dice dice1 = player.getOverlay().getDice(p1);
+        Dice dice2 = player.getOverlay().getDice(p3);
+        if (dice1 == null || dice2 == null)
+            return false;
 
         Overlay overlay = player.getOverlay();
-        char color = game.getRoundTrack().getDice(pr).color;
-        if (color != overlay.getDicePositions()[p1.getRow()][p1.getColumn()].color)
+        char color = diceRoundrack.color;
+        if (color != dice1.color || color != dice2.color)
             return false;
-        return false;
+        return player.getWindow().moveDice(player, p1, p2, p3, p4);
     }
 }

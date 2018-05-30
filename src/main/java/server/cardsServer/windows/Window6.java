@@ -28,7 +28,7 @@ public class Window6 extends Window {
         cells[3][2] = new Cell();
         cells[3][3] = new Cell();
         cells[3][4] = new Cell();
-        setCells(cells);
+        setMatrices(cells);
         setTokens(5);
     }
 }
