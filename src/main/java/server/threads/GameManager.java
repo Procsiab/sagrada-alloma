@@ -2,6 +2,7 @@ package server.threads;
 
 import server.*;
 import server.abstractsServer.Window;
+import shared.Cell;
 import shared.Dice;
 import shared.Logger;
 import server.Player;
@@ -24,8 +25,8 @@ public class GameManager extends GeneralTask {
     private ArrayList<String> playersFixed = new ArrayList<>();
     private final Integer sleepTime; //config
     private final Integer timeout2; //config
-    private final Integer timeout3; //for windows config
-    private final Integer timeout4; //pausetta config
+    private final Integer timeout3; //pausetta config
+    private final Integer timeout4; //for window back
     private final Integer nMates;
     private ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
@@ -59,7 +60,7 @@ public class GameManager extends GeneralTask {
         this.sleepTime = 10000;
         this.timeout2 = 8000;
         this.timeout3 = 5000;
-        this.timeout4 = 8000;
+        this.timeout4 = 1000;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
@@ -203,10 +204,6 @@ public class GameManager extends GeneralTask {
 
     public Integer getTimeout3() {
         return timeout3;
-    }
-
-    public Integer getTimeout4() {
-        return timeout4;
     }
 
     public MiddlewareServer getMiddlewareServer() {
@@ -450,15 +447,6 @@ public class GameManager extends GeneralTask {
 
         i = 0;
 
-        /*for (String client : players) {
-            try {
-                middlewareServer.setSGame(client, this);
-            } catch (RemoteException re) {
-                Logger.log("Unable to reach client");
-                re.printStackTrace();
-            }
-        }*/
-
         Random rand = new Random();
         ArrayList<Integer> a = new ArrayList<>();
 
@@ -496,18 +484,21 @@ public class GameManager extends GeneralTask {
             Integer k;
             Logger.log("Choose window for player " + players.get(i));
             ArrayList<Integer> b = new ArrayList<>();
+            ArrayList<Cell[][]> matrices = new ArrayList<>();
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
+            SReferences.getPlayerRefEnhanced(players.get(i)).setPossibleWindows(b);
             Logger.log(b.toString());
             k = 0;
             for (Integer y :
                     b) {
+                matrices.add(matchManager.getWindows().get(y).getCells());
                 y++;
-                b.set(k, y);
-                k++;
+                b.add(y);
             }
             Logger.log(b.toString());
-            middlewareServer.chooseWindow(players.get(i), b);
+            middlewareServer.chooseWindow(players.get(i), b, matrices);
             b.clear();
+            matrices.clear();
 
             //vPlayers.get(i).setWindow(k);
 
@@ -522,6 +513,13 @@ public class GameManager extends GeneralTask {
             e.printStackTrace();
         }
         this.expected = "none";
+
+        try {
+            Thread.sleep(timeout4);
+        } catch (InterruptedException e) {
+            Logger.log("Interrupted Exception");
+            e.printStackTrace();
+        }
 
         i = 0;
         int s = 0;
@@ -542,7 +540,7 @@ public class GameManager extends GeneralTask {
 
 
         try {
-            Thread.sleep(timeout4);
+            Thread.sleep(timeout3);
         } catch (InterruptedException e) {
             Logger.log("Interrupted Exception");
             e.printStackTrace();

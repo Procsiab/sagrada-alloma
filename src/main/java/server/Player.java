@@ -12,6 +12,7 @@ public class Player {
     private MatchManager matchManager = MatchManager.getInstance();
     private String uUID;
     private PrivateOC privateOC;
+    private ArrayList<Integer> possibleWindows = new ArrayList<>();
     private Window window;
     private Overlay overlay = new Overlay();
     private Integer tokens;
@@ -28,6 +29,14 @@ public class Player {
         this.uUID = uUID;
         this.nPlayer = i;
         this.game = gameManager;
+    }
+
+    public ArrayList<Integer> getPossibleWindows() {
+        return possibleWindows;
+    }
+
+    public void setPossibleWindows(ArrayList<Integer> possibleWindows) {
+        this.possibleWindows = possibleWindows;
     }
 
     public Integer getScore() {
@@ -59,19 +68,6 @@ public class Player {
         Logger.log("score of player " + this + " is " + score.toString());
 
         return score;
-    }
-@Deprecated
-    public synchronized void setHasPlacedDice(boolean hasPlacedDice) {
-        this.hasPlacedDice = hasPlacedDice;
-    }
-@Deprecated
-    public synchronized void setHasUsedTc(boolean hasUsedTc) {
-        this.hasUsedTc = hasUsedTc;
-    }
-@Deprecated
-    public synchronized void setHasUsedTcAndHasPlacedDice(boolean hasUsedTc, boolean hasPlacedDice) {
-        this.hasUsedTc = hasUsedTc;
-        this.hasPlacedDice = hasPlacedDice;
     }
 
     public synchronized boolean placedDice() {
@@ -200,6 +196,8 @@ public class Player {
     public boolean setWindowFromC(Integer n) {
         if (this.window != null)
             return false;
+        if(!this.possibleWindows.contains(n))
+            return false;
         this.window = matchManager.getWindows().get(n);
         return true;
     }
@@ -220,7 +218,7 @@ public class Player {
     }
 
     public boolean placeDice(Integer index, Position position) {
-        if (this.hasPlacedDice)
+        if (this.placedDice())
             return false;
         ArrayList<Dice> pool = game.getPool();
         if (pool.get(index) == null)

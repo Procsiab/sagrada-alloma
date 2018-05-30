@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class SReferences {
 
-    //CAUTION: Do not synchronize on obj2 on MatchManager
+    //CAUTION: Do not synchronize on MatchManager.obj2
 
     private static Integer activePlayer = 0;
 
@@ -20,35 +20,6 @@ public class SReferences {
     private static ArrayList<Player> playerRef = new ArrayList<>();
     private static ArrayList<GameManager> gameRef = new ArrayList<>();
 
-    @Deprecated
-    public static ArrayList<Boolean> getIsSocketRef() {
-        return isSocketRef;
-    }
-
-    @Deprecated
-    public static ArrayList<GameManager> getGameRef() {
-        return gameRef;
-    }
-
-    @Deprecated
-    public static ArrayList<Integer> getPortRef() {
-        return portRef;
-    }
-
-    @Deprecated
-    public static ArrayList<Player> getPlayerRef() {
-        return playerRef;
-    }
-
-    @Deprecated
-    public static ArrayList<String> getIpRef() {
-        return ipRef;
-    }
-
-    @Deprecated
-    public static ArrayList<String> getUuidRef() {
-        return uuidRef;
-    }
 
     public static Integer getActivePlayer() {
         return activePlayer;

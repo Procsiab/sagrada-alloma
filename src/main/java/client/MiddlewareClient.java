@@ -76,11 +76,12 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         return true;
     }
 
-    public Boolean startGameViewForced(){
+    public Boolean startGameViewForced() {
         if (MainClient.isPrompt()) {
             MainClient.cliController.startGameViewForced();
         } else {
-            MainClient.chooseWindowController.startGameViewForced();
+            if (MainClient.startGameController == null)
+                MainClient.chooseWindowController.startGameViewForced();
         }
         Logger.log("OK client start forced");
         return true;

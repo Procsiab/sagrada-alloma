@@ -1,5 +1,6 @@
 package shared.network;
 
+import shared.Cell;
 import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
@@ -12,7 +13,7 @@ public interface SharedMiddlewareServer extends Remote {
     Boolean deniedAccess(String uuid) throws RemoteException;
     String startGame(String uuid, String ip, Integer port, Boolean isSocket) throws RemoteException;
     void updateView(String uuid, GameManagerT gameManager) throws RemoteException;
-    Boolean chooseWindow(String uuid, ArrayList<Integer> windows) throws RemoteException;
+    Boolean chooseWindow(String uuid, ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) throws RemoteException;
     Boolean ping(String uuid) throws RemoteException;
     void aPrioriWin(String uuid) throws RemoteException;
     void enable(String uuid) throws RemoteException;
