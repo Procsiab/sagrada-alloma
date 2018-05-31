@@ -12,7 +12,7 @@ public class Player {
     private MatchManager matchManager = MatchManager.getInstance();
     private String uUID;
     private PrivateOC privateOC;
-    private ArrayList<Integer> possibleWindows = new ArrayList<>();
+    private ArrayList<Integer> possibleWindows;
     private Window window;
     private Overlay overlay = new Overlay();
     private Integer tokens;
@@ -29,14 +29,21 @@ public class Player {
         this.uUID = uUID;
         this.nPlayer = i;
         this.game = gameManager;
+        this.possibleWindows= new ArrayList<>();
     }
 
     public ArrayList<Integer> getPossibleWindows() {
         return possibleWindows;
     }
 
-    public void setPossibleWindows(ArrayList<Integer> possibleWindows) {
-        this.possibleWindows = possibleWindows;
+    public void setPossibleWindows(ArrayList<Integer> possibleWindowss) {
+        int i = 0;
+        for (Integer posyyt:
+             possibleWindowss) {
+            this.possibleWindows.add(i,posyyt);
+            i++;
+        }
+        System.out.println("possible wind " + possibleWindows.get(0) + possibleWindows.get(1));
     }
 
     public Integer getScore() {
@@ -196,13 +203,16 @@ public class Player {
     public boolean setWindowFromC(Integer n) {
         if (this.window != null)
             return false;
+        System.out.println("possible wind pos 3" + possibleWindows.get(2));
         if(!this.possibleWindows.contains(n))
             return false;
         this.window = matchManager.getWindows().get(n);
+        Logger.log("assegnata dal client window "+ n.toString());
         return true;
     }
 
     public boolean setWindow(Integer n) {
+        this.window = matchManager.getWindows().get(n);
         this.window = matchManager.getWindows().get(n);
         return true;
     }

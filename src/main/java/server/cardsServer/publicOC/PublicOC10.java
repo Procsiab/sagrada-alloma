@@ -3,18 +3,22 @@ package server.cardsServer.publicOC;
 import server.Player;
 import shared.Dice;
 import server.abstractsServer.PublicOC;
+import shared.Overlay;
+
+import java.util.ArrayList;
 
 public class PublicOC10 extends PublicOC {
 
     public Integer use(Player player) {
-        Dice[][] dices = player.getOverlay().getDicePositions().clone();
-        int i = 0;
-        int j = 0;
+        Overlay overlay = player.getOverlay().deepClone();
+        Dice[][] dices = overlay.getDicePositions();
+        int i = 1;
+        int j = 1;
         int sum = 0;
-        while (i < 4) {
-            j = 0;
-            while (j < 5) {
-                sum = sum + computate(dices, 'a', i, j, -1);
+        while (i < 5) {
+            j = 1;
+            while (j < 6) {
+                sum = sum + computate(dices, 'a', i, j, true);
                 j++;
             }
             i++;
@@ -22,25 +26,21 @@ public class PublicOC10 extends PublicOC {
         return sum;
     }
 
+    private Integer computate(Dice[][] dices, Character color, Integer r, Integer c, Boolean firstTime) {
 
-    private Integer computate(Dice[][] dices, Character color, Integer r, Integer c, Integer dA) {
-
-        if (r > 3 || r < 0 || c > 4 || c < 0)
+        if (r > 4 || r < 1 || c > 5 || c < 1)
             return 0;
-        if (dices[r][c] == null)
+        if (dices[r - 1][c - 1] == null)
             return 0;
-        if (dices[r][c].getColor() != color)
-            return computate(dices, dices[r][c].getColor(), r, c, -1);
-        dices[r][c] = null;
-        if (dA == 2)
-            dA = 1;
-        if (dA == 0)
-            dA = 2;
-        if (dA == -1)
-            dA = 0;
-        return dA + computate(dices, color, r - 1, c - 1, dA) +
-                computate(dices, color, r - 1, c + 1, dA) +
-                computate(dices, color, r + 1, c + 1, dA) +
-                computate(dices, color, r + 1, c - 1, dA);
+        if (dices[r - 1][c - 1].getColor() != color)
+            return computate(dices, dices[r - 1][c - 1].getColor(), r, c, true);
+        dices[r - 1][c - 1] = null;
+        Integer ul = computate(dices, color, r - 1, c - 1, false);
+        Integer ur = computate(dices, color, r - 1, c + 1, false);
+        Integer dr = computate(dices, color, r + 1, c + 1, false);
+        Integer dl = computate(dices, color, r + 1, c - 1, false);
+        if (firstTime)
+            return ul + ur + dr + dl;
+        return 1 + ul + ur + dr + dl;
     }
 }

@@ -11,7 +11,6 @@ import java.util.Set;
 public class PublicOC2 extends PublicOC {
     @Override
     public Integer use(Player player) {
-        //gain 5 points for each row with no repeated colors
         Overlay overlay = player.getOverlay();
 
         int i = 0;
@@ -21,19 +20,19 @@ public class PublicOC2 extends PublicOC {
 
         Dice dice;
 
-        Set<Character> colors= new HashSet<>();
+        Set<Character> colors = new HashSet<>();
 
-        //switch column in getDicePositions
-
-        while (i<5){
+        while (i < 5) {
             colors.clear();
-            while (j<4){
-                dice= overlay.getDicePositions()[i][j];
-                if (dice != null)
-                    if(!colors.add(dice.color))
-                        esito = 0;
+            while (j < 4) {
+                dice = overlay.getDicePositions()[j][i];
+                if (dice == null)
+                    esito = 0;
+                else if (!colors.add(dice.color))
+                    esito = 0;
                 j++;
             }
+            j = 0;
             i++;
             if (esito == 1)
                 sum = sum + 5;

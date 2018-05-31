@@ -6,8 +6,6 @@ import shared.network.Connection;
 import shared.network.SharedMiddlewareClient;
 import shared.network.SharedMiddlewareServer;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -19,8 +17,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class NetworkRmi implements Connection {
     private static final Integer RMI_METHOD_PORT = 1099;
@@ -162,7 +158,7 @@ public class NetworkRmi implements Connection {
                         return o.chooseWindow((ArrayList<Integer>) argList[0], (ArrayList<Cell[][]>) argList[1]);
                     case "ping":
                         return o.ping();
-                    case "aPrioriWin":
+                    case "tavoloWin":
                         o.aPrioriWin();
                         break;
                     case "enable":
@@ -212,8 +208,8 @@ public class NetworkRmi implements Connection {
                         return o.chooseWindow((String) argList[0], (ArrayList<Integer>) argList[1], (ArrayList<Cell[][]>) argList[2]);
                     case "ping":
                         return o.ping((String) argList[0]);
-                    case "aPrioriWin":
-                        o.aPrioriWin((String) argList[0]);
+                    case "tavoloWin":
+                        o.tavoloWin((String) argList[0]);
                         break;
                     case "enable":
                         o.enable((String) argList[0]);

@@ -15,7 +15,7 @@ public interface SharedMiddlewareServer extends Remote {
     void updateView(String uuid, GameManagerT gameManager) throws RemoteException;
     Boolean chooseWindow(String uuid, ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) throws RemoteException;
     Boolean ping(String uuid) throws RemoteException;
-    void aPrioriWin(String uuid) throws RemoteException;
+    void tavoloWin(String uuid) throws RemoteException;
     void enable(String uuid) throws RemoteException;
     void shut(String uuid) throws RemoteException;
     void printScore(String uuid, Integer score) throws RemoteException;

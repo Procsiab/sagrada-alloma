@@ -6,47 +6,43 @@ import shared.Overlay;
 import server.abstractsServer.PublicOC;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PublicOC1 extends PublicOC {
 
-    public PublicOC1(){
+    public PublicOC1() {
         this.name = "PublicOC1";
     }
 
     @Override
     public Integer use(Player player) {
-        //gain 5 points for each row with no repeated colors
         Overlay overlay = player.getOverlay();
 
         int i = 0;
         int j = 0;
         int sum = 0;
+        int esito = 1;
 
         Dice dice;
 
-        ArrayList<Character> colors= new ArrayList<>();
-        colors.add('b');
-        colors.add('r');
-        colors.add('g');
-        colors.add('y');
-        colors.add('v');
+        Set<Character> colors = new HashSet<>();
 
-        while (i<4){
+        while (i < 4) {
             colors.clear();
-            colors.add('b');
-            colors.add('r');
-            colors.add('g');
-            colors.add('y');
-            colors.add('v');
-            while (j<5){
-                dice= overlay.getDicePositions()[i][j];
-                if (dice != null)
-                    colors.remove(dice.color);
+            while (j < 5) {
+                dice = overlay.getDicePositions()[i][j];
+                if (dice == null)
+                    esito = 0;
+                else if (!colors.add(dice.color))
+                    esito = 0;
                 j++;
             }
+            j = 0;
             i++;
-            if (colors.isEmpty())
+            if (esito == 1)
                 sum = sum + 6;
+            esito = 1;
         }
         return sum;
     }

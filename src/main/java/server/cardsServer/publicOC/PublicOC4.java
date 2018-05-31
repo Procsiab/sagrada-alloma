@@ -10,7 +10,6 @@ import java.util.Set;
 
 public class PublicOC4 extends PublicOC {
     public Integer use(Player player) {
-        //gain 5 points for each row with no repeated colors
         Overlay overlay = player.getOverlay();
 
         int i = 0;
@@ -22,15 +21,17 @@ public class PublicOC4 extends PublicOC {
 
         Set<Integer> numbers= new HashSet<>();
 
-        while (i<5){
+        while (i < 4) {
             numbers.clear();
-            while (j<4){
-                dice= overlay.getDicePositions()[i][j];
-                if (dice != null)
-                    if(!numbers.add(dice.value))
-                        esito = 0;
+            while (j < 5) {
+                dice = overlay.getDicePositions()[i][j];
+                if (dice == null)
+                    esito = 0;
+                else if (!numbers.add(dice.value))
+                    esito = 0;
                 j++;
             }
+            j = 0;
             i++;
             if (esito == 1)
                 sum = sum + 5;

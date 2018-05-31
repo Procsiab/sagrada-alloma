@@ -100,7 +100,7 @@ class SocketHandler implements Runnable, Closeable {
                         return o.chooseWindow((ArrayList<Integer>) argList[0], (ArrayList<Cell[][]>) argList[1]);
                     case "ping":
                         return o.ping();
-                    case "aPrioriWin":
+                    case "tavoloWin":
                         o.aPrioriWin();
                         break;
                     case "enable":
@@ -150,8 +150,8 @@ class SocketHandler implements Runnable, Closeable {
                         return o.chooseWindow((String) argList[0], (ArrayList<Integer>) argList[1], (ArrayList<Cell[][]>) argList[2]);
                     case "ping":
                         return o.ping((String) argList[0]);
-                    case "aPrioriWin":
-                        o.aPrioriWin((String) argList[0]);
+                    case "tavoloWin":
+                        o.tavoloWin((String) argList[0]);
                         break;
                     case "enable":
                         o.enable((String) argList[0]);

@@ -1,11 +1,14 @@
 package shared;
 
 
-import java.io.Serializable;
+import server.abstractsServer.ToolC;
+
+import java.io.*;
+
 public class Overlay implements Serializable {
     private Dice[][] dicePositions = new Dice[4][5];
 
-    public Dice getDice(Position pos){
+    public Dice getDice(Position pos) {
         return dicePositions[pos.getRow()][pos.getColumn()];
     }
 
@@ -29,5 +32,19 @@ public class Overlay implements Serializable {
 
     public void setDicePosition(Dice dice, Position position) {
         this.dicePositions[position.getRow()][position.getColumn()] = dice;
+    }
+
+    public Overlay deepClone() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Overlay) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            return null;
+        }
     }
 }

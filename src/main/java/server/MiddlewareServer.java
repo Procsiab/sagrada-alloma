@@ -63,13 +63,16 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             GameManager game = SReferences.getGameRefEnhanced(uuid);
             String expected = game.getExpected();
+
             if (expected.equals("all"))
                 return false;
             else if (expected.equals("none")) {
                 Logger.log("Denied access for UUID " + uuid);
                 return true;
-            } else
+            } else {
+                Logger.log("Denied access for UUID " + uuid);
                 return !expected.equals(uuid);
+            }
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }
@@ -107,8 +110,9 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public void aPrioriWin(String uuid) {
-        forwardMethod(uuid, "aPrioriWin", null);
+    public void tavoloWin(String uuid) {
+        Logger.log("tavolino");
+        forwardMethod(uuid, "tavoloWin", null);
     }
 
     @Override
@@ -132,9 +136,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     public Boolean chooseWindowBack(String uuid, Integer window) {
+
         try {
-            if (deniedAccess(uuid))
-                return false;
+            if (deniedAccess(uuid)){
+                return false;}
+                System.out.println("choosewindowrrfff");
             return SReferences.getPlayerRefEnhanced(uuid).setWindowFromC(window - 1);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);

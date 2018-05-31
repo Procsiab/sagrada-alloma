@@ -23,20 +23,6 @@ public abstract class ToolC implements Serializable {
     //i3 is the number to add to the selected dice, or the value to set to the selected dice
     public abstract boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3);
 
-    public ToolC deepClone() {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(this);
-
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            return (ToolC) ois.readObject();
-        } catch (IOException|ClassNotFoundException e) {
-            return null;
-        }
-    }
-
     public String getName() {
         return name;
     }

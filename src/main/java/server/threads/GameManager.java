@@ -23,8 +23,8 @@ public class GameManager extends GeneralTask {
     private ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> players2 = new ArrayList<>();
     private ArrayList<String> playersFixed = new ArrayList<>();
-    private final Integer sleepTime; //config
-    private final Integer timeout2; //config
+    private final Integer timeout1; //timer to play for each player config
+    private final Integer timeout2; //connection issue config
     private final Integer timeout3; //pausetta config
     private final Integer timeout4; //for window back
     private final Integer nMates;
@@ -46,10 +46,11 @@ public class GameManager extends GeneralTask {
     private ArrayList<Dice> dices = new ArrayList<>();
     private ArrayList<Dice> pool = new ArrayList<>();
     private final Object obj = new Object();
-    private final Object obj2 = new Object();
+    private final Object obj2 = new Object(); //connection issues
     private final Object obj3 = new Object();
     private final ArrayList<Object> obj4;
     private final Object obj5 = new Object();
+    private final Object obj6 = new Object(); //timer for windows
 
     public GameManager(ArrayList<String> players) {
 
@@ -57,10 +58,10 @@ public class GameManager extends GeneralTask {
         this.expected = "none";
         this.publicRef.addAll(players);
         this.players.addAll(players);
-        this.sleepTime = 10000;
-        this.timeout2 = 8000;
+        this.timeout1 = 10000;
+        this.timeout2 = 15000;
         this.timeout3 = 5000;
-        this.timeout4 = 1000;
+        this.timeout4 = 3000;
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
         int i;
@@ -87,8 +88,8 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        i =1;
-        while (i<=3) {
+        i = 1;
+        while (i <= 3) {
             tCtokens.add(1);
             i++;
         }
@@ -194,8 +195,8 @@ public class GameManager extends GeneralTask {
         return nMates;
     }
 
-    public Integer getSleepTime() {
-        return sleepTime;
+    public Integer getTimeout1() {
+        return timeout1;
     }
 
     public Integer getTimeout2() {
@@ -326,8 +327,8 @@ public class GameManager extends GeneralTask {
         return tCtokens.get(pos);
     }
 
-    public void addTCtokens(Integer pos){
-        tCtokens.set(pos,2);
+    public void addTCtokens(Integer pos) {
+        tCtokens.set(pos, 2);
     }
 
     public void updateView(String uuid) {
@@ -350,13 +351,15 @@ public class GameManager extends GeneralTask {
             publicOCsT.add(new PublicOCT(card.name));
         }
 
-        int i =0;
+        int i = 0;
         ArrayList<ToolCT> toolCsT = new ArrayList<>();
         for (ToolC card :
                 toolCards) {
             toolCsT.add(new ToolCT(card.getName(), tCtokens.get(i), card.getDescription()));
             i++;
         }
+
+        System.out.println("i dadi ora sono " + pool.size());
 
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCsT,
                 toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uuid)));
@@ -433,6 +436,15 @@ public class GameManager extends GeneralTask {
                 active.remove(pla);
             }
         }
+
+        Logger.log("there are " + active.size()+" active player");
+    }
+
+    private void closeGame() {
+        for (String player :
+                players) {
+            SReferences.removeRef(player);
+        }
     }
 
     @Override
@@ -492,7 +504,7 @@ public class GameManager extends GeneralTask {
                     b) {
                 matrices.add(matchManager.getWindows().get(y).getMatrices());
                 y++;
-                b.set(k,y);
+                b.set(k, y);
                 k++;
             }
             Logger.log(b.toString());
@@ -506,16 +518,24 @@ public class GameManager extends GeneralTask {
         }
 
         this.expected = "all";
+        Logger.log("all");
+
         try {
-            Thread.sleep(timeout2);
+            synchronized (this.obj6) {
+                this.obj6.wait(timeout2);
+            }
         } catch (InterruptedException e) {
             Logger.log("Interrupted Exception");
             e.printStackTrace();
         }
+
         this.expected = "none";
+        Logger.log("none");
 
         try {
-            Thread.sleep(timeout4);
+            synchronized(this.obj6) {
+                this.obj6.wait(timeout4);
+            }
         } catch (InterruptedException e) {
             Logger.log("Interrupted Exception");
             e.printStackTrace();
@@ -540,7 +560,9 @@ public class GameManager extends GeneralTask {
 
 
         try {
-            Thread.sleep(timeout3);
+            synchronized (obj6) {
+                this.obj6.wait(timeout3);
+            }
         } catch (InterruptedException e) {
             Logger.log("Interrupted Exception");
             e.printStackTrace();
@@ -627,7 +649,7 @@ public class GameManager extends GeneralTask {
 
             while (k <= 2 * players2.size()) {
 
-                String remotePlayer = players.get(i - 1);
+                String remotePlayer = players2.get(i - 1);
                 Player localPlayer = SReferences.getPlayerRefEnhanced(remotePlayer);
 
                 checkActive();
@@ -635,6 +657,7 @@ public class GameManager extends GeneralTask {
                 //check if all left game
                 if (active.size() + unresponsive.size() == 0) {
                     //fuck all off
+                    closeGame();
                     return;
                 }
 
@@ -654,9 +677,11 @@ public class GameManager extends GeneralTask {
                             active.remove(pla);
                         }
                     }
-                    if (p == 3)
+                    if (p == 3) {
                         //fuck all off
+                        closeGame();
                         return;
+                    }
                     synchronized (obj2) {
                         try {
                             obj2.wait(timeout2);
@@ -670,80 +695,62 @@ public class GameManager extends GeneralTask {
                 //check if only one guest
                 p = 1;
                 while (active.size() + unresponsive.size() == 1) {
-                    while (active.isEmpty() && unresponsive.size() == 1) {
 
-                        if (privateLeft.contains(unresponsive.get(0))) {
-                            //fuck off
-                            return;
-                        }
+                    String tavolo = active.get(0);
+                    if (tavolo == null)
+                        tavolo = unresponsive.get(0);
 
-                        if (middlewareServer.ping(unresponsive.get(0))) {
-                            active.add(unresponsive.get(0));
-                            unresponsive.clear();
-                        }
-
-                        if (p == 3)
-                            //fuck off
-                            return;
-                        synchronized (obj2) {
-                            try {
-                                obj2.wait(timeout2);
-                            } catch (InterruptedException e) {
-                                Logger.log("Interrupted Exception");
-                            }
-                        }
-                        p++;
-                    }
-                    if (active.size() == 1 && unresponsive.isEmpty()) {
-
-                        if (middlewareServer.ping(active.get(0))) {
-                            middlewareServer.aPrioriWin(active.get(0));
-                            return;
-                        }
-                        //why don't change ISP?
-                        if (q == 3)
-                            //fuck off
-                            return;
-                        synchronized (obj2) {
-                            try {
-                                obj2.wait(timeout2);
-                            } catch (InterruptedException e) {
-                                Logger.log("Interrupted Exception");
-                            }
-                        }
-                        q++;
+                    if (middlewareServer.ping(tavolo)) {
+                        middlewareServer.tavoloWin(active.get(0));
+                        closeGame();
+                        return;
                     }
 
+                    synchronized (obj2) {
+                        try {
+                            obj2.wait(timeout2);
+                        } catch (InterruptedException e) {
+                            Logger.log("Interrupted Exception");
+                        }
+                    }
+                    if (p == 5) {
+                        //fuck off
+                        closeGame();
+                        return;
+                    }
+                    p++;
                 }
+
 
                 //check if active, doesn't have a turn to jump, then go ahead
 
-                if (jump.contains(remotePlayer)&&!privateLeft.contains(remotePlayer)) {
-                    jump.remove(remotePlayer);
-                }
-                else if (active.contains(remotePlayer)) {
-                    this.updateView();
-                    this.expected = remotePlayer;
-                    middlewareServer.enable(remotePlayer);
+                if (!privateLeft.contains(remotePlayer)) {
+                    if (jump.contains(remotePlayer)) {
+                        jump.remove(remotePlayer);
+                    } else if (active.contains(remotePlayer)) {
+                        this.updateView();
+                        this.expected = remotePlayer;
+                        middlewareServer.enable(remotePlayer);
 
-                    localPlayer.incrementTurn();
+                        localPlayer.incrementTurn();
 
-                    synchronized (obj3) {
-                        while (!this.action) {
-                            try {
-                                Logger.log("listening for dice thrown or toolcard");
-                                obj3.wait(sleepTime);
-                                this.action = true;
-                            } catch (InterruptedException ie) {
-                                Logger.log("Thread sleep was interrupted!");
-                                Logger.strace(ie);
-                                Thread.currentThread().interrupt();
+                        synchronized (obj3) {
+                            while (!this.action) {
+                                try {
+                                    Logger.log("listening for dice thrown or toolcard");
+                                    obj3.wait(timeout1);
+                                    this.action = true;
+                                } catch (InterruptedException ie) {
+                                    Logger.log("Thread sleep was interrupted!");
+                                    Logger.strace(ie);
+                                    Thread.currentThread().interrupt();
+                                }
                             }
+                            this.action = false;
+                            this.expected = "none";
+                            middlewareServer.shut(remotePlayer);
+                            localPlayer.clearUsedTcAndPlacedDice();
                         }
-                        this.action = false;
-                        this.expected = "none";
-                        middlewareServer.shut(remotePlayer);
-                        localPlayer.clearUsedTcAndPlacedDice();
                     }
                 }
                 if (upward) {
@@ -779,6 +786,7 @@ public class GameManager extends GeneralTask {
             if (play.getScore() == points)
                 middlewareServer.setWinner(play.getuUID());
         }
+        closeGame();
         Logger.log("END OF GAME");
     }
 }
