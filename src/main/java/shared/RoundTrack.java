@@ -31,6 +31,10 @@ public class RoundTrack implements Serializable {
         this.dices.get(positionR.column).set(positionR.column, dice);
     }
 
+    public void setDice(Dice dice, Integer column) {
+        this.dices.get(column).add(dice);
+    }
+
     public Dice getDice(PositionR positionR){
         return this.dices.get(positionR.column).get(positionR.column);
     }

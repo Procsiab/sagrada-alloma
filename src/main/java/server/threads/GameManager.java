@@ -2,11 +2,8 @@ package server.threads;
 
 import server.*;
 import server.abstractsServer.Window;
-import shared.Cell;
-import shared.Dice;
-import shared.Logger;
+import shared.*;
 import server.Player;
-import shared.RoundTrack;
 import shared.TransferObjects.*;
 import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.PublicOC;
@@ -380,7 +377,7 @@ public class GameManager extends GeneralTask {
 
     public void throwDice() {
         pool.clear();
-        Integer num = 2 * active.size() + 1;
+        Integer num = 2 * players2.size() + 1;
         int i = 0;
         Random rand = new Random();
 
@@ -389,6 +386,14 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
+    }
+
+    public void settleRoundtrack(Integer col) {
+        for (Dice dice :
+                pool) {
+            if (dice != null)
+                roundTrack.setDice(dice, col);
+        }
     }
 
     public void fitness(ArrayList a) {
@@ -437,7 +442,7 @@ public class GameManager extends GeneralTask {
             }
         }
 
-        Logger.log("there are " + active.size()+" active player");
+        Logger.log("there are " + active.size() + " active player");
     }
 
     private void closeGame() {
@@ -533,7 +538,7 @@ public class GameManager extends GeneralTask {
         Logger.log("none");
 
         try {
-            synchronized(this.obj6) {
+            synchronized (this.obj6) {
                 this.obj6.wait(timeout4);
             }
         } catch (InterruptedException e) {
@@ -558,7 +563,7 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-
+/*
         try {
             synchronized (obj6) {
                 this.obj6.wait(timeout3);
@@ -567,7 +572,7 @@ public class GameManager extends GeneralTask {
             Logger.log("Interrupted Exception");
             e.printStackTrace();
         }
-
+*/
 
         i = 0;
 
@@ -647,9 +652,8 @@ public class GameManager extends GeneralTask {
             checkActive();
             throwDice();
 
-            while (k <= 2 * players2.size()) {
-
-                String remotePlayer = players2.get(i - 1);
+            for (String remotePlayer :
+                    players2) {
                 Player localPlayer = SReferences.getPlayerRefEnhanced(remotePlayer);
 
                 checkActive();
@@ -760,11 +764,10 @@ public class GameManager extends GeneralTask {
                         i++;
                 } else
                     i--;
-                k++;
             }
+            settleRoundtrack(j);
             shiftPlayers();
             upward = true;
-            k = 1;
             i = 1;
             j++;
         }
