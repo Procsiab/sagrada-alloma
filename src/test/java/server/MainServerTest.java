@@ -23,15 +23,11 @@ class MainServerTest {
     void main() {
 
         MainServer.simulation();
-        MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+        DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
         String player1 = "player1";
         String player2 = "player2";
         String player3 = "player3";
         String player4 = "player4";
-
-        MainClient.simulation(player1);
-        MainClient.simulation(player2);
-        MainClient.simulation(player3);
 
         middlewareServer.startGame(player1, "192.168.223.1", -1, false);
         middlewareServer.startGame(player2, "192.168.223.1", -1, false);

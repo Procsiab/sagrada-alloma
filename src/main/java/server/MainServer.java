@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class MainServer {
     //create an object of MainServer
     private static final MainServer instance = new MainServer();
-    public static SharedMiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    public static MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
 
     public static MainServer getInstance() {
         return instance;

@@ -59,27 +59,13 @@ public class MainClient extends Application {
         primaryStage.show();
     }
 
-    public static void simulation(String uUID) {
-        System.setProperty("jansi.passthrough", "true");
-        AnsiConsole.systemInstall();
-        AnsiConsole.out().println();
-        AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
-
-        uuid = uUID;
-
-        MiddlewareClient.setConnection(new NetworkRmi("", 0));
-
-        isPrompt = true;
-        cliController = new MainCLI();
-    }
-
     public static void main(String[] args) {
         System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
         AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
 
-        uuid = "player3";
+        uuid = "player6";
 
         //uuid = getUuid();
         Logger.log("UUID: " + uuid);

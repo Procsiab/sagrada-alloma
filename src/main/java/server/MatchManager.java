@@ -108,8 +108,8 @@ public class MatchManager {
             return "Too many players connected. Please try again later. Sorry for that.";
         }
 
-        Logger.log("Player " + uUID + " IP: " + ip + " PORT: " + port + ": Connection accepted with" +
-                isSocket+ "socket");
+        Logger.log("Player " + uUID + " IP: " + ip + " PORT: " + port + ": Connection accepted with " +
+                isSocket+ " socket");
         synchronized (obj2) {
 
             SReferences.addUuidRef(uUID);

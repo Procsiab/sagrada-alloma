@@ -16,7 +16,8 @@ import java.util.Random;
 public class GameManager extends GeneralTask {
 
     private ArrayList<String> publicRef = new ArrayList<>();
-    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> players2 = new ArrayList<>();
     private ArrayList<String> playersFixed = new ArrayList<>();
