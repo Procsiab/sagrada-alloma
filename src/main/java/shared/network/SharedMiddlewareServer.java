@@ -27,4 +27,5 @@ public interface SharedMiddlewareServer extends Remote {
     void exitGame2(String uuid) throws RemoteException;
     void endTurn(String uuid) throws RemoteException;
     void updateViewFromC(String uuid) throws RemoteException;
+    Boolean exitGame1(String uuid) throws RemoteException;
 }

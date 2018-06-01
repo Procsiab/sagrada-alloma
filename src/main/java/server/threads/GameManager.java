@@ -117,140 +117,16 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public boolean getAction() {
-        return action;
-    }
-
-    public void settCtokens(ArrayList<Integer> tCtokens) {
-        this.tCtokens = tCtokens;
-    }
-
-    public void setPublicOCs(ArrayList<PublicOC> publicOCs) {
-        this.publicOCs = publicOCs;
-    }
-
-    public void setPrivateOCs(ArrayList<PrivateOC> privateOCs) {
-        this.privateOCs = privateOCs;
-    }
-
-    public void setMatchManager(MatchManager matchManager) {
-        this.matchManager = matchManager;
-    }
-
-    public MatchManager getMatchManager() {
-        return matchManager;
-    }
-
-    public void setPlayers(ArrayList<String> players) {
-        this.players = players;
-    }
-
-    public ArrayList<Player> getvPlayers() {
-        return vPlayers;
-    }
-
-    public ArrayList<Player> getvPlayersFixed() {
-        return vPlayersFixed;
-    }
-
-    public ArrayList<PrivateOC> getPrivateOCs() {
-        return privateOCs;
-    }
-
     public ArrayList<PublicOC> getPublicOCs() {
         return publicOCs;
-    }
-
-    public ArrayList<String> getPlayers() {
-        return players;
-    }
-
-    public ArrayList<String> getPlayers2() {
-        return players2;
-    }
-
-    public ArrayList<String> getPlayersFixed() {
-        return playersFixed;
-    }
-
-    public ArrayList<String> getPrivateLeft() {
-        return privateLeft;
-    }
-
-    public ArrayList<String> getPublicRef() {
-        return publicRef;
     }
 
     public ArrayList<ToolC> getToolCards() {
         return toolCards;
     }
 
-    public boolean isAction() {
-        return action;
-    }
-
-    public Integer getnMates() {
-        return nMates;
-    }
-
-    public Integer getTimeout1() {
-        return timeout1;
-    }
-
-    public Integer getTimeout2() {
-        return timeout2;
-    }
-
-    public Integer getTimeout3() {
-        return timeout3;
-    }
-
-    public MiddlewareServer getMiddlewareServer() {
-        return middlewareServer;
-    }
-
-    public void setMiddlewareServer(MiddlewareServer middlewareServer) {
-        this.middlewareServer = middlewareServer;
-    }
-
-    public void setPlayers2(ArrayList<String> players2) {
-        this.players2 = players2;
-    }
-
-    public void setPlayersFixed(ArrayList<String> playersFixed) {
-        this.playersFixed = playersFixed;
-    }
-
-    public void setPublicRef(ArrayList<String> publicRef) {
-        this.publicRef = publicRef;
-    }
-
-    public void setvPlayers(ArrayList<Player> vPlayers) {
-        this.vPlayers = vPlayers;
-    }
-
     public ArrayList<String> getJump() {
         return jump;
-    }
-
-    public void setvPlayersFixed(ArrayList<Player> vPlayersFixed) {
-        this.vPlayersFixed = vPlayersFixed;
-    }
-
-    public void setJump(ArrayList<String> jump) {
-        this.jump = jump;
-    }
-
-    public Object getObj2() {
-        return obj2;
-    }
-
-    public Object getObj() {
-        return obj;
-    }
-
-    public void setPrivateLeft(ArrayList<String> privateLeft) {
-        this.privateLeft = privateLeft;
     }
 
     public ArrayList<Dice> getDices() {
@@ -261,30 +137,6 @@ public class GameManager extends GeneralTask {
         return pool;
     }
 
-    public ArrayList<Object> getObj4() {
-        return obj4;
-    }
-
-    public ArrayList<String> getActive() {
-        return active;
-    }
-
-    public ArrayList<String> getUnresponsive() {
-        return unresponsive;
-    }
-
-    public boolean isCheck1() {
-        return check1;
-    }
-
-    public Object getObj3() {
-        return obj3;
-    }
-
-    public Object getObj5() {
-        return obj5;
-    }
-
     public RoundTrack getRoundTrack() {
         return roundTrack;
     }
@@ -293,32 +145,8 @@ public class GameManager extends GeneralTask {
         return expected;
     }
 
-    public void setActive(ArrayList<String> active) {
-        this.active = active;
-    }
-
-    public void setCheck1(boolean check1) {
-        this.check1 = check1;
-    }
-
-    public void setDices(ArrayList<Dice> dices) {
-        this.dices = dices;
-    }
-
-    public void setExpected(String expected) {
-        this.expected = expected;
-    }
-
     public void setPool(ArrayList<Dice> pool) {
         this.pool = pool;
-    }
-
-    public void setRoundTrack(RoundTrack roundTrack) {
-        this.roundTrack = roundTrack;
-    }
-
-    public void setUnresponsive(ArrayList<String> unresponsive) {
-        this.unresponsive = unresponsive;
     }
 
     public Integer getTCtokens(Integer pos) {
@@ -395,20 +223,6 @@ public class GameManager extends GeneralTask {
             if (dice != null)
                 roundTrack.setDice(dice, col);
         }
-    }
-
-    public void fitness(ArrayList a) {
-        int i = 1;
-        a.trimToSize();
-        while (i <= a.size()) {
-            if (a.get(i - 1) == null)
-                a.remove(i - 1);
-            i++;
-        }
-    }
-
-    public void setToolCards(ArrayList<ToolC> toolCards) {
-        this.toolCards = toolCards;
     }
 
     public void endTurn(String uUID) {

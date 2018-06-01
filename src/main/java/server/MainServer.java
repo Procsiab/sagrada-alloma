@@ -13,7 +13,6 @@ public class MainServer {
     //create an object of MainServer
     private static final MainServer instance = new MainServer();
     public static SharedMiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    // List of players connected
 
     public static MainServer getInstance() {
         return instance;
@@ -23,8 +22,13 @@ public class MainServer {
         super();
     }
 
+    public static void simulation() {
+        ConcurrencyManager.submit(new GameGenerator2_3());
+        ConcurrencyManager.submit(new GameGenerator4());
+
+    }
+
     public static void main(String[] args) throws IOException {
-        MatchManager.getInstance();// delete this if newGameManager access MatchManager
         ConcurrencyManager.submit(new GameGenerator2_3());
         ConcurrencyManager.submit(new GameGenerator4());
 

@@ -139,8 +139,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
         try {
             if (deniedAccess(uuid)){
-                return false;}
-                System.out.println("choosewindowrrfff");
+                return false;
+            }
             return SReferences.getPlayerRefEnhanced(uuid).setWindowFromC(window - 1);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
@@ -215,5 +215,15 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
         }
+    }
+
+    public Boolean exitGame1(String uuid){
+        try {
+            return MatchManager.exitGame1(uuid);
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uuid);
+            Logger.strace(npe);
+        }
+        return false;
     }
 }

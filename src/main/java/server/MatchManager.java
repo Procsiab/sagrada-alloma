@@ -99,16 +99,17 @@ public class MatchManager {
     public String startGame(String uUID, String ip, Integer port, boolean isSocket) {
 
         if (left.contains(uUID) || SReferences.contains(uUID)) {
-            Logger.log("Player " + uUID + ": has connection refused: already playing.");
-            return "You already playing asshole! Hold on while the server calls you again";
+            Logger.log("Player " + uUID + " IP: " + ip + " PORT: " + port + " : has connection refused: already playing.");
+            return "You already playing! Hold on while the server calls you again";
         }
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
-            Logger.log("Player " + uUID + ": has connection refused: too many players.");
+            Logger.log("Player " + uUID + " IP: " + ip + " PORT: " + port + ": has connection refused: too many players.");
             return "Too many players connected. Please try again later. Sorry for that.";
         }
 
-        Logger.log("Player " + uUID + ": Connection accepted");
+        Logger.log("Player " + uUID + " IP: " + ip + " PORT: " + port + ": Connection accepted with" +
+                isSocket+ "socket");
         synchronized (obj2) {
 
             SReferences.addUuidRef(uUID);
@@ -123,10 +124,10 @@ public class MatchManager {
         return "Connections successful. Please wait for other players to connect";
     }
 
-    public boolean exitGame1(String uUID) {
+    public static boolean exitGame1(String uUID) {
         synchronized (obj2) {
             if (q.remove(uUID)) {
-                //you may call a function client-side that delete client from its match
+                System.out.println("Player "+uUID+" leaved platform");
                 SReferences.removeRef(uUID);
                 return true;
             }
@@ -135,16 +136,8 @@ public class MatchManager {
         }
     }
 
-    public ArrayList<String> getClients() {
-        return clients;
-    }
-
     public static ArrayList<String> getLeft() {
         return left;
-    }
-
-    public static Integer getMaxActivePlayerRefs() {
-        return MAX_ACTIVE_PLAYER_REFS;
     }
 
     public static LinkedList<String> getQ() {
@@ -173,34 +166,6 @@ public class MatchManager {
 
     public static Object getObj2() {
         return obj2;
-    }
-
-    public void setClients(ArrayList<String> clients) {
-        this.clients = clients;
-    }
-
-    public static void setInstance(MatchManager instance) {
-        MatchManager.instance = instance;
-    }
-
-    public static void setLeft(ArrayList<String> left) {
-        MatchManager.left = left;
-    }
-
-    public void setPrivateOCs(ArrayList<PrivateOC> privateOCs) {
-        this.privateOCs = privateOCs;
-    }
-
-    public void setPublicOCs(ArrayList<PublicOC> publicOCs) {
-        this.publicOCs = publicOCs;
-    }
-
-    public static void setQ(LinkedList<String> q) {
-        MatchManager.q = q;
-    }
-
-    public void setToolCs(ArrayList<ToolC> toolCs) {
-        this.toolCs = toolCs;
     }
 
     public void setWindows(ArrayList<Window> windows) {

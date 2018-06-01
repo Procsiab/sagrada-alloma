@@ -32,10 +32,6 @@ public class Player {
         this.possibleWindows= new ArrayList<>();
     }
 
-    public ArrayList<Integer> getPossibleWindows() {
-        return possibleWindows;
-    }
-
     public void setPossibleWindows(ArrayList<Integer> possibleWindowss) {
         int i = 0;
         for (Integer posyyt:
@@ -104,10 +100,6 @@ public class Player {
         this.hasPlacedDice=false;
     }
 
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
     public Integer getTokens() {
         return tokens;
     }
@@ -120,20 +112,12 @@ public class Player {
         return turno;
     }
 
-    public Integer getnPlayer() {
-        return nPlayer;
-    }
-
     public GameManager getGame() {
         return game;
     }
 
     public Integer getPrivateTurn() {
         return privateTurn;
-    }
-
-    public MatchManager getMatchManager() {
-        return matchManager;
     }
 
     public Overlay getOverlay() {
@@ -152,28 +136,8 @@ public class Player {
         return uUID;
     }
 
-    public void setLastPlaced(Position lastPlaced) {
-        this.lastPlaced = lastPlaced;
-    }
-
-    public void setMatchManager(MatchManager matchManager) {
-        this.matchManager = matchManager;
-    }
-
-    public void setnPlayer(Integer nPlayer) {
-        this.nPlayer = nPlayer;
-    }
-
     public void setOverlay(Overlay overlay) {
         this.overlay = overlay;
-    }
-
-    public void setPrivateOC(PrivateOC privateOC) {
-        this.privateOC = privateOC;
-    }
-
-    public void setPrivateTurn(Integer privateTurn) {
-        this.privateTurn = privateTurn;
     }
 
     public void setTokens(Integer tokens) {
@@ -186,10 +150,6 @@ public class Player {
             this.privateTurn = 2;
         else
             this.privateTurn =1;
-    }
-
-    public void setuUID(String uUID) {
-        this.uUID = uUID;
     }
 
     public Window getWindow() {

@@ -12,6 +12,7 @@ import java.util.Queue;
 @SuppressWarnings("InfiniteLoopStatement")
 public class GameGenerator4 extends GeneralTask {
     private final Object obj2 = MatchManager.getObj2();
+
     private static synchronized void setStart(Boolean value) {
         GameGenerator2_3.setStart(value);
     }
@@ -19,7 +20,7 @@ public class GameGenerator4 extends GeneralTask {
     @Override
     public void run() {
         super.run();
-
+        System.out.println("GameGenerator4 ready");
         ArrayList<String> clients;
         Queue<String> queue = MatchManager.getQ();
         boolean t = true;

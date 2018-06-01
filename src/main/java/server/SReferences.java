@@ -64,7 +64,7 @@ public class SReferences {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
-        SReferences.gameRef.add(index, gameRef);
+        SReferences.gameRef.set(index, gameRef);
         return true;
     }
 
@@ -72,7 +72,7 @@ public class SReferences {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
-        SReferences.ipRef.add(index, ipRef);
+        SReferences.ipRef.set(index, ipRef);
         return true;
     }
 
@@ -80,7 +80,7 @@ public class SReferences {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
-        SReferences.isSocketRef.add(index, isSocketRef);
+        SReferences.isSocketRef.set(index, isSocketRef);
         return true;
     }
 
@@ -88,7 +88,7 @@ public class SReferences {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
-        SReferences.playerRef.add(index, playerRef);
+        SReferences.playerRef.set(index, playerRef);
         return true;
     }
 
@@ -96,7 +96,7 @@ public class SReferences {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
-        SReferences.portRef.add(index, portRef);
+        SReferences.portRef.set(index, portRef);
         return true;
     }
 
@@ -108,7 +108,17 @@ public class SReferences {
 
         while (i < uuidRef.size() && uuidRef.get(i) != null)
             i++;
-        SReferences.uuidRef.add(i, uUID);
+
+        if(i == uuidRef.size()){
+            SReferences.uuidRef.add(uUID);
+            SReferences.portRef.add(null);
+            SReferences.playerRef.add(null);
+            SReferences.isSocketRef.add(null);
+            SReferences.ipRef.add(null);
+            SReferences.gameRef.add(null);
+        } else {
+            SReferences.uuidRef.set(i, uUID);
+        }
         SReferences.activePlayer++;
         return true;
     }
@@ -121,12 +131,12 @@ public class SReferences {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
-        SReferences.gameRef.add(index, null);
-        SReferences.ipRef.add(index, null);
-        SReferences.isSocketRef.add(index, null);
-        SReferences.playerRef.add(index, null);
-        SReferences.portRef.add(index, null);
-        SReferences.uuidRef.add(index, null);
+        SReferences.gameRef.set(index, null);
+        SReferences.ipRef.set(index, null);
+        SReferences.isSocketRef.set(index, null);
+        SReferences.playerRef.set(index, null);
+        SReferences.portRef.set(index, null);
+        SReferences.uuidRef.set(index, null);
         SReferences.activePlayer--;
         return true;
     }

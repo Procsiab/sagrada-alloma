@@ -22,7 +22,7 @@ public class GameGenerator2_3 extends GeneralTask {
     @Override
     public void run() {
         super.run();
-
+        System.out.println("GameGenerato2_3 ready");
         ArrayList<String> clients;
         Queue<String> queue = MatchManager.getQ();
         boolean t = true;
