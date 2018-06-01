@@ -39,8 +39,8 @@ public class PublicOC10 extends PublicOC {
         Integer ur = computate(dices, color, r - 1, c + 1, false);
         Integer dr = computate(dices, color, r + 1, c + 1, false);
         Integer dl = computate(dices, color, r + 1, c - 1, false);
-        if (firstTime)
-            return ul + ur + dr + dl;
+        if (firstTime && ul + ur + dr + dl == 0)
+            return 0;
         return 1 + ul + ur + dr + dl;
     }
 }

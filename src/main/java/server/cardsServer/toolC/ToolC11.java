@@ -39,6 +39,8 @@ public class ToolC11 extends ToolC {
             return false;
         if (p1 == null || i2 == null || i3 == null)
             return false;
+        if(i2>= game.getPool().size())
+            return false;
         if (game.getPool().get(i2) == null)
             return false;
 

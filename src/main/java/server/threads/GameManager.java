@@ -113,6 +113,7 @@ public class GameManager extends GeneralTask {
     public void setAction(boolean action) {
         synchronized (obj3) {
             this.action = action;
+            obj3.notifyAll();
         }
     }
 
@@ -727,7 +728,6 @@ public class GameManager extends GeneralTask {
 
 
                 //check if active, doesn't have a turn to jump, then go ahead
-
                 if (!privateLeft.contains(remotePlayer)) {
                     if (jump.contains(remotePlayer)) {
                         jump.remove(remotePlayer);
@@ -750,8 +750,8 @@ public class GameManager extends GeneralTask {
                                     Thread.currentThread().interrupt();
                                 }
                             }
-                            this.action = false;
                             this.expected = "none";
+                            this.action = false;
                             middlewareServer.shut(remotePlayer);
                             localPlayer.clearUsedTcAndPlacedDice();
                         }

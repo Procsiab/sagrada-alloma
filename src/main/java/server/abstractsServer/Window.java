@@ -6,6 +6,7 @@ import server.threads.GameManager;
 import shared.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public abstract class Window implements Serializable {
 
@@ -238,19 +239,24 @@ public abstract class Window implements Serializable {
         if (index == null || position == null)
             return false;
 
-        Dice dice = player.getGame().getPool().get(index);
+        ArrayList<Dice> pool = player.getGame().getPool();
+        if (index >= pool.size())
+            return false;
+
+        Dice dice = pool.get(index);
         if (dice == null)
             return false;
 
         if (player.getOverlay().busy(position))
             return false;
 
-        if (checkDice(player, dice, position)) {
-            player.getOverlay().setDicePosition(dice, position);
-            SReferences.getGameRefEnhanced(player.getuUID()).getPool().set(index, null);
-            return true;
-        }
-        return false;
+
+        if (!checkDice(player, dice, position))
+            return false;
+
+        player.getOverlay().setDicePosition(dice, position);
+        pool.set(index, null);
+        return true;
     }
 
     public boolean moveDice(Player player, Position p1, Position p2) {
