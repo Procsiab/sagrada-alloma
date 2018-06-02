@@ -158,7 +158,7 @@ public class Player {
     public void setPrivateOC(Integer n) {
         privateOC = matchManager.getPrivateOCs().get(n);
         System.out.println("Player " + uUID + " : Private Objective cards " +
-                "assigned has color " + privateOC.getColor() + "\n");
+                "assigned has color " + privateOC.getColor());
 
     }
 

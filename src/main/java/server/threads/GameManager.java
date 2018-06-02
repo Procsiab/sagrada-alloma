@@ -161,7 +161,7 @@ public class GameManager extends GeneralTask {
     }
 
     private void setExpected(String access) {
-        System.out.println("GameManger: " + this + " Access granted to: " + access + "\n");
+        System.out.println("GameManger: " + this + " Access granted to: " + access);
         this.expected = access;
     }
 
@@ -237,14 +237,14 @@ public class GameManager extends GeneralTask {
                 MatchManager.getInstance().getPrivateOCs().indexOf(player.getPrivateOC()) +
                 ", has " + player.getTokens() + " tokens, is at turn n° " + player.getTurno() +
                 ", has " + player.getScore() + " points, is at private turn n° " + player.getPrivateTurn() +
-                ", last dice placed was in position " + player.getLastPlaced().toString() + ".\n");
+                ", last dice placed was in position " + player.getLastPlaced().toString());
 
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateOCs, publicOCsT,
                 toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uuid)));
     }
 
     public void updateView() {
-        System.out.println("GameManager: " + this + ". Updating view: It has Tool card n° "
+        System.out.println("GameManager: " + this + " updating view: It has Tool card n° "
                 + MatchManager.getInstance().getToolCs().indexOf(toolCards.get(0)) + ", " +
                 +MatchManager.getInstance().getToolCs().indexOf(toolCards.get(1)) + ", " +
                 +MatchManager.getInstance().getToolCs().indexOf(toolCards.get(2)) + ", has Public " +
@@ -253,7 +253,7 @@ public class GameManager extends GeneralTask {
                 +MatchManager.getInstance().getPublicOCs().indexOf(publicOCs.get(1)) + ", " +
                 +MatchManager.getInstance().getPublicOCs().indexOf(publicOCs.get(2)) + ", has roundtrack with " +
                 roundTrack.sumDices() + " dices on it, has " + pool.size() + " dices in the pool, " +
-                "toolCard has respectively " + tCtokens.get(0) + ", " + tCtokens.get(1) + ", " + tCtokens.get(2) + "\n");
+                "toolCard has respectively " + tCtokens.get(0) + ", " + tCtokens.get(1) + ", " + tCtokens.get(2));
         for (String player :
                 active) {
             updateView(player);
@@ -372,8 +372,8 @@ public class GameManager extends GeneralTask {
             ArrayList<Cell[][]> matrices = new ArrayList<>();
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
             SReferences.getPlayerRefEnhanced(players.get(i)).setPossibleWindows(b);
-            System.out.println("Player: " + players.get(i) + " can chose its window among the following:" +
-                    b.get(0)+", "+b.get(1) +", "+b.get(2)+", "+b.get(3)+ "\n");
+            System.out.println("Player: " + players.get(i) + " can chose its Window among the following: " +
+                    b.get(0)+", "+b.get(1) +", "+b.get(2)+", "+b.get(3));
             k = 0;
             for (Integer y :
                     b) {
@@ -447,7 +447,7 @@ public class GameManager extends GeneralTask {
         toolCards.add(matchManager.getToolCs().get(a.get(1)));
         toolCards.add(matchManager.getToolCs().get(a.get(2)));
         System.out.println("GameManager: " + this + " assigned " +
-                "Tool cards n° " + a.get(0) + ", " + a.get(1) + ", " + a.get(2) + "\n");
+                "Tool cards n° " + a.get(0) + ", " + a.get(1) + ", " + a.get(2));
 
         i = 0;
         a.clear();
@@ -466,14 +466,14 @@ public class GameManager extends GeneralTask {
         publicOCs.add(matchManager.getPublicOCs().get(a.get(1)));
         publicOCs.add(matchManager.getPublicOCs().get(a.get(2)));
         System.out.println("GameManager: " + this + " assigned " +
-                "Public Objective cards n° " + a.get(0) + ", " + a.get(1) + ", " + a.get(2) + "\n");
+                "Public Objective cards n° " + a.get(0) + ", " + a.get(1) + ", " + a.get(2));
 
         i = 0;
         a.clear();
 
         pause(timeout3);
 
-        System.out.println("GameManager: " + this + " Initialization sequence completed");
+        System.out.println("\nGameManager: " + this + " Initialization sequence completed");
 
         j = 1;
         i = 1;
@@ -503,12 +503,11 @@ public class GameManager extends GeneralTask {
 
             checkActive();
             throwDice();
-            i = -1;
+            i = 1;
             for (String remotePlayer :
                     players2) {
                 Player localPlayer = SReferences.getPlayerRefEnhanced(remotePlayer);
-                i++;
-                System.out.println("GameManager: " + this + " begin round: " + j + " turn: " + i + "\n");
+                System.out.println("\nGameManager: " + this + " begin round: " + j + " turn: " + i +"\n");
                 checkActive();
 
                 System.out.println("GameManager: " + this + " players online are " + active.size() +
@@ -518,21 +517,21 @@ public class GameManager extends GeneralTask {
                     System.out.println(player + "; ");
                 }
 
-                System.out.println("\nGameManager: " + this + " players temporarily offline " +
+                System.out.println("GameManager: " + this + " players temporarily offline " +
                         "are " + unresponsive.size() + ". They are: ");
                 for (String player :
                         unresponsive) {
                     System.out.println(player + "; ");
                 }
 
-                System.out.println("\nGameManager: " + this + " players who quit " +
+                System.out.println("GameManager: " + this + " players who quit " +
                         "are " + privateLeft.size() + ". They are: ");
                 for (String player :
                         privateLeft) {
                     System.out.println(player + "; ");
                 }
 
-                System.out.println("\nGameManager: " + this + " we play with " + pool.size() + " dices\n");
+                System.out.println("GameManager: " + this + " we play with " + pool.size() + " dices");
 
                 //check if all left game
                 if (active.size() + unresponsive.size() == 0) {
@@ -545,9 +544,9 @@ public class GameManager extends GeneralTask {
                 int q = 1;
                 //check if global blackout
                 if (active.isEmpty()) {
-                    System.out.println("GameManager: " + this + "seems all are having issues over the net.\n");
+                    System.out.println("GameManager: " + this + "seems all are having issues over the net");
                     while (active.isEmpty()) {
-                        System.out.println("GameManager: " + this + " Attempt to reconnect n° " + (p + 1) + "\n");
+                        System.out.println("GameManager: " + this + " Attempt to reconnect n° " + (p + 1));
                         for (String pla : players2
                                 ) {
                             if (middlewareServer.ping(pla)) {
@@ -579,17 +578,17 @@ public class GameManager extends GeneralTask {
                 //check if only one guest
                 p = 1;
                 if (active.size() + unresponsive.size() == 1) {
-                    System.out.println("GameManager: " + this + " we're having a victory decided by arbitration\n");
+                    System.out.println("GameManager: " + this + " we're having a victory decided by arbitration");
                     while (active.size() + unresponsive.size() == 1) {
                         tavolo = active.get(0);
                         if (tavolo == null) {
-                            System.out.println("GameManager: " + this + " the only player is offline!\n");
+                            System.out.println("GameManager: " + this + " the only player is offline!");
                             tavolo = unresponsive.get(0);
                         }
                         if (middlewareServer.ping(tavolo)) {
                             middlewareServer.tavoloWin(active.get(0));
                             closeGame();
-                            System.out.println("GameManager: " + this + " the winner is " + tavolo + "\n");
+                            System.out.println("GameManager: " + this + " the winner is " + tavolo);
                             pause(15000);
                             return;
                         }
@@ -602,7 +601,7 @@ public class GameManager extends GeneralTask {
                             }
                         }
                         if (p == 5) {
-                            System.out.println("GameManager: " + this + " after 5 attempts game closes\n");
+                            System.out.println("GameManager: " + this + " after 5 attempts game closes");
                             closeGame();
                             return;
                         }
@@ -615,7 +614,7 @@ public class GameManager extends GeneralTask {
                     if (jump.contains(remotePlayer)) {
                         jump.remove(remotePlayer);
                         System.out.println("GameManager: " + this + " player: " + remotePlayer +
-                                "jump this turn\n");
+                                "jump this turn");
                     } else if (active.contains(remotePlayer)) {
                         this.updateView();
                         setExpected(remotePlayer);
@@ -627,7 +626,7 @@ public class GameManager extends GeneralTask {
                             while (!this.action) {
                                 try {
                                     System.out.println("GameManager: " + this + " waiting player "
-                                            + remotePlayer + "'s move\n");
+                                            + remotePlayer + "'s move");
                                     obj3.wait(timeout1);
                                     setAction(true);
                                 } catch (InterruptedException ie) {
@@ -674,7 +673,7 @@ public class GameManager extends GeneralTask {
             middlewareServer.printScore(play.getuUID(), play.getScore());
             if (play.getScore() == points) {
                 System.out.println("GameManager: " + this + " the winner is player: " + play.getuUID() + "." +
-                        "Congratulations!.\n");
+                        "Congratulations!.");
                 middlewareServer.setWinner(play.getuUID());
             }
         }

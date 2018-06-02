@@ -99,16 +99,16 @@ public class MatchManager {
     public String startGame(String uUID, String ip, Integer port, boolean isSocket) {
 
         if (left.contains(uUID) || SReferences.contains(uUID)) {
-            Logger.log("Player: " + uUID + " IP: " + ip + " PORT: " + port+ " has connection refused: already playing.\n");
+            System.out.println("Player: " + uUID + ", IP: " + ip + ", PORT: " + port+ " has connection refused: already playing.");
             return "You already playing! Hold on while the server calls you again";
         }
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
-            Logger.log("Player: " + uUID + " IP: " + ip + " PORT: " + port + " has connection refused: too many players.\n");
+            System.out.println("Player: " + uUID + ", IP: " + ip + ", PORT: " + port + " has connection refused: too many players.");
             return "Too many players connected. Please try again later. Sorry for that.";
         }
 
-        Logger.log("Player: " + uUID + " IP: " + ip + " PORT: " + port + " SOCKET: "+isSocket+" connection accepted.\n");
+        System.out.println("Player: " + uUID + ", IP: " + ip + ", PORT: " + port + ", SOCKET: "+isSocket+" has connection accepted.");
         synchronized (obj2) {
 
             SReferences.addUuidRef(uUID);
