@@ -66,7 +66,7 @@ public class GameManager extends GeneralTask {
         this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
 
-        System.out.println("GameManager: "+this+". Game started with " + players.size() +
+        System.out.println("GameManager: " + this + ". Game started with " + players.size() +
                 " players. They are: ");
         for (String player :
                 players) {
@@ -76,10 +76,10 @@ public class GameManager extends GeneralTask {
 
         System.out.println("Those are the configuration parameters: \n" +
                 "time given to\n" +
-                "\teach player to choose what to do: " + timeout1/1000 + "s\n" +
-                "\tsolve connection issue: " + timeout2/1000 + "s\n" +
-                "\tallow initialization of GUI environment " + timeout3/1000 + "s\n" +
-                "\teach player to choose the appropriate window: " + timeout4/1000 + "s\n");
+                "\teach player to choose what to do: " + timeout1 / 1000 + "s\n" +
+                "\tsolve connection issue: " + timeout2 / 1000 + "s\n" +
+                "\tallow initialization of GUI environment " + timeout3 / 1000 + "s\n" +
+                "\teach player to choose the appropriate window: " + timeout4 / 1000 + "s\n");
 
         int i;
         for (i = 0; i < players.size(); i++) {
@@ -243,7 +243,7 @@ public class GameManager extends GeneralTask {
     public void updateView() {
         System.out.println("GameManager: " + this + " updating view: \nThis is the game's state:" +
                 "\nIt has roundtrack with " + roundTrack.sumDices() + " dices on it, has " + pool.size() + " dices in the pool, " +
-                "toolCard has respectively " + tCtokens.get(0) + ", " + tCtokens.get(1) + ", " + tCtokens.get(2)+" tokens");
+                "toolCard has respectively " + tCtokens.get(0) + ", " + tCtokens.get(1) + ", " + tCtokens.get(2) + " tokens");
         for (String player :
                 active) {
             updateView(player);
@@ -362,7 +362,7 @@ public class GameManager extends GeneralTask {
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
             SReferences.getPlayerRefEnhanced(players.get(i)).setPossibleWindows(b);
             System.out.println("Player: " + players.get(i) + " can chose its Window among the following: " +
-                    b.get(0)+", "+b.get(1) +", "+b.get(2)+", "+b.get(3));
+                    b.get(0) + ", " + b.get(1) + ", " + b.get(2) + ", " + b.get(3));
             k = 0;
             for (Integer y :
                     b) {
@@ -494,7 +494,7 @@ public class GameManager extends GeneralTask {
             throwDice();
             i = 1;
             k = 1;
-            while (k<3) {
+            while (k < 3) {
                 for (String remotePlayer :
                         players2) {
                     Player localPlayer = SReferences.getPlayerRefEnhanced(remotePlayer);
@@ -633,8 +633,10 @@ public class GameManager extends GeneralTask {
                             }
                         }
                     }
+                    i++;
                 }
                 Collections.reverse(players2);
+                Logger.log(players2.toString());
                 k++;
             }
             settleRoundtrack(j);
