@@ -65,7 +65,7 @@ public class MainClient extends Application {
         AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
 
-        uuid = "player6";
+        uuid = "player348";
 
         //uuid = getUuid();
         Logger.log("UUID: " + uuid);

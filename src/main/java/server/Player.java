@@ -20,7 +20,7 @@ public class Player {
     private Integer nPlayer;
     private Integer score = 0;
     private Integer privateTurn = 0; //can be either 1 or 2
-    private Position lastPlaced;
+    private Position lastPlaced = new Position(-1,-1);
     private boolean hasPlacedDice = false;
     private boolean hasUsedTc = false;
     private GameManager game;
