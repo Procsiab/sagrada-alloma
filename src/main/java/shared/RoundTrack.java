@@ -11,7 +11,7 @@ public class RoundTrack implements Serializable {
     private ArrayList<ArrayList<Dice>> dices = new ArrayList<>(10);
 
     public RoundTrack() {
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             dices.add(new ArrayList<>());
         }
     }
@@ -32,7 +32,7 @@ public class RoundTrack implements Serializable {
     }
 
     public void setDice(Dice dice, Integer column) {
-        this.dices.get(column).add(dice);
+        this.dices.get(column - 1).add(dice);
     }
 
     public Dice getDice(PositionR positionR) {

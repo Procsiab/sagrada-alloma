@@ -21,4 +21,8 @@ public class Dice implements Serializable {
         return color;
     }
 
+    @Override
+    public String toString() {
+        return color+", "+value;
+    }
 }

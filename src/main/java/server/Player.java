@@ -172,7 +172,7 @@ public class Player {
             return false;
         }
         this.window = matchManager.getWindows().get(n);
-        System.out.println("Player: " + uUID + " choose Window: " + n + ". It has: " + window.getTokens() + " tokens\n");
+        System.out.println("Player: " + uUID + " choose Window: " + n + ". It has: " + window.getTokens() + " tokens");
         return true;
     }
 
