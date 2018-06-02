@@ -107,7 +107,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public void enable() {
         //TODO Call true method
         if (MainClient.isPrompt()) {
-            //Call method for CLI
+            MainClient.cliController.enable();
         } else {
             //Call method for GUI
         }
@@ -117,7 +117,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public void shut() {
         //TODO Call true method
         if (MainClient.isPrompt()) {
-            //Call method for CLI
+            MainClient.cliController.shut();
         } else {
             //Call method for GUI
         }

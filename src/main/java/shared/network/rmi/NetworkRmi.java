@@ -249,6 +249,7 @@ public class NetworkRmi implements Connection {
             }
         } catch (NullPointerException npe) {
             Logger.log("Could not find requested object " + callee + " among exported ones!");
+            Logger.strace(npe, true);
         } catch (ClassCastException cce) {
             Logger.log("Cast type exception: do your parameters extend Serializable?");
         } catch (RemoteException re) {

@@ -1,7 +1,11 @@
 package shared;
 
+import org.fusesource.jansi.AnsiConsole;
+
 import java.time.LocalTime;
 import java.util.Arrays;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * <h1>Message Logger</h1>
@@ -26,5 +30,12 @@ public class Logger {
         System.out.println("\n[Stack trace for " + e.toString() + "]");
         Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         System.out.print("\n\n");
+    }
+    public static void strace(Exception e, boolean evil) {
+        if (evil) {
+            AnsiConsole.out().print(ansi().fgBrightMagenta());
+            strace(e);
+            AnsiConsole.out().print(ansi().fgDefault());
+        }
     }
 }

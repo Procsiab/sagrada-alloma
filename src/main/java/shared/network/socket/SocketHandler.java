@@ -190,7 +190,8 @@ class SocketHandler implements Runnable, Closeable {
                 Logger.log("Found exported object of wrong type: expected SharedMiddleware<Client|Server>");
             }
         } catch (NullPointerException npe) {
-            Logger.log("Could not find requested object " + callee + " among exported ones!");
+            Logger.log("Null pointer: maybe object " + callee + " wasn't exported!");
+            Logger.strace(npe, true);
         } catch (ClassCastException cce) {
             Logger.log("Cast type exception: do your parameters extend Serializable?");
         } catch (RemoteException re) {

@@ -34,6 +34,9 @@ public class MainCLI {
         boolean stop = false;
         do {
             String s = readInput.nextLine();
+            if (s.equals("kill")) {
+                stop = true;
+            }
             switch (functionId) {
                 case 1: // chooseWindow()
                     int i = Integer.parseInt(s);
@@ -43,7 +46,7 @@ public class MainCLI {
                         wrongCommand();
                     }
                     break;
-                case 2: // updateView()
+                case 2: // enable()
                     switch (s) {
                         case "dice":
                             AnsiConsole.out().print(ansi().fgBrightRed()
@@ -54,8 +57,6 @@ public class MainCLI {
                                     .a("Input the number of the tool card you want to use: ").fgDefault());
                             break;
                         case "end":
-                            AnsiConsole.out().println(ansi().fgBrightRed()
-                                    .a("You ended your turn: wait for your opponents").fgDefault());
                             MiddlewareClient.getInstance().endTurn();
                             break;
                         default:
@@ -63,7 +64,9 @@ public class MainCLI {
                             break;
                     }
                     break;
-                default:
+                case 3: // method()
+                    break;
+                default: // functionId = 0
                     break;
             }
         } while (!stop);
@@ -75,6 +78,7 @@ public class MainCLI {
     }
 
     public void chooseWindow(ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
+        functionId = 1;
         AnsiConsole.out().println(ansi().fgBrightRed().a("Please select a window to play with, among the following:")
                 .fgDefault());
         for (Integer w : windows) {
@@ -82,7 +86,19 @@ public class MainCLI {
         }
         AnsiConsole.out().println();
         this.windows = windows;
-        functionId = 1;
+    }
+
+    public void enable() {
+        functionId = 2;
+        AnsiConsole.out().println(ansi().fgBrightGreen().a("[INFO] ").fgBrightYellow()
+                .a("Your turn has now started").fgDefault());
+        MiddlewareClient.getInstance().updateViewFromC();
+    }
+
+    public void shut() {
+        functionId = 0;
+        AnsiConsole.out().println(ansi().fgBrightGreen().a("[INFO] ").fgBrightYellow()
+                .a("Your turn has ended: wait for you opponents").fgDefault());
     }
 
     public void startGameViewForced() {
@@ -90,8 +106,9 @@ public class MainCLI {
     }
 
     public void updateView(GameManagerT gm) {
-        AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:"));
-        this.gm = gm;
-        functionId = 2;
+        if (functionId == 2) {
+            AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:"));
+            this.gm = gm;
+        }
     }
 }
