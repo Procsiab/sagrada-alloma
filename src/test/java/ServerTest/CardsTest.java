@@ -1,18 +1,19 @@
-package server.cardsServer.publicOC;
+package ServerTest;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import server.Player;
+import server.cardsServer.publicOC.PublicOC10;
 import server.threads.GameManager;
 import shared.Dice;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
-class PublicOC10Test {
+public class CardsTest {
 
     @Test
-    void use() {
+    void PublicOc10() {
         PublicOC10 oc = new PublicOC10();
 
         Dice[][] dices = new Dice[4][5];

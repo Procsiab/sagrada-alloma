@@ -35,7 +35,21 @@ public class RoundTrack implements Serializable {
         this.dices.get(column).add(dice);
     }
 
-    public Dice getDice(PositionR positionR){
+    public Dice getDice(PositionR positionR) {
         return this.dices.get(positionR.column).get(positionR.column);
+    }
+
+    public Integer sumDices() {
+        int sum = 0;
+        for (ArrayList<Dice> arr :
+                dices) {
+            if (arr != null)
+                for (Dice dice :
+                        arr) {
+                    if (dice != null)
+                        sum++;
+                }
+        }
+        return sum;
     }
 }

@@ -29,14 +29,14 @@ public class Player {
         this.uUID = uUID;
         this.nPlayer = i;
         this.game = gameManager;
-        this.possibleWindows= new ArrayList<>();
+        this.possibleWindows = new ArrayList<>();
     }
 
     public void setPossibleWindows(ArrayList<Integer> possibleWindowss) {
         int i = 0;
-        for (Integer posyyt:
-             possibleWindowss) {
-            this.possibleWindows.add(i,posyyt);
+        for (Integer posyyt :
+                possibleWindowss) {
+            this.possibleWindows.add(i, posyyt);
             i++;
         }
         System.out.println("possible wind " + possibleWindows.get(0) + possibleWindows.get(1));
@@ -68,7 +68,7 @@ public class Player {
         }
 
         score = score + tokens;
-        Logger.log("score of player " + this + " is " + score.toString());
+        Logger.log("Player: " + uUID + " total score is " + score.toString()+"\n");
 
         return score;
     }
@@ -76,28 +76,28 @@ public class Player {
     public synchronized boolean placedDice() {
         if (this.hasPlacedDice)
             return false;
-        this.hasPlacedDice=true;
+        this.hasPlacedDice = true;
         return true;
     }
 
     public synchronized boolean usedTc() {
         if (this.hasUsedTc)
             return false;
-        this.hasUsedTc=true;
+        this.hasUsedTc = true;
         return true;
     }
 
     public synchronized boolean usedTcAndPlacedDice() {
-        if (this.hasUsedTc||this.hasPlacedDice)
+        if (this.hasUsedTc || this.hasPlacedDice)
             return false;
-        this.hasUsedTc=true;
-        this.hasPlacedDice=true;
+        this.hasUsedTc = true;
+        this.hasPlacedDice = true;
         return true;
     }
 
     public synchronized void clearUsedTcAndPlacedDice() {
-        this.hasUsedTc=false;
-        this.hasPlacedDice=false;
+        this.hasUsedTc = false;
+        this.hasPlacedDice = false;
     }
 
     public Integer getTokens() {
@@ -146,10 +146,10 @@ public class Player {
 
     public void incrementTurn() {
         this.turno++;
-        if(this.privateTurn ==1)
+        if (this.privateTurn == 1)
             this.privateTurn = 2;
         else
-            this.privateTurn =1;
+            this.privateTurn = 1;
     }
 
     public Window getWindow() {
@@ -158,22 +158,29 @@ public class Player {
 
     public void setPrivateOC(Integer n) {
         privateOC = matchManager.getPrivateOCs().get(n);
+        System.out.println("Player " + uUID + " : Private Objective cards " +
+                "assigned has color " + privateOC.getColor() + "\n");
+
     }
 
     public boolean setWindowFromC(Integer n) {
-        if (this.window != null)
+        if (this.window != null) {
+            System.out.println("Player: " + uUID + " Server already assigned Window for this player");
             return false;
-        System.out.println("possible wind pos 3" + possibleWindows.get(2));
-        if(!this.possibleWindows.contains(n))
+        }
+        if (!this.possibleWindows.contains(n)) {
+            System.out.println("Player: " + uUID + " Attempt to set improper Window");
             return false;
+        }
         this.window = matchManager.getWindows().get(n);
-        Logger.log("assegnata dal client window "+ n.toString());
+        System.out.println("Player: " + uUID + " choose Window: " + n + ". It has: " + window.getTokens() + " tokens\n");
         return true;
     }
 
     public boolean setWindow(Integer n) {
         this.window = matchManager.getWindows().get(n);
-        this.window = matchManager.getWindows().get(n);
+        System.out.println("Player:" + uUID + " Server assigned Window n° " + n + ". It has " + window.getTokens() +
+                " tokens. Will be forced start client-side");
         return true;
     }
 
@@ -193,6 +200,10 @@ public class Player {
         ArrayList<Dice> pool = game.getPool();
         if (pool.get(index) == null)
             return false;
-        return this.window.setDiceFromPool(this, index, position);
+        if (this.window.setDiceFromPool(this, index, position)) {
+            this.lastPlaced = position;
+            return true;
+        }
+        return false;
     }
 }
