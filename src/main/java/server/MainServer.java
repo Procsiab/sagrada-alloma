@@ -15,21 +15,28 @@ public class MainServer {
     private static final MainServer instance = new MainServer();
     public static MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     private static ArrayList<GameManager> gameManagers = new ArrayList<>();
+    private static Integer gameManagerCode = 0;
     public static final Object obj = new Object();
 
     public static MainServer getInstance() {
         return instance;
     }
 
+    public static Integer addGameManagerCode(){
+        gameManagerCode++;
+        return gameManagerCode;
+    }
+
     public static ArrayList<GameManager> getGameManagers() {
         return gameManagers;
     }
 
-    public static void addGameManagers(GameManager gameManager) {
+   public static Integer addGameManagers(GameManager gameManager) {
         synchronized (obj) {
             MainServer.gameManagers.add(gameManager);
             obj.notifyAll();
         }
+        return addGameManagerCode();
     }
 
     private MainServer() {

@@ -1,5 +1,6 @@
 package server.threads.GameGenerator;
 
+import server.MainServer;
 import server.MatchManager;
 import server.threads.GameManager;
 import shared.Logger;
@@ -48,7 +49,7 @@ public class GameGenerator1 extends GeneralTask {
                 }
             } catch (Exception e) {
                 Logger.log("Error waiting on lock!");
-                Logger.log(e.toString());
+                e.printStackTrace();
             }
         }
     }

@@ -39,7 +39,6 @@ public class Player {
             this.possibleWindows.add(i, posyyt);
             i++;
         }
-        System.out.println("possible wind " + possibleWindows.get(0) + possibleWindows.get(1));
     }
 
     public Integer getScore() {

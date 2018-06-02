@@ -30,4 +30,8 @@ public class Position implements Serializable {
     public void setColumn(Integer column) {
         this.column = column;
     }
+
+    public String toString(){
+        return this.getRow()+", "+this.getColumn();
+    }
 }

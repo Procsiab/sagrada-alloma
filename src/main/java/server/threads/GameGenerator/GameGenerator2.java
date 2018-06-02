@@ -1,5 +1,6 @@
 package server.threads.GameGenerator;
 
+import server.MainServer;
 import server.MatchManager;
 import server.threads.GameManager;
 import shared.Logger;
