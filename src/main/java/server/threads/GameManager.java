@@ -337,9 +337,8 @@ public class GameManager extends GeneralTask {
         Boolean esito = false;
 
         if (!(i1 == null || i1 < 0 || i1 > 2)) {
-            i1++;
 
-            switch (toolCards.get(i1)) {
+            switch (toolCards.get(i1)+1) {
                 case 1:
                     esito = ToolExecutable.use1(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
