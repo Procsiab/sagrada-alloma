@@ -37,7 +37,6 @@ public class PublicOExecutable {
         }
         return sum;
     }
-
     public static Integer use2(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -66,7 +65,6 @@ public class PublicOExecutable {
         }
         return sum;
     }
-
     public static Integer use3(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -95,7 +93,6 @@ public class PublicOExecutable {
         }
         return sum;
     }
-
     public static Integer use4(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -124,7 +121,6 @@ public class PublicOExecutable {
         }
         return sum;
     }
-
     public static Integer use5(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -165,7 +161,6 @@ public class PublicOExecutable {
 
         return sum;
     }
-
     public static Integer use6(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -202,7 +197,6 @@ public class PublicOExecutable {
 
         return sum;
     }
-
     public static Integer use7(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -231,7 +225,6 @@ public class PublicOExecutable {
 
         return Math.min(shades5.size(), shades6.size()) * 2;
     }
-
     public static Integer use8(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -260,7 +253,6 @@ public class PublicOExecutable {
 
         return Math.min(shades3.size(), shades4.size()) * 2;
     }
-
     public static Integer use9(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -289,7 +281,6 @@ public class PublicOExecutable {
 
         return Math.min(shades1.size(), shades2.size()) * 2;
     }
-
     public static Integer use10(Overlay overlay1) {
         Overlay overlay = overlay1.deepClone();
         Dice[][] dices = overlay.getDicePositions();
