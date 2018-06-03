@@ -2,7 +2,6 @@ package shared.TransferObjects;
 
 import shared.Overlay;
 import shared.Position;
-import shared.cardsShared.privateOC.PrivateOC;
 
 import java.io.Serializable;
 

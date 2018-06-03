@@ -109,66 +109,6 @@ public class Window implements Serializable {
         return true;
     }
 
-    public boolean checkAdjDices(Overlay overlay, Position position1) {
-        int i, j;
-        boolean esito;
-        Position position = new Position();
-
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 5; j++) {
-                if (overlay.getDicePositions()[i][j] != null) {
-                    position.setColumn(j);
-                    position.setRow(i);
-                    esito = false;
-
-                    if (position.getRow() >= 0 && position.getColumn() - 1 >= 0)
-                        if (position1.getRow().equals(position.getRow()) &&
-                                position1.getColumn().equals(position.getColumn() - 1))
-                            esito = true;
-
-                    if (position.getRow() - 1 >= 0 && position.getColumn() - 1 >= 0)
-                        if (position1.getRow().equals(position.getRow() - 1) &&
-                                position1.getColumn().equals(position.getColumn() - 1))
-                            esito = true;
-
-                    if (position.getRow() - 1 >= 0 && position.getColumn() >= 0)
-                        if (position1.getRow().equals(position.getRow() - 1) &&
-                                position1.getColumn().equals(position.getColumn()))
-                            esito = true;
-
-                    if (position.getRow() - 1 >= 0 && position.getColumn() + 1 <= 4)
-                        if (position1.getRow().equals(position.getRow() - 1) &&
-                                position1.getColumn().equals(position.getColumn() + 1))
-                            esito = true;
-
-                    if (position.getRow() >= 0 && position.getColumn() + 1 <= 4)
-                        if (position1.getRow().equals(position.getRow()) &&
-                                position1.getColumn().equals(position.getColumn() + 1))
-                            esito = true;
-
-                    if (position.getRow() + 1 <= 3 && position.getColumn() + 1 <= 4)
-                        if (position1.getRow().equals(position.getRow() + 1) &&
-                                position1.getColumn().equals(position.getColumn() + 1))
-                            esito = true;
-
-                    if (position.getRow() + 1 <= 3 && position.getColumn() >= 0)
-                        if (position1.getRow().equals(position.getRow() + 1) &&
-                                position1.getColumn().equals(position.getColumn()))
-                            esito = true;
-
-                    if (position.getRow() + 1 <= 3 && position.getColumn() - 1 >= 0)
-                        if (position1.getRow().equals(position.getRow() + 1) &&
-                                position1.getColumn().equals(position.getColumn() - 1))
-                            esito = true;
-
-                    if (!esito)
-                        return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public boolean notAdjacentToAny(Overlay overlay, Position position1) {
         Position position = new Position(position1.getRow() - 1, position1.getColumn() - 1);
         if (position.getRow() >= 0 && position.getColumn() >= 0)

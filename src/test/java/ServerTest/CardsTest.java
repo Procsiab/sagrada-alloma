@@ -2,7 +2,7 @@ package ServerTest;
 
 import org.junit.Test;
 import server.Player;
-import server.PublicOExecutable;
+import server.executable.PublicObject;
 import server.threads.GameManager;
 import shared.Dice;
 import shared.Overlay;
@@ -38,7 +38,7 @@ public class CardsTest {
         Player player = new Player(0, new GameManager(new ArrayList<String>()), "prova");
         player.getOverlay().setDices(dices);
 
-        Integer score = PublicOExecutable.use10(new Overlay(dices));
+        Integer score = PublicObject.use10(new Overlay(dices));
 
         assertEquals(6, score.intValue());
     }

@@ -1,9 +1,9 @@
-package server;
+package server.threads;
 
 
+import server.connection.MiddlewareServer;
 import server.threads.GameGenerator.GameGenerator1;
 import server.threads.GameGenerator.GameGenerator2;
-import server.threads.GameManager;
 import shared.concurrency.ConcurrencyManager;
 
 import java.io.*;

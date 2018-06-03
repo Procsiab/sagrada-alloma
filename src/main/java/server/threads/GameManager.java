@@ -1,7 +1,9 @@
 package server.threads;
 
 import server.*;
-import server.PublicOExecutable;
+import server.connection.DummyMiddlewareServer;
+import server.executable.PublicObject;
+import server.executable.Tool;
 import server.Window;
 import shared.*;
 import server.Player;
@@ -23,12 +25,10 @@ public class GameManager extends GeneralTask {
     private final Integer timeout2; //connection issue config
     private final Integer timeout3; //pausetta config
     private final Integer timeout4; //for window back
-    private final Integer nMates;
     private ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
     private MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
-    private ArrayList<Character> privateO = new ArrayList<>();
     private ArrayList<Integer> publicOCs = new ArrayList<>();
     private ArrayList<Integer> toolCards = new ArrayList<>();
     private ArrayList<Integer> tCtokens = new ArrayList<>();
@@ -59,7 +59,6 @@ public class GameManager extends GeneralTask {
         this.timeout2 = 12000;
         this.timeout3 = 5000;
         this.timeout4 = 3000;
-        this.nMates = players.size();
         this.obj4 = new ArrayList<>(players.size());
 
         System.out.println("GameManager: " + this + ". Game started with " + players.size() +
@@ -122,6 +121,73 @@ public class GameManager extends GeneralTask {
                 dices.add(new Dice('p', 1 + rand.nextInt(5)));
             i++;
         }
+
+        i = 0;
+        int j = 0;
+
+        ArrayList<Character> ch = new ArrayList<>();
+        ch.add('b');
+        ch.add('g');
+        ch.add('y');
+        ch.add('v');
+        ch.add('r');
+
+        ArrayList<Integer> a = new ArrayList<>();
+
+        j = rand.nextInt(4);
+        while (i < players.size()) {
+            while (a.contains(j)) {
+                j = rand.nextInt(4);
+            }
+            a.add(j);
+            i++;
+        }
+        i = 0;
+
+        while (i < players.size()) {
+            vPlayers.get(i).setPrivateOC(ch.get(a.get(i)));
+            i++;
+        }
+
+        i = 0;
+        a.clear();
+
+        j = rand.nextInt(11);
+        while (i < 3) {
+            while (a.contains(j)) {
+                j = rand.nextInt(11);
+            }
+            a.add(j);
+            i++;
+        }
+        i = 0;
+
+        toolCards.add(a.get(0));
+        toolCards.add(a.get(1));
+        toolCards.add(a.get(2));
+        System.out.println("GameManager: " + this + " assigned " +
+                "Tool cards n° " + revealToolCard(a.get(0)) + ", " + revealToolCard(a.get(1))
+                + ", " + revealToolCard(a.get(2)));
+
+        i = 0;
+        a.clear();
+
+        j = rand.nextInt(9);
+        while (i < 3) {
+            while (a.contains(j)) {
+                j = rand.nextInt(9);
+            }
+            a.add(j);
+            i++;
+        }
+        i = 0;
+
+        publicOCs.add(a.get(0));
+        publicOCs.add(a.get(1));
+        publicOCs.add(a.get(2));
+        System.out.println("GameManager: " + this + " assigned " +
+                "Public Objective cards n° " + revealPublicOC(a.get(0)) + ", "
+                + revealPublicOC(a.get(1)) + ", " + revealPublicOC(a.get(2)));
 
     }
 
@@ -232,6 +298,10 @@ public class GameManager extends GeneralTask {
         return "card not found";
     }
 
+    public String revealWindow(Integer i){
+        return "Window?";
+    }
+
     public String getExpected() {
         return expected;
     }
@@ -266,7 +336,7 @@ public class GameManager extends GeneralTask {
 
         int i = 0;
         ArrayList<ToolCT> toolCsT = new ArrayList<>();
-        for (Integer card:
+        for (Integer card :
                 toolCards) {
             toolCsT.add(new ToolCT(revealToolCard(card), tCtokens.get(i)));
             i++;
@@ -278,7 +348,7 @@ public class GameManager extends GeneralTask {
                 ", has " + player.getScore() + " points, is at private turn n° " + player.getPrivateTurn() +
                 ", last dice placed was in position " + player.getLastPlaced().toString());
 
-        middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, privateO, publicOCsT,
+        middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, publicOCsT,
                 toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uuid)));
     }
 
@@ -299,34 +369,34 @@ public class GameManager extends GeneralTask {
             card++;
             switch (card) {
                 case 1:
-                    score = score + PublicOExecutable.use1(overlay);
+                    score = score + PublicObject.use1(overlay);
                     break;
                 case 2:
-                    score = score + PublicOExecutable.use2(overlay);
+                    score = score + PublicObject.use2(overlay);
                     break;
                 case 3:
-                    score = score + PublicOExecutable.use3(overlay);
+                    score = score + PublicObject.use3(overlay);
                     break;
                 case 4:
-                    score = score + PublicOExecutable.use4(overlay);
+                    score = score + PublicObject.use4(overlay);
                     break;
                 case 5:
-                    score = score + PublicOExecutable.use5(overlay);
+                    score = score + PublicObject.use5(overlay);
                     break;
                 case 6:
-                    score = score + PublicOExecutable.use6(overlay);
+                    score = score + PublicObject.use6(overlay);
                     break;
                 case 7:
-                    score = score + PublicOExecutable.use7(overlay);
+                    score = score + PublicObject.use7(overlay);
                     break;
                 case 8:
-                    score = score + PublicOExecutable.use8(overlay);
+                    score = score + PublicObject.use8(overlay);
                     break;
                 case 9:
-                    score = score + PublicOExecutable.use9(overlay);
+                    score = score + PublicObject.use9(overlay);
                     break;
                 case 10:
-                    score = score + PublicOExecutable.use10(overlay);
+                    score = score + PublicObject.use10(overlay);
                     break;
             }
         }
@@ -338,42 +408,42 @@ public class GameManager extends GeneralTask {
 
         if (!(i1 == null || i1 < 0 || i1 > 2)) {
 
-            switch (toolCards.get(i1)+1) {
+            switch (toolCards.get(i1) + 1) {
                 case 1:
-                    esito = ToolExecutable.use1(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use1(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 2:
-                    esito = ToolExecutable.use2(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use2(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 3:
-                    esito = ToolExecutable.use3(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use3(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 4:
-                    esito = ToolExecutable.use4(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use4(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 5:
-                    esito = ToolExecutable.use5(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use5(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 6:
-                    esito = ToolExecutable.use6(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use6(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 7:
-                    esito = ToolExecutable.use7(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use7(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 8:
-                    esito = ToolExecutable.use8(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use8(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 9:
-                    esito = ToolExecutable.use9(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use9(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 10:
-                    esito = ToolExecutable.use10(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use10(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 11:
-                    esito = ToolExecutable.use11(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use11(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
                 case 12:
-                    esito = ToolExecutable.use12(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use12(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
             }
             if (esito) {
@@ -458,36 +528,10 @@ public class GameManager extends GeneralTask {
     public void run() {
         super.run();
 
-        int i = 0;
-        int j = 0;
         Random rand = new Random();
-        ArrayList<Character> ch = new ArrayList<>();
-        ch.add('b');
-        ch.add('g');
-        ch.add('y');
-        ch.add('v');
-        ch.add('r');
-
+        Integer i = 0;
+        Integer j = 0;
         ArrayList<Integer> a = new ArrayList<>();
-
-        j = rand.nextInt(4);
-        while (i < players.size()) {
-            while (a.contains(j)) {
-                j = rand.nextInt(4);
-            }
-            a.add(j);
-            i++;
-        }
-        i = 0;
-
-        while (i < players.size()) {
-            vPlayers.get(i).setPrivateOC(ch.get(a.get(i)));
-            privateO.add(ch.get(a.get(i)));
-            i++;
-        }
-        i = 0;
-
-        a.clear();
 
         j = rand.nextInt(22);
         while (i < 2 * players.size()) {
@@ -541,47 +585,6 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        i = 0;
-        a.clear();
-
-        j = rand.nextInt(11);
-        while (i < 3) {
-            while (a.contains(j)) {
-                j = rand.nextInt(11);
-            }
-            a.add(j);
-            i++;
-        }
-        i = 0;
-
-        toolCards.add(a.get(0));
-        toolCards.add(a.get(1));
-        toolCards.add(a.get(2));
-        System.out.println("GameManager: " + this + " assigned " +
-                "Tool cards n° " + a.get(0) + ", " + a.get(1) + ", " + a.get(2));
-
-        i = 0;
-        a.clear();
-
-        j = rand.nextInt(9);
-        while (i < 3) {
-            while (a.contains(j)) {
-                j = rand.nextInt(9);
-            }
-            a.add(j);
-            i++;
-        }
-        i = 0;
-
-        publicOCs.add(a.get(0));
-        publicOCs.add(a.get(1));
-        publicOCs.add(a.get(2));
-        System.out.println("GameManager: " + this + " assigned " +
-                "Public Objective cards n° " + a.get(0) + ", " + a.get(1) + ", " + a.get(2));
-
-        i = 0;
-        a.clear();
-
         pause(timeout3);
 
         System.out.println("\nGameManager: " + this + " Initialization sequence completed");
@@ -589,9 +592,7 @@ public class GameManager extends GeneralTask {
         pause(2000);
 
         j = 1;
-        i = 1;
-        int k = 1;
-        boolean upward = true;
+        int k;
         while (j <= 10) {
 
             for (String p :
@@ -701,7 +702,7 @@ public class GameManager extends GeneralTask {
                             if (middlewareServer.ping(tavolo)) {
                                 middlewareServer.tavoloWin(active.get(0));
                                 closeGame();
-                                System.out.println("GameManager: " + this + " the winner is " + tavolo+"! Bye");
+                                System.out.println("GameManager: " + this + " the winner is " + tavolo + "! Bye");
                                 pause(15000);
                                 return;
                             }

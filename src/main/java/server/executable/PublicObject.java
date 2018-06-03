@@ -1,4 +1,4 @@
-package server;
+package server.executable;
 
 import shared.Dice;
 import shared.Overlay;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PublicOExecutable {
+public class PublicObject {
 
     public static Integer use1(Overlay overlay) {
         int i = 0;

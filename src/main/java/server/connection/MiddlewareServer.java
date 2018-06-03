@@ -1,26 +1,64 @@
-package server;
+package server.connection;
 
+import server.MatchManager;
+import server.SReferences;
 import server.threads.GameManager;
 import shared.Cell;
 import shared.Logger;
 import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
+import shared.network.Connection;
 import shared.network.SharedMiddlewareServer;
+import shared.network.rmi.NetworkRmi;
+import shared.network.socket.NetworkSocket;
 
 import java.util.ArrayList;
 
-public class DummyMiddlewareServer implements SharedMiddlewareServer {
-    private static final String SERVER_INTERFACE = "DummyMiddlewareServer";
-    public static ArrayList<String> unreponsive = new ArrayList<>();
-    private static DummyMiddlewareServer instance = new DummyMiddlewareServer();
+public class MiddlewareServer implements SharedMiddlewareServer {
+    private static final String SERVER_INTERFACE = "MiddlewareServer";
 
+    private static Connection serverSocket = new NetworkSocket();
+    private static Connection serverRmi = new NetworkRmi();
+    private static MiddlewareServer instance = new MiddlewareServer();
 
-    public static DummyMiddlewareServer getInstance() {
+    private MiddlewareServer() {
+        super();
+        serverRmi.export(this, SERVER_INTERFACE);
+        serverSocket.export(this, SERVER_INTERFACE);
+    }
+
+    public static MiddlewareServer getInstance() {
         return instance;
     }
 
-    private DummyMiddlewareServer(){}
+    public static Connection getServerSocket() {
+        return serverSocket;
+    }
+
+    public static Connection getServerRmi() {
+        return serverRmi;
+    }
+
+    private Object forwardMethod(String uuid, String methodName, Object[] args) {
+        try {
+            if (SReferences.getIsSocketRef(uuid)) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef(uuid), SReferences.getPortRef(uuid))) {
+                    return client.invokeMethod(uuid, methodName, args);
+                } catch (Exception e) {
+                    Logger.log("An error occurred while invoking method " + methodName + " on host " +
+                            SReferences.getIpRef(uuid) + "@" + SReferences.getPortRef(uuid));
+                    Logger.strace(e);
+                }
+            } else {
+                return serverRmi.invokeMethod(uuid, methodName, args);
+            }
+        } catch (NullPointerException npe) {
+            Logger.log("Unable to find player with UUID " + uuid);
+            Logger.strace(npe);
+        }
+        return null;
+    }
 
     @Override
     public Boolean deniedAccess(String uuid) {
@@ -50,58 +88,58 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void updateView(String uuid, GameManagerT gameManager) {
-        return;
+        forwardMethod(uuid, "updateView", new Object[]{gameManager});
     }
 
     @Override
     public Boolean chooseWindow(String uuid, ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
-        return true;
-    }
-
-    public void setUnresponsive(String uUID) {
-        unreponsive.add(uUID);
-    }
-
-    public void setResponsive(String uUID){
-        unreponsive.remove(uUID);
+        Boolean ret = (Boolean) forwardMethod(uuid, "chooseWindow", new Object[]{windows, matrices});
+        if (ret != null) {
+            return ret;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Boolean ping(String uuid) {
-        if (MatchManager.getLeft().contains(uuid)||unreponsive.contains(uuid))
+        Boolean ret = (Boolean) forwardMethod(uuid, "ping", null);
+        if (ret != null) {
+            return ret;
+        } else {
             return false;
-        return true;
+        }
     }
 
     @Override
     public void tavoloWin(String uuid) {
-        return;
+        forwardMethod(uuid, "tavoloWin", null);
     }
 
     @Override
     public void enable(String uuid) {
-        return;
+        forwardMethod(uuid, "enable", null);
     }
 
     @Override
     public void shut(String uuid) {
-        return;
+        forwardMethod(uuid, "shut", null);
     }
 
     @Override
     public void printScore(String uuid, Integer score) {
-        return;
+        forwardMethod(uuid, "printScore", new Object[]{score});
     }
 
     @Override
     public void setWinner(String uuid) {
-        return;
+        forwardMethod(uuid, "setWinner", null);
     }
 
     public Boolean chooseWindowBack(String uuid, Integer window) {
 
         try {
-            if (deniedAccess(uuid)) {
+            if (deniedAccess(uuid)){
                 return false;
             }
             return SReferences.getPlayerRef(uuid).setWindowFromC(window - 1);
@@ -113,7 +151,12 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
     }
 
     public Boolean startGameViewForced(String uuid) {
-        return true;
+        Boolean ret = (Boolean) forwardMethod(uuid, "startGameViewForced", null);
+        if (ret != null) {
+            return ret;
+        } else {
+            return false;
+        }
     }
 
     public Boolean placeDice(String uuid, Integer index, Position p) {
@@ -175,7 +218,7 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
         }
     }
 
-    public Boolean exitGame1(String uuid) {
+    public Boolean exitGame1(String uuid){
         try {
             return MatchManager.exitGame1(uuid);
         } catch (NullPointerException npe) {

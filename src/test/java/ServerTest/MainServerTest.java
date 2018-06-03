@@ -1,14 +1,14 @@
 package ServerTest;
 
-import server.DummyMiddlewareServer;
-import server.MainServer;
+import server.connection.DummyMiddlewareServer;
+import server.threads.MainServer;
 import server.threads.GameManager;
 
 import java.util.ArrayList;
 
 
 import org.junit.jupiter.api.Test;
-import shared.Position;
+
 import static org.junit.Assert.assertEquals;
 
 class MainServerTest {

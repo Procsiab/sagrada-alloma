@@ -1,5 +1,6 @@
-package server;
+package server.executable;
 
+import server.Player;
 import server.threads.GameManager;
 import shared.Dice;
 import shared.Overlay;
@@ -9,7 +10,7 @@ import shared.PositionR;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ToolExecutable {
+public class Tool {
 
     public static Boolean ableAndSettleCard(Player player, Integer i1) {
         if (player.usedTc())
