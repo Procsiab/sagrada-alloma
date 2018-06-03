@@ -53,7 +53,7 @@ public class MainServer {
         ConcurrencyManager.submit(new GameGenerator1());
         ConcurrencyManager.submit(new GameGenerator2());
 
-        System.out.println("\nSend 'exit' command to teardown...");
+        System.out.println("Send 'exit' command to teardown...\n\n");
         Scanner scan = new Scanner(System.in);
         while (!scan.nextLine().equals("exit")) {
             //

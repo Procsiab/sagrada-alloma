@@ -14,7 +14,6 @@ public class Player {
     private Overlay overlay = new Overlay();
     private Integer tokens;
     private Integer turno = 0;
-    private Integer nPlayer;
     private Integer score = 0;
     private Integer privateTurn = 0; //can be either 1 or 2
     private Position lastPlaced = new Position(-1,-1);
@@ -22,20 +21,14 @@ public class Player {
     private boolean hasUsedTc = false;
     private GameManager game;
 
-    public Player(int i, GameManager gameManager, String uUID) {
+    public Player(GameManager gameManager, String uUID) {
         this.uUID = uUID;
-        this.nPlayer = i;
         this.game = gameManager;
         this.possibleWindows = new ArrayList<>();
     }
 
-    public void setPossibleWindows(ArrayList<Integer> possibleWindowss) {
-        int i = 0;
-        for (Integer posyyt :
-                possibleWindowss) {
-            this.possibleWindows.add(i, posyyt);
-            i++;
-        }
+    public void setPossibleWindows(ArrayList<Integer> possibleWindows) {
+        this.possibleWindows.addAll(possibleWindows);
     }
 
     public Integer getScore() {
@@ -129,10 +122,6 @@ public class Player {
         return uUID;
     }
 
-    public void setOverlay(Overlay overlay) {
-        this.overlay = overlay;
-    }
-
     public void setTokens(Integer tokens) {
         this.tokens = tokens;
     }
@@ -151,7 +140,7 @@ public class Player {
 
     public void setPrivateOC(Character ch) {
         this.privateO = ch;
-        System.out.println("Player: " + uUID + " : Private Objective card " +
+        System.out.println("Player: " + uUID + ", Private Objective card " +
                 "assigned with color " + ch);
     }
 

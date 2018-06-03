@@ -2,6 +2,7 @@ package server.threads;
 
 import server.*;
 import server.connection.DummyMiddlewareServer;
+import server.connection.MiddlewareServer;
 import server.executable.PublicObject;
 import server.executable.Tool;
 import server.Window;
@@ -15,17 +16,16 @@ import java.util.*;
 public class GameManager extends GeneralTask {
 
     private Integer code;
-    private ArrayList<String> publicRef = new ArrayList<>();
-    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
-    private ArrayList<String> players = new ArrayList<>();
+    private final ArrayList<String> publicRef = new ArrayList<>();
+    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    private final ArrayList<String> players;
     private ArrayList<String> players2 = new ArrayList<>();
-    private ArrayList<String> playersFixed = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
     private final Integer timeout2; //connection issue config
     private final Integer timeout3; //pausetta config
     private final Integer timeout4; //for window back
-    private ArrayList<Player> vPlayersFixed = new ArrayList<>();
+    private final ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
     private MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
@@ -45,21 +45,18 @@ public class GameManager extends GeneralTask {
     private final Object obj = new Object();
     private final Object obj2 = new Object(); //connection issues
     private final Object obj3 = new Object();
-    private final ArrayList<Object> obj4;
-    private final Object obj5 = new Object();
-    private final Object obj6 = new Object(); //timer for windows
 
     public GameManager(ArrayList<String> players) {
 
         Random rand = new Random();
         this.code = MainServer.addGameManagers(this);
-        this.publicRef.addAll(players);
-        this.players.addAll(players);
+        this.players = players;
+        this.publicRef.addAll(Collections.unmodifiableList(players));
         this.timeout1 = 1000;
         this.timeout2 = 12000;
         this.timeout3 = 5000;
         this.timeout4 = 3000;
-        this.obj4 = new ArrayList<>(players.size());
+
 
         System.out.println("GameManager: " + this + ". Game started with " + players.size() +
                 " players. They are: ");
@@ -69,27 +66,21 @@ public class GameManager extends GeneralTask {
         }
         System.out.println("\nServer wishes them good luck.\n");
 
-        System.out.println("Those are the configuration parameters: \n" +
+        System.out.println("GameManager: "+this+", those are the configuration parameters: \n" +
                 "time given to\n" +
                 "\teach player to choose what to do: " + timeout1 / 1000 + "s\n" +
                 "\tsolve connection issue: " + timeout2 / 1000 + "s\n" +
                 "\tallow initialization of GUI environment " + timeout3 / 1000 + "s\n" +
                 "\teach player to choose the appropriate window: " + timeout4 / 1000 + "s\n");
 
-        int i;
-        for (i = 0; i < players.size(); i++) {
-            this.obj4.add(new Object());
-        }
-
-        i = 0;
+        int i = 0;
 
         for (String client : players) {
-            Player player = new Player(i, this, publicRef.get(i));
+            Player player = new Player(this, client);
             vPlayers.add(player);
-            vPlayersFixed.add(player);
             i++;
         }
-
+        vPlayersFixed.addAll(Collections.unmodifiableList(vPlayers));
 
         i = 1;
 
@@ -191,7 +182,7 @@ public class GameManager extends GeneralTask {
 
     }
 
-    public void setAction(boolean action) {
+    private void setAction(boolean action) {
         synchronized (obj3) {
             this.action = action;
             obj3.notifyAll();
@@ -216,7 +207,7 @@ public class GameManager extends GeneralTask {
     }
 
     private void setExpected(String access) {
-        System.out.println("GameManager: " + this + " Access granted to: " + access);
+        System.out.println("\nGameManager: " + this + " Access granted to: " + access+"\n");
         this.expected = access;
     }
 
@@ -298,7 +289,7 @@ public class GameManager extends GeneralTask {
         return "card not found";
     }
 
-    public String revealWindow(Integer i){
+    public String revealWindow(Integer i) {
         return "Window?";
     }
 
@@ -360,6 +351,16 @@ public class GameManager extends GeneralTask {
                 active) {
             updateView(player);
         }
+    }
+
+    public <T> Integer count(ArrayList<T> ts) {
+        int i = 0;
+        for (T t :
+                ts) {
+            if (t != null)
+                i++;
+        }
+        return i;
     }
 
     public Integer usePublicO(Overlay overlay) {
@@ -473,7 +474,6 @@ public class GameManager extends GeneralTask {
             pool.add(dices.remove(rand.nextInt(dices.size() - 1)));
             i++;
         }
-        System.out.println("GameManager: " + this + " we play with " + pool.size() + " dices");
     }
 
     public void settleRoundtrack(Integer col) {
@@ -551,7 +551,8 @@ public class GameManager extends GeneralTask {
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
             SReferences.getPlayerRef(players.get(i)).setPossibleWindows(b);
             System.out.println("Player: " + players.get(i) + " can chose its Window among the following: " +
-                    b.get(0) + ", " + b.get(1) + ", " + b.get(2) + ", " + b.get(3));
+                    revealWindow(b.get(0)) + ", " + revealWindow(b.get(1)) +
+                    ", " + revealWindow(b.get(2)) + ", " + revealWindow(b.get(3)));
             k = 0;
             for (Integer y :
                     b) {
@@ -623,7 +624,7 @@ public class GameManager extends GeneralTask {
                 for (String remotePlayer :
                         players2) {
                     Player localPlayer = SReferences.getPlayerRef(remotePlayer);
-                    System.out.println("\nGameManager: " + this + " begin round: " + j + ", turn: " + i + "\n");
+                    System.out.println("\n\n\nGameManager: " + this + " begin round: " + j + ", turn: " + i + "\n");
                     checkActive();
 
                     System.out.println("GameManager: " + this + " players online are " + active.size() +
@@ -646,6 +647,8 @@ public class GameManager extends GeneralTask {
                             privateLeft) {
                         System.out.println(player + "; ");
                     }
+
+                    System.out.println("GameManager: " + this + " we play with " + count(pool) + " dices\n");
 
                     //check if all left game
                     if (active.size() + unresponsive.size() == 0) {

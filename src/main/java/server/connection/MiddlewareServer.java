@@ -136,10 +136,11 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         forwardMethod(uuid, "setWinner", null);
     }
 
+    @Override
     public Boolean chooseWindowBack(String uuid, Integer window) {
 
         try {
-            if (deniedAccess(uuid)){
+            if (deniedAccess(uuid)) {
                 return false;
             }
             return SReferences.getPlayerRef(uuid).setWindowFromC(window - 1);
@@ -150,6 +151,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         return false;
     }
 
+    @Override
     public Boolean startGameViewForced(String uuid) {
         Boolean ret = (Boolean) forwardMethod(uuid, "startGameViewForced", null);
         if (ret != null) {
@@ -159,6 +161,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         }
     }
 
+    @Override
     public Boolean placeDice(String uuid, Integer index, Position p) {
         try {
             if (deniedAccess(uuid))
@@ -176,7 +179,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return false;
-            return SReferences.getGameRef(uuid).useTool(uuid,i1, p1, p2, p3, p4, pr, i2, i3);
+            return SReferences.getGameRef(uuid).useTool(uuid, i1, p1, p2, p3, p4, pr, i2, i3);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
@@ -218,7 +221,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         }
     }
 
-    public Boolean exitGame1(String uuid){
+    @Override
+    public Boolean exitGame1(String uuid) {
         try {
             return MatchManager.exitGame1(uuid);
         } catch (NullPointerException npe) {

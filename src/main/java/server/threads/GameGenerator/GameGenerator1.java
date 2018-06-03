@@ -22,7 +22,7 @@ public class GameGenerator1 extends GeneralTask {
     @Override
     public void run() {
         super.run();
-        System.out.println("GameGenerator1 online. Timer runs out every: "+sleepTime/1000+ "s\n");
+        System.out.println("GameGenerator1 online. Timer runs out every: "+sleepTime/1000+ "s");
         ArrayList<String> clients;
         Queue<String> queue = MatchManager.getQ();
         boolean t = true;

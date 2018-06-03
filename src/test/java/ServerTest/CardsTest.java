@@ -35,7 +35,7 @@ public class CardsTest {
         dices[3][2] = new Dice('y', 5);
         dices[3][3] = new Dice('b', 5);
 
-        Player player = new Player(0, new GameManager(new ArrayList<String>()), "prova");
+        Player player = new Player(new GameManager(new ArrayList<String>()), "prova");
         player.getOverlay().setDices(dices);
 
         Integer score = PublicObject.use10(new Overlay(dices));
