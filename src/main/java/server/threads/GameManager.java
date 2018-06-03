@@ -244,10 +244,6 @@ public class GameManager extends GeneralTask {
         return expected;
     }
 
-    public void setPool(ArrayList<Dice> pool) {
-        this.pool = pool;
-    }
-
     public Integer getTCtokens(Integer pos) {
         return tCtokens.get(pos);
     }

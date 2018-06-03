@@ -7,13 +7,23 @@ import shared.Position;
 import shared.PositionR;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 public class ToolExecutable {
 
-    public static Boolean ableAndSettle(Player player, Integer i1) {
+    public static Boolean ableAndSettleCard(Player player, Integer i1) {
+        if (player.usedTc())
+            return false;
+        Integer tokens = player.getTokens();
+        Integer tokensRequired = player.getGame().getTCtokens(i1);
+        if (tokens < tokensRequired)
+            return false;
+        player.setTokens(tokens - tokensRequired);
+        player.getGame().addTCtokens(i1);
+        return true;
+    }
+
+    public static Boolean ableAndSettleDiceAndCard(Player player, Integer i1) {
         if (player.usedTcAndPlacedDice())
             return false;
         Integer tokens = player.getTokens();
@@ -27,7 +37,7 @@ public class ToolExecutable {
 
     public static Boolean use1(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleDiceAndCard(player, i1))
             return false;
         if (i2 == null || i3 == null || p1 == null)
             return false;
@@ -60,7 +70,7 @@ public class ToolExecutable {
 
     public static Boolean use2(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleCard(player, i1))
             return false;
         if (p1 == null || p2 == null)
             return false;
@@ -69,7 +79,7 @@ public class ToolExecutable {
 
     public static Boolean use3(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleCard(player, i1))
             return false;
         if (p1 == null || p2 == null)
             return false;
@@ -78,7 +88,7 @@ public class ToolExecutable {
 
     public static Boolean use4(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleCard(player, i1))
             return false;
 
         if (p1 == null || p2 == null || p3 == null || p4 == null)
@@ -89,7 +99,7 @@ public class ToolExecutable {
 
     public static Boolean use5(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleDiceAndCard(player, i1))
             return false;
         if (i2 == null || p1 == null || pr == null)
             return false;
@@ -99,7 +109,7 @@ public class ToolExecutable {
 
     public static Boolean use6(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleDiceAndCard(player, i1))
             return false;
         if (i2 == null || p1 == null)
             return false;
@@ -117,7 +127,7 @@ public class ToolExecutable {
 
     public static Boolean use7(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleCard(player, i1))
             return false;
 
         if (player.getPrivateTurn() == 1)
@@ -134,7 +144,7 @@ public class ToolExecutable {
 
     public static Boolean use8(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleDiceAndCard(player, i1))
             return false;
 
         if (player.getPrivateTurn() == 1)
@@ -152,7 +162,7 @@ public class ToolExecutable {
 
     public static Boolean use9(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleDiceAndCard(player, i1))
             return false;
         if (p1 == null && i2 == null)
             return false;
@@ -162,7 +172,7 @@ public class ToolExecutable {
 
     public static Boolean use10(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleDiceAndCard(player, i1))
             return false;
         if (i2 == null || p1 == null)
             return false;
@@ -189,7 +199,7 @@ public class ToolExecutable {
 
     public static Boolean use11(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleDiceAndCard(player, i1))
             return false;
         if (p1 == null || i2 == null || i3 == null)
             return false;
@@ -215,7 +225,7 @@ public class ToolExecutable {
 
     public static Boolean use12(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettle(player, i1))
+        if (!ableAndSettleCard(player, i1))
             return false;
         if (p1 == null || p2 == null || p3 == null || p4 == null)
             return false;
