@@ -1,10 +1,7 @@
 package shared.TransferObjects;
 
-import shared.Logger;
-import server.abstractsServer.ToolC;
 import shared.Dice;
 import shared.RoundTrack;
-import shared.cardsShared.privateOC.PrivateOC;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,14 +9,14 @@ import java.util.ArrayList;
 public class GameManagerT implements Serializable {
 
     public final ArrayList<PlayerT> vPlayers;
-    public final ArrayList<PrivateOC> privateOCs;
-    public final ArrayList<PublicOCT> publicOCs;
+    public final ArrayList<Character> privateOCs;
+    public final ArrayList<String> publicOCs;
     public final ArrayList<ToolCT> toolCards;
     public final RoundTrack roundTrack;
     public final ArrayList<Dice> pool;
     public final Integer pos;
 
-    public GameManagerT(ArrayList<PlayerT> vPlayers, ArrayList<PrivateOC> privateOCs, ArrayList<PublicOCT> publicOCs,
+    public GameManagerT(ArrayList<PlayerT> vPlayers, ArrayList<Character> privateOCs, ArrayList<String> publicOCs,
                         ArrayList<ToolCT> toolCards, RoundTrack roundTrack, ArrayList<Dice> pool,
                         ArrayList<Integer> tCtokens, Integer pos) {
 

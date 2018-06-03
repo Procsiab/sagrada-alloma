@@ -1,12 +1,19 @@
 package shared;
 
 
-import server.abstractsServer.ToolC;
 
 import java.io.*;
 
 public class Overlay implements Serializable {
+
     private Dice[][] dicePositions = new Dice[4][5];
+
+
+    public Overlay(){}
+
+    public Overlay(Dice[][] dices){
+        dicePositions = dices;
+    }
 
     public Dice getDice(Position pos) {
         return dicePositions[pos.getRow()][pos.getColumn()];

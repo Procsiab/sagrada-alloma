@@ -1,4 +1,4 @@
-package server.abstractsServer;
+package server;
 
 import server.Player;
 import server.SReferences;
@@ -8,12 +8,17 @@ import shared.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Window implements Serializable {
+public class Window implements Serializable {
 
-    private Cell[][] matrices;
-    private Integer tokens = 0;
-    private String name;
+    private final Cell[][] matrices;
+    private final Integer tokens;
+    private final String name;
 
+    public Window(Cell[][] matrices, String name, Integer tokens){
+        this.name=name;
+        this.matrices = matrices;
+        this.tokens = tokens;
+    }
 
     public Cell[][] getMatrices() {
         return matrices;
@@ -21,18 +26,6 @@ public abstract class Window implements Serializable {
 
     public Integer getTokens() {
         return tokens;
-    }
-
-    public void setMatrices(Cell[][] matrices) {
-        this.matrices = matrices;
-    }
-
-    public void setTokens(Integer tokens) {
-        this.tokens = tokens;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getName() {

@@ -9,7 +9,7 @@ import server.threads.GameManager;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+@Deprecated
 public class ToolC11 extends ToolC {
 
     public ToolC11() {

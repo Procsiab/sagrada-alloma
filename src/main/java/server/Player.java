@@ -2,16 +2,13 @@ package server;
 
 import server.threads.GameManager;
 import shared.*;
-import server.abstractsServer.PublicOC;
-import server.abstractsServer.Window;
-import shared.cardsShared.privateOC.PrivateOC;
 
 import java.util.ArrayList;
 
 public class Player {
     private MatchManager matchManager = MatchManager.getInstance();
     private String uUID;
-    private PrivateOC privateOC;
+    private Character privateO;
     private ArrayList<Integer> possibleWindows;
     private Window window;
     private Overlay overlay = new Overlay();
@@ -46,11 +43,8 @@ public class Player {
     }
 
     public Integer setScore() {
-        ArrayList<PublicOC> publicOCS = game.getPublicOCs();
-        for (PublicOC card :
-                publicOCS) {
-            score = score + card.use(this);
-        }
+
+        score = game.usePublicO(this.overlay);
 
         int i = 0;
         int j = 0;
@@ -59,7 +53,7 @@ public class Player {
             while (j < 5) {
                 Dice dice = overlay.getDicePositions()[i][j];
                 if (dice != null)
-                    if (dice.color == privateOC.getColor())
+                    if (dice.color == privateO)
                         score = score + dice.value;
                 j++;
             }
@@ -123,12 +117,12 @@ public class Player {
         return overlay;
     }
 
-    public Position getLastPlaced() {
-        return lastPlaced;
+    public Character getPrivateO(){
+        return privateO;
     }
 
-    public PrivateOC getPrivateOC() {
-        return privateOC;
+    public Position getLastPlaced() {
+        return lastPlaced;
     }
 
     public String getuUID() {
@@ -155,11 +149,10 @@ public class Player {
         return window;
     }
 
-    public void setPrivateOC(Integer n) {
-        privateOC = matchManager.getPrivateOCs().get(n);
-        System.out.println("Player: " + uUID + " : Private Objective cards " +
-                "assigned has color " + privateOC.getColor());
-
+    public void setPrivateOC(Character ch) {
+        this.privateO = ch;
+        System.out.println("Player: " + uUID + " : Private Objective card " +
+                "assigned with color " + ch);
     }
 
     public boolean setWindowFromC(Integer n) {
@@ -172,12 +165,14 @@ public class Player {
             return false;
         }
         this.window = matchManager.getWindows().get(n);
+        setTokens();
         System.out.println("Player: " + uUID + " choose Window: " + n + ". It has: " + window.getTokens() + " tokens");
         return true;
     }
 
     public boolean setWindow(Integer n) {
         this.window = matchManager.getWindows().get(n);
+        setTokens();
         System.out.println("GameManager: "+game+" player " + uUID + " server assigned Window n° " + n + ". It has " + window.getTokens() +
                 " tokens. Will be forced start client-side");
         return true;
@@ -185,18 +180,6 @@ public class Player {
 
     public void setTokens() {
         this.tokens = this.window.getTokens();
-    }
-
-    public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
-        if (i1 == null || i1 < 0 || i1 > 2)
-            return false;
-        if(game.getToolCards().get(i1).use(game, i1, this, p1, p2, p3, p4, pr, i2, i3)){
-            System.out.println("GameManager: "+game+" player "+uUID+" effectively used Tool card" +
-                    " n°" +i1+ ". Following is the description of that card: "+game.getToolCards().get(i1).getDescription());
-        return true;
-        }
-        System.out.println("GameManager: "+game+" player "+uUID+" attempt of unauthorized usage of Tool card");
-        return false;
     }
 
     public boolean placeDice(Integer index, Position position) {

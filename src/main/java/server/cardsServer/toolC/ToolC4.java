@@ -5,7 +5,7 @@ import server.Player;
 import shared.PositionR;
 import server.abstractsServer.ToolC;
 import shared.Position;
-
+@Deprecated
 public class ToolC4 extends ToolC {
 
     public ToolC4() {
@@ -28,14 +28,4 @@ public class ToolC4 extends ToolC {
     }
 
 
-    public boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
-
-        if (!ableAndSettle(player,i1 ))
-            return false;
-
-        if(p1==null ||p2==null||p3==null||p4==null)
-            return false;
-
-        return player.getWindow().moveDice(player,p1,p2,p3,p4);
     }
-}

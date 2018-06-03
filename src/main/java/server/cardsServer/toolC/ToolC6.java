@@ -8,7 +8,7 @@ import server.abstractsServer.ToolC;
 import server.threads.GameManager;
 
 import java.util.Random;
-
+@Deprecated
 public class ToolC6 extends ToolC {
     public ToolC6() {
         this.setName("toolC6");

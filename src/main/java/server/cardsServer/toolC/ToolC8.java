@@ -5,7 +5,7 @@ import shared.PositionR;
 import server.abstractsServer.ToolC;
 import server.threads.GameManager;
 import shared.Position;
-
+@Deprecated
 public class ToolC8 extends ToolC {
 
     public ToolC8() {

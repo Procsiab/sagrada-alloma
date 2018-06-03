@@ -8,7 +8,7 @@ import server.abstractsServer.ToolC;
 import server.threads.GameManager;
 
 import java.util.Random;
-
+@Deprecated
 public class ToolC7 extends ToolC {
     public ToolC7() {
         this.setName("toolC7");
@@ -29,20 +29,4 @@ public class ToolC7 extends ToolC {
     }
 
 
-    public boolean use(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
-
-        if (!ableAndSettle(player, i1))
-            return false;
-
-        if (player.getPrivateTurn() == 1)
-            return false;
-
-        Random rand = new Random();
-        for (Dice d :
-                game.getPool()) {
-            if (d != null)
-                d.value = 1 + rand.nextInt(5);
-        }
-        return true;
     }
-}

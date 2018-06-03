@@ -5,7 +5,7 @@ import server.Player;
 import shared.PositionR;
 import server.abstractsServer.ToolC;
 import shared.Position;
-
+@Deprecated
 public class ToolC3 extends ToolC {
     public ToolC3() {
         this.setName("toolC3");

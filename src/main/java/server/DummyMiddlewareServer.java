@@ -133,7 +133,7 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return false;
-            return SReferences.getPlayerRef(uuid).useToolC(i1, p1, p2, p3, p4, pr, i2, i3);
+            return SReferences.getGameRef(uuid).useTool(uuid,i1, p1, p2, p3, p4, pr, i2, i3);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);

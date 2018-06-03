@@ -4,7 +4,7 @@ import server.Player;
 import server.threads.GameManager;
 import shared.*;
 import server.abstractsServer.ToolC;
-
+@Deprecated
 public class ToolC12 extends ToolC {
 
     public ToolC12() {
