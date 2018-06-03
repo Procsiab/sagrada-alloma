@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class SReferences {
 
-    //CAUTION: Do not synchronize on MatchManager.obj2
+    //CAUTION: Do not synchronize on MatchManager.obj2, possible deadlock
 
     private static Integer activePlayer = 0;
 
@@ -25,35 +25,35 @@ public class SReferences {
         return activePlayer;
     }
 
-    public static Boolean getIsSocketRefEnhanced(String s) {
+    public static Boolean getIsSocketRef(String s) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return null;
         return isSocketRef.get(index);
     }
 
-    public static GameManager getGameRefEnhanced(String s) {
+    public static GameManager getGameRef(String s) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return null;
         return gameRef.get(index);
     }
 
-    public static Integer getPortRefEnhanced(String s) {
+    public static Integer getPortRef(String s) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return null;
         return portRef.get(index);
     }
 
-    public static Player getPlayerRefEnhanced(String s) {
+    public static Player getPlayerRef(String s) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return null;
         return playerRef.get(index);
     }
 
-    public static String getIpRefEnhanced(String s) {
+    public static String getIpRef(String s) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return null;
@@ -100,7 +100,7 @@ public class SReferences {
         return true;
     }
 
-    public static synchronized boolean addUuidRef(String uUID) {
+    public static synchronized boolean addUuidRefEnhanced(String uUID) {
         int i = 0;
 
         if (uuidRef.contains(uUID))

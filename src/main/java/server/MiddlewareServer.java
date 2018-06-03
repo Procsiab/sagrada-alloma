@@ -40,12 +40,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     private Object forwardMethod(String uuid, String methodName, Object[] args) {
         try {
-            if (SReferences.getIsSocketRefEnhanced(uuid)) {
-                try (Connection client = new NetworkSocket(SReferences.getIpRefEnhanced(uuid), SReferences.getPortRefEnhanced(uuid))) {
+            if (SReferences.getIsSocketRef(uuid)) {
+                try (Connection client = new NetworkSocket(SReferences.getIpRef(uuid), SReferences.getPortRef(uuid))) {
                     return client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
                     Logger.log("An error occurred while invoking method " + methodName + " on host " +
-                            SReferences.getIpRefEnhanced(uuid) + "@" + SReferences.getPortRefEnhanced(uuid));
+                            SReferences.getIpRef(uuid) + "@" + SReferences.getPortRef(uuid));
                     Logger.strace(e);
                 }
             } else {
@@ -61,7 +61,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     @Override
     public Boolean deniedAccess(String uuid) {
         try {
-            GameManager game = SReferences.getGameRefEnhanced(uuid);
+            GameManager game = SReferences.getGameRef(uuid);
             String expected = game.getExpected();
 
             if (expected.equals("all"))
@@ -111,7 +111,6 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public void tavoloWin(String uuid) {
-        Logger.log("tavolino");
         forwardMethod(uuid, "tavoloWin", null);
     }
 
@@ -141,7 +140,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             if (deniedAccess(uuid)){
                 return false;
             }
-            return SReferences.getPlayerRefEnhanced(uuid).setWindowFromC(window - 1);
+            return SReferences.getPlayerRef(uuid).setWindowFromC(window - 1);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
@@ -162,7 +161,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return false;
-            return SReferences.getPlayerRefEnhanced(uuid).placeDice(index, p);
+            return SReferences.getPlayerRef(uuid).placeDice(index, p);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
@@ -175,7 +174,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return false;
-            return SReferences.getPlayerRefEnhanced(uuid).useToolC(i1, p1, p2, p3, p4, pr, i2, i3);
+            return SReferences.getPlayerRef(uuid).useToolC(i1, p1, p2, p3, p4, pr, i2, i3);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
@@ -186,7 +185,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     @Override
     public void exitGame2(String uuid) {
         try {
-            SReferences.getGameRefEnhanced(uuid).exitGame2(uuid);
+            SReferences.getGameRef(uuid).exitGame2(uuid);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
@@ -198,7 +197,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return;
-            SReferences.getGameRefEnhanced(uuid).endTurn(uuid);
+            SReferences.getGameRef(uuid).endTurn(uuid);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
@@ -210,7 +209,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return;
-            SReferences.getGameRefEnhanced(uuid).updateView(uuid);
+            SReferences.getGameRef(uuid).updateView(uuid);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);

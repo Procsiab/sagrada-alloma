@@ -1,10 +1,10 @@
 package shared.TransferObjects;
 
 import shared.Logger;
-import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.ToolC;
 import shared.Dice;
 import shared.RoundTrack;
+import shared.cardsShared.privateOC.PrivateOC;
 
 import java.io.Serializable;
 import java.util.ArrayList;

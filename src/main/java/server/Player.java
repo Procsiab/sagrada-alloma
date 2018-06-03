@@ -2,9 +2,9 @@ package server;
 
 import server.threads.GameManager;
 import shared.*;
-import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.Window;
+import shared.cardsShared.privateOC.PrivateOC;
 
 import java.util.ArrayList;
 
@@ -157,7 +157,7 @@ public class Player {
 
     public void setPrivateOC(Integer n) {
         privateOC = matchManager.getPrivateOCs().get(n);
-        System.out.println("Player " + uUID + " : Private Objective cards " +
+        System.out.println("Player: " + uUID + " : Private Objective cards " +
                 "assigned has color " + privateOC.getColor());
 
     }
@@ -178,7 +178,7 @@ public class Player {
 
     public boolean setWindow(Integer n) {
         this.window = matchManager.getWindows().get(n);
-        System.out.println("Player:" + uUID + " Server assigned Window n° " + n + ". It has " + window.getTokens() +
+        System.out.println("GameManager: "+game+" player " + uUID + " server assigned Window n° " + n + ". It has " + window.getTokens() +
                 " tokens. Will be forced start client-side");
         return true;
     }
@@ -190,19 +190,28 @@ public class Player {
     public boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         if (i1 == null || i1 < 0 || i1 > 2)
             return false;
-        return game.getToolCards().get(i1).use(game, i1, this, p1, p2, p3, p4, pr, i2, i3);
+        if(game.getToolCards().get(i1).use(game, i1, this, p1, p2, p3, p4, pr, i2, i3)){
+            System.out.println("GameManager: "+game+" player "+uUID+" effectively used Tool card" +
+                    " n°" +i1+ ". Following is the description of that card: "+game.getToolCards().get(i1).getDescription());
+        return true;
+        }
+        System.out.println("GameManager: "+game+" player "+uUID+" attempt of unauthorized usage of Tool card");
+        return false;
     }
 
     public boolean placeDice(Integer index, Position position) {
-        if (this.placedDice())
-            return false;
-        ArrayList<Dice> pool = game.getPool();
-        if (pool.get(index) == null)
-            return false;
-        if (this.window.setDiceFromPool(this, index, position)) {
-            this.lastPlaced = position;
-            return true;
+        if (!this.placedDice()) {
+            ArrayList<Dice> pool = game.getPool();
+            if (pool.get(index) == null)
+                return false;
+            if (this.window.setDiceFromPool(this, index, position)) {
+                this.lastPlaced = position;
+                System.out.println("GameManager: " + game + " player " + uUID + " effectively placed dice" +
+                        pool.get(index) + " in position " + position);
+                return true;
+            }
         }
+        System.out.println("GameManager: "+game+" player "+uUID+" attempt of unauthorized placement of dice");
         return false;
     }
 }

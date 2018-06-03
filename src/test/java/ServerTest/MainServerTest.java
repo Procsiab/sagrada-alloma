@@ -16,7 +16,7 @@ class MainServerTest {
     public static ArrayList<GameManager> gameManagers = new ArrayList<>();
     public static DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     public static Object obj;
-    public static Integer timeout = gameManagers.get(0).getTimeout1();
+    public static Integer timeout;
 
     private void pause(Integer millis) {
         try {
@@ -41,6 +41,7 @@ class MainServerTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            timeout = gameManagers.get(0).getTimeout1();
     }
 
     @Test
@@ -126,16 +127,12 @@ class MainServerTest {
         System.out.println("rientra nel gioco player2");
         startGame(player2);
 
-        System.out.println("now");
-
-        middlewareServer.placeDice(player1, 9, new Position(2, 3));
-        middlewareServer.placeDice(player3, 9, new Position(2, 3));
 
         pause(timeout);
 
 
 
         assertEquals(player4, tavolo);
-        pause(999999);
+        pause(7999);
     }
 }

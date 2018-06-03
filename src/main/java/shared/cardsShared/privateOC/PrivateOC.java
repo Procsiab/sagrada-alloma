@@ -1,12 +1,13 @@
-package shared.abstractsShared;
+package shared.cardsShared.privateOC;
 
-import java.io.Serializable;
-
-public abstract class PrivateOC implements Serializable {
-
+public class PrivateOC {
     private String name;
     private String description;
     private Character color;
+
+    public PrivateOC(Character ch) {
+        this.setColor(ch);
+    }
 
     public String getName() {
         return name;
@@ -31,4 +32,6 @@ public abstract class PrivateOC implements Serializable {
     public void setColor(Character color) {
         this.color = color;
     }
+
+
 }

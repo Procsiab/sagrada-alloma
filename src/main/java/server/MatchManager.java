@@ -3,20 +3,13 @@ package server;
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.ToolC;
 import server.abstractsServer.Window;
-import shared.Logger;
-import shared.abstractsShared.*;
-import shared.cardsShared.privateOC.PrivateOC2;
-import shared.cardsShared.privateOC.PrivateOC4;
-import shared.cardsShared.privateOC.PrivateOC5;
 import server.cardsServer.publicOC.*;
 import server.cardsServer.toolC.*;
-import shared.cardsShared.privateOC.PrivateOC1;
 import server.cardsServer.windows.*;
+import shared.cardsShared.privateOC.PrivateOC;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 public class MatchManager {
     private static final Integer MAX_ACTIVE_PLAYER_REFS = 250; //config
@@ -34,11 +27,11 @@ public class MatchManager {
     private MatchManager() {
         super();
         //privateOCS
-        privateOCs.add(new PrivateOC1());
-        privateOCs.add(new PrivateOC2());
-        privateOCs.add(new PrivateOC2());
-        privateOCs.add(new PrivateOC4());
-        privateOCs.add(new PrivateOC5());
+        privateOCs.add(new PrivateOC('b'));
+        privateOCs.add(new PrivateOC('r'));
+        privateOCs.add(new PrivateOC('g'));
+        privateOCs.add(new PrivateOC('y'));
+        privateOCs.add(new PrivateOC('v'));
 
         //publicOCS
         publicOCs.add(new PublicOC1());
@@ -111,7 +104,7 @@ public class MatchManager {
         System.out.println("Player: " + uUID + ", IP: " + ip + ", PORT: " + port + ", SOCKET: "+isSocket+", has connection accepted.");
         synchronized (obj2) {
 
-            SReferences.addUuidRef(uUID);
+            SReferences.addUuidRefEnhanced(uUID);
             SReferences.addIpRef(uUID, ip);
             SReferences.addPortRef(uUID, port);
             SReferences.addIsSocketRef(uUID, isSocket);

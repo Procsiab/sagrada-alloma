@@ -5,9 +5,9 @@ import server.abstractsServer.Window;
 import shared.*;
 import server.Player;
 import shared.TransferObjects.*;
-import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.PublicOC;
 import server.abstractsServer.ToolC;
+import shared.cardsShared.privateOC.PrivateOC;
 import shared.concurrency.GeneralTask;
 
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ public class GameManager extends GeneralTask {
 
     private Integer code;
     private ArrayList<String> publicRef = new ArrayList<>();
-    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> players2 = new ArrayList<>();
     private ArrayList<String> playersFixed = new ArrayList<>();
@@ -59,7 +59,7 @@ public class GameManager extends GeneralTask {
         this.code = MainServer.addGameManagers(this);
         this.publicRef.addAll(players);
         this.players.addAll(players);
-        this.timeout1 = 10000;
+        this.timeout1 = 1000;
         this.timeout2 = 12000;
         this.timeout3 = 5000;
         this.timeout4 = 3000;
@@ -230,7 +230,7 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        Player player = SReferences.getPlayerRefEnhanced(uuid);
+        Player player = SReferences.getPlayerRef(uuid);
 
         System.out.println("Player: " + uuid + " has " + player.getTokens() + " tokens, is at turn n° " + player.getTurno() +
                 ", has " + player.getScore() + " points, is at private turn n° " + player.getPrivateTurn() +
@@ -243,7 +243,7 @@ public class GameManager extends GeneralTask {
     public void updateView() {
         System.out.println("GameManager: " + this + " updating view: \nThis is the game's state:" +
                 "\nIt has roundtrack with " + roundTrack.sumDices() + " dices on it, has " + pool.size() + " dices in the pool, " +
-                "toolCard has respectively " + tCtokens.get(0) + ", " + tCtokens.get(1) + ", " + tCtokens.get(2) + " tokens");
+                "Tool cards have respectively " + tCtokens.get(0) + ", " + tCtokens.get(1) + ", " + tCtokens.get(2) + " tokens");
         for (String player :
                 active) {
             updateView(player);
@@ -266,7 +266,7 @@ public class GameManager extends GeneralTask {
             pool.add(dices.remove(rand.nextInt(dices.size() - 1)));
             i++;
         }
-
+        System.out.println("GameManager: " + this + " we play with " + pool.size() + " dices");
     }
 
     public void settleRoundtrack(Integer col) {
@@ -360,7 +360,7 @@ public class GameManager extends GeneralTask {
             ArrayList<Integer> b = new ArrayList<>();
             ArrayList<Cell[][]> matrices = new ArrayList<>();
             b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
-            SReferences.getPlayerRefEnhanced(players.get(i)).setPossibleWindows(b);
+            SReferences.getPlayerRef(players.get(i)).setPossibleWindows(b);
             System.out.println("Player: " + players.get(i) + " can chose its Window among the following: " +
                     b.get(0) + ", " + b.get(1) + ", " + b.get(2) + ", " + b.get(3));
             k = 0;
@@ -405,7 +405,7 @@ public class GameManager extends GeneralTask {
 
         for (String player :
                 players) {
-            vPlayer = SReferences.getPlayerRefEnhanced(player);
+            vPlayer = SReferences.getPlayerRef(player);
             if (vPlayer.getWindow() == null) {
                 vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
                 middlewareServer.startGameViewForced(vPlayer.getuUID());
@@ -464,6 +464,8 @@ public class GameManager extends GeneralTask {
 
         System.out.println("\nGameManager: " + this + " Initialization sequence completed");
 
+        pause(2000);
+
         j = 1;
         i = 1;
         int k = 1;
@@ -497,8 +499,8 @@ public class GameManager extends GeneralTask {
             while (k < 3) {
                 for (String remotePlayer :
                         players2) {
-                    Player localPlayer = SReferences.getPlayerRefEnhanced(remotePlayer);
-                    System.out.println("\nGameManager: " + this + " begin round: " + j + " turn: " + i + "\n");
+                    Player localPlayer = SReferences.getPlayerRef(remotePlayer);
+                    System.out.println("\nGameManager: " + this + " begin round: " + j + ", turn: " + i + "\n");
                     checkActive();
 
                     System.out.println("GameManager: " + this + " players online are " + active.size() +
@@ -521,8 +523,6 @@ public class GameManager extends GeneralTask {
                             privateLeft) {
                         System.out.println(player + "; ");
                     }
-
-                    System.out.println("GameManager: " + this + " we play with " + pool.size() + " dices");
 
                     //check if all left game
                     if (active.size() + unresponsive.size() == 0) {
@@ -551,7 +551,7 @@ public class GameManager extends GeneralTask {
                                 }
                             }
                             if (p == 3) {
-                                System.out.println("GameManager: " + this + " After 3 attempts game closes");
+                                System.out.println("GameManager: " + this + " After 3 attempts game closes. Bye");
                                 closeGame();
                                 return;
                             }
@@ -579,7 +579,7 @@ public class GameManager extends GeneralTask {
                             if (middlewareServer.ping(tavolo)) {
                                 middlewareServer.tavoloWin(active.get(0));
                                 closeGame();
-                                System.out.println("GameManager: " + this + " the winner is " + tavolo);
+                                System.out.println("GameManager: " + this + " the winner is " + tavolo+"! Bye");
                                 pause(15000);
                                 return;
                             }
@@ -636,7 +636,6 @@ public class GameManager extends GeneralTask {
                     i++;
                 }
                 Collections.reverse(players2);
-                Logger.log(players2.toString());
                 k++;
             }
             settleRoundtrack(j);

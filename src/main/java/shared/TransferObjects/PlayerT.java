@@ -1,10 +1,9 @@
 package shared.TransferObjects;
 
-import shared.Dice;
-import shared.abstractsShared.PrivateOC;
 import server.abstractsServer.Window;
 import shared.Overlay;
 import shared.Position;
+import shared.cardsShared.privateOC.PrivateOC;
 
 import java.io.Serializable;
 

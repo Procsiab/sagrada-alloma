@@ -31,7 +31,7 @@ public class MainServer {
         return gameManagers;
     }
 
-   public static Integer addGameManagers(GameManager gameManager) {
+    public static Integer addGameManagers(GameManager gameManager) {
         synchronized (obj) {
             MainServer.gameManagers.add(gameManager);
             obj.notifyAll();
