@@ -16,8 +16,11 @@ public class MatchManager {
     private static LinkedList<String> q = new LinkedList<>();
     private ArrayList<String> clients = new ArrayList<>();
     private static ArrayList<String> left = new ArrayList<>();
+    @Deprecated
     private ArrayList<PrivateOC> privateOCs = new ArrayList<>();
+    @Deprecated
     private ArrayList<PublicOC> publicOCs = new ArrayList<>();
+    @Deprecated
     private ArrayList<ToolC> toolCs = new ArrayList<>();
     private ArrayList<Window> windows = new ArrayList<>();
     private static final Object obj = new Object();
