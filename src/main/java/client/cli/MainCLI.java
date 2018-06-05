@@ -54,36 +54,31 @@ public class MainCLI {
                         case "dice":
                             AnsiConsole.out().print(ansi().fgBrightRed()
                                     .a("Input the number of the dice you want to pick: ").fgDefault());
-                            i = Integer.parseInt(s);
-                            if (this.gm.pool.size() - 1 > i) {
+                            i = readInput.nextInt();
+                            if (this.gm.pool.size() < i) {
                                 wrongCommand();
-                                break;
-                            }
-                            AnsiConsole.out().print(ansi().fgBrightRed()
-                                    .a("Enter row and column position of the cell you would like to place it, separated by a space: ").fgDefault());
-                            Integer r, c;
-                            r = Integer.parseInt(s);
-                            c = Integer.parseInt(s);
-                            Position p = new Position(r, c);
-                            if (MiddlewareClient.getInstance().placeDice(i - 1, p)) {
-                                MiddlewareClient.getInstance().updateViewFromC();
                             } else {
-                                AnsiConsole.out().println(ansi().fgBrightGreen().a("[INFO] ").fgBrightYellow()
-                                        .a("Selected dice could not be placed in specified position!").fgDefault());
+                                placeDice(i - 1);
                             }
+                            s = "#";
                             break;
                         case "card":
                             AnsiConsole.out().print(ansi().fgBrightRed()
                                     .a("Input the number of the tool card you want to use: ").fgDefault());
-                            i = Integer.parseInt(s);
-                            if (this.gm.toolCards.size() - 1 > i) {
+                            i = readInput.nextInt();
+                            if (this.gm.toolCards.size() < i) {
                                 wrongCommand();
                                 break;
                             }
-                            useToolC(i);
+                            useToolC(i - 1);
+                            s = "#";
                             break;
                         case "end":
                             MiddlewareClient.getInstance().endTurn();
+                            s = "#";
+                            break;
+                        case "\n":
+                        case "":
                             break;
                         default:
                             wrongCommand();
@@ -103,8 +98,23 @@ public class MainCLI {
                 .a("Wrong input, check for typos!").fgDefault());
     }
 
+    private void placeDice(Integer index) {
+        AnsiConsole.out().print(ansi().fgBrightRed()
+                .a("Enter row and column position of the cell you would like to place it, separated by a space: ").fgDefault());
+        Integer r, c;
+        r = readInput.nextInt();
+        c = readInput.nextInt();
+        Position p = new Position(r, c);
+        if (MiddlewareClient.getInstance().placeDice(index, p)) {
+            MiddlewareClient.getInstance().updateViewFromC();
+        } else {
+            AnsiConsole.out().println(ansi().fgBrightGreen().a("[INFO] ").fgBrightYellow()
+                    .a("Selected dice could not be placed in specified position!").fgDefault());
+        }
+    }
+
     private void useToolC(Integer index) {
-        ToolCT c = this.gm.toolCards.get(index - 1);
+        ToolCT c = this.gm.toolCards.get(index);
         Integer i2 = null, i3 = null, row, col, hgt;
         Position p1 = null, p2 = null, p3 = null, p4 = null;
         PositionR pr = null;
@@ -240,6 +250,7 @@ public class MainCLI {
         if (functionId == 2) {
             AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:"));
             this.gm = gm;
+            //TODO Print GameManager object
         }
     }
 
