@@ -24,8 +24,8 @@ public class Overlay implements Serializable {
 
     public boolean busy(Position position) {
         if (dicePositions[position.getRow()][position.getColumn()] != null)
-            return false;
-        return true;
+            return true;
+        return false;
     }
 
     public boolean busy(Position position1, Position position2) {
