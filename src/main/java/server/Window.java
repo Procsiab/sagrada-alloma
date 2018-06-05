@@ -269,15 +269,13 @@ public class Window implements Serializable {
 
     public boolean checkDiceNoShade(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
-
-
-        if (!checkEdgePosTurn(player, position))
-            return false;
-
-
-        if (!checkAdjDicesFull(overlay, position, dice))
-            return false;
-
+        if (!player.getLastPlaced().equals(new Position(-1, -1))) {
+            if (!checkEdgePosTurn(player, position))
+                return false;
+        } else {
+            if (!checkAdjDicesFull(overlay, position, dice))
+                return false;
+        }
         if (!checkPlaceColorRequirements(dice, position))
             return false;
         return true;
@@ -306,15 +304,13 @@ public class Window implements Serializable {
 
     public boolean checkDiceNoColor(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
-
-
-        if (!checkEdgePosTurn(player, position))
-            return false;
-
-
-        if (!checkAdjDicesFull(overlay, position, dice))
-            return false;
-
+        if (!player.getLastPlaced().equals(new Position(-1, -1))) {
+            if (!checkEdgePosTurn(player, position))
+                return false;
+        } else {
+            if (!checkAdjDicesFull(overlay, position, dice))
+                return false;
+        }
         if (!checkPlaceValueRequirements(dice, position))
             return false;
         return true;
