@@ -17,8 +17,8 @@ public class GameManager extends GeneralTask {
 
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
-    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private final ArrayList<String> players;
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
@@ -39,7 +39,6 @@ public class GameManager extends GeneralTask {
     private ArrayList<String> active = new ArrayList<>();
     private String expected = "none";
     private RoundTrack roundTrack = new RoundTrack();
-    private boolean check1 = false;
     private ArrayList<Dice> dices = new ArrayList<>();
     private ArrayList<Dice> pool = new ArrayList<>();
     private final Object obj = new Object();

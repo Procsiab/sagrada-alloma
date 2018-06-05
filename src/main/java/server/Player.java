@@ -61,24 +61,24 @@ public class Player {
 
     public synchronized boolean placedDice() {
         if (this.hasPlacedDice)
-            return false;
+            return true;
         this.hasPlacedDice = true;
-        return true;
+        return false;
     }
 
     public synchronized boolean usedTc() {
         if (this.hasUsedTc)
-            return false;
+            return true;
         this.hasUsedTc = true;
-        return true;
+        return false;
     }
 
     public synchronized boolean usedTcAndPlacedDice() {
         if (this.hasUsedTc || this.hasPlacedDice)
-            return false;
+            return true;
         this.hasUsedTc = true;
         this.hasPlacedDice = true;
-        return true;
+        return false;
     }
 
     public synchronized void clearUsedTcAndPlacedDice() {

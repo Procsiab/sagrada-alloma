@@ -189,7 +189,7 @@ public class StartGameController implements Initializable {
 
         Position diceGridPosition =  new Position();
         diceGridPosition.setRow(rowIndex);
-        diceGridPosition.setRow(colIndex);
+        diceGridPosition.setColumn(colIndex);
 
         middlewareClient.placeDice( posizionePoolDice , diceGridPosition );
         System.out.print("\"Dado Posizionato\"");
