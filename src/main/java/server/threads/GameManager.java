@@ -17,8 +17,8 @@ public class GameManager extends GeneralTask {
 
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
-    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private final ArrayList<String> players;
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
@@ -52,7 +52,7 @@ public class GameManager extends GeneralTask {
         this.code = MainServer.addGameManagers(this);
         this.players = players;
         this.publicRef.addAll(Collections.unmodifiableList(players));
-        this.timeout1 = 1000;
+        this.timeout1 = 10000;
         this.timeout2 = 12000;
         this.timeout3 = 5000;
         this.timeout4 = 3000;
@@ -520,7 +520,12 @@ public class GameManager extends GeneralTask {
     private void closeGame() {
         for (String player :
                 players) {
-            SReferences.removeRef(player);
+            synchronized (MatchManager.getObj()){
+                MatchManager.getLeft().remove(players);
+            }
+            synchronized (MatchManager.getObj2()) {
+                SReferences.removeRef(player);
+            }
         }
     }
 

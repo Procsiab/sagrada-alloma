@@ -556,7 +556,7 @@ public class MatchManager {
 
     public String startGame(String uUID, String ip, Integer port, boolean isSocket) {
 
-        if (left.contains(uUID) || SReferences.contains(uUID)) {
+        if (SReferences.contains(uUID)) {
             System.out.println("Player: " + uUID + ", IP: " + ip + ", PORT: " + port+ " has connection refused: already playing.");
             return "You already playing! Hold on while the server calls you again";
         }

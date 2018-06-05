@@ -60,7 +60,7 @@ public class SReferences {
         return ipRef.get(index);
     }
 
-    public static synchronized boolean addGameRef(String s, GameManager gameRef) {
+    public static boolean addGameRef(String s, GameManager gameRef) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
@@ -68,7 +68,7 @@ public class SReferences {
         return true;
     }
 
-    public static synchronized boolean addIpRef(String s, String ipRef) {
+    public static boolean addIpRef(String s, String ipRef) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
@@ -76,7 +76,7 @@ public class SReferences {
         return true;
     }
 
-    public static synchronized boolean addIsSocketRef(String s, Boolean isSocketRef) {
+    public static boolean addIsSocketRef(String s, Boolean isSocketRef) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
@@ -84,7 +84,7 @@ public class SReferences {
         return true;
     }
 
-    public static synchronized boolean addPlayerRef(String s, Player playerRef) {
+    public static boolean addPlayerRef(String s, Player playerRef) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
@@ -92,7 +92,7 @@ public class SReferences {
         return true;
     }
 
-    public static synchronized boolean addPortRef(String s, Integer portRef) {
+    public static boolean addPortRef(String s, Integer portRef) {
         Integer index = uuidRef.indexOf(s);
         if (index == -1)
             return false;
@@ -123,7 +123,7 @@ public class SReferences {
         return true;
     }
 
-    public static synchronized boolean contains(String s) {
+    public static boolean contains(String s) {
         return uuidRef.contains(s);
     }
 
