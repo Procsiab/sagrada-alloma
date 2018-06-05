@@ -52,10 +52,10 @@ public class GameManager extends GeneralTask {
         this.code = MainServer.addGameManagers(this);
         this.players = players;
         this.publicRef.addAll(Collections.unmodifiableList(players));
-        this.timeout1 = 10000;
+        this.timeout1 = 15000;
         this.timeout2 = 12000;
         this.timeout3 = 5000;
-        this.timeout4 = 3000;
+        this.timeout4 = 8000;
 
 
         System.out.println("GameManager: " + this + ". Game started with " + players.size() +

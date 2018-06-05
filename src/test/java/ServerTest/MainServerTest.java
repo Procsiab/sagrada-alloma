@@ -140,6 +140,6 @@ class MainServerTest {
 
 
         assertEquals(player4, tavolo);
-        pause(7999);
+        pause(8000);
     }
 }
