@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 
 import org.junit.jupiter.api.Test;
+import shared.Position;
+import shared.PositionR;
 
 import static org.junit.Assert.assertEquals;
 
@@ -116,15 +118,20 @@ class MainServerTest {
 
         pause(1000);
         middlewareServer.setResponsive(player4);
-        pause(20000);
+        pause(15000);
         if (gameManagers.get(1) != null) {
             System.out.println("got you");
             tavolo = gameManagers.get(1).getTavolo();
         }
 
+        middlewareServer.placeDice(player3,2,new Position(3,2));
+        middlewareServer.useToolC(player3,1,new Position(1,2),new Position(3,4),new Position(1,5),new Position(2,2),new PositionR(2,1),1,2);
+
+
         pause(4000);
+
         //in game player2
-        System.out.println("rientra nel gioco player2");
+        System.out.println("si riconnette player2");
         startGame(player2);
 
 

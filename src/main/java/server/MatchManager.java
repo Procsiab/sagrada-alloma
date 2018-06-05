@@ -613,7 +613,4 @@ public class MatchManager {
         return obj2;
     }
 
-    public void setWindows(ArrayList<Window> windows) {
-        this.windows = windows;
-    }
 }

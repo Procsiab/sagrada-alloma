@@ -36,7 +36,6 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
                 Logger.log("Denied access for UUID " + uuid);
                 return true;
             } else {
-                Logger.log("Denied access for UUID " + uuid);
                 return !expected.equals(uuid);
             }
         } catch (NullPointerException npe) {
