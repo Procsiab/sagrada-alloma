@@ -202,6 +202,12 @@ public class GameManager extends GeneralTask {
         pool.add(new Dice('y',5));
         pool.add(new Dice('r',2));
         pool.add(new Dice('b',5));
+        pool.add(new Dice('y',5));
+        pool.add(new Dice('b',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('y',5));
+        pool.add(new Dice('r',2));
+        pool.add(new Dice('b',5));
 
     }
 

@@ -12,6 +12,17 @@ public class Dice implements Serializable {
     public Integer value;
     public char color;
 
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Dice))
+            return false;
+        Dice dice1 = (Dice) object;
+        if (dice1.value != this.value)
+            return false;
+        if (dice1.color != this.color)
+            return false;
+        return true;
+    }
 
     public Integer getValue() {
         return value;

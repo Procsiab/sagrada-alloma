@@ -33,80 +33,65 @@ public class Window implements Serializable {
     }
 
     public boolean checkEdgePosTurn(Player player, Position position) {
-        if (player.getTurno() != 1)
-            return true;
         if (position.getRow() == 0 || position.getRow() == 3 || position.getColumn() == 0 || position.getColumn() == 4)
             return true;
         return false;
     }
 
-    public boolean checkAdjDicesFull(Overlay overlay, Position position1, Dice dice1) {
-        int i, j;
-        boolean esito;
-        Position position = new Position();
-        Dice dice;
+    public boolean checkAdjDicesFull(Overlay overlay, Position position, Dice dice) {
+        Dice adj;
+        Integer row = position.getRow();
+        Integer col = position.getColumn();
 
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 5; j++) {
-
-                if (overlay.getDicePositions()[i][j] != null) {
-                    position.setColumn(j);
-                    position.setRow(i);
-                    esito = false;
-                    dice = overlay.getDicePositions()[i][j - 1];
-                    if (position.getRow() >= 0 && position.getColumn() - 1 >= 0)
-                        if (position1.getRow().equals(position.getRow()) &&
-                                position1.getColumn().equals(position.getColumn() - 1))
-                            if (dice1.color != dice.color && dice1.value != dice.value)
-                                esito = true;
-
-                    if (position.getRow() - 1 >= 0 && position.getColumn() - 1 >= 0)
-                        if (position1.getRow().equals(position.getRow() - 1) &&
-                                position1.getColumn().equals(position.getColumn() - 1))
-                            esito = true;
-
-                    dice = overlay.getDicePositions()[i - 1][j];
-                    if (position.getRow() - 1 >= 0 && position.getColumn() >= 0)
-                        if (position1.getRow().equals(position.getRow() - 1) &&
-                                position1.getColumn().equals(position.getColumn()))
-                            if (dice1.color != dice.color && dice1.value != dice.value)
-                                esito = true;
-
-                    if (position.getRow() - 1 >= 0 && position.getColumn() + 1 <= 4)
-                        if (position1.getRow().equals(position.getRow() - 1) &&
-                                position1.getColumn().equals(position.getColumn() + 1))
-                            esito = true;
-
-                    dice = overlay.getDicePositions()[i][j + 1];
-                    if (position.getRow() >= 0 && position.getColumn() + 1 <= 4)
-                        if (position1.getRow().equals(position.getRow()) &&
-                                position1.getColumn().equals(position.getColumn() + 1))
-                            if (dice1.color != dice.color && dice1.value != dice.value)
-                                esito = true;
-
-                    if (position.getRow() + 1 <= 3 && position.getColumn() + 1 <= 4)
-                        if (position1.getRow().equals(position.getRow() + 1) &&
-                                position1.getColumn().equals(position.getColumn() + 1))
-                            esito = true;
-
-                    dice = overlay.getDicePositions()[i + 1][j];
-                    if (position.getRow() + 1 <= 3 && position.getColumn() >= 0)
-                        if (position1.getRow().equals(position.getRow() + 1) &&
-                                position1.getColumn().equals(position.getColumn()))
-                            if (dice1.color != dice.color && dice1.value != dice.value)
-                                esito = true;
-
-                    if (position.getRow() + 1 <= 3 && position.getColumn() - 1 >= 0)
-                        if (position1.getRow().equals(position.getRow() + 1) &&
-                                position1.getColumn().equals(position.getColumn() - 1))
-                            esito = true;
-
-                    if (!esito)
-                        return false;
-                }
+        if (col - 1 >= 0) {
+            adj = overlay.getDice(new Position(row, col - 1));
+            if (adj != null) {
+                if (dice.getValue() != adj.getValue() && dice.getColor() != adj.getColor())
+                    return true;
             }
         }
-        return true;
+        if (col - 1 >= 0 && row - 1 >= 0) {
+            adj = overlay.getDice(new Position(row - 1, col - 1));
+            if (adj != null)
+                return true;
+        }
+        if (row - 1 >= 0) {
+            adj = overlay.getDice(new Position(row - 1, col));
+            if (adj != null) {
+                if (dice.getValue() != adj.getValue() && dice.getColor() != adj.getColor())
+                    return true;
+            }
+        }
+        if (col + 1 <= 4 && row - 1 >= 0) {
+            adj = overlay.getDice(new Position(row - 1, col + 1));
+            if (adj != null)
+                return true;
+        }
+        if (col + 1 <= 4) {
+            adj = overlay.getDice(new Position(row, col + 1));
+            if (adj != null) {
+                if (dice.getValue() != adj.getValue() && dice.getColor() != adj.getColor())
+                    return true;
+            }
+        }
+        if (col + 1 <= 4 && row + 1 <= 3) {
+            adj = overlay.getDice(new Position(row + 1, col + 1));
+            if (adj != null)
+                return true;
+        }
+        if (row + 1 <= 3) {
+            adj = overlay.getDice(new Position(row + 1, col));
+            if (adj != null) {
+                if (dice.getValue() != adj.getValue() && dice.getColor() != adj.getColor())
+                    return true;
+            }
+        }
+        if (col - 1 >= 0 && row + 1 <= 3) {
+            adj = overlay.getDice(new Position(row + 1, col - 1));
+            if (adj != null)
+                return true;
+        }
+        return false;
     }
 
     public boolean notAdjacentToAny(Overlay overlay, Position position1) {
@@ -249,15 +234,13 @@ public class Window implements Serializable {
 
     public boolean checkDice(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
-
-
-        if (!checkEdgePosTurn(player, position))
-            return false;
-
-
-        if (!checkAdjDicesFull(overlay, position, dice))
-            return false;
-
+        if (!player.getLastPlaced().equals(new Position(-1, -1))) {
+            if (!checkEdgePosTurn(player, position))
+                return false;
+        } else {
+            if (!checkAdjDicesFull(overlay, position, dice))
+                return false;
+        }
         if (!checkPlaceRequirements(dice, position))
             return false;
         return true;
