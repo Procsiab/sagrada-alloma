@@ -1,4 +1,4 @@
-package server.executable;
+package server.executables;
 
 import server.Player;
 import server.threads.GameManager;

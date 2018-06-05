@@ -1,4 +1,4 @@
-package server.executable;
+package server.executables;
 
 import shared.Dice;
 import shared.Overlay;
