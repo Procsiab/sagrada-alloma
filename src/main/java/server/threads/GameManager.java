@@ -2,6 +2,7 @@ package server.threads;
 
 import server.*;
 import server.connection.DummyMiddlewareServer;
+import server.connection.MiddlewareServer;
 import server.executables.PublicObject;
 import server.Window;
 import server.executables.Tool;
@@ -17,9 +18,9 @@ public class GameManager extends GeneralTask {
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
     // Real server, use this to run code
-    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     // Dummy server used for testing class
-    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private final ArrayList<String> players;
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
