@@ -1,6 +1,7 @@
 package server;
 
 import server.threads.GameManager;
+import server.threads.MainServer;
 import shared.*;
 
 import java.util.ArrayList;
@@ -61,24 +62,24 @@ public class Player {
 
     public synchronized boolean placedDice() {
         if (this.hasPlacedDice)
-            return false;
+            return true;
         this.hasPlacedDice = true;
-        return true;
+        return false;
     }
 
     public synchronized boolean usedTc() {
         if (this.hasUsedTc)
-            return false;
+            return true;
         this.hasUsedTc = true;
-        return true;
+        return false;
     }
 
     public synchronized boolean usedTcAndPlacedDice() {
         if (this.hasUsedTc || this.hasPlacedDice)
-            return false;
+            return true;
         this.hasUsedTc = true;
         this.hasPlacedDice = true;
-        return true;
+        return false;
     }
 
     public synchronized void clearUsedTcAndPlacedDice() {
@@ -172,14 +173,18 @@ public class Player {
     }
 
     public boolean placeDice(Integer index, Position position) {
+        Dice dice;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
+            if(index>=pool.size())
+                return false;
             if (pool.get(index) == null)
                 return false;
+            dice = MainServer.deepClone(pool.get(index));
             if (this.window.setDiceFromPool(this, index, position)) {
                 this.lastPlaced = position;
-                System.out.println("GameManager: " + game + " player " + uUID + " effectively placed dice" +
-                        pool.get(index) + " in position " + position);
+                System.out.println("GameManager: " + game + " player " + uUID + " effectively placed dice " +
+                        dice + " in position " + position);
                 return true;
             }
         }

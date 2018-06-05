@@ -148,6 +148,8 @@ public class Window implements Serializable {
     public boolean checkPlaceColorRequirements(Dice dice, Position position) {
         if (this.getMatrices()[position.getRow()][position.getColumn()] == null)
             return true;
+        if(this.getMatrices()[position.getRow()][position.getColumn()].getColor() == null)
+            return true;
         if (dice.getColor() != this.getMatrices()[position.getRow()][position.getColumn()].getColor()) {
             return false;
         }
@@ -157,6 +159,8 @@ public class Window implements Serializable {
     public boolean checkPlaceValueRequirements(Dice dice, Position position) {
         if (this.getMatrices()[position.getRow()][position.getColumn()] == null)
             return true;
+        if(this.getMatrices()[position.getRow()][position.getColumn()].getValue() == null)
+            return true;
         if (dice.getValue() != this.getMatrices()[position.getRow()][position.getColumn()].getValue()) {
             return false;
         }
@@ -164,7 +168,7 @@ public class Window implements Serializable {
     }
 
     public boolean checkPlaceRequirements(Dice dice, Position position) {
-        return checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
+        return checkPlaceValueRequirements(dice, position) || checkPlaceColorRequirements(dice, position);
     }
 
     public boolean setDiceFromPool(Player player, Integer index, Position position) {

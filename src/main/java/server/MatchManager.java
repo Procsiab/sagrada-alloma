@@ -17,9 +17,10 @@ public class MatchManager {
     private MatchManager() {
         super();
 
-        Cell[][] cells = new Cell[4][5];
+
 
         //building windows
+        Cell[][] cells = new Cell[4][5];
         cells[0][0] = new Cell('y');
         cells[0][1] = new Cell('b');
         cells[0][2] = new Cell();
@@ -42,7 +43,7 @@ public class MatchManager {
         cells[3][4] = new Cell('y');
         windows.add(new Window(cells, "Window1", 4));
 
-
+        cells = new Cell[4][5];
         cells[0][0] = new Cell('v');
         cells[0][1] = new Cell(6);
         cells[0][2] = new Cell();
@@ -65,6 +66,7 @@ public class MatchManager {
         cells[3][4] = new Cell(4);
         windows.add(new Window(cells, "Window2", 5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell(4);
         cells[0][2] = new Cell();
@@ -87,6 +89,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells,"Window3",3));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell();
         cells[0][2] = new Cell();
@@ -131,6 +134,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells,"Window5",6));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell(1);
         cells[0][2] = new Cell('g');
@@ -153,6 +157,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells, "Window6",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(1);
         cells[0][1] = new Cell();
         cells[0][2] = new Cell(3);
@@ -175,6 +180,7 @@ public class MatchManager {
         cells[3][4] = new Cell(1);
         windows.add(new Window(cells, "Window7",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(6);
         cells[0][1] = new Cell('b');
         cells[0][2] = new Cell();
@@ -197,6 +203,7 @@ public class MatchManager {
         cells[3][4] = new Cell('v');
         windows.add(new Window(cells,"Window8",6));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell('b');
         cells[0][2] = new Cell(2);
@@ -219,6 +226,7 @@ public class MatchManager {
         cells[3][4] = new Cell('v');
         windows.add(new Window(cells,"Window9",3));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(5);
         cells[0][1] = new Cell('v');
         cells[0][2] = new Cell();
@@ -241,6 +249,7 @@ public class MatchManager {
         cells[3][4] = new Cell(3);
         windows.add(new Window(cells,"Window10",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(5);
         cells[0][1] = new Cell('g');
         cells[0][2] = new Cell('b');
@@ -263,6 +272,7 @@ public class MatchManager {
         cells[3][4] = new Cell(4);
         windows.add(new Window(cells,"Window11",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell('r');
         cells[0][1] = new Cell();
         cells[0][2] = new Cell('b');
@@ -285,6 +295,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells,"Window12",4));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(2);
         cells[0][1] = new Cell();
         cells[0][2] = new Cell(5);
@@ -307,6 +318,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells,"Window13",6));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(4);
         cells[0][1] = new Cell();
         cells[0][2] = new Cell(2);
@@ -329,6 +341,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells,"Window14",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(3);
         cells[0][1] = new Cell(4);
         cells[0][2] = new Cell(1);
@@ -351,6 +364,7 @@ public class MatchManager {
         cells[3][4] = new Cell(6);
         windows.add(new Window(cells,"Window15",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(1);
         cells[0][1] = new Cell('v');
         cells[0][2] = new Cell('y');
@@ -373,6 +387,7 @@ public class MatchManager {
         cells[3][4] = new Cell(1);
         windows.add(new Window(cells,"Window16",6));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell();
         cells[0][2] = new Cell(6);
@@ -395,6 +410,7 @@ public class MatchManager {
         cells[3][4] = new Cell(3);
         windows.add(new Window(cells, "Window17",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell('b');
         cells[0][1] = new Cell(6);
         cells[0][2] = new Cell();
@@ -417,6 +433,7 @@ public class MatchManager {
         cells[3][4] = new Cell('g');
         windows.add(new Window(cells,"Window18",3));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell('b');
         cells[0][2] = new Cell('r');
@@ -439,6 +456,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells,"Window19",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell();
         cells[0][2] = new Cell('r');
@@ -461,6 +479,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells,"Window20",300));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell();
         cells[0][2] = new Cell('g');
@@ -483,6 +502,7 @@ public class MatchManager {
         cells[3][4] = new Cell(4);
         windows.add(new Window(cells,"Window21",4));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell('y');
         cells[0][1] = new Cell();
         cells[0][2] = new Cell(2);
@@ -505,6 +525,7 @@ public class MatchManager {
         cells[3][4] = new Cell();
         windows.add(new Window(cells,"Window22",5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell('y');
         cells[0][1] = new Cell();
         cells[0][2] = new Cell(6);
@@ -527,6 +548,7 @@ public class MatchManager {
         cells[3][4] = new Cell('r');
         windows.add(new Window(cells,"Window23",4));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell(1);
         cells[0][1] = new Cell('r');
         cells[0][2] = new Cell(3);

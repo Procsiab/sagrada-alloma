@@ -3,9 +3,9 @@ package server.threads;
 import server.*;
 import server.connection.DummyMiddlewareServer;
 import server.connection.MiddlewareServer;
-import server.executable.PublicObject;
-import server.executable.Tool;
+import server.executables.PublicObject;
 import server.Window;
+import server.executables.Tool;
 import shared.*;
 import server.Player;
 import shared.TransferObjects.*;
@@ -17,8 +17,10 @@ public class GameManager extends GeneralTask {
 
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
-    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    // Real server, use this to run code
+    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    // Dummy server used for testing class
+    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private final ArrayList<String> players;
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
@@ -39,7 +41,6 @@ public class GameManager extends GeneralTask {
     private ArrayList<String> active = new ArrayList<>();
     private String expected = "none";
     private RoundTrack roundTrack = new RoundTrack();
-    private boolean check1 = false;
     private ArrayList<Dice> dices = new ArrayList<>();
     private ArrayList<Dice> pool = new ArrayList<>();
     private final Object obj = new Object();
@@ -180,6 +181,28 @@ public class GameManager extends GeneralTask {
                 "Public Objective cards n° " + revealPublicOC(a.get(0)) + ", "
                 + revealPublicOC(a.get(1)) + ", " + revealPublicOC(a.get(2)));
 
+        //initialize some dices
+        pool.add(new Dice('b',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('r',5));
+        pool.add(new Dice('r',2));
+        pool.add(new Dice('v',5));
+        pool.add(new Dice('b',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('y',5));
+        pool.add(new Dice('v',2));
+        pool.add(new Dice('b',5));
+        pool.add(new Dice('y',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('r',5));
+        pool.add(new Dice('r',2));
+        pool.add(new Dice('y',5));
+        pool.add(new Dice('b',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('y',5));
+        pool.add(new Dice('r',2));
+        pool.add(new Dice('b',5));
+
     }
 
     private void setAction(boolean action) {
@@ -290,7 +313,58 @@ public class GameManager extends GeneralTask {
     }
 
     public String revealWindow(Integer i) {
-        return "Window?";
+        i++;
+        switch (i) {
+            case 1:
+                return "Window1";
+            case 2:
+                return "Window2";
+            case 3:
+                return "Window3";
+            case 4:
+                return "Window4";
+            case 5:
+                return "Window5";
+            case 6:
+                return "Window6";
+            case 7:
+                return "Window7";
+            case 8:
+                return "Window8";
+            case 9:
+                return "Window9";
+            case 10:
+                return "Window10";
+            case 11:
+                return "Window11";
+            case 12:
+                return "Window12";
+            case 13:
+                return "Window13";
+            case 14:
+                return "Window14";
+            case 15:
+                return "Window15";
+            case 16:
+                return "Window16";
+            case 17:
+                return "Window17";
+            case 18:
+                return "Window18";
+            case 19:
+                return "Window19";
+            case 20:
+                return "Window20";
+            case 21:
+                return "Window21";
+            case 22:
+                return "Window22";
+            case 23:
+                return "Window23";
+            case 24:
+                return "Window24";
+        }
+        return "card not found";
     }
 
     public String getExpected() {

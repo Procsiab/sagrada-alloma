@@ -4,6 +4,7 @@ package server.threads;
 import server.connection.MiddlewareServer;
 import server.threads.GameGenerator.GameGenerator1;
 import server.threads.GameGenerator.GameGenerator2;
+import shared.Overlay;
 import shared.concurrency.ConcurrencyManager;
 
 import java.io.*;
@@ -60,5 +61,19 @@ public class MainServer {
         }
         ConcurrencyManager.shutdown();
         System.exit(0);
+    }
+
+    public static<T> T deepClone(T type) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(type);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (T) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            return null;
+        }
     }
 }

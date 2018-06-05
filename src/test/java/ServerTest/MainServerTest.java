@@ -46,13 +46,7 @@ class MainServerTest {
             timeout = gameManagers.get(0).getTimeout1();
     }
 
-    @Test
-    void main() {
-
-        MainServer.simulation();
-        obj = MainServer.obj;
-
-
+    public void testWebIssues(){
         pause(1000);
 
         String player1 = "player1";
@@ -119,13 +113,11 @@ class MainServerTest {
         pause(1000);
         middlewareServer.setResponsive(player4);
         pause(15000);
+
         if (gameManagers.get(1) != null) {
-            System.out.println("got you");
             tavolo = gameManagers.get(1).getTavolo();
         }
 
-        middlewareServer.placeDice(player3,2,new Position(3,2));
-        middlewareServer.useToolC(player3,1,new Position(1,2),new Position(3,4),new Position(1,5),new Position(2,2),new PositionR(2,1),1,2);
 
 
         pause(4000);
@@ -134,12 +126,14 @@ class MainServerTest {
         System.out.println("si riconnette player2");
         startGame(player2);
 
-
-        pause(timeout);
-
-
-
         assertEquals(player4, tavolo);
-        pause(8000);
+    }
+
+    @Test
+    void main() {
+
+        MainServer.simulation();
+        obj = MainServer.obj;
+testWebIssues();
     }
 }

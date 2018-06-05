@@ -43,7 +43,7 @@ public class StartGameController implements Initializable {
     @FXML
     private GridPane paneCarta0,paneCarta1,paneCarta2,paneCarta3;
     @FXML
-    private Button placeDice;
+    private Button placeDice,fineTurno;
     @FXML
     private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
     @FXML
@@ -78,6 +78,7 @@ public class StartGameController implements Initializable {
         backGroundTransition();
         loadArray();
         loadDadi();
+        shut();
         // OTTIMIZZARE INSERENDO QUESTO DUPLICATO IN UNA FUNZIONE
         for (int i = 0; i < listaDadi.size(); i++){
             listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
@@ -189,7 +190,7 @@ public class StartGameController implements Initializable {
 
         Position diceGridPosition =  new Position();
         diceGridPosition.setRow(rowIndex);
-        diceGridPosition.setRow(colIndex);
+        diceGridPosition.setColumn(colIndex);
 
         middlewareClient.placeDice( posizionePoolDice , diceGridPosition );
         System.out.print("\"Dado Posizionato\"");
@@ -249,6 +250,12 @@ public class StartGameController implements Initializable {
     //TODO Implement the following methods
 
     public void enable() {
+        for (int i = 0; i < listaDadi.size(); i++){
+            listaDadi.get(i).setDisable(false);
+
+        }
+        placeDice.setDisable(false);
+        fineTurno.setDisable(false);
 
     }
 
@@ -267,6 +274,12 @@ public class StartGameController implements Initializable {
     }
 
     public void shut() {
+        for (int i = 0; i < listaDadi.size(); i++){
+            listaDadi.get(i).setDisable(true);
+
+        }
+        placeDice.setDisable(true);
+        fineTurno.setDisable(true);
 
     }
 
