@@ -1,5 +1,8 @@
 package shared;
 
+import javafx.geometry.Pos;
+import org.junit.experimental.theories.PotentialAssignment;
+
 import java.io.Serializable;
 
 public class Position implements Serializable {
@@ -13,6 +16,18 @@ public class Position implements Serializable {
     public Position(Integer row, Integer column){
         this.row = row;
         this.column= column;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Position))
+            return false;
+        Position position= (Position) object;
+        if (position.row != this.row)
+            return false;
+        if (position.column != this.column)
+            return false;
+        return true;
     }
 
     public Integer getRow() {

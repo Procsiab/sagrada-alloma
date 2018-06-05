@@ -21,22 +21,27 @@ public class RoundTrack implements Serializable {
     }
 
     public boolean busy(PositionR positionR) {
-        Dice dice = this.dices.get(positionR.column).get(positionR.column);
+        Dice dice = getDice(positionR);
         if (dice == null)
             return false;
         return true;
     }
 
     public void setDice(Dice dice, PositionR positionR) {
-        this.dices.get(positionR.column).set(positionR.column, dice);
+
+        this.dices.get(positionR.column).set(positionR.height, dice);
     }
 
-    public void setDice(Dice dice, Integer column) {
-        this.dices.get(column - 1).add(dice);
+    public void addDice(Dice dice, Integer column) {
+        this.dices.get(column).add(dice);
     }
 
     public Dice getDice(PositionR positionR) {
-        return this.dices.get(positionR.column).get(positionR.column);
+        if(positionR.column<0||positionR.column>9)
+            return null;
+        if(positionR.height<0||positionR.height>=dices.get(positionR.column).size())
+            return null;
+        return this.dices.get(positionR.column).get(positionR.height);
     }
 
     public Integer sumDices() {

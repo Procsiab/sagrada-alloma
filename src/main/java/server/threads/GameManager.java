@@ -1,7 +1,6 @@
 package server.threads;
 
 import server.*;
-import server.connection.DummyMiddlewareServer;
 import server.connection.MiddlewareServer;
 import server.executables.PublicObject;
 import server.Window;
@@ -110,7 +109,7 @@ public class GameManager extends GeneralTask {
             else if (55 <= i && i <= 72)
                 dices.add(new Dice('b', 1 + rand.nextInt(5)));
             else if (73 <= i && i <= 90)
-                dices.add(new Dice('p', 1 + rand.nextInt(5)));
+                dices.add(new Dice('v', 1 + rand.nextInt(5)));
             i++;
         }
 
@@ -182,18 +181,18 @@ public class GameManager extends GeneralTask {
                 + revealPublicOC(a.get(1)) + ", " + revealPublicOC(a.get(2)));
 
         //initialize some dices
-        pool.add(new Dice('b',2));
-        pool.add(new Dice('g',3));
-        pool.add(new Dice('r',5));
-        pool.add(new Dice('r',2));
-        pool.add(new Dice('v',5));
-        pool.add(new Dice('b',2));
-        pool.add(new Dice('g',3));
-        pool.add(new Dice('y',5));
-        pool.add(new Dice('v',2));
-        pool.add(new Dice('b',5));
         pool.add(new Dice('y',2));
-        pool.add(new Dice('g',3));
+        pool.add(new Dice('b',3));
+        pool.add(new Dice('r',6));
+        pool.add(new Dice('b',5));
+        pool.add(new Dice('v',1));
+        pool.add(new Dice('g',4));
+        pool.add(new Dice('y',6));
+        pool.add(new Dice('g',5));
+        pool.add(new Dice('v',2));
+        pool.add(new Dice('b',6));
+        pool.add(new Dice('v',2));
+        pool.add(new Dice('g',6));
         pool.add(new Dice('r',5));
         pool.add(new Dice('r',2));
         pool.add(new Dice('y',5));
@@ -258,6 +257,18 @@ public class GameManager extends GeneralTask {
 
     public RoundTrack getRoundTrack() {
         return roundTrack;
+    }
+
+    public void setPublicOCs(ArrayList<Integer> publicOCs) {
+        this.publicOCs = publicOCs;
+    }
+
+    public void setToolCards(ArrayList<Integer> toolCards) {
+        this.toolCards = toolCards;
+    }
+
+    public void settCtokens(ArrayList<Integer> ar){
+        this.tCtokens = ar;
     }
 
     public String revealPublicOC(Integer i) {
@@ -394,7 +405,7 @@ public class GameManager extends GeneralTask {
             WindowT windowT = new WindowT(window.getName(), window.getMatrices());
             PlayerT playerT = new PlayerT(player.getPrivateO(), windowT, player.getOverlay(),
                     player.getTokens(), player.getTurno(), player.getScore(), player.getPrivateTurn(),
-                    player.getLastPlaced());
+                    player.getLastPlacedFromPool());
             vPlayersT.add(playerT);
         }
         vPlayersT.trimToSize();
@@ -417,7 +428,7 @@ public class GameManager extends GeneralTask {
 
         System.out.println("Player: " + uuid + " has " + player.getTokens() + " tokens, is at turn n° " + player.getTurno() +
                 ", has " + player.getScore() + " points, is at private turn n° " + player.getPrivateTurn() +
-                ", last dice placed was in position " + player.getLastPlaced().toString());
+                ", last dice placed was in position " + player.getLastPlacedFromPool().toString());
 
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, publicOCsT,
                 toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uuid)));
@@ -484,64 +495,14 @@ public class GameManager extends GeneralTask {
         return score;
     }
 
-    public Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
-        Boolean esito = false;
-
-        if (!(i1 == null || i1 < 0 || i1 > 2)) {
-
-            switch (toolCards.get(i1) + 1) {
-                case 1:
-                    esito = Tool.use1(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 2:
-                    esito = Tool.use2(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 3:
-                    esito = Tool.use3(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 4:
-                    esito = Tool.use4(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 5:
-                    esito = Tool.use5(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 6:
-                    esito = Tool.use6(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 7:
-                    esito = Tool.use7(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 8:
-                    esito = Tool.use8(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 9:
-                    esito = Tool.use9(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 10:
-                    esito = Tool.use10(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 11:
-                    esito = Tool.use11(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-                case 12:
-                    esito = Tool.use12(this, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
-                    break;
-            }
-            if (esito) {
-                System.out.println("GameManager: " + this + " player " + uUID + " effectively used Tool card" +
-                        " n°" + i1);
-                return true;
-            }
-        }
-        System.out.println("GameManager: " + this + " player " + uUID + " attempt of unauthorized usage of Tool card");
-        return false;
-
-    }
-
     public void shiftPlayers() {
         String temp;
         temp = players.remove(0);
         players.add(temp);
+    }
+
+    public ArrayList<Integer> getToolCards() {
+        return toolCards;
     }
 
     public void throwDice() {
@@ -560,7 +521,7 @@ public class GameManager extends GeneralTask {
         for (Dice dice :
                 pool) {
             if (dice != null)
-                roundTrack.setDice(dice, col);
+                roundTrack.addDice(dice, col-1);
         }
     }
 
