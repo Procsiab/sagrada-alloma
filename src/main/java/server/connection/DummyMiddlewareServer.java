@@ -32,12 +32,11 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
 
             if (expected.equals("all"))
                 return false;
-            else if (expected.equals("none")) {
+            else if (expected.equals("none") || !expected.equals(uuid)) {
                 Logger.log("Denied access for UUID " + uuid);
                 return true;
-            } else {
-                return !expected.equals(uuid);
             }
+            return false;
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
         }

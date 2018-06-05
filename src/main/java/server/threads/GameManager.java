@@ -206,7 +206,7 @@ public class GameManager extends GeneralTask {
         return timeout1;
     }
 
-    private synchronized void setExpected(String access) {
+    private void setExpected(String access) {
         System.out.println("\nGameManager: " + this + " Access granted to: " + access+"\n");
         this.expected = access;
     }
@@ -293,7 +293,7 @@ public class GameManager extends GeneralTask {
         return "Window?";
     }
 
-    public synchronized String getExpected() {
+    public String getExpected() {
         return expected;
     }
 
