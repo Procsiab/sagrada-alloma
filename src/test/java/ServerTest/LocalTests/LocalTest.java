@@ -20,7 +20,7 @@ public class LocalTest {
         GameManager gameManager = new GameManager(players);
         Player player = new Player(gameManager,"player1");
 
-        player.setWindow(12);
+        player.setWindow(0);
 
         player.placeDice(0, new Position(0,0));
 

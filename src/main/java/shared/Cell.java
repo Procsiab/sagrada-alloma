@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Cell implements Serializable {
 
-    public Integer value = 0;
-    public Character color = 'c';
+    public Integer value;
+    public Character color;
 
     public Cell(Integer shade, Character color) {
         this.value = shade;
@@ -24,7 +24,7 @@ public class Cell implements Serializable {
         return value;
     }
 
-    public char getColor() {
+    public Character getColor() {
         return color;
     }
 

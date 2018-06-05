@@ -172,12 +172,14 @@ public class Player {
     }
 
     public boolean placeDice(Integer index, Position position) {
+        Dice dice;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
             if(index>=pool.size())
                 return false;
             if (pool.get(index) == null)
                 return false;
+            dice = pool.get(index);
             if (this.window.setDiceFromPool(this, index, position)) {
                 this.lastPlaced = position;
                 System.out.println("GameManager: " + game + " player " + uUID + " effectively placed dice" +
