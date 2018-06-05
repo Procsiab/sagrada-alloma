@@ -17,7 +17,9 @@ public class GameManager extends GeneralTask {
 
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
+    // Real server, use this to run code
     private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    // Dummy server used for testing class
     //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private final ArrayList<String> players;
     private ArrayList<String> players2 = new ArrayList<>();
@@ -39,6 +41,7 @@ public class GameManager extends GeneralTask {
     private ArrayList<String> active = new ArrayList<>();
     private String expected = "none";
     private RoundTrack roundTrack = new RoundTrack();
+    private boolean check1 = false;
     private ArrayList<Dice> dices = new ArrayList<>();
     private ArrayList<Dice> pool = new ArrayList<>();
     private final Object obj = new Object();

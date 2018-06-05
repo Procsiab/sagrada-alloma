@@ -107,8 +107,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.enable();
         } else {
-            //TODO Call GUI method
-        }
+            MainClient.startGameController.enable();         }
     }
 
     @Override
@@ -116,8 +115,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.shut();
         } else {
-            //TODO Call GUI method
-        }
+            MainClient.startGameController.shut();        }
     }
 
     @Override
