@@ -40,18 +40,4 @@ public class Overlay implements Serializable {
         this.dicePositions[position.getRow()][position.getColumn()] = dice;
     }
 
-    public Overlay deepClone() {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(this);
-
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            return (Overlay) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return null;
-        }
-    }
-
 }

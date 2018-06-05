@@ -1,5 +1,6 @@
 package server.executables;
 
+import server.threads.MainServer;
 import shared.Dice;
 import shared.Overlay;
 
@@ -291,7 +292,7 @@ public class PublicObject {
     }
 
     public static Integer use10(Overlay overlay1) {
-        Overlay overlay = overlay1.deepClone();
+        Overlay overlay = MainServer.deepClone(overlay1);
         Dice[][] dices = overlay.getDicePositions();
         int i = 1;
         int j = 1;

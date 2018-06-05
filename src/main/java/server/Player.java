@@ -1,6 +1,7 @@
 package server;
 
 import server.threads.GameManager;
+import server.threads.MainServer;
 import shared.*;
 
 import java.util.ArrayList;
@@ -179,11 +180,11 @@ public class Player {
                 return false;
             if (pool.get(index) == null)
                 return false;
-            dice = pool.get(index);
+            dice = MainServer.deepClone(pool.get(index));
             if (this.window.setDiceFromPool(this, index, position)) {
                 this.lastPlaced = position;
-                System.out.println("GameManager: " + game + " player " + uUID + " effectively placed dice" +
-                        pool.get(index) + " in position " + position);
+                System.out.println("GameManager: " + game + " player " + uUID + " effectively placed dice " +
+                        dice + " in position " + position);
                 return true;
             }
         }
