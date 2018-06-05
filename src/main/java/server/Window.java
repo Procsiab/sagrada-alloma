@@ -164,7 +164,7 @@ public class Window implements Serializable {
     }
 
     public boolean checkPlaceRequirements(Dice dice, Position position) {
-        return checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
+        return checkPlaceValueRequirements(dice, position) || checkPlaceColorRequirements(dice, position);
     }
 
     public boolean setDiceFromPool(Player player, Integer index, Position position) {

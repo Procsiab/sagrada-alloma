@@ -3,6 +3,7 @@ package ServerTest.LocalTests;
 import org.junit.Test;
 import server.Player;
 import server.threads.GameManager;
+import shared.Position;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,9 @@ public class LocalTest {
         GameManager gameManager = new GameManager(players);
         Player player = new Player(gameManager,"player1");
 
-        player.setWindow()
+        player.setWindow(12);
+
+        player.placeDice(0, new Position(0,0));
 
 
         //test tc1

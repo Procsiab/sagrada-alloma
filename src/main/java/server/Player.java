@@ -174,6 +174,8 @@ public class Player {
     public boolean placeDice(Integer index, Position position) {
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
+            if(index>=pool.size())
+                return false;
             if (pool.get(index) == null)
                 return false;
             if (this.window.setDiceFromPool(this, index, position)) {

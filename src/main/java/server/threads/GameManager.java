@@ -40,7 +40,6 @@ public class GameManager extends GeneralTask {
     private ArrayList<String> active = new ArrayList<>();
     private String expected = "none";
     private RoundTrack roundTrack = new RoundTrack();
-    private boolean check1 = false;
     private ArrayList<Dice> dices = new ArrayList<>();
     private ArrayList<Dice> pool = new ArrayList<>();
     private final Object obj = new Object();
@@ -180,6 +179,28 @@ public class GameManager extends GeneralTask {
         System.out.println("GameManager: " + this + " assigned " +
                 "Public Objective cards n° " + revealPublicOC(a.get(0)) + ", "
                 + revealPublicOC(a.get(1)) + ", " + revealPublicOC(a.get(2)));
+
+        //initialize some dices
+        pool.add(new Dice('b',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('r',5));
+        pool.add(new Dice('r',2));
+        pool.add(new Dice('v',5));
+        pool.add(new Dice('b',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('y',5));
+        pool.add(new Dice('v',2));
+        pool.add(new Dice('b',5));
+        pool.add(new Dice('y',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('r',5));
+        pool.add(new Dice('r',2));
+        pool.add(new Dice('y',5));
+        pool.add(new Dice('b',2));
+        pool.add(new Dice('g',3));
+        pool.add(new Dice('y',5));
+        pool.add(new Dice('r',2));
+        pool.add(new Dice('b',5));
 
     }
 
