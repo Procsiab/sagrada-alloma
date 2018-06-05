@@ -77,6 +77,13 @@ public class MainCLI {
                 .a("Wrong input, check for typos!").fgDefault());
     }
 
+    public void updateView(GameManagerT gm) {
+        if (functionId == 2) {
+            AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:"));
+            this.gm = gm;
+        }
+    }
+
     public void chooseWindow(ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
         functionId = 1;
         AnsiConsole.out().println(ansi().fgBrightRed().a("Please select a window to play with, among the following:")
@@ -86,6 +93,14 @@ public class MainCLI {
         }
         AnsiConsole.out().println();
         this.windows = windows;
+    }
+
+    public void startGameViewForced() {
+        AnsiConsole.out().println(ansi().fgBrightRed().a("Start of game forced by the server").fgDefault());
+    }
+
+    public void aPrioriWin() {
+        //TODO Implement
     }
 
     public void enable() {
@@ -101,14 +116,11 @@ public class MainCLI {
                 .a("Your turn has ended: wait for you opponents").fgDefault());
     }
 
-    public void startGameViewForced() {
-        AnsiConsole.out().println(ansi().fgBrightRed().a("Start of game forced by the server").fgDefault());
+    public void printScore(Integer score) {
+        //TODO Implement
     }
 
-    public void updateView(GameManagerT gm) {
-        if (functionId == 2) {
-            AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:"));
-            this.gm = gm;
-        }
+    public void setWinner() {
+        //TODO Implement
     }
 }

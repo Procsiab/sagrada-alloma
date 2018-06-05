@@ -95,51 +95,46 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
 
     @Override
     public void aPrioriWin() {
-        //TODO Call true method
         if (MainClient.isPrompt()) {
-            //Call method for CLI
+            MainClient.cliController.aPrioriWin();
         } else {
-            //Call method for GUI
+            //TODO Call GUI method
         }
     }
 
     @Override
     public void enable() {
-        //TODO Call true method
         if (MainClient.isPrompt()) {
             MainClient.cliController.enable();
         } else {
-            //Call method for GUI
+            //TODO Call GUI method
         }
     }
 
     @Override
     public void shut() {
-        //TODO Call true method
         if (MainClient.isPrompt()) {
             MainClient.cliController.shut();
         } else {
-            //Call method for GUI
+            //TODO Call GUI method
         }
     }
 
     @Override
     public void printScore(Integer score) {
-        //TODO Call true method
         if (MainClient.isPrompt()) {
-            //Call method for CLI
+            MainClient.cliController.printScore(score);
         } else {
-            //Call method for GUI
+            //TODO Call GUI method
         }
     }
 
     @Override
     public void setWinner() {
-        //TODO Call true method
         if (MainClient.isPrompt()) {
-            //Call method for CLI
+            MainClient.cliController.setWinner();
         } else {
-            //Call method for GUI
+            //TODO Call GUI method
         }
     }
 
