@@ -1,5 +1,6 @@
 package server;
 
+import server.executables.Tool;
 import server.threads.GameManager;
 import server.threads.MainServer;
 import shared.*;
@@ -17,7 +18,7 @@ public class Player {
     private Integer turno = 0;
     private Integer score = 0;
     private Integer privateTurn = 0; //can be either 1 or 2
-    private Position lastPlaced = new Position(-1,-1);
+    private Position lastPlacedFromPool = new Position(-1,-1);
     private boolean hasPlacedDice = false;
     private boolean hasUsedTc = false;
     private GameManager game;
@@ -26,6 +27,60 @@ public class Player {
         this.uUID = uUID;
         this.game = gameManager;
         this.possibleWindows = new ArrayList<>();
+    }
+
+    public synchronized Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+        Boolean esito = false;
+
+        if (!(i1 == null || i1 < 0 || i1 > 2)) {
+
+            switch (game.getToolCards().get(i1) + 1) {
+                case 1:
+                    esito = Tool.use1(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 2:
+                    esito = Tool.use2(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 3:
+                    esito = Tool.use3(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 4:
+                    esito = Tool.use4(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 5:
+                    esito = Tool.use5(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 6:
+                    esito = Tool.use6(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 7:
+                    esito = Tool.use7(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 8:
+                    esito = Tool.use8(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 9:
+                    esito = Tool.use9(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 10:
+                    esito = Tool.use10(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 11:
+                    esito = Tool.use11(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+                case 12:
+                    esito = Tool.use12(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    break;
+            }
+            if (esito) {
+                System.out.println("GameManager: " + this + " player " + uUID + " effectively used Tool card" +
+                        " n°" + i1);
+                return true;
+            }
+        }
+        System.out.println("GameManager: " + this + " player " + uUID + " attempt of unauthorized usage of Tool card");
+        return false;
+
     }
 
     public void setPossibleWindows(ArrayList<Integer> possibleWindows) {
@@ -60,21 +115,21 @@ public class Player {
         return score;
     }
 
-    public synchronized boolean placedDice() {
+    public boolean placedDice() {
         if (this.hasPlacedDice)
             return true;
         this.hasPlacedDice = true;
         return false;
     }
 
-    public synchronized boolean usedTc() {
+    public boolean usedTc() {
         if (this.hasUsedTc)
             return true;
         this.hasUsedTc = true;
         return false;
     }
 
-    public synchronized boolean usedTcAndPlacedDice() {
+    public boolean usedTcAndPlacedDice() {
         if (this.hasUsedTc || this.hasPlacedDice)
             return true;
         this.hasUsedTc = true;
@@ -82,7 +137,7 @@ public class Player {
         return false;
     }
 
-    public synchronized void clearUsedTcAndPlacedDice() {
+    public void clearUsedTcAndPlacedDice() {
         this.hasUsedTc = false;
         this.hasPlacedDice = false;
     }
@@ -115,8 +170,8 @@ public class Player {
         return privateO;
     }
 
-    public Position getLastPlaced() {
-        return lastPlaced;
+    public Position getLastPlacedFromPool() {
+        return lastPlacedFromPool;
     }
 
     public String getuUID() {
@@ -156,7 +211,7 @@ public class Player {
         }
         this.window = matchManager.getWindows().get(n);
         setTokens();
-        System.out.println("Player: " + uUID + " choose Window: " + n + ". It has: " + window.getTokens() + " tokens");
+        System.out.println("Player: " + uUID + " choose " + game.revealWindow(n) + ". It has: " + window.getTokens() + " tokens");
         return true;
     }
 
@@ -172,7 +227,7 @@ public class Player {
         this.tokens = this.window.getTokens();
     }
 
-    public boolean placeDice(Integer index, Position position) {
+    public synchronized boolean placeDice(Integer index, Position position) {
         Dice dice;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
@@ -180,9 +235,9 @@ public class Player {
                 return false;
             if (pool.get(index) == null)
                 return false;
-            dice = MainServer.deepClone(pool.get(index));
+            dice = pool.get(index);
             if (this.window.setDiceFromPool(this, index, position)) {
-                this.lastPlaced = position;
+                this.lastPlacedFromPool = position;
                 System.out.println("GameManager: " + game + " player " + uUID + " effectively placed dice " +
                         dice + " in position " + position);
                 return true;

@@ -105,7 +105,7 @@ public class Tool {
         if (i2 == null || p1 == null || pr == null)
             return false;
 
-        return player.getWindow().moveDiceWindowRoundtrack(game, player, p1, pr);
+        return player.getWindow().moveDiceWindowRoundtrack(game, player,i2, p1, pr);
     }
 
     public static Boolean use6(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {

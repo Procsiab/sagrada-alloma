@@ -1,6 +1,7 @@
 package server.connection;
 
 import server.MatchManager;
+import server.Player;
 import server.SReferences;
 import server.threads.GameManager;
 import shared.Cell;
@@ -133,7 +134,7 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return false;
-            return SReferences.getGameRef(uuid).useTool(uuid,i1, p1, p2, p3, p4, pr, i2, i3);
+            return SReferences.getPlayerRef(uuid).useTool(uuid,i1, p1, p2, p3, p4, pr, i2, i3);
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);

@@ -14,4 +14,9 @@ public class PositionR implements Serializable {
         this.column = column;
         this.height = height;
     }
+
+    @Override
+    public String toString() {
+        return column+", "+height;
+    }
 }

@@ -24,6 +24,14 @@ public class Dice implements Serializable {
         return true;
     }
 
+    public boolean isCloseTo(Dice dice){
+        if(dice.color == this.color)
+            return true;
+        if(dice.value== this.value)
+            return true;
+        return false;
+    }
+
     public Integer getValue() {
         return value;
     }

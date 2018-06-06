@@ -15,6 +15,8 @@ public class Overlay implements Serializable {
     }
 
     public Dice getDice(Position pos) {
+        if(pos.getRow()>3 ||pos.getRow()<0 ||pos.getColumn()>4||pos.getColumn()<0)
+            return null;
         return dicePositions[pos.getRow()][pos.getColumn()];
     }
 
@@ -22,8 +24,26 @@ public class Overlay implements Serializable {
         this.dicePositions = dices;
     }
 
+    public String toString() {
+        int i = 0;
+        int j = 0;
+
+        String str = "";
+
+        while (i < 4) {
+            while (j < 5) {
+                str = str + dicePositions[i][j] + "; ";
+                j++;
+            }
+            str = str + "\n";
+            i++;
+            j = 0;
+        }
+        return str;
+    }
+
     public boolean busy(Position position) {
-        if (dicePositions[position.getRow()][position.getColumn()] != null)
+        if (getDice(position) != null)
             return true;
         return false;
     }
