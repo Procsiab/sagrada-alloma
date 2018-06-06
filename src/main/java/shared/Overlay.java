@@ -48,10 +48,6 @@ public class Overlay implements Serializable {
         return false;
     }
 
-    public boolean busy(Position position1, Position position2) {
-        return busy(position1) && busy(position2);
-    }
-
     public Dice[][] getDicePositions() {
         return dicePositions;
     }

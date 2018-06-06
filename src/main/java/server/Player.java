@@ -90,10 +90,6 @@ public class Player {
     }
 
     public Integer getScore() {
-        return score;
-    }
-
-    public Integer setScore() {
 
         score = game.usePublicO(this.overlay);
 
@@ -108,6 +104,7 @@ public class Player {
                         score = score + dice.value;
                 j++;
             }
+            j = 0;
             i++;
         }
 

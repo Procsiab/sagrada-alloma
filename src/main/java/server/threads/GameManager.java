@@ -1,10 +1,10 @@
 package server.threads;
 
 import server.*;
+import server.connection.DummyMiddlewareServer;
 import server.connection.MiddlewareServer;
 import server.executables.PublicObject;
 import server.Window;
-import server.executables.Tool;
 import shared.*;
 import server.Player;
 import shared.TransferObjects.*;
@@ -17,9 +17,9 @@ public class GameManager extends GeneralTask {
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
     // Real server, use this to run code
-    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     // Dummy server used for testing class
-    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private final ArrayList<String> players;
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
@@ -193,15 +193,12 @@ public class GameManager extends GeneralTask {
         pool.add(new Dice('b',4));
         pool.add(new Dice('v',2));
         pool.add(new Dice('r',6));
-        pool.add(new Dice('g',5));
-        pool.add(new Dice('r',2));
-        pool.add(new Dice('y',5));
+        pool.add(new Dice('g',4));
         pool.add(new Dice('g',2));
         pool.add(new Dice('y',3));
-        pool.add(new Dice('b',2));
-        pool.add(new Dice('r',2));
+        pool.add(new Dice('v',2));
         pool.add(new Dice('b',5));
-        pool.add(new Dice('y',5));
+        pool.add(new Dice('y',3));
         pool.add(new Dice('b',2));
         pool.add(new Dice('g',3));
         pool.add(new Dice('y',5));
@@ -830,7 +827,7 @@ public class GameManager extends GeneralTask {
 
         for (Player player : vPlayers
                 ) {
-            temp = vPlayers.get(i).setScore();
+            temp = vPlayers.get(i).getScore();
             if (temp > points)
                 points = temp;
             i++;

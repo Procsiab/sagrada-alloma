@@ -209,14 +209,11 @@ public class Tool {
         if (game.getPool().get(i2) == null)
             return false;
 
-        Dice dice = null;
+        Dice dice;
         ArrayList<Dice> dices = game.getDices();
         Random rand = new Random();
-        int k = 0;
-        while (dice == null) {
-            k = rand.nextInt(dices.size() - 1);
-            dice = dices.get(k);
-        }
+        int k = rand.nextInt(dices.size() - 1);
+        dice = dices.get(k);
         dice.value = i3;
         dices.set(k, game.getPool().get(i2));
         game.getPool().set(i2, dice);
@@ -228,19 +225,30 @@ public class Tool {
 
         if (!ableAndSettleCard(player, i1))
             return false;
-        if (p1 == null || p2 == null || p3 == null || p4 == null)
+        if (p1 == null || p2 == null)
             return false;
 
         Dice diceRoundrack = game.getRoundTrack().getDice(pr);
         if (diceRoundrack == null)
             return false;
 
+        if(p3==null&&p4== null) {
+            Dice dice1 = player.getOverlay().getDice(p1);
+            if (dice1 == null)
+                return false;
+            char color = diceRoundrack.color;
+            if (color != dice1.color)
+                return false;
+
+            return player.getWindow().moveDice(player, p1, p2);
+        }
+        if (p3 == null || p4 == null)
+            return false;
         Dice dice1 = player.getOverlay().getDice(p1);
         Dice dice2 = player.getOverlay().getDice(p3);
         if (dice1 == null || dice2 == null)
             return false;
 
-        Overlay overlay = player.getOverlay();
         char color = diceRoundrack.color;
         if (color != dice1.color || color != dice2.color)
             return false;

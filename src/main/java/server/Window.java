@@ -79,38 +79,23 @@ public class Window implements Serializable {
     }
 
     public boolean CheckNotAdjacentToAny(Overlay overlay, Position position1) {
-        Position position = new Position(position1.getRow() - 1, position1.getColumn() - 1);
-        if (position.getRow() >= 0 && position.getColumn() >= 0)
-            if (overlay.busy(position))
-                return false;
-        position = new Position(position1.getRow() - 1, position1.getColumn());
-        if (position.getRow() >= 0 && position.getColumn() >= 0)
-            if (overlay.busy(position))
-                return false;
-        position = new Position(position1.getRow() - 1, position1.getColumn() + 1);
-        if (position.getRow() >= 0 && position.getColumn() >= 0)
-            if (overlay.busy(position))
-                return false;
-        position = new Position(position1.getRow(), position1.getColumn() + 1);
-        if (position.getRow() >= 0 && position.getColumn() >= 0)
-            if (overlay.busy(position))
-                return false;
-        position = new Position(position1.getRow() + 1, position1.getColumn() + 1);
-        if (position.getRow() >= 0 && position.getColumn() >= 0)
-            if (overlay.busy(position))
-                return false;
-        position = new Position(position1.getRow() + 1, position1.getColumn());
-        if (position.getRow() >= 0 && position.getColumn() >= 0)
-            if (overlay.busy(position))
-                return false;
-        position = new Position(position1.getRow() + 1, position1.getColumn() - 1);
-        if (position.getRow() >= 0 && position.getColumn() >= 0)
-            if (overlay.busy(position))
-                return false;
-        position = new Position(position1.getRow(), position1.getColumn() - 1);
-        if (position.getRow() >= 0 && position.getColumn() >= 0)
-            if (overlay.busy(position))
-                return false;
+        if (overlay.busy(new Position(position1.getRow() - 1, position1.getColumn() - 1)))
+            return false;
+        if (overlay.busy(new Position(position1.getRow(), position1.getColumn() - 1)))
+            return false;
+        if (overlay.busy(new Position(position1.getRow() + 1, position1.getColumn() - 1)))
+            return false;
+        if (overlay.busy(new Position(position1.getRow() - 1, position1.getColumn())))
+            return false;
+        if (overlay.busy(new Position(position1.getRow() + 1, position1.getColumn())))
+            return false;
+        if (overlay.busy(new Position(position1.getRow() - 1, position1.getColumn() + 1)))
+            return false;
+        if (overlay.busy(new Position(position1.getRow(), position1.getColumn() + 1)))
+            return false;
+        if (overlay.busy(new Position(position1.getRow() + 1, position1.getColumn() + 1)))
+            return false;
+
         return true;
     }
 
@@ -167,21 +152,26 @@ public class Window implements Serializable {
 
     public boolean moveDice(Player player, Position p1, Position p2) {
 
-        if (p1 == null || p2 == null)
+        if (p1 == null || p2 == null )
             return false;
 
-        Dice dice = player.getOverlay().getDice(p1);
-        if (dice == null)
+        Overlay overlay = player.getOverlay();
+
+        Dice dice1 = overlay.getDice(p1);
+
+        if (overlay.busy(p2))
             return false;
 
-        if (player.getOverlay().busy(p2))
+        if(!overlay.busy(p1))
             return false;
 
-        if (checkDice(player, dice, p2)) {
-            player.getOverlay().setDicePosition(dice, p2);
-            player.getOverlay().setDicePosition(null, p1);
+        if (checkDice(player, dice1, p2)) {
+            overlay.setDicePosition(dice1, p2);
+            overlay.setDicePosition(null, p1);
             return true;
         }
+        overlay.setDicePosition(dice1, p1);
+        overlay.setDicePosition(null, p2);
         return false;
     }
 
@@ -194,10 +184,11 @@ public class Window implements Serializable {
 
         Dice dice1 = overlay.getDice(p1);
         Dice dice2 = overlay.getDice(p3);
-        if (dice1 == null || dice2 == null)
+
+        if (overlay.busy(p2)||overlay.busy(p4))
             return false;
 
-        if (overlay.busy(p2, p4))
+        if(!overlay.busy(p1)||!overlay.busy(p3))
             return false;
 
         if (checkDice(player, dice1, p2)) {
