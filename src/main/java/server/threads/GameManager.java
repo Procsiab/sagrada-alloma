@@ -17,9 +17,9 @@ public class GameManager extends GeneralTask {
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
     // Real server, use this to run code
-    //private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     // Dummy server used for testing class
-    private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private final ArrayList<String> players;
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
@@ -66,7 +66,7 @@ public class GameManager extends GeneralTask {
         }
         System.out.println("\nServer wishes them good luck.\n");
 
-        System.out.println("GameManager: "+this+", those are the configuration parameters: \n" +
+        System.out.println("GameManager: " + this + ", those are the configuration parameters: \n" +
                 "time given to\n" +
                 "\teach player to choose what to do: " + timeout1 / 1000 + "s\n" +
                 "\tsolve connection issue: " + timeout2 / 1000 + "s\n" +
@@ -181,29 +181,29 @@ public class GameManager extends GeneralTask {
                 + revealPublicOC(a.get(1)) + ", " + revealPublicOC(a.get(2)));
 
         //initialize some dices
-        pool.add(new Dice('y',2));
-        pool.add(new Dice('b',3));
-        pool.add(new Dice('r',6));
-        pool.add(new Dice('b',5));
-        pool.add(new Dice('v',1));
-        pool.add(new Dice('g',4));
-        pool.add(new Dice('y',6));
-        pool.add(new Dice('g',5));
-        pool.add(new Dice('v',2));
-        pool.add(new Dice('b',4));
-        pool.add(new Dice('v',2));
-        pool.add(new Dice('r',6));
-        pool.add(new Dice('g',4));
-        pool.add(new Dice('g',2));
-        pool.add(new Dice('y',3));
-        pool.add(new Dice('v',2));
-        pool.add(new Dice('b',5));
-        pool.add(new Dice('y',3));
-        pool.add(new Dice('b',2));
-        pool.add(new Dice('g',3));
-        pool.add(new Dice('y',5));
-        pool.add(new Dice('r',2));
-        pool.add(new Dice('b',5));
+        pool.add(new Dice('y', 2));
+        pool.add(new Dice('b', 3));
+        pool.add(new Dice('r', 6));
+        pool.add(new Dice('b', 5));
+        pool.add(new Dice('v', 1));
+        pool.add(new Dice('g', 4));
+        pool.add(new Dice('y', 6));
+        pool.add(new Dice('g', 5));
+        pool.add(new Dice('v', 2));
+        pool.add(new Dice('b', 4));
+        pool.add(new Dice('v', 2));
+        pool.add(new Dice('r', 6));
+        pool.add(new Dice('g', 4));
+        pool.add(new Dice('g', 2));
+        pool.add(new Dice('y', 3));
+        pool.add(new Dice('v', 2));
+        pool.add(new Dice('b', 5));
+        pool.add(new Dice('y', 3));
+        pool.add(new Dice('b', 2));
+        pool.add(new Dice('g', 3));
+        pool.add(new Dice('y', 5));
+        pool.add(new Dice('r', 2));
+        pool.add(new Dice('b', 5));
 
     }
 
@@ -232,7 +232,7 @@ public class GameManager extends GeneralTask {
     }
 
     private void setExpected(String access) {
-        System.out.println("\nGameManager: " + this + " Access granted to: " + access+"\n");
+        System.out.println("\nGameManager: " + this + " Access granted to: " + access + "\n");
         this.expected = access;
     }
 
@@ -264,12 +264,8 @@ public class GameManager extends GeneralTask {
         this.toolCards = toolCards;
     }
 
-    public void settCtokens(ArrayList<Integer> ar){
-        this.tCtokens = ar;
-    }
-
     public String revealPublicOC(Integer i) {
-        if(i == null)
+        if (i == null)
             return "null";
 
         i++;
@@ -299,7 +295,7 @@ public class GameManager extends GeneralTask {
     }
 
     public String revealToolCard(Integer i) {
-        if(i == null)
+        if (i == null)
             return "null";
 
         i++;
@@ -333,7 +329,7 @@ public class GameManager extends GeneralTask {
     }
 
     public String revealWindow(Integer i) {
-        if(i == null)
+        if (i == null)
             return "null";
 
         i++;
@@ -527,7 +523,7 @@ public class GameManager extends GeneralTask {
         for (Dice dice :
                 pool) {
             if (dice != null)
-                roundTrack.addDice(dice, col-1);
+                roundTrack.addDice(dice, col - 1);
         }
     }
 
@@ -567,7 +563,7 @@ public class GameManager extends GeneralTask {
     private void closeGame() {
         for (String player :
                 players) {
-            synchronized (MatchManager.getObj()){
+            synchronized (MatchManager.getObj()) {
                 MatchManager.getLeft().remove(players);
             }
             synchronized (MatchManager.getObj2()) {
@@ -779,36 +775,34 @@ public class GameManager extends GeneralTask {
                     }
 
                     //check if active, doesn't have a turn to jump, then go ahead
-                    if (!privateLeft.contains(remotePlayer)) {
-                        if (jump.contains(remotePlayer)) {
-                            jump.remove(remotePlayer);
-                            System.out.println("GameManager: " + this + " player: " + remotePlayer +
-                                    "jump this turn");
-                        } else if (active.contains(remotePlayer)) {
-                            this.updateView();
-                            setExpected(remotePlayer);
-                            middlewareServer.enable(remotePlayer);
+                    if (jump.contains(remotePlayer)) {
+                        jump.remove(remotePlayer);
+                        System.out.println("GameManager: " + this + " player: " + remotePlayer +
+                                "jump this turn");
+                    } else if (active.contains(remotePlayer)) {
+                        this.updateView();
+                        setExpected(remotePlayer);
+                        middlewareServer.enable(remotePlayer);
 
-                            localPlayer.incrementTurn();
+                        localPlayer.incrementTurn();
 
-                            synchronized (obj3) {
-                                while (!this.action) {
-                                    try {
-                                        System.out.println("GameManager: " + this + " waiting player "
-                                                + remotePlayer + "'s move");
-                                        obj3.wait(timeout1);
-                                        setAction(true);
-                                    } catch (InterruptedException ie) {
-                                        Logger.log("Thread sleep was interrupted!");
-                                        Logger.strace(ie);
-                                        Thread.currentThread().interrupt();
-                                    }
+                        synchronized (obj3) {
+                            while (!this.action) {
+                                try {
+                                    System.out.println("GameManager: " + this + " waiting player "
+                                            + remotePlayer + "'s move");
+                                    obj3.wait(timeout1);
+                                    setAction(true);
+                                } catch (InterruptedException ie) {
+                                    Logger.log("Thread sleep was interrupted!");
+                                    Logger.strace(ie);
+                                    Thread.currentThread().interrupt();
                                 }
-                                setExpected("none");
-                                setAction(false);
-                                middlewareServer.shut(remotePlayer);
-                                localPlayer.clearUsedTcAndPlacedDice();
                             }
+                            setExpected("none");
+                            setAction(false);
+                            middlewareServer.shut(remotePlayer);
+                            localPlayer.clearUsedTcAndPlacedDice();
                         }
                     }
                     i++;
