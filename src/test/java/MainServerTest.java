@@ -316,13 +316,16 @@ class MainServerTest {
         }
 
 
-        pause(4000);
+        pause(2000);
 
-        //in game player2
+        //in game player2 with socket CHANGE
         System.out.println("si riconnette player2");
-        startGame(player2);
+        middlewareServer.startGame("player2", "192.168.223.1", -1, true);
+
+        pause(25000);
 
     }
+
 
     @Test
     void main() {

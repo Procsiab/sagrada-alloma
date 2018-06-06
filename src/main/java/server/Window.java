@@ -36,49 +36,41 @@ public class Window implements Serializable {
         return name;
     }
 
-    public Boolean checkSideBySide(Overlay overlay, Position position, Dice dice){
+    private Boolean checkSideBySide(Overlay overlay, Position position, Dice dice){
         Dice adj;
         Integer row = position.getRow();
         Integer col = position.getColumn();
 
-        if (col - 1 >= 0) {
             adj = overlay.getDice(new Position(row, col - 1));
             if (adj != null)
                 if (dice.isCloseTo(adj))
                     return false;
-        }
-        if (row - 1 >= 0) {
             adj = overlay.getDice(new Position(row - 1, col));
             if (adj != null)
                 if (dice.isCloseTo(adj))
                     return false;
-        }
-        if (col + 1 <= 4) {
             adj = overlay.getDice(new Position(row, col + 1));
             if (adj != null)
                 if (dice.isCloseTo(adj))
                     return false;
-        }
-        if (row + 1 <= 3) {
             adj = overlay.getDice(new Position(row + 1, col));
             if (adj != null)
                 if (dice.isCloseTo(adj))
                     return false;
-        }
         return true;
     }
 
-    public boolean checkEdgePosTurn(Player player, Position position) {
+    private boolean checkEdgePosTurn(Player player, Position position) {
         if (position.getRow() == 0 || position.getRow() == 3 || position.getColumn() == 0 || position.getColumn() == 4)
             return true;
         return false;
     }
 
-    public boolean checkAdjDicesFull(Overlay overlay, Position position, Dice dice) {
+    private boolean checkAdjDicesFull(Overlay overlay, Position position, Dice dice) {
         return checkSideBySide(overlay, position, dice)&&!CheckNotAdjacentToAny(overlay,position);
     }
 
-    public boolean CheckNotAdjacentToAny(Overlay overlay, Position position1) {
+    private boolean CheckNotAdjacentToAny(Overlay overlay, Position position1) {
         if (overlay.busy(new Position(position1.getRow() - 1, position1.getColumn() - 1)))
             return false;
         if (overlay.busy(new Position(position1.getRow(), position1.getColumn() - 1)))
@@ -99,7 +91,7 @@ public class Window implements Serializable {
         return true;
     }
 
-    public boolean checkPlaceColorRequirements(Dice dice, Position position) {
+    private boolean checkPlaceColorRequirements(Dice dice, Position position) {
         if (getCell(position) == null)
             return true;
         if(getCell(position).getColor() == null)
@@ -110,7 +102,7 @@ public class Window implements Serializable {
         return true;
     }
 
-    public boolean checkPlaceValueRequirements(Dice dice, Position position) {
+    private boolean checkPlaceValueRequirements(Dice dice, Position position) {
         if (getCell(position) == null)
             return true;
         if(getCell(position).getValue() == null)
@@ -121,7 +113,7 @@ public class Window implements Serializable {
         return true;
     }
 
-    public boolean checkPlaceRequirements(Dice dice, Position position) {
+    private boolean checkPlaceRequirements(Dice dice, Position position) {
         return checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
     }
 
@@ -207,7 +199,7 @@ public class Window implements Serializable {
         return false;
     }
 
-    public boolean checkDice(Player player, Dice dice, Position position) {
+    private boolean checkDice(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
         if (player.getLastPlacedFromPool().equals(new Position(-1, -1))) {
             if (!checkEdgePosTurn(player, position))
@@ -242,7 +234,7 @@ public class Window implements Serializable {
         return false;
     }
 
-    public boolean checkDiceNoShade(Player player, Dice dice, Position position) {
+    private boolean checkDiceNoShade(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
         if (!player.getLastPlacedFromPool().equals(new Position(-1, -1))) {
             if (!checkEdgePosTurn(player, position))
@@ -277,7 +269,7 @@ public class Window implements Serializable {
         return false;
     }
 
-    public boolean checkDiceNoColor(Player player, Dice dice, Position position) {
+    private boolean checkDiceNoColor(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
         if (!player.getLastPlacedFromPool().equals(new Position(-1, -1))) {
             if (!checkEdgePosTurn(player, position))

@@ -7,21 +7,12 @@ public class Overlay implements Serializable {
     private Dice[][] dicePositions = new Dice[4][5];
 
 
-    public Overlay() {
-    }
-
-    public Overlay(Dice[][] dices) {
-        dicePositions = dices;
-    }
+    public Overlay(){}
 
     public Dice getDice(Position pos) {
         if(pos.getRow()>3 ||pos.getRow()<0 ||pos.getColumn()>4||pos.getColumn()<0)
             return null;
         return dicePositions[pos.getRow()][pos.getColumn()];
-    }
-
-    public void setDices(Dice[][] dices) {
-        this.dicePositions = dices;
     }
 
     public String toString() {

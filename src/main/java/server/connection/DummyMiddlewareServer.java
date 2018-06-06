@@ -11,6 +11,7 @@ import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareServer;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class DummyMiddlewareServer implements SharedMiddlewareServer {

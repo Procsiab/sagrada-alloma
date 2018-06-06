@@ -1,7 +1,6 @@
 package server.threads;
 
 import server.*;
-import server.connection.DummyMiddlewareServer;
 import server.connection.MiddlewareServer;
 import server.executables.PublicObject;
 import server.Window;
@@ -97,21 +96,7 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        i = 1;
-
-        while (i <= 90) {
-            if (1 <= i && i <= 18)
-                dices.add(new Dice('r', 1 + rand.nextInt(5)));
-            else if (19 <= i && i <= 36)
-                dices.add(new Dice('y', 1 + rand.nextInt(5)));
-            else if (37 <= i && i <= 54)
-                dices.add(new Dice('g', 1 + rand.nextInt(5)));
-            else if (55 <= i && i <= 72)
-                dices.add(new Dice('b', 1 + rand.nextInt(5)));
-            else if (73 <= i && i <= 90)
-                dices.add(new Dice('v', 1 + rand.nextInt(5)));
-            i++;
-        }
+        setDicesBag();
 
         i = 0;
         int j = 0;
@@ -123,35 +108,15 @@ public class GameManager extends GeneralTask {
         ch.add('v');
         ch.add('r');
 
-        ArrayList<Integer> a = new ArrayList<>();
-
-        j = rand.nextInt(4);
-        while (i < players.size()) {
-            while (a.contains(j)) {
-                j = rand.nextInt(4);
-            }
-            a.add(j);
-            i++;
-        }
-        i = 0;
+        ArrayList<Integer> a = set(0, 4, players.size());
 
         while (i < players.size()) {
             vPlayers.get(i).setPrivateOC(ch.get(a.get(i)));
             i++;
         }
 
-        i = 0;
-        a.clear();
 
-        j = rand.nextInt(11);
-        while (i < 3) {
-            while (a.contains(j)) {
-                j = rand.nextInt(11);
-            }
-            a.add(j);
-            i++;
-        }
-        i = 0;
+        a = set(0, 11, 3);
 
         toolCards.add(a.get(0));
         toolCards.add(a.get(1));
@@ -160,18 +125,8 @@ public class GameManager extends GeneralTask {
                 "Tool cards n° " + revealToolCard(a.get(0)) + ", " + revealToolCard(a.get(1))
                 + ", " + revealToolCard(a.get(2)));
 
-        i = 0;
-        a.clear();
 
-        j = rand.nextInt(9);
-        while (i < 3) {
-            while (a.contains(j)) {
-                j = rand.nextInt(9);
-            }
-            a.add(j);
-            i++;
-        }
-        i = 0;
+        a = set(0, 9, 3);
 
         publicOCs.add(a.get(0));
         publicOCs.add(a.get(1));
@@ -205,6 +160,45 @@ public class GameManager extends GeneralTask {
         pool.add(new Dice('r', 2));
         pool.add(new Dice('b', 5));
 
+        System.out.println("\nGameManager: " + this + " Initialization sequence completed");
+        pause(2000);
+
+    }
+
+    private ArrayList<Integer> set(Integer lowerBound, Integer upperBound, Integer size) {
+        ArrayList<Integer> a = new ArrayList<>();
+        Random rand = new Random();
+        int j = lowerBound + rand.nextInt(upperBound);
+        int i = 1;
+        size++;
+
+        while (i < size) {
+            while (a.contains(j)) {
+                j = lowerBound + rand.nextInt(upperBound);
+            }
+            a.add(j);
+            i++;
+        }
+        return a;
+    }
+
+    private void setDicesBag() {
+        int i = 1;
+        Random rand = new Random();
+
+        while (i <= 90) {
+            if (1 <= i && i <= 18)
+                dices.add(new Dice('r', 1 + rand.nextInt(5)));
+            else if (19 <= i && i <= 36)
+                dices.add(new Dice('y', 1 + rand.nextInt(5)));
+            else if (37 <= i && i <= 54)
+                dices.add(new Dice('g', 1 + rand.nextInt(5)));
+            else if (55 <= i && i <= 72)
+                dices.add(new Dice('b', 1 + rand.nextInt(5)));
+            else if (73 <= i && i <= 90)
+                dices.add(new Dice('v', 1 + rand.nextInt(5)));
+            i++;
+        }
     }
 
     private void setAction(boolean action) {
@@ -400,8 +394,7 @@ public class GameManager extends GeneralTask {
 
     public void updateView(String uuid) {
         ArrayList<PlayerT> vPlayersT = new ArrayList<>();
-        System.out.println("GameManager: " + this + " updating view for client: " + uuid + ". \nThis is its state:");
-        for (Player player :
+          for (Player player :
                 this.vPlayersFixed) {
             Window window = player.getWindow();
             WindowT windowT = new WindowT(window.getName(), window.getMatrices());
@@ -446,7 +439,7 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public <T> Integer count(ArrayList<T> ts) {
+    private <T> Integer count(ArrayList<T> ts) {
         int i = 0;
         for (T t :
                 ts) {
@@ -497,7 +490,7 @@ public class GameManager extends GeneralTask {
         return score;
     }
 
-    public void shiftPlayers() {
+    private void shiftPlayers() {
         String temp;
         temp = players.remove(0);
         players.add(temp);
@@ -507,7 +500,7 @@ public class GameManager extends GeneralTask {
         return toolCards;
     }
 
-    public void throwDice() {
+    private void throwDice() {
         pool.clear();
         Integer num = 2 * players2.size() + 1;
         int i = 0;
@@ -519,7 +512,7 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public void settleRoundtrack(Integer col) {
+    private void settleRoundtrack(Integer col) {
         for (Dice dice :
                 pool) {
             if (dice != null)
@@ -540,7 +533,7 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public void checkActive() {
+    private void checkActive() {
         for (String pla : players2
                 ) {
             if (privateLeft.contains(pla)) {
@@ -560,22 +553,35 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    private void closeGame() {
+    private void printStatusOfClients() {
+        checkActive();
+
+        System.out.println("GameManager: " + this + " players online are " + active.size() +
+                ". They are: ");
         for (String player :
-                players) {
-            synchronized (MatchManager.getObj()) {
-                MatchManager.getLeft().remove(players);
-            }
-            synchronized (MatchManager.getObj2()) {
-                SReferences.removeRef(player);
-            }
+                active) {
+            System.out.println(player + "; ");
         }
+
+        System.out.println("GameManager: " + this + " players temporarily offline " +
+                "are " + unresponsive.size() + ". They are: ");
+        for (String player :
+                unresponsive) {
+            System.out.println(player + "; ");
+        }
+
+        System.out.println("GameManager: " + this + " players who quit " +
+                "are " + privateLeft.size() + ". They are: ");
+        for (String player :
+                privateLeft) {
+            System.out.println(player + "; ");
+        }
+
+        System.out.println("GameManager: " + this + " we play with " + count(pool) + " dices\n");
+
     }
 
-    @Override
-    public void run() {
-        super.run();
-
+    private void handleWindows() {
         Random rand = new Random();
         Integer i = 0;
         Integer j = 0;
@@ -633,188 +639,147 @@ public class GameManager extends GeneralTask {
             }
             i++;
         }
-
         pause(timeout3);
+    }
 
-        System.out.println("\nGameManager: " + this + " Initialization sequence completed");
-
-        pause(2000);
-
-        j = 1;
-        int k;
-        while (j <= 10) {
-
-            for (String p :
-                    players) {
-                if (middlewareServer.ping(p)) {
-                    synchronized (MatchManager.getObj()) {
-                        MatchManager.getLeft().remove(p);
-                    }
-                    synchronized (obj) {
-                        privateLeft.remove(p);
-                    }
+    private void resetPlayers() {
+        for (String p :
+                players) {
+            if (middlewareServer.ping(p)) {
+                synchronized (MatchManager.getObj()) {
+                    MatchManager.getLeft().remove(p);
+                }
+                synchronized (obj) {
+                    privateLeft.remove(p);
                 }
             }
-
-            players2.clear();
-            players2.addAll(players);
-            players2.removeAll(privateLeft);
-            active.clear();
-            unresponsive.clear();
-            active.addAll(players2);
-            //fitness(players2);
-
-            checkActive();
-            throwDice();
-            i = 1;
-            k = 1;
-            while (k < 3) {
-                for (String remotePlayer :
-                        players2) {
-                    Player localPlayer = SReferences.getPlayerRef(remotePlayer);
-                    System.out.println("\n\n\nGameManager: " + this + " begin round: " + j + ", turn: " + i + "\n");
-                    checkActive();
-
-                    System.out.println("GameManager: " + this + " players online are " + active.size() +
-                            ". They are: ");
-                    for (String player :
-                            active) {
-                        System.out.println(player + "; ");
-                    }
-
-                    System.out.println("GameManager: " + this + " players temporarily offline " +
-                            "are " + unresponsive.size() + ". They are: ");
-                    for (String player :
-                            unresponsive) {
-                        System.out.println(player + "; ");
-                    }
-
-                    System.out.println("GameManager: " + this + " players who quit " +
-                            "are " + privateLeft.size() + ". They are: ");
-                    for (String player :
-                            privateLeft) {
-                        System.out.println(player + "; ");
-                    }
-
-                    System.out.println("GameManager: " + this + " we play with " + count(pool) + " dices\n");
-
-                    //check if all left game
-                    if (active.size() + unresponsive.size() == 0) {
-                        System.out.println("GameManager: " + this + "seems that all quit the game. Bye.");
-                        closeGame();
-                        return;
-                    }
-
-                    int p = 1;
-                    int q = 1;
-                    //check if global blackout
-                    if (active.isEmpty()) {
-                        System.out.println("GameManager: " + this + "seems all are having issues over the net");
-                        while (active.isEmpty()) {
-                            System.out.println("GameManager: " + this + " Attempt to reconnect n° " + (p + 1));
-                            for (String pla : players2
-                                    ) {
-                                if (middlewareServer.ping(pla)) {
-                                    if (!active.contains(pla))
-                                        active.add(pla);
-                                    unresponsive.remove(pla);
-                                } else {
-                                    if (!unresponsive.contains(pla))
-                                        unresponsive.add(pla);
-                                    active.remove(pla);
-                                }
-                            }
-                            if (p == 3) {
-                                System.out.println("GameManager: " + this + " After 3 attempts game closes. Bye");
-                                closeGame();
-                                return;
-                            }
-                            synchronized (obj2) {
-                                try {
-                                    obj2.wait(timeout2);
-                                } catch (InterruptedException e) {
-                                    Logger.log("Interrupted Exception");
-                                }
-                            }
-
-                            p++;
-                        }
-                    }
-                    //check if only one guest
-                    p = 1;
-                    if (active.size() + unresponsive.size() == 1) {
-                        System.out.println("GameManager: " + this + " we're having a victory decided by arbitration");
-                        while (active.size() + unresponsive.size() == 1) {
-                            tavolo = active.get(0);
-                            if (tavolo == null) {
-                                System.out.println("GameManager: " + this + " the only player is offline!");
-                                tavolo = unresponsive.get(0);
-                            }
-                            if (middlewareServer.ping(tavolo)) {
-                                middlewareServer.tavoloWin(active.get(0));
-                                closeGame();
-                                System.out.println("GameManager: " + this + " the winner is " + tavolo + "! Bye");
-                                pause(15000);
-                                return;
-                            }
-
-                            synchronized (obj2) {
-                                try {
-                                    obj2.wait(timeout2);
-                                } catch (InterruptedException e) {
-                                    Logger.log("Interrupted Exception");
-                                }
-                            }
-                            if (p == 5) {
-                                System.out.println("GameManager: " + this + " after 5 attempts game closes");
-                                closeGame();
-                                return;
-                            }
-                            p++;
-                        }
-                    }
-
-                    //check if active, doesn't have a turn to jump, then go ahead
-                    if (jump.contains(remotePlayer)) {
-                        jump.remove(remotePlayer);
-                        System.out.println("GameManager: " + this + " player: " + remotePlayer +
-                                "jump this turn");
-                    } else if (active.contains(remotePlayer)) {
-                        this.updateView();
-                        setExpected(remotePlayer);
-                        middlewareServer.enable(remotePlayer);
-
-                        localPlayer.incrementTurn();
-
-                        synchronized (obj3) {
-                            while (!this.action) {
-                                try {
-                                    System.out.println("GameManager: " + this + " waiting player "
-                                            + remotePlayer + "'s move");
-                                    obj3.wait(timeout1);
-                                    setAction(true);
-                                } catch (InterruptedException ie) {
-                                    Logger.log("Thread sleep was interrupted!");
-                                    Logger.strace(ie);
-                                    Thread.currentThread().interrupt();
-                                }
-                            }
-                            setExpected("none");
-                            setAction(false);
-                            middlewareServer.shut(remotePlayer);
-                            localPlayer.clearUsedTcAndPlacedDice();
-                        }
-                    }
-                    i++;
-                }
-                Collections.reverse(players2);
-                k++;
-            }
-            settleRoundtrack(j);
-            shiftPlayers();
-            j++;
         }
-        i = 0;
+
+        players2.clear();
+        players2.addAll(players);
+        players2.removeAll(privateLeft);
+        active.clear();
+        unresponsive.clear();
+        active.addAll(players2);
+
+    }
+
+    private void checkIfGlobalBlackOut() {
+        int p = 1;
+        int q = 1;
+        //check if global blackout
+        if (active.isEmpty()) {
+            System.out.println("GameManager: " + this + " seems all are having issues over the net");
+            while (active.isEmpty()) {
+                System.out.println("GameManager: " + this + " attempt to reconnect n° " + p);
+                for (String pla : players2
+                        ) {
+                    if (middlewareServer.ping(pla)) {
+                        if (!active.contains(pla))
+                            active.add(pla);
+                        unresponsive.remove(pla);
+                    } else {
+                        if (!unresponsive.contains(pla))
+                            unresponsive.add(pla);
+                        active.remove(pla);
+                    }
+                }
+                if (p == 3) {
+                    System.out.println("GameManager: " + this + " After 3 attempts game closes. Bye");
+                    closeGame();
+                    return;
+                }
+                synchronized (obj2) {
+                    try {
+                        obj2.wait(timeout2);
+                    } catch (InterruptedException e) {
+                        Logger.log("Interrupted Exception");
+                    }
+                }
+
+                p++;
+            }
+        }
+    }
+
+    private void checkIfAllQuit() {
+        if (active.size() + unresponsive.size() == 0) {
+            System.out.println("GameManager: " + this + " seems that all quit the game. Bye.");
+            closeGame();
+            return;
+        }
+    }
+
+    private void checkIfOnlyOne() {
+        int p = 1;
+        if (active.size() + unresponsive.size() == 1) {
+            System.out.println("GameManager: " + this + " we're having a victory decided by arbitration");
+            while (active.size() + unresponsive.size() == 1) {
+                tavolo = active.get(0);
+                if (tavolo == null) {
+                    System.out.println("GameManager: " + this + " the only player is offline!");
+                    tavolo = unresponsive.get(0);
+                }
+                if (middlewareServer.ping(tavolo)) {
+                    middlewareServer.tavoloWin(active.get(0));
+                    closeGame();
+                    System.out.println("GameManager: " + this + " the winner is " + tavolo + "! Bye");
+                    pause(15000);
+                    return;
+                }
+
+                synchronized (obj2) {
+                    try {
+                        obj2.wait(timeout2);
+                    } catch (InterruptedException e) {
+                        Logger.log("Interrupted Exception");
+                    }
+                }
+                if (p == 5) {
+                    System.out.println("GameManager: " + this + " after 5 attempts game closes");
+                    closeGame();
+                    return;
+                }
+                p++;
+            }
+        }
+    }
+
+    private void handleEffectiveTurn(String remotePlayer, Player localPlayer) {
+        if (jump.contains(remotePlayer)) {
+            jump.remove(remotePlayer);
+            System.out.println("GameManager: " + this + " player: " + remotePlayer +
+                    "jump this turn");
+        } else if (active.contains(remotePlayer)) {
+            this.updateView();
+            setExpected(remotePlayer);
+            middlewareServer.enable(remotePlayer);
+
+            localPlayer.incrementTurn();
+
+            synchronized (obj3) {
+                while (!this.action) {
+                    try {
+                        System.out.println("GameManager: " + this + " waiting player "
+                                + remotePlayer + "'s move");
+                        obj3.wait(timeout1);
+                        setAction(true);
+                    } catch (InterruptedException ie) {
+                        Logger.log("Thread sleep was interrupted!");
+                        Logger.strace(ie);
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                setExpected("none");
+                setAction(false);
+                middlewareServer.shut(remotePlayer);
+                localPlayer.clearUsedTcAndPlacedDice();
+            }
+        }
+    }
+
+    private void scoringPhase() {
+        int i = 0;
         int points = 0;
         int temp;
 
@@ -835,6 +800,60 @@ public class GameManager extends GeneralTask {
                 middlewareServer.setWinner(play.getuUID());
             }
         }
+    }
+
+    private void closeGame() {
+        for (String player :
+                players) {
+            synchronized (MatchManager.getObj()) {
+                MatchManager.getLeft().remove(players);
+            }
+            synchronized (MatchManager.getObj2()) {
+                SReferences.removeRef(player);
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        super.run();
+
+        handleWindows();
+
+        int i;
+        int j = 1;
+        int k;
+        while (j <= 10) {
+            resetPlayers();
+            throwDice();
+            i = 1;
+            k = 1;
+            while (k < 3) {
+                for (String remotePlayer :
+                        players2) {
+                    System.out.println("\n\n\nGameManager: " + this +
+                            " begin round: " + j + ", turn: " + i + "\n");
+                    Player localPlayer = SReferences.getPlayerRef(remotePlayer);
+
+                    checkActive();
+                    printStatusOfClients();
+                    checkIfGlobalBlackOut();
+                    checkIfOnlyOne();
+                    handleEffectiveTurn(remotePlayer, localPlayer);
+
+                    i++;
+                }
+                Collections.reverse(players2);
+                k++;
+            }
+            settleRoundtrack(j);
+            shiftPlayers();
+            j++;
+        }
+
+        checkIfAllQuit();
+        scoringPhase();
+
         closeGame();
         Logger.log("GameManager: " + this + ". We are done here! Bye!");
         pause(10000);

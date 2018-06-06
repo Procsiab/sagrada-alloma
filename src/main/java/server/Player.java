@@ -98,7 +98,7 @@ public class Player {
 
         while (i < 4) {
             while (j < 5) {
-                Dice dice = overlay.getDicePositions()[i][j];
+                Dice dice = overlay.getDice(new Position(i,j));
                 if (dice != null)
                     if (dice.color == privateO)
                         score = score + dice.value;
@@ -107,9 +107,8 @@ public class Player {
             j = 0;
             i++;
         }
-
         score = score + tokens;
-        Logger.log("Player: " + uUID + " total score is " + score.toString()+"\n");
+        System.out.println("Player: " + uUID + " total score is " + score + "\n");
 
         return score;
     }
