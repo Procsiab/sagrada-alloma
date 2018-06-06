@@ -130,15 +130,21 @@ public class StartGameController implements Initializable {
         // LOAD POOL
         numDadi= gameManager.pool.size();
         System.out.println("Numero di dadi :" + numDadi);
-        for (int i = 0; i < numDadi; i++){
+        for (int i = 0; i < numDadi; i++) {
+
             System.out.println("Valore di i nel ciclo:" + i);
             // INSERIRE EFFETIVO VALORE DEL DADO
-            int numero = gameManager.pool.get(i).value;
-            char color = gameManager.pool.get(i).color;
-            System.out.println("Numero :" + numero + "\n");
-            System.out.println("Colore :" + numDadi + "\n");
+            if (gameManager.pool.get(i)!=null){
+                int numero = gameManager.pool.get(i).value;
+                char color = gameManager.pool.get(i).color;
+                System.out.println("Numero :" + numero + "\n");
+                System.out.println("Colore :" + numDadi + "\n");
+                listaDadi.get(i).setStyle("-fx-background-image: url('" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
+        }
+            else {
+                listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
 
-            listaDadi.get(i).setStyle("-fx-background-image: url('"+numero+""+color+".png');-fx-background-size: 100% 100%;");
+            }
 
             }
         for (int i = numDadi; i < listaDadi.size(); i++){
