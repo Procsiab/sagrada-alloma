@@ -138,7 +138,7 @@ public class StartGameController implements Initializable {
                 int numero = gameManager.pool.get(i).value;
                 char color = gameManager.pool.get(i).color;
                 System.out.println("Numero :" + numero + "\n");
-                System.out.println("Colore :" + numDadi + "\n");
+                System.out.println("Colore :" + color + "\n");
                 listaDadi.get(i).setStyle("-fx-background-image: url('" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
         }
             else {
