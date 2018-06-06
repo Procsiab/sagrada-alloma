@@ -1,4 +1,3 @@
-package ServerTest;
 
 import server.connection.DummyMiddlewareServer;
 import server.threads.MainServer;

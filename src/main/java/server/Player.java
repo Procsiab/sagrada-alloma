@@ -31,10 +31,11 @@ public class Player {
 
     public synchronized Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         Boolean esito = false;
+        Integer nCard = null;
 
         if (!(i1 == null || i1 < 0 || i1 > 2)) {
-
-            switch (game.getToolCards().get(i1) + 1) {
+            nCard =  game.getToolCards().get(i1);
+            switch (nCard + 1) {
                 case 1:
                     esito = Tool.use1(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
                     break;
@@ -73,12 +74,13 @@ public class Player {
                     break;
             }
             if (esito) {
-                System.out.println("GameManager: " + this + " player " + uUID + " effectively used Tool card" +
-                        " n°" + i1);
+                System.out.println("GameManager: " + game + " player " + uUID + " effectively used "+
+                        game.revealToolCard(nCard));
                 return true;
             }
         }
-        System.out.println("GameManager: " + this + " player " + uUID + " attempt of unauthorized usage of Tool card");
+        System.out.println("GameManager: " + game + " player " + uUID + " attempt of unauthorized usage of "
+                +game.revealToolCard(nCard));
         return false;
 
     }
@@ -228,7 +230,7 @@ public class Player {
     }
 
     public synchronized boolean placeDice(Integer index, Position position) {
-        Dice dice;
+        Dice dice = null;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
             if(index>=pool.size())
@@ -243,7 +245,8 @@ public class Player {
                 return true;
             }
         }
-        System.out.println("GameManager: "+game+" player "+uUID+" attempt of unauthorized placement of dice");
+        System.out.println("GameManager: "+game+" player "+uUID+" attempt of unauthorized placement of dice " +
+                dice + " in position " + position);
         return false;
     }
 }

@@ -58,7 +58,7 @@ public class Tool {
             dice.value++;
         } else return false;
 
-        if (player.getWindow().setDiceFromPool(player, i2, p2))
+        if (player.getWindow().setDiceFromPool(player, i2, p1))
             return true;
 
         if (i3.equals(-1)) {
@@ -122,7 +122,7 @@ public class Tool {
 
         if (player.getWindow().setDiceFromPool(player, i2, p1))
             return true;
-        dice.value = value;
+        //dice.value = value;
         return false;
     }
 
@@ -145,7 +145,7 @@ public class Tool {
 
     public static Boolean use8(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
 
-        if (!ableAndSettleDiceAndCard(player, i1))
+        if (!ableAndSettleCard(player, i1))
             return false;
 
         if (player.getPrivateTurn() == 1)

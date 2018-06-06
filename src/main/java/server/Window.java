@@ -26,6 +26,12 @@ public class Window implements Serializable {
         return tokens;
     }
 
+    public Cell getCell(Position pos) {
+        if(pos.getRow()>3 ||pos.getRow()<0 ||pos.getColumn()>4||pos.getColumn()<0)
+            return null;
+        return matrices[pos.getRow()][pos.getColumn()];
+    }
+
     public String getName() {
         return name;
     }
@@ -109,22 +115,22 @@ public class Window implements Serializable {
     }
 
     public boolean checkPlaceColorRequirements(Dice dice, Position position) {
-        if (this.getMatrices()[position.getRow()][position.getColumn()] == null)
+        if (getCell(position) == null)
             return true;
-        if(this.getMatrices()[position.getRow()][position.getColumn()].getColor() == null)
+        if(getCell(position).getColor() == null)
             return true;
-        if (dice.getColor() != this.getMatrices()[position.getRow()][position.getColumn()].getColor()) {
+        if (dice.getColor() != getCell(position).getColor()) {
             return false;
         }
         return true;
     }
 
     public boolean checkPlaceValueRequirements(Dice dice, Position position) {
-        if (this.getMatrices()[position.getRow()][position.getColumn()] == null)
+        if (getCell(position) == null)
             return true;
-        if(this.getMatrices()[position.getRow()][position.getColumn()].getValue() == null)
+        if(getCell(position).getValue() == null)
             return true;
-        if (dice.getValue() != this.getMatrices()[position.getRow()][position.getColumn()].getValue()) {
+        if (dice.getValue()!=getCell(position).getValue()) {
             return false;
         }
         return true;
@@ -301,20 +307,20 @@ public class Window implements Serializable {
             return false;
         if (player.getOverlay().busy(p1))
             return false;
-        if(pos<0||pos>gameManager.getPool().size()-1)
+        if (pos < 0 || pos > gameManager.getPool().size() - 1)
             return false;
-        if(gameManager.getPool().get(pos)==null)
-        return false;
+        if (gameManager.getPool().get(pos) == null)
+            return false;
 
         Dice diceRoundtrack = roundTrack.getDice(pr);
 
         roundTrack.setDice(gameManager.getPool().get(pos), pr);
 
         if (!checkDice(player, diceRoundtrack, p1)) {
-            gameManager.getPool().set(pos,diceRoundtrack);
+            gameManager.getPool().set(pos, diceRoundtrack);
             return false;
         }
-        gameManager.getPool().set(pos,null);
+        gameManager.getPool().set(pos, null);
         player.getOverlay().setDicePosition(diceRoundtrack, p1);
         return true;
     }

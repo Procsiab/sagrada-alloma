@@ -190,15 +190,15 @@ public class GameManager extends GeneralTask {
         pool.add(new Dice('y',6));
         pool.add(new Dice('g',5));
         pool.add(new Dice('v',2));
-        pool.add(new Dice('b',6));
+        pool.add(new Dice('b',4));
         pool.add(new Dice('v',2));
-        pool.add(new Dice('g',6));
-        pool.add(new Dice('r',5));
+        pool.add(new Dice('r',6));
+        pool.add(new Dice('g',5));
         pool.add(new Dice('r',2));
         pool.add(new Dice('y',5));
+        pool.add(new Dice('g',2));
+        pool.add(new Dice('y',3));
         pool.add(new Dice('b',2));
-        pool.add(new Dice('g',3));
-        pool.add(new Dice('y',5));
         pool.add(new Dice('r',2));
         pool.add(new Dice('b',5));
         pool.add(new Dice('y',5));
@@ -272,6 +272,9 @@ public class GameManager extends GeneralTask {
     }
 
     public String revealPublicOC(Integer i) {
+        if(i == null)
+            return "null";
+
         i++;
         switch (i) {
             case 1:
@@ -299,6 +302,9 @@ public class GameManager extends GeneralTask {
     }
 
     public String revealToolCard(Integer i) {
+        if(i == null)
+            return "null";
+
         i++;
         switch (i) {
             case 1:
@@ -330,6 +336,9 @@ public class GameManager extends GeneralTask {
     }
 
     public String revealWindow(Integer i) {
+        if(i == null)
+            return "null";
+
         i++;
         switch (i) {
             case 1:
