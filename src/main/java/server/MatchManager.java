@@ -578,7 +578,7 @@ public class MatchManager {
     public static synchronized String startGame(String uUID, String nickName, String ip, Integer port, boolean isSocket) {
 
         if (SReferences.contains(uUID)) {
-            if (SReferences.getNickName(uUID).equals(nickName)) {
+            if (SReferences.getNickNameRef(uUID).equals(nickName)) {
                 Logger.log("Player: " + uUID + " has connection refused: nickName mismatch.");
                 return "The nickName specified doesn't match your previous one";
             } else {
@@ -592,6 +592,11 @@ public class MatchManager {
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
             Logger.log("Player: " + uUID + " has connection refused: too many players.");
             return "Too many players connected. Please try again later. Sorry for that.";
+        }
+
+        synchronized (obj2) {
+            if (!SReferences.checkNickNameRef(uUID,q))
+                return "NickName is not available.";
         }
 
         Logger.log("Player: " + uUID + " has connection accepted.");
