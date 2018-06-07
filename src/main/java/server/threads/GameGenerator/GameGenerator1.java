@@ -4,8 +4,8 @@ import server.Config;
 import server.MatchManager;
 import server.threads.GameManager;
 import shared.Logger;
-import shared.concurrency.ConcurrencyManager;
-import shared.concurrency.GeneralTask;
+import server.concurrency.ConcurrencyManager;
+import server.concurrency.GeneralTask;
 
 import java.util.ArrayList;
 import java.util.Queue;

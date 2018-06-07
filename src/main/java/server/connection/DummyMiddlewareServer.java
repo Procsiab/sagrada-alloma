@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class DummyMiddlewareServer implements SharedMiddlewareServer {
     private static final String SERVER_INTERFACE = "DummyMiddlewareServer";
     public static ArrayList<String> unreponsive = new ArrayList<>();
+    public static ArrayList<String> left = new ArrayList<>();
     private static DummyMiddlewareServer instance = new DummyMiddlewareServer();
 
 
@@ -66,9 +67,16 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
         unreponsive.remove(uUID);
     }
 
+    public void setLeft(String uUID) {left.add(uUID);
+    }
+
+    public void setNotLeft(String uUID){
+        left.remove(uUID);
+    }
+
     @Override
     public Boolean ping(String uuid) {
-        if (MatchManager.getLeft().contains(uuid)||unreponsive.contains(uuid))
+        if (left.contains(uuid)||unreponsive.contains(uuid))
             return false;
         return true;
     }

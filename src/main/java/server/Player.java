@@ -18,7 +18,7 @@ public class Player {
     private Integer turno = 0;
     private Integer score = 0;
     private Integer privateTurn = 0; //can be either 1 or 2
-    private Position lastPlacedFromPool = new Position(-1,-1);
+    private Position lastPlacedFromPool = new Position(-1, -1);
     private boolean hasPlacedDice = false;
     private boolean hasUsedTc = false;
     private GameManager game;
@@ -34,7 +34,7 @@ public class Player {
         Integer nCard = null;
 
         if (!(i1 == null || i1 < 0 || i1 > 2)) {
-            nCard =  game.getToolCards().get(i1);
+            nCard = game.getToolCards().get(i1);
             switch (nCard + 1) {
                 case 1:
                     esito = Tool.use1(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
@@ -74,13 +74,13 @@ public class Player {
                     break;
             }
             if (esito) {
-                Logger.log( game + " player " + uUID + " effectively used "+
+                Logger.log(game + " player " + uUID + " effectively used " +
                         game.revealToolCard(nCard));
                 return true;
             }
         }
-        Logger.log( game + " player " + uUID + " attempt of unauthorized usage of "
-                +game.revealToolCard(nCard));
+        Logger.log(game + " player " + uUID + " attempt of unauthorized usage of "
+                + game.revealToolCard(nCard));
         return false;
 
     }
@@ -98,7 +98,7 @@ public class Player {
 
         while (i < 4) {
             while (j < 5) {
-                Dice dice = overlay.getDice(new Position(i,j));
+                Dice dice = overlay.getDice(new Position(i, j));
                 if (dice != null)
                     if (dice.color == privateO)
                         score = score + dice.value;
@@ -168,7 +168,7 @@ public class Player {
         return overlay;
     }
 
-    public Character getPrivateO(){
+    public Character getPrivateO() {
         return privateO;
     }
 
@@ -202,7 +202,7 @@ public class Player {
                 "assigned with color " + ch);
     }
 
-    public boolean setWindowFromC(Integer n) {
+    public synchronized boolean setWindowFromC(Integer n) {
         if (this.window != null) {
             Logger.log("Player: " + uUID + " Server already assigned Window for this player");
             return false;
@@ -217,12 +217,11 @@ public class Player {
         return true;
     }
 
-    public boolean setWindow(Integer n) {
+    public synchronized void setWindow(Integer n) {
         this.window = matchManager.getWindows().get(n);
         setTokens();
-        Logger.log(game+" player " + uUID + " server assigned Window n° " + n + ". It has " + window.getTokens() +
+        Logger.log(game + " player " + uUID + " server assigned Window n° " + n + ". It has " + window.getTokens() +
                 " tokens. Will be forced start client-side");
-        return true;
     }
 
     public void setTokens() {
@@ -233,19 +232,19 @@ public class Player {
         Dice dice = null;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
-            if(index>=pool.size())
+            if (index >= pool.size())
                 return false;
             if (pool.get(index) == null)
                 return false;
             dice = pool.get(index);
             if (this.window.setDiceFromPool(this, index, position)) {
                 this.lastPlacedFromPool = position;
-                Logger.log( game + " player " + uUID + " effectively placed dice " +
+                Logger.log(game + " player " + uUID + " effectively placed dice " +
                         dice + " in position " + position);
                 return true;
             }
         }
-        Logger.log(game+" player "+uUID+" attempt of unauthorized placement of dice " +
+        Logger.log(game + " player " + uUID + " attempt of unauthorized placement of dice " +
                 dice + " in position " + position);
         return false;
     }

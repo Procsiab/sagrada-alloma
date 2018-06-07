@@ -6,8 +6,7 @@ import server.connection.MiddlewareServer;
 import server.threads.GameGenerator.GameGenerator1;
 import server.threads.GameGenerator.GameGenerator2;
 import shared.Logger;
-import shared.Overlay;
-import shared.concurrency.ConcurrencyManager;
+import server.concurrency.ConcurrencyManager;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -47,6 +46,11 @@ public class MainServer {
     }
 
     public static void simulation() {
+        if(!Config.read()){
+            Logger.log("Can't read config. Server close now.");
+            return;
+        }
+
         ConcurrencyManager.submit(new GameGenerator1());
         ConcurrencyManager.submit(new GameGenerator2());
 

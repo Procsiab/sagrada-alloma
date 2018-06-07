@@ -1,13 +1,14 @@
 package server.threads;
 
 import server.*;
+import server.connection.DummyMiddlewareServer;
 import server.connection.MiddlewareServer;
 import server.executables.PublicObject;
 import server.Window;
 import shared.*;
 import server.Player;
 import shared.TransferObjects.*;
-import shared.concurrency.GeneralTask;
+import server.concurrency.GeneralTask;
 
 import java.util.*;
 
@@ -33,7 +34,7 @@ public class GameManager extends GeneralTask {
     private ArrayList<Integer> toolCards = new ArrayList<>();
     private ArrayList<Integer> tCtokens = new ArrayList<>();
     private ArrayList<String> privateLeft = new ArrayList<>();
-    private ArrayList<String> jump = new ArrayList<>();
+    private Vector<String> jump = new Vector<>();
     private String tavolo;
     private ArrayList<String> unresponsive = new ArrayList<>();
     private ArrayList<String> active = new ArrayList<>();
@@ -42,8 +43,7 @@ public class GameManager extends GeneralTask {
     private ArrayList<Dice> dices = new ArrayList<>();
     private ArrayList<Dice> pool = new ArrayList<>();
     private final Object obj = new Object();
-    private final Object obj2 = new Object(); //connection issues
-    private final Object obj3 = new Object();
+    private final Object obj2 = new Object();
 
     public GameManager(ArrayList<String> players) {
 
@@ -159,7 +159,7 @@ public class GameManager extends GeneralTask {
         pool.add(new Dice('b', 5));
 
         Logger.log(this + " Initialization sequence completed");
-        pause(2000);
+        pause(5000);
 
     }
 
@@ -197,14 +197,17 @@ public class GameManager extends GeneralTask {
                 dices.add(new Dice('v', 1 + rand.nextInt(5)));
             i++;
         }
-        Logger.log(dices.size());
     }
 
-    private void setAction(boolean action) {
-        synchronized (obj3) {
+    private synchronized void setAction(boolean action) {
+        synchronized (obj2) {
             this.action = action;
-            obj3.notifyAll();
+            obj2.notifyAll();
         }
+    }
+
+    private synchronized Boolean getAction() {
+        return action;
     }
 
     @Override
@@ -212,7 +215,7 @@ public class GameManager extends GeneralTask {
         return "GameManager: " + code.toString();
     }
 
-    public ArrayList<String> getJump() {
+    public Vector<String> getJump() {
         return jump;
     }
 
@@ -224,7 +227,7 @@ public class GameManager extends GeneralTask {
         return timeout1;
     }
 
-    private void setExpected(String access) {
+    private synchronized void setExpected(String access) {
         Logger.log(this + " Access granted to: " + access + "\n");
         this.expected = access;
     }
@@ -383,7 +386,7 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public String getExpected() {
+    public synchronized String getExpected() {
         return expected;
     }
 
@@ -425,7 +428,7 @@ public class GameManager extends GeneralTask {
         Player player = SReferences.getPlayerRef(uuid);
 
         Logger.log("Player: " + uuid + " has " + player.getTokens() + " tokens, is at turn n° " + player.getTurno() +
-                ", has " + player.getScore() + " points, is at private turn n° " + player.getPrivateTurn() +
+                ", has " + player.getComputatedScore() + " points, is at private turn n° " + player.getPrivateTurn() +
                 ", last dice placed was in position " + player.getLastPlacedFromPool().toString());
 
         middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, publicOCsT,
@@ -530,22 +533,23 @@ public class GameManager extends GeneralTask {
     }
 
     public void exitGame2(String loser) {
-        synchronized (MatchManager.getObj()) {
-            MatchManager.getLeft().add(loser);
-        }
         synchronized (obj) {
             this.privateLeft.add(loser);
         }
     }
 
     private void checkActive() {
+        Boolean contains = false;
         for (String pla : players2
                 ) {
-            if (privateLeft.contains(pla)) {
+            synchronized (obj) {
+                if (privateLeft.contains(pla))
+                    contains = true;
+            }
+            if (contains) {
                 active.remove(pla);
                 unresponsive.remove(pla);
             }
-
             if (middlewareServer.ping(pla)) {
                 if (!active.contains(pla))
                     active.add(pla);
@@ -574,14 +578,14 @@ public class GameManager extends GeneralTask {
                 unresponsive) {
             Logger.log(player + "; ");
         }
-
-        Logger.log(this + " players who quit " +
-                "are " + privateLeft.size() + ". They are: ");
-        for (String player :
-                privateLeft) {
-            Logger.log(player + "; ");
+        synchronized (obj) {
+            Logger.log(this + " players who quit " +
+                    "are " + privateLeft.size() + ". They are: ");
+            for (String player :
+                    privateLeft) {
+                Logger.log(player + "; ");
+            }
         }
-
         Logger.log(this + " we play with " + count(pool) + " dices\n");
 
     }
@@ -647,25 +651,19 @@ public class GameManager extends GeneralTask {
     }
 
     private void resetPlayers() {
+        players2.clear();
         for (String p :
                 players) {
             if (middlewareServer.ping(p)) {
-                synchronized (MatchManager.getObj()) {
-                    MatchManager.getLeft().remove(p);
-                }
                 synchronized (obj) {
                     privateLeft.remove(p);
                 }
+                players2.add(p);
             }
         }
-
-        players2.clear();
-        players2.addAll(players);
-        players2.removeAll(privateLeft);
         active.clear();
         unresponsive.clear();
         active.addAll(players2);
-
     }
 
     private Boolean globalBlackOut() {
@@ -683,15 +681,7 @@ public class GameManager extends GeneralTask {
                     closeGame();
                     return true;
                 }
-                synchronized (obj2) {
-                    try {
-                        obj2.wait(timeout2);
-                    } catch (InterruptedException e) {
-                        Logger.log("Interrupted Exception");
-                        Thread.currentThread().interrupt();
-                    }
-                }
-
+                pause(timeout2);
                 p++;
             }
         }
@@ -724,15 +714,8 @@ public class GameManager extends GeneralTask {
                     pause(15000);
                     return true;
                 }
+                pause(timeout2);
 
-                synchronized (obj2) {
-                    try {
-                        obj2.wait(timeout2);
-                    } catch (InterruptedException e) {
-                        Logger.log("Interrupted Exception");
-                        Thread.currentThread().interrupt();
-                    }
-                }
                 if (p == 5) {
                     Logger.log(this + " after 5 attempts game closes");
                     closeGame();
@@ -756,12 +739,12 @@ public class GameManager extends GeneralTask {
 
             localPlayer.incrementTurn();
 
-            synchronized (obj3) {
-                while (!this.action) {
+            synchronized (obj2) {
+                while (!getAction()) {
                     try {
                         Logger.log(this + " waiting player "
                                 + remotePlayer + "'s move");
-                        obj3.wait(timeout1);
+                        obj2.wait(timeout1);
                         setAction(true);
                     } catch (InterruptedException ie) {
                         Logger.log("Thread sleep was interrupted!");
@@ -802,12 +785,7 @@ public class GameManager extends GeneralTask {
     private void closeGame() {
         for (String player :
                 players) {
-            synchronized (MatchManager.getObj()) {
-                MatchManager.getLeft().remove(players);
-            }
-            synchronized (MatchManager.getObj2()) {
-                SReferences.removeRef(player);
-            }
+            SReferences.removeRef(player);
         }
     }
 

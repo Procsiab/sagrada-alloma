@@ -1,6 +1,6 @@
 package client.threads;
 
-import shared.concurrency.GeneralTask;
+import server.concurrency.GeneralTask;
 
 public class GameHelper extends GeneralTask {
 

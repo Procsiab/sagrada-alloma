@@ -261,16 +261,18 @@ class MainServerTest {
         pause(2000);
         System.out.println("uscita player 2");
         middlewareServer.exitGame1(player2);
+        middlewareServer.setUnresponsive(player2);
 
         pause(2000);
         System.out.println("rientra player 2, entra player3");
+        middlewareServer.setResponsive(player2);
         startGame(player2);
         startGame(player3);
 
         updateGameManagers();
 
 
-        pause(1000);
+        pause(6000);
         System.out.println("scelta finestre");
         middlewareServer.chooseWindowBack(player1, 5);
         middlewareServer.chooseWindowBack(player2, 5);
@@ -299,6 +301,7 @@ class MainServerTest {
         //exit player2
         System.out.println("uscita dal gioco player2");
         middlewareServer.exitGame2(player2);
+        middlewareServer.setUnresponsive(player2);
 
         //vittoria a tavolino
         String tavolo = player5;
@@ -317,10 +320,27 @@ class MainServerTest {
 
 
         pause(2000);
-
-        //in game player2 with socket CHANGE
+        //in game player2
         System.out.println("si riconnette player2");
-        middlewareServer.startGame("player2", "192.168.223.1", -1, true);
+        startGame(player2);
+        middlewareServer.setResponsive(player2);
+
+
+pause(12000);
+        System.out.println("-----------------------------now");
+
+        middlewareServer.useToolC(player3,2,new Position(2,3),new Position(3,4),
+                new Position(0,4), new Position(2,1), new PositionR(1,5),
+                1,2);
+        middlewareServer.placeDice(player3,1,new Position(2,4));
+
+        pause(20000);
+
+        middlewareServer.useToolC(player1,1,new Position(2,3),new Position(3,4),
+                new Position(0,4), new Position(2,1), new PositionR(1,5),
+                0,2);
+        middlewareServer.placeDice(player1,3,new Position(2,4));
+
 
         pause(25000);
 

@@ -9,7 +9,6 @@ import java.util.LinkedList;
 public class MatchManager {
     private static final Integer MAX_ACTIVE_PLAYER_REFS = Config.maxActivePlayerRefs;
     private static LinkedList<String> q = new LinkedList<>();
-    private static ArrayList<String> left = new ArrayList<>();
     private ArrayList<Window> windows = new ArrayList<>();
     private static final Object obj = new Object();
     private static final Object obj2 = new Object();
@@ -17,7 +16,6 @@ public class MatchManager {
 
     private MatchManager() {
         super();
-
 
 
         //building windows
@@ -88,7 +86,7 @@ public class MatchManager {
         cells[3][2] = new Cell();
         cells[3][3] = new Cell();
         cells[3][4] = new Cell();
-        windows.add(new Window(cells,"Window3",3));
+        windows.add(new Window(cells, "Window3", 3));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell();
@@ -111,7 +109,7 @@ public class MatchManager {
         cells[3][2] = new Cell('g');
         cells[3][3] = new Cell(1);
         cells[3][4] = new Cell('r');
-        windows.add(new Window(cells,"Window4",5));
+        windows.add(new Window(cells, "Window4", 5));
 
         cells[0][0] = new Cell();
         cells[0][1] = new Cell();
@@ -133,7 +131,7 @@ public class MatchManager {
         cells[3][2] = new Cell(5);
         cells[3][3] = new Cell('g');
         cells[3][4] = new Cell();
-        windows.add(new Window(cells,"Window5",6));
+        windows.add(new Window(cells, "Window5", 6));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell();
@@ -156,7 +154,7 @@ public class MatchManager {
         cells[3][2] = new Cell();
         cells[3][3] = new Cell();
         cells[3][4] = new Cell();
-        windows.add(new Window(cells, "Window6",5));
+        windows.add(new Window(cells, "Window6", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(1);
@@ -179,7 +177,7 @@ public class MatchManager {
         cells[3][2] = new Cell(2);
         cells[3][3] = new Cell();
         cells[3][4] = new Cell(1);
-        windows.add(new Window(cells, "Window7",5));
+        windows.add(new Window(cells, "Window7", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(6);
@@ -202,7 +200,7 @@ public class MatchManager {
         cells[3][2] = new Cell('y');
         cells[3][3] = new Cell(3);
         cells[3][4] = new Cell('v');
-        windows.add(new Window(cells,"Window8",6));
+        windows.add(new Window(cells, "Window8", 6));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell();
@@ -225,7 +223,7 @@ public class MatchManager {
         cells[3][2] = new Cell();
         cells[3][3] = new Cell();
         cells[3][4] = new Cell('v');
-        windows.add(new Window(cells,"Window9",3));
+        windows.add(new Window(cells, "Window9", 3));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(5);
@@ -248,7 +246,7 @@ public class MatchManager {
         cells[3][2] = new Cell(5);
         cells[3][3] = new Cell(4);
         cells[3][4] = new Cell(3);
-        windows.add(new Window(cells,"Window10",5));
+        windows.add(new Window(cells, "Window10", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(5);
@@ -271,7 +269,7 @@ public class MatchManager {
         cells[3][2] = new Cell();
         cells[3][3] = new Cell();
         cells[3][4] = new Cell(4);
-        windows.add(new Window(cells,"Window11",5));
+        windows.add(new Window(cells, "Window11", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell('r');
@@ -294,7 +292,7 @@ public class MatchManager {
         cells[3][2] = new Cell(6);
         cells[3][3] = new Cell();
         cells[3][4] = new Cell();
-        windows.add(new Window(cells,"Window12",4));
+        windows.add(new Window(cells, "Window12", 4));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(2);
@@ -317,7 +315,7 @@ public class MatchManager {
         cells[3][2] = new Cell();
         cells[3][3] = new Cell(5);
         cells[3][4] = new Cell();
-        windows.add(new Window(cells,"Window13",6));
+        windows.add(new Window(cells, "Window13", 6));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(4);
@@ -340,7 +338,7 @@ public class MatchManager {
         cells[3][2] = new Cell(1);
         cells[3][3] = new Cell();
         cells[3][4] = new Cell();
-        windows.add(new Window(cells,"Window14",5));
+        windows.add(new Window(cells, "Window14", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(3);
@@ -363,7 +361,7 @@ public class MatchManager {
         cells[3][2] = new Cell('y');
         cells[3][3] = new Cell('r');
         cells[3][4] = new Cell(6);
-        windows.add(new Window(cells,"Window15",5));
+        windows.add(new Window(cells, "Window15", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(1);
@@ -386,7 +384,7 @@ public class MatchManager {
         cells[3][2] = new Cell(4);
         cells[3][3] = new Cell(2);
         cells[3][4] = new Cell(1);
-        windows.add(new Window(cells,"Window16",6));
+        windows.add(new Window(cells, "Window16", 6));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell();
@@ -409,7 +407,7 @@ public class MatchManager {
         cells[3][2] = new Cell('r');
         cells[3][3] = new Cell(5);
         cells[3][4] = new Cell(3);
-        windows.add(new Window(cells, "Window17",5));
+        windows.add(new Window(cells, "Window17", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell('b');
@@ -432,7 +430,7 @@ public class MatchManager {
         cells[3][2] = new Cell();
         cells[3][3] = new Cell(1);
         cells[3][4] = new Cell('g');
-        windows.add(new Window(cells,"Window18",3));
+        windows.add(new Window(cells, "Window18", 3));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell();
@@ -455,7 +453,7 @@ public class MatchManager {
         cells[3][2] = new Cell(3);
         cells[3][3] = new Cell(1);
         cells[3][4] = new Cell();
-        windows.add(new Window(cells,"Window19",5));
+        windows.add(new Window(cells, "Window19", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell();
@@ -478,7 +476,7 @@ public class MatchManager {
         cells[3][2] = new Cell(2);
         cells[3][3] = new Cell();
         cells[3][4] = new Cell();
-        windows.add(new Window(cells,"Window20",300));
+        windows.add(new Window(cells, "Window20", 300));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell();
@@ -501,7 +499,7 @@ public class MatchManager {
         cells[3][2] = new Cell(6);
         cells[3][3] = new Cell();
         cells[3][4] = new Cell(4);
-        windows.add(new Window(cells,"Window21",4));
+        windows.add(new Window(cells, "Window21", 4));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell('y');
@@ -524,7 +522,7 @@ public class MatchManager {
         cells[3][2] = new Cell('y');
         cells[3][3] = new Cell(3);
         cells[3][4] = new Cell();
-        windows.add(new Window(cells,"Window22",5));
+        windows.add(new Window(cells, "Window22", 5));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell('y');
@@ -547,7 +545,7 @@ public class MatchManager {
         cells[3][2] = new Cell(4);
         cells[3][3] = new Cell(3);
         cells[3][4] = new Cell('r');
-        windows.add(new Window(cells,"Window23",4));
+        windows.add(new Window(cells, "Window23", 4));
 
         cells = new Cell[4][5];
         cells[0][0] = new Cell(1);
@@ -570,14 +568,14 @@ public class MatchManager {
         cells[3][2] = new Cell();
         cells[3][3] = new Cell(3);
         cells[3][4] = new Cell('r');
-        windows.add(new Window(cells,"Window24",5));
+        windows.add(new Window(cells, "Window24", 5));
     }
 
     public static MatchManager getInstance() {
         return instance;
     }
 
-    public String startGame(String uUID, String ip, Integer port, boolean isSocket) {
+    public static synchronized String startGame(String uUID, String ip, Integer port, boolean isSocket) {
 
         if (SReferences.contains(uUID)) {
             Logger.log("Player: " + uUID + " has connection refused: already playing.");
@@ -592,13 +590,13 @@ public class MatchManager {
         }
 
         Logger.log("Player: " + uUID + " has connection accepted.");
+
+        SReferences.addUuidRefEnhanced(uUID);
+        SReferences.addIpRef(uUID, ip);
+        SReferences.addPortRef(uUID, port);
+        SReferences.addIsSocketRef(uUID, isSocket);
+
         synchronized (obj2) {
-
-            SReferences.addUuidRefEnhanced(uUID);
-            SReferences.addIpRef(uUID, ip);
-            SReferences.addPortRef(uUID, port);
-            SReferences.addIsSocketRef(uUID, isSocket);
-
             q.addLast(uUID);
             obj2.notifyAll();
         }
@@ -606,20 +604,17 @@ public class MatchManager {
         return "Connections successful. Please wait for other players to connect";
     }
 
-    public static boolean exitGame1(String uUID) {
+    public static synchronized boolean exitGame1(String uUID) {
+        boolean exit;
         synchronized (obj2) {
-            if (q.remove(uUID)) {
-                Logger.log("Player "+uUID+" leaved platform before game started. Bye.");
-                SReferences.removeRef(uUID);
-                return true;
-            }
-
-            return false;
+            exit = q.remove(uUID);
         }
-    }
-
-    public static ArrayList<String> getLeft() {
-        return left;
+        if (exit) {
+            Logger.log("Player: " + uUID + " leaved platform before game started. Bye.");
+            SReferences.removeRef(uUID);
+            return true;
+        }
+        return false;
     }
 
     public static LinkedList<String> getQ() {
