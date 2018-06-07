@@ -575,7 +575,43 @@ public class MatchManager {
         return instance;
     }
 
-    public static synchronized String startGame(String uUID, String ip, Integer port, boolean isSocket) {
+    public static synchronized String startGame(String uUID, String nickName, String ip, Integer port, boolean isSocket) {
+
+        if (SReferences.contains(uUID)) {
+            if (SReferences.getNickName(uUID).equals(nickName)) {
+                Logger.log("Player: " + uUID + " has connection refused: nickName mismatch.");
+                return "The nickName specified doesn't match your previous one";
+            } else {
+                Logger.log("Player: " + uUID + " has connection refused: already playing.");
+                if (SReferences.getIsSocketRef(uUID) != isSocket)
+                    SReferences.addIsSocketRef(uUID, isSocket);
+                return "You already playing! Hold on while the server calls you again";
+            }
+        }
+
+        if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
+            Logger.log("Player: " + uUID + " has connection refused: too many players.");
+            return "Too many players connected. Please try again later. Sorry for that.";
+        }
+
+        Logger.log("Player: " + uUID + " has connection accepted.");
+
+        SReferences.addUuidRefEnhanced(uUID);
+        SReferences.addIpRef(uUID, ip);
+        SReferences.addPortRef(uUID, port);
+        SReferences.addIsSocketRef(uUID, isSocket);
+        SReferences.addNickNameRef(uUID, nickName);
+
+        synchronized (obj2) {
+            q.addLast(uUID);
+            obj2.notifyAll();
+        }
+
+        return "Connections successful. Please wait for other players to connect";
+    }
+
+    @Deprecated
+    public static synchronized String startGameOld(String uUID, String ip, Integer port, boolean isSocket) {
 
         if (SReferences.contains(uUID)) {
             Logger.log("Player: " + uUID + " has connection refused: already playing.");

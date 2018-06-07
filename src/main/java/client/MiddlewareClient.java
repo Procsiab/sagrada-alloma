@@ -53,7 +53,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public String startGame() {
         connection.export(instance, uuid);
         Object[] args = {uuid, connection.getIp(), connection.getListeningPort(), isSocket};
-        String methodName = "startGame";
+        String methodName = "startGameOld";
         return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
     }
 

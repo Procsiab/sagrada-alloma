@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Player {
     private MatchManager matchManager = MatchManager.getInstance();
     private String uUID;
+    private String nickName;
     private Character privateO;
     private ArrayList<Integer> possibleWindows;
     private Window window;
@@ -27,6 +28,7 @@ public class Player {
         this.uUID = uUID;
         this.game = gameManager;
         this.possibleWindows = new ArrayList<>();
+        this.nickName = SReferences.getNickName(uUID);
     }
 
     public synchronized Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
@@ -87,6 +89,10 @@ public class Player {
 
     public void setPossibleWindows(ArrayList<Integer> possibleWindows) {
         this.possibleWindows.addAll(possibleWindows);
+    }
+
+    public String getNickName(){
+        return nickName;
     }
 
     public Integer getScore() {
@@ -186,7 +192,7 @@ public class Player {
 
     public void incrementTurn() {
         this.turno++;
-        if (this.privateTurn == 1)
+        if (this.privateTurn.equals(1))
             this.privateTurn = 2;
         else
             this.privateTurn = 1;

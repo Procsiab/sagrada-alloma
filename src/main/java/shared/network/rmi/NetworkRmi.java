@@ -149,7 +149,7 @@ public class NetworkRmi implements Connection {
                 switch (methodName) {
                     case "deniedAccess":
                         return o.deniedAccess();
-                    case "startGame":
+                    case "startGameOld":
                         return o.startGame();
                     case "updateView":
                         o.updateView((GameManagerT) argList[0]);
@@ -199,7 +199,7 @@ public class NetworkRmi implements Connection {
                 switch (methodName) {
                     case "deniedAccess":
                         return o.deniedAccess((String) argList[0]);
-                    case "startGame":
+                    case "startGameOld":
                         return o.startGame((String) argList[0], (String) argList[1], (Integer) argList[2], (Boolean) argList[3]);
                     case "updateView":
                         o.updateView((String) argList[0], (GameManagerT) argList[1]);

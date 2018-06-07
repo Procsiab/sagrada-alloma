@@ -404,7 +404,7 @@ public class GameManager extends GeneralTask {
                 this.vPlayersFixed) {
             Window window = player.getWindow();
             WindowT windowT = new WindowT(window.getName(), window.getMatrices());
-            PlayerT playerT = new PlayerT(player.getPrivateO(), windowT, player.getOverlay(),
+            PlayerT playerT = new PlayerT(player.getNickName(),player.getPrivateO(), windowT, player.getOverlay(),
                     player.getTokens(), player.getTurno(), player.getComputatedScore(), player.getPrivateTurn(),
                     player.getLastPlacedFromPool());
             vPlayersT.add(playerT);
@@ -597,7 +597,7 @@ public class GameManager extends GeneralTask {
         ArrayList<Integer> a = new ArrayList<>();
 
         j = rand.nextInt(22);
-        while (i < 2 * players.size()) {
+        while (i < 2 * players.size()){
             while (a.contains(j) || j % 2 == 1) {
                 j = rand.nextInt(22);
             }
@@ -774,7 +774,7 @@ public class GameManager extends GeneralTask {
         for (Player play : vPlayers
                 ) {
             middlewareServer.printScore(play.getuUID(), play.getComputatedScore());
-            if (play.getScore() == points) {
+            if (play.getScore().equals(points)) {
                 Logger.log(this + " the winner is player: " + play.getuUID() + "." +
                         "Congratulations!.");
                 middlewareServer.setWinner(play.getuUID());
