@@ -4,6 +4,7 @@ import client.MainClient;
 import client.MiddlewareClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,10 +12,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import server.threads.GameManager;
+import shared.Dice;
 import shared.Logger;
 import shared.Position;
 import shared.TransferObjects.GameManagerT;
@@ -48,6 +51,8 @@ public class StartGameController implements Initializable {
     private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
     @FXML
     private Text numTokens;
+    @FXML
+    private ImageView toolCard1,toolCard2,toolCard3;
 
     // Utility Variables
     int posizionePoolDice;
@@ -55,6 +60,7 @@ public class StartGameController implements Initializable {
     Integer rowIndex;
     private ArrayList<GridPane> listaGriglie = new ArrayList<>();
     private ArrayList<Button> listaDadi = new ArrayList<>();
+    private ArrayList<ImageView> listaToolCard = new ArrayList<>();
 
 
 
@@ -78,6 +84,7 @@ public class StartGameController implements Initializable {
         backGroundTransition();
         loadArray();
         loadDadi();
+        loadToolCard();
         shut();
         // OTTIMIZZARE INSERENDO QUESTO DUPLICATO IN UNA FUNZIONE
         for (int i = 0; i < listaDadi.size(); i++){
@@ -151,6 +158,45 @@ public class StartGameController implements Initializable {
             listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
 
         }
+        // Inserimento toolCards
+        for (int i=0; i<gameManager.toolCards.size();i++) {
+            String nomeToolCard = gameManager.toolCards.get(i).name;
+            Image image = new Image(nomeToolCard+".png");
+            System.out.println("CARICAMENTO TOOLCARD");
+
+            listaToolCard.get(i).setImage(image);
+        }
+
+        //Loading Dice into Maps
+        System.out.println("Stampo Figli"+paneCarta0.getChildren());
+        for(int j =0; j <paneCarta0.getChildren().size();j++) {
+            System.out.println("Stampo Figlio singolo " + paneCarta0.getChildren().get(j));
+        }
+
+        System.out.println("Assegnamento MATRICE");
+
+        Dice[][] matrice = playersLocal.get(gameManager.pos).overlay.getDicePositions();
+        System.out.println("DOPO Assegnamento MATRICE");
+        // Questo frammento di codice crea problemi, da rivedere! Se inserisco i come variabile esterna e j come interna, crasha tutto! Perchè? (Curiosità personale)
+        // Da testare il funzionamento
+        for (int k=0; k<5;k++) {
+             for (int y = 0; y < 4; y++) {
+                 int z = 0;
+                 System.out.println("NEL CICLO, PRIMA DELL'IF");
+
+               /*  if (matrice[k][y] != null) {
+                     char mycolor = matrice[i][j].getColor();
+                     System.out.println("Stampo Colore"+ mycolor);
+                     int mynumber = matrice[i][j].getValue();
+                     System.out.println("Stampo Numero"+ mynumber);
+                     paneCarta0.getChildren().get(z).setStyle(("-fx-background-image: url('" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
+                     System.out.println("ASSEGNAZIONE DADO FATTA ");
+
+                 }*/
+                 z++;
+             }
+
+         }
 
         }
 
@@ -230,6 +276,12 @@ public class StartGameController implements Initializable {
 
 
     }
+    private void loadToolCard(){
+        listaToolCard.add(toolCard1);
+        listaToolCard.add(toolCard2);
+        listaToolCard.add(toolCard3);
+
+    }
 
     private void loadBackground() {
         BackgroundImage myBI = new BackgroundImage(new Image("https://www.freevector.com/uploads/vector/preview/27785/Sagrada_Familia_Building.jpg", 1280, 800, false, true),
@@ -247,6 +299,18 @@ public class StartGameController implements Initializable {
         ft.setAutoReverse(true);
 
         ft.play();
+
+    }
+    @FXML
+    private void zoomToolCard(MouseEvent event){
+        ScaleTransition st = new ScaleTransition(Duration.millis(2000), (Node)event.getSource());
+        st.setByX(1.5f);
+        st.setByY(1.5f);
+        st.setCycleCount(4);
+        st.setAutoReverse(true);
+
+        st.play();
+
 
     }
 
