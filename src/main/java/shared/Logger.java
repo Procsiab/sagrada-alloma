@@ -18,8 +18,8 @@ public class Logger {
      * This method will add a {@code String} message to the logger, with a timestamp of the event
      * @param s The message that will be added to the application log
      */
-    public static void log(String s) {
-        System.out.println("[" + LocalTime.now() + "] >> " + s);
+    public static void  log(Object s) {
+        System.out.println("[" + LocalTime.now() + "] >> \t" + s.toString());
     }
 
     /**

@@ -20,7 +20,7 @@ public class GameGenerator2 extends GeneralTask {
     @Override
     public void run() {
         super.run();
-        System.out.println("GameGenerator2 online");
+        Logger.log("GameGenerator2 online");
         ArrayList<String> clients;
         Queue<String> queue = MatchManager.getQ();
         boolean t = true;

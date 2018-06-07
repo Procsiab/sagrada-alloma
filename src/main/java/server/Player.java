@@ -14,7 +14,7 @@ public class Player {
     private ArrayList<Integer> possibleWindows;
     private Window window;
     private Overlay overlay = new Overlay();
-    private Integer tokens;
+    private Integer tokens = 0;
     private Integer turno = 0;
     private Integer score = 0;
     private Integer privateTurn = 0; //can be either 1 or 2
@@ -74,12 +74,12 @@ public class Player {
                     break;
             }
             if (esito) {
-                System.out.println("GameManager: " + game + " player " + uUID + " effectively used "+
+                Logger.log( game + " player " + uUID + " effectively used "+
                         game.revealToolCard(nCard));
                 return true;
             }
         }
-        System.out.println("GameManager: " + game + " player " + uUID + " attempt of unauthorized usage of "
+        Logger.log( game + " player " + uUID + " attempt of unauthorized usage of "
                 +game.revealToolCard(nCard));
         return false;
 
@@ -108,9 +108,13 @@ public class Player {
             i++;
         }
         score = score + tokens;
-        System.out.println("Player: " + uUID + " total score is " + score + "\n");
+        Logger.log("Player: " + uUID + " total score is " + score);
 
         return score;
+    }
+
+    public Integer getComputatedScore() {
+        return this.score;
     }
 
     public boolean placedDice() {
@@ -194,29 +198,29 @@ public class Player {
 
     public void setPrivateOC(Character ch) {
         this.privateO = ch;
-        System.out.println("Player: " + uUID + ", Private Objective card " +
+        Logger.log("Player: " + uUID + ", Private Objective card " +
                 "assigned with color " + ch);
     }
 
     public boolean setWindowFromC(Integer n) {
         if (this.window != null) {
-            System.out.println("Player: " + uUID + " Server already assigned Window for this player");
+            Logger.log("Player: " + uUID + " Server already assigned Window for this player");
             return false;
         }
         if (!this.possibleWindows.contains(n)) {
-            System.out.println("Player: " + uUID + " Attempt to set improper Window");
+            Logger.log("Player: " + uUID + " Attempt to set improper Window");
             return false;
         }
         this.window = matchManager.getWindows().get(n);
         setTokens();
-        System.out.println("Player: " + uUID + " choose " + game.revealWindow(n) + ". It has: " + window.getTokens() + " tokens");
+        Logger.log("Player: " + uUID + " choose " + game.revealWindow(n) + ". It has: " + window.getTokens() + " tokens");
         return true;
     }
 
     public boolean setWindow(Integer n) {
         this.window = matchManager.getWindows().get(n);
         setTokens();
-        System.out.println("GameManager: "+game+" player " + uUID + " server assigned Window n° " + n + ". It has " + window.getTokens() +
+        Logger.log(game+" player " + uUID + " server assigned Window n° " + n + ". It has " + window.getTokens() +
                 " tokens. Will be forced start client-side");
         return true;
     }
@@ -236,12 +240,12 @@ public class Player {
             dice = pool.get(index);
             if (this.window.setDiceFromPool(this, index, position)) {
                 this.lastPlacedFromPool = position;
-                System.out.println("GameManager: " + game + " player " + uUID + " effectively placed dice " +
+                Logger.log( game + " player " + uUID + " effectively placed dice " +
                         dice + " in position " + position);
                 return true;
             }
         }
-        System.out.println("GameManager: "+game+" player "+uUID+" attempt of unauthorized placement of dice " +
+        Logger.log(game+" player "+uUID+" attempt of unauthorized placement of dice " +
                 dice + " in position " + position);
         return false;
     }

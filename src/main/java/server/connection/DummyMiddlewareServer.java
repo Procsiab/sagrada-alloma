@@ -1,7 +1,6 @@
 package server.connection;
 
 import server.MatchManager;
-import server.Player;
 import server.SReferences;
 import server.threads.GameManager;
 import shared.Cell;
@@ -11,7 +10,6 @@ import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.SharedMiddlewareServer;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class DummyMiddlewareServer implements SharedMiddlewareServer {
@@ -158,7 +156,7 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return;
-            SReferences.getGameRef(uuid).endTurn(uuid);
+            SReferences.getGameRef(uuid).endTurn();
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);

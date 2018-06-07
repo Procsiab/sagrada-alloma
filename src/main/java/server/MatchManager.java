@@ -1,12 +1,13 @@
 package server;
 
 import shared.Cell;
+import shared.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MatchManager {
-    private static final Integer MAX_ACTIVE_PLAYER_REFS = 250; //config
+    private static final Integer MAX_ACTIVE_PLAYER_REFS = Config.maxActivePlayerRefs;
     private static LinkedList<String> q = new LinkedList<>();
     private static ArrayList<String> left = new ArrayList<>();
     private ArrayList<Window> windows = new ArrayList<>();
@@ -579,18 +580,18 @@ public class MatchManager {
     public String startGame(String uUID, String ip, Integer port, boolean isSocket) {
 
         if (SReferences.contains(uUID)) {
-            System.out.println("Player: " + uUID + " has connection refused: already playing.");
+            Logger.log("Player: " + uUID + " has connection refused: already playing.");
             if (SReferences.getIsSocketRef(uUID) != isSocket)
                 SReferences.addIsSocketRef(uUID, isSocket);
             return "You already playing! Hold on while the server calls you again";
         }
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
-            System.out.println("Player: " + uUID + " has connection refused: too many players.");
+            Logger.log("Player: " + uUID + " has connection refused: too many players.");
             return "Too many players connected. Please try again later. Sorry for that.";
         }
 
-        System.out.println("Player: " + uUID + " has connection accepted.");
+        Logger.log("Player: " + uUID + " has connection accepted.");
         synchronized (obj2) {
 
             SReferences.addUuidRefEnhanced(uUID);
@@ -608,7 +609,7 @@ public class MatchManager {
     public static boolean exitGame1(String uUID) {
         synchronized (obj2) {
             if (q.remove(uUID)) {
-                System.out.println("Player "+uUID+" leaved platform before game started. Bye.");
+                Logger.log("Player "+uUID+" leaved platform before game started. Bye.");
                 SReferences.removeRef(uUID);
                 return true;
             }

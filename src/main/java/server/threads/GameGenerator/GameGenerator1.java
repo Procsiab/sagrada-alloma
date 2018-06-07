@@ -1,5 +1,6 @@
 package server.threads.GameGenerator;
 
+import server.Config;
 import server.MatchManager;
 import server.threads.GameManager;
 import shared.Logger;
@@ -9,9 +10,8 @@ import shared.concurrency.GeneralTask;
 import java.util.ArrayList;
 import java.util.Queue;
 
-@SuppressWarnings("InfiniteLoopStatement")
 public class GameGenerator1 extends GeneralTask {
-    private Integer sleepTime = 15000; //config
+    private Integer sleepTime = Config.timeout1GG; //config
     private final Object obj2 = MatchManager.getObj2();
     private static boolean start = false;
 
@@ -22,7 +22,7 @@ public class GameGenerator1 extends GeneralTask {
     @Override
     public void run() {
         super.run();
-        System.out.println("GameGenerator1 online. Timer runs out every: "+sleepTime/1000+ "s");
+        Logger.log("GameGenerator1 online. Timer runs out every: "+sleepTime/1000+ "s");
         ArrayList<String> clients;
         Queue<String> queue = MatchManager.getQ();
         boolean t = true;

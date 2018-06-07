@@ -1,9 +1,11 @@
 package server.threads;
 
 
+import server.Config;
 import server.connection.MiddlewareServer;
 import server.threads.GameGenerator.GameGenerator1;
 import server.threads.GameGenerator.GameGenerator2;
+import shared.Logger;
 import shared.Overlay;
 import shared.concurrency.ConcurrencyManager;
 
@@ -23,7 +25,7 @@ public class MainServer {
         return instance;
     }
 
-    public static Integer addGameManagerCode(){
+    public static Integer addGameManagerCode() {
         gameManagerCode++;
         return gameManagerCode;
     }
@@ -50,20 +52,7 @@ public class MainServer {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        ConcurrencyManager.submit(new GameGenerator1());
-        ConcurrencyManager.submit(new GameGenerator2());
-
-        System.out.println("Send 'exit' command to teardown...\n\n");
-        Scanner scan = new Scanner(System.in);
-        while (!scan.nextLine().equals("exit")) {
-            //
-        }
-        ConcurrencyManager.shutdown();
-        System.exit(0);
-    }
-
-    public static<T> T deepClone(T type) {
+    public static <T> T deepClone(T type) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -75,5 +64,24 @@ public class MainServer {
         } catch (IOException | ClassNotFoundException e) {
             return null;
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        if(!Config.read()){
+            Logger.log("Can't read config. Server close now.");
+            return;
+        }
+
+        ConcurrencyManager.submit(new GameGenerator1());
+        ConcurrencyManager.submit(new GameGenerator2());
+
+        Logger.log("Send 'exit' command to teardown...\n\n");
+        Scanner scan = new Scanner(System.in);
+        while (!scan.nextLine().equals("exit")) {
+            //
+        }
+        ConcurrencyManager.shutdown();
+        System.exit(0);
     }
 }
