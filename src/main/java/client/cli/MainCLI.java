@@ -3,11 +3,11 @@ package client.cli;
 import client.MiddlewareClient;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
-import shared.Cell;
-import shared.Position;
-import shared.PositionR;
+import shared.*;
 import shared.TransferObjects.GameManagerT;
+import shared.TransferObjects.PlayerT;
 import shared.TransferObjects.ToolCT;
+import shared.TransferObjects.WindowT;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -45,6 +45,7 @@ public class MainCLI {
                     int i = Integer.parseInt(s);
                     if (windows.contains(i)) {
                         MiddlewareClient.getInstance().chooseWindowBack(i);
+                        functionId = 0;
                     } else {
                         wrongCommand();
                     }
@@ -60,7 +61,6 @@ public class MainCLI {
                             } else {
                                 placeDice(i - 1);
                             }
-                            s = "#";
                             break;
                         case "card":
                             AnsiConsole.out().print(ansi().fgBrightRed()
@@ -71,11 +71,9 @@ public class MainCLI {
                                 break;
                             }
                             useToolC(i - 1);
-                            s = "#";
                             break;
                         case "end":
                             MiddlewareClient.getInstance().endTurn();
-                            s = "#";
                             break;
                         case "\n":
                         case "":
@@ -245,12 +243,153 @@ public class MainCLI {
                     .a("Selected Tool Card could not be used with specified parameters!").fgDefault());
         }
     }
+    private void printCell(Cell c) {
+        if (c.color == null && c.value == null) { // Empty white cell
+            AnsiConsole.out().print(ansi().fg(Ansi.Color.WHITE).bg(Ansi.Color.WHITE).a(' ')
+                    .fgDefault().bgDefault());
+        } else if (c.value != null && c.color == null) {
+            AnsiConsole.out().print(ansi().fg(Ansi.Color.BLACK).bg(Ansi.Color.WHITE).a(c.value)
+                    .fgDefault().bgDefault());
+        } else if (c.value == null) {
+            switch (c.color) {
+                case 'r':
+                    AnsiConsole.out().print(ansi().bgRed());
+                    break;
+                case 'b':
+                    AnsiConsole.out().print(ansi().bg(Ansi.Color.BLUE));
+                    break;
+                case 'g':
+                    AnsiConsole.out().print(ansi().bgGreen());
+                    break;
+                case 'y':
+                    AnsiConsole.out().print(ansi().bgYellow());
+                    break;
+                case 'v':
+                    AnsiConsole.out().print(ansi().bgMagenta());
+                    break;
+                default:
+                    break;
+            }
+            AnsiConsole.out().print(ansi().a(' ').bgDefault());
+        }
+    }
+
+    private void printDice(Dice d, boolean inverted) {
+        if (inverted) {
+            AnsiConsole.out().print(ansi().fg(Ansi.Color.BLACK));
+            switch (d.color) {
+                case 'r':
+                    AnsiConsole.out().print(ansi().bgRed());
+                    break;
+                case 'b':
+                    AnsiConsole.out().print(ansi().bg(Ansi.Color.BLUE));
+                    break;
+                case 'g':
+                    AnsiConsole.out().print(ansi().bgGreen());
+                    break;
+                case 'y':
+                    AnsiConsole.out().print(ansi().bgYellow());
+                    break;
+                case 'v':
+                    AnsiConsole.out().print(ansi().bgMagenta());
+                    break;
+                default:
+                    AnsiConsole.out().print('?');
+                    break;
+            }
+        } else {
+            AnsiConsole.out().print(ansi().bg(Ansi.Color.BLACK));
+            switch (d.color) {
+                case 'r':
+                    AnsiConsole.out().print(ansi().fgBrightRed());
+                    break;
+                case 'b':
+                    AnsiConsole.out().print(ansi().fgBrightBlue());
+                    break;
+                case 'g':
+                    AnsiConsole.out().print(ansi().fgBrightGreen());
+                    break;
+                case 'y':
+                    AnsiConsole.out().print(ansi().fgBrightYellow());
+                    break;
+                case 'v':
+                    AnsiConsole.out().print(ansi().fgBrightMagenta());
+                    break;
+                default:
+                    AnsiConsole.out().print('?');
+                    break;
+            }
+        }
+        AnsiConsole.out().print(ansi().a(d.value).fgDefault().bgDefault());
+    }
+
+    private void printWindow(WindowT w, Overlay o) {
+        final int COLS = 5;
+        final int ROWS = 4;
+        for (int i = 0; i < ROWS; i++) {
+            AnsiConsole.out().print(' '); // Space before every row
+            for (int j = 0; j < COLS; j++) {
+                Cell c = w.cells[i][j];
+                Dice d = o.getDicePositions()[i][j];
+                if (d == null) { // In case no dice is placed
+                    printCell(c);
+                } else {
+                    printDice(d, false);
+                }
+                AnsiConsole.out().print(' '); // Tab after every dice or cell
+            }
+            AnsiConsole.out().print('\n'); // New line after every row
+        }
+        AnsiConsole.out().print('\n'); // New line after the last column of the last row
+    }
+
+    private void printWindow(Cell[][] cells) {
+        final int COLS = 5;
+        final int ROWS = 4;
+        for (int i = 0; i < ROWS; i++) {
+            AnsiConsole.out().print(' '); // Space before every row
+            for (int j = 0; j < COLS; j++) {
+                printCell(cells[i][j]);
+                AnsiConsole.out().print(' '); // Tab after every dice or cell
+            }
+            AnsiConsole.out().print('\n'); // New line after every row
+        }
+        AnsiConsole.out().print('\n'); // New line after the last column of the last row
+    }
+
+    private void printPoolAndRoundTrack(GameManagerT gm) {
+        AnsiConsole.out().print(ansi().fgBrightRed().a("Dice pool: ").fgDefault());
+        for (Dice d : gm.pool) {
+            printDice(d, true);
+            AnsiConsole.out().print(' ');
+        }
+        AnsiConsole.out().print(ansi().fgBrightRed().a("\nRound track:\n").fgDefault());
+        AnsiConsole.out().println("coming soon...");
+    }
+
+    private void printPlayerInfo(PlayerT p) {
+        AnsiConsole.out.println(ansi().fgBrightRed().a("Turn number: ").fgDefault().a(p.turno));
+        AnsiConsole.out.println(ansi().fgBrightRed().a("Tokens: ").fgDefault().a(p.tokens));
+    }
 
     public void updateView(GameManagerT gm) {
         if (functionId == 2) {
+            AnsiConsole.out().print(ansi().eraseScreen(Ansi.Erase.ALL).cursor(0, 0));
             AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:"));
             this.gm = gm;
-            //TODO Print GameManager object
+            // Obtain local player from GameManager
+            PlayerT me = gm.vPlayers.get(gm.pos);
+            gm.vPlayers.remove(me);
+            // Print other's windows
+            for (PlayerT p : gm.vPlayers) {
+                printWindow(p.window, p.overlay);
+            }
+            // Print local player's window
+            AnsiConsole.out.println("My window:");
+            printWindow(me.window, me.overlay);
+            // Print other info
+            printPoolAndRoundTrack(this.gm);
+            printPlayerInfo(me);
         }
     }
 
@@ -258,8 +397,9 @@ public class MainCLI {
         functionId = 1;
         AnsiConsole.out().println(ansi().fgBrightRed().a("Please select a window to play with, among the following:")
                 .fgDefault());
-        for (Integer w : windows) {
-            AnsiConsole.out().print(w.toString() + "\t");
+        for (int i = 0; i < windows.size(); i ++) {
+            AnsiConsole.out().println("Window " + windows.get(i).toString());
+            printWindow(matrices.get(i));
         }
         AnsiConsole.out().println();
         this.windows = windows;

@@ -254,7 +254,6 @@ public class NetworkRmi implements Connection {
             Logger.log("Cast type exception: do your parameters extend Serializable?");
         } catch (RemoteException re) {
             Logger.log("Error calling remote method " + methodName);
-            Logger.strace(re);
         }
         return null;
     }

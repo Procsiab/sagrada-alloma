@@ -18,6 +18,8 @@ import shared.network.socket.NetworkSocket;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.LocalTime;
+import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Console;
@@ -64,7 +66,7 @@ public class MainClient extends Application {
         AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
 
-        uuid = "2345158285477837";
+        uuid = String.valueOf(LocalTime.now().getSecond());
 
         //uuid = getUuid();
         Logger.log("UUID: " + uuid);

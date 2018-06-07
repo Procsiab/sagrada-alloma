@@ -47,7 +47,6 @@ class SocketHandler implements Runnable, Closeable {
             out.flush();
         } catch (IOException ioe) {
             Logger.log("Error in handling client input!");
-            Logger.strace(ioe);
         } catch (ClassNotFoundException cnfe) {
             Logger.log("Received data has unknown class!");
         } finally {
@@ -196,7 +195,6 @@ class SocketHandler implements Runnable, Closeable {
             Logger.log("Cast type exception: do your parameters extend Serializable?");
         } catch (RemoteException re) {
             Logger.log("Error calling remote method " + methodName);
-            Logger.strace(re);
         }
         return null;
     }

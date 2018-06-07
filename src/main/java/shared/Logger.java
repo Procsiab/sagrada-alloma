@@ -31,6 +31,12 @@ public class Logger {
         Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         System.out.print("\n\n");
     }
+
+    /**
+     * This method will add to the log the exception name and its stack trace
+     * @param e An {@code Exception} object to obtain its name and stack trace
+     * @param evil Choose whether the stack trace should be logged in magenta ({@code true} | {@code false})
+     */
     public static void strace(Exception e, boolean evil) {
         if (evil) {
             AnsiConsole.out().print(ansi().fgBrightMagenta());
