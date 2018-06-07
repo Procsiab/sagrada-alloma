@@ -2,7 +2,6 @@ package server;
 
 import server.executables.Tool;
 import server.threads.GameManager;
-import server.threads.MainServer;
 import shared.*;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class Player {
         this.uUID = uUID;
         this.game = gameManager;
         this.possibleWindows = new ArrayList<>();
-        this.nickName = SReferences.getNickName(uUID);
+        this.nickName = SReferences.getNickNameRef(uUID);
     }
 
     public synchronized Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {

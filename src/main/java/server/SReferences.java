@@ -1,11 +1,9 @@
 package server;
 
 import server.threads.GameManager;
-import shared.Logger;
-import shared.network.SharedMiddlewareClient;
-import shared.network.SharedMiddlewareServer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SReferences {
 
@@ -61,7 +59,7 @@ public class SReferences {
         return ipRef.get(index);
     }
 
-    public static synchronized String getNickName(String s) {
+    public static synchronized String getNickNameRef(String s) {
         Integer index = uuidRef.indexOf(s);
         if (index.equals(-1))
             return null;
@@ -142,6 +140,15 @@ public class SReferences {
 
     public static synchronized boolean contains(String s) {
         return uuidRef.contains(s);
+    }
+
+    public static synchronized boolean checkNickNameRef(String nickNameRef, List<String> queue){
+        for (String uUID:
+             queue) {
+            if(getNickNameRef(uUID).equals(nickNameRef))
+                return false;
+        }
+        return true;
     }
 
     public static synchronized boolean removeRef(String s) {
