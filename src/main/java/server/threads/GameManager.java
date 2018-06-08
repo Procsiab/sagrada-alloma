@@ -1,7 +1,6 @@
 package server.threads;
 
 import server.*;
-import server.connection.DummyMiddlewareServer;
 import server.connection.MiddlewareServer;
 import server.executables.PublicObject;
 import server.Window;
@@ -33,11 +32,11 @@ public class GameManager extends GeneralTask {
     private ArrayList<Integer> publicOCs = new ArrayList<>();
     private ArrayList<Integer> toolCards = new ArrayList<>();
     private ArrayList<Integer> tCtokens = new ArrayList<>();
-    private ArrayList<String> privateLeft = new ArrayList<>();
+    private Set<String> left = new HashSet<>();
     private Vector<String> jump = new Vector<>();
     private String tavolo;
-    private ArrayList<String> unresponsive = new ArrayList<>();
-    private ArrayList<String> active = new ArrayList<>();
+    private Set<String> unrespAltoughP = new HashSet<>();
+    private Set<String> active = new HashSet<>();
     private String expected = "none";
     private RoundTrack roundTrack = new RoundTrack();
     private ArrayList<Dice> dices = new ArrayList<>();
@@ -56,7 +55,7 @@ public class GameManager extends GeneralTask {
         this.timeout4 = Config.timeout4;
 
 
-        Logger.log(this + ". Game started with " + players.size() +
+        Logger.log("\n\n" + this + ". Game started with " + players.size() +
                 " players. They are: ");
         for (String player :
                 players) {
@@ -228,6 +227,7 @@ public class GameManager extends GeneralTask {
     }
 
     private synchronized void setExpected(String access) {
+        System.out.println("\n");
         Logger.log(this + " Access granted to: " + access + "\n");
         this.expected = access;
     }
@@ -398,13 +398,13 @@ public class GameManager extends GeneralTask {
         tCtokens.set(pos, 2);
     }
 
-    public void updateView(String uuid) {
+    public void updateView(String uUID) {
         ArrayList<PlayerT> vPlayersT = new ArrayList<>();
         for (Player player :
                 this.vPlayersFixed) {
             Window window = player.getWindow();
             WindowT windowT = new WindowT(window.getName(), window.getMatrices());
-            PlayerT playerT = new PlayerT(player.getNickName(),player.getPrivateO(), windowT, player.getOverlay(),
+            PlayerT playerT = new PlayerT(player.getNickName(), player.getPrivateO(), windowT, player.getOverlay(),
                     player.getTokens(), player.getTurno(), player.getComputatedScore(), player.getPrivateTurn(),
                     player.getLastPlacedFromPool());
             vPlayersT.add(playerT);
@@ -425,20 +425,24 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        Player player = SReferences.getPlayerRef(uuid);
+        Player player = SReferences.getPlayerRef(uUID);
 
-        Logger.log("Player: " + uuid + " has " + player.getTokens() + " tokens, is at turn n° " + player.getTurno() +
+        /*Logger.log("Player: " + uUID + " has " + player.getTokens() + " tokens, is at turn n° " + player.getTurno() +
                 ", has " + player.getComputatedScore() + " points, is at private turn n° " + player.getPrivateTurn() +
-                ", last dice placed was in position " + player.getLastPlacedFromPool().toString());
-
-        middlewareServer.updateView(uuid, new GameManagerT(vPlayersT, publicOCsT,
-                toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uuid)));
+                ", last dice placed was in position " + player.getLastPlacedFromPool().toString());*/
+        try {
+            middlewareServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
+                    toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uUID)));
+        } catch (NullPointerException npe) {
+            Logger.log(this + " player " + uUID + ", remote application error");
+        }
     }
 
     public void updateView() {
-        Logger.log(this + " updating view: This is the game's state:" +
-                "\nIt has roundtrack with " + roundTrack.sumDices() + " dices on it, has " + pool.size() + " dices in the pool, " +
+        /*Logger.log(this + " updating view: This is the game's state:" +
+                "\n\t\t\t\t\t\t\tIt has roundtrack with " + roundTrack.sumDices() + " dices on it, has " + pool.size() + " dices in the pool, " +
                 "Tool cards have respectively " + tCtokens.get(0) + ", " + tCtokens.get(1) + ", " + tCtokens.get(2) + " tokens");
+       */
         for (String player :
                 active) {
             updateView(player);
@@ -534,30 +538,25 @@ public class GameManager extends GeneralTask {
 
     public void exitGame2(String loser) {
         synchronized (obj) {
-            this.privateLeft.add(loser);
+            this.left.add(loser);
         }
     }
 
     private void checkActive() {
-        Boolean contains = false;
         for (String pla : players2
                 ) {
-            synchronized (obj) {
-                if (privateLeft.contains(pla))
-                    contains = true;
-            }
-            if (contains) {
-                active.remove(pla);
-                unresponsive.remove(pla);
-            }
             if (middlewareServer.ping(pla)) {
-                if (!active.contains(pla))
-                    active.add(pla);
-                unresponsive.remove(pla);
+                active.add(pla);
+                unrespAltoughP.remove(pla);
             } else {
-                if (!unresponsive.contains(pla))
-                    unresponsive.add(pla);
+                unrespAltoughP.add(pla);
                 active.remove(pla);
+            }
+            synchronized (obj) {
+                if (left.contains(pla)) {
+                    active.remove(pla);
+                    unrespAltoughP.remove(pla);
+                }
             }
         }
     }
@@ -573,16 +572,16 @@ public class GameManager extends GeneralTask {
         }
 
         Logger.log(this + " players temporarily offline " +
-                "are " + unresponsive.size() + ". They are: ");
+                "are " + unrespAltoughP.size() + ". They are: ");
         for (String player :
-                unresponsive) {
+                unrespAltoughP) {
             Logger.log(player + "; ");
         }
         synchronized (obj) {
             Logger.log(this + " players who quit " +
-                    "are " + privateLeft.size() + ". They are: ");
+                    "are " + left.size() + ". They are: ");
             for (String player :
-                    privateLeft) {
+                    left) {
                 Logger.log(player + "; ");
             }
         }
@@ -597,7 +596,7 @@ public class GameManager extends GeneralTask {
         ArrayList<Integer> a = new ArrayList<>();
 
         j = rand.nextInt(22);
-        while (i < 2 * players.size()){
+        while (i < 2 * players.size()) {
             while (a.contains(j) || j % 2 == 1) {
                 j = rand.nextInt(22);
             }
@@ -652,38 +651,36 @@ public class GameManager extends GeneralTask {
 
     private void resetPlayers() {
         players2.clear();
+        unrespAltoughP.clear();
+        active.clear();
+        players2.addAll(players);
         for (String p :
                 players) {
             if (middlewareServer.ping(p)) {
                 synchronized (obj) {
-                    privateLeft.remove(p);
+                    left.remove(p);
                 }
-                players2.add(p);
             }
         }
-        active.clear();
-        unresponsive.clear();
-        active.addAll(players2);
+        players2.removeAll(left);
     }
 
     private Boolean globalBlackOut() {
         int p = 1;
         //check if global blackout
-        if (active.isEmpty()) {
-            Logger.log(this + " seems all are having issues over the net");
-            while (active.isEmpty()) {
-                Logger.log(this + " attempt to reconnect n° " + p);
+        while (active.isEmpty()) {
+            if (p == 1)
+                Logger.log(this + " seems all are having issues over the net");
+            Logger.log(this + " attempt to reconnect n° " + p);
 
-                checkActive();
-
-                if (p == 3) {
-                    Logger.log(this + " After 3 attempts game closes. Bye");
-                    closeGame();
-                    return true;
-                }
-                pause(timeout2);
-                p++;
+            checkActive();
+            if (p == 3) {
+                Logger.log(this + " After 3 attempts game closes. Bye");
+                closeGame();
+                return true;
             }
+            pause(timeout2);
+            p++;
         }
         return false;
     }
@@ -699,30 +696,29 @@ public class GameManager extends GeneralTask {
 
     private Boolean onlyOne() {
         int p = 1;
-        if (active.size() + unresponsive.size() == 1) {
-            Logger.log(this + " we're having a victory decided by arbitration");
-            while (active.size() + unresponsive.size() == 1) {
-                tavolo = active.get(0);
-                if (tavolo == null) {
-                    Logger.log(this + " the only player is offline!");
-                    tavolo = unresponsive.get(0);
-                }
-                if (middlewareServer.ping(tavolo)) {
-                    middlewareServer.tavoloWin(active.get(0));
-                    closeGame();
-                    Logger.log(this + " the winner is " + tavolo + "! Bye");
-                    pause(15000);
-                    return true;
-                }
-                pause(timeout2);
+        while (players2.size() == 1) {
+            if (p == 1)
+                Logger.log(this + " we're having a victory decided by arbitration");
 
-                if (p == 5) {
-                    Logger.log(this + " after 5 attempts game closes");
-                    closeGame();
-                    return true;
-                }
-                p++;
+            tavolo = players2.get(0);
+            if (middlewareServer.ping(tavolo)) {
+                middlewareServer.tavoloWin(tavolo);
+                closeGame();
+                Logger.log(this + " the winner is " + tavolo + "! Bye");
+                pause(15000);
+                return true;
+            } else {
+                Logger.log(this + " the only player is offline!");
             }
+
+            pause(timeout2);
+
+            if (p == 5) {
+                Logger.log(this + " after 5 attempts game closes");
+                closeGame();
+                return true;
+            }
+            p++;
         }
         return false;
     }
@@ -733,7 +729,10 @@ public class GameManager extends GeneralTask {
             Logger.log(this + " player: " + remotePlayer +
                     "jump this turn");
         } else if (active.contains(remotePlayer)) {
-            this.updateView();
+            new Thread(
+                    this::updateView
+            ).start();
+            //this.updateView();
             setExpected(remotePlayer);
             middlewareServer.enable(remotePlayer);
 
@@ -818,7 +817,6 @@ public class GameManager extends GeneralTask {
                     if (onlyOne())
                         return;
                     handleEffectiveTurn(remotePlayer, localPlayer);
-
                     i++;
                 }
                 Collections.reverse(players2);
@@ -831,8 +829,8 @@ public class GameManager extends GeneralTask {
 
         if (allQuit())
             return;
-        scoringPhase();
 
+        scoringPhase();
         closeGame();
         Logger.log(this + ". We are done here! Bye!");
         pause(10000);

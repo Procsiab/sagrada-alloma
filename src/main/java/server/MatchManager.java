@@ -578,15 +578,10 @@ public class MatchManager {
     public static synchronized String startGame(String uUID, String nickName, String ip, Integer port, boolean isSocket) {
 
         if (SReferences.contains(uUID)) {
-            if (SReferences.getNickNameRef(uUID).equals(nickName)) {
-                Logger.log("Player: " + uUID + " has connection refused: nickName mismatch.");
-                return "The nickName specified doesn't match your previous one";
-            } else {
-                Logger.log("Player: " + uUID + " has connection refused: already playing.");
-                if (SReferences.getIsSocketRef(uUID) != isSocket)
-                    SReferences.addIsSocketRef(uUID, isSocket);
-                return "You already playing! Hold on while the server calls you again";
-            }
+            Logger.log("Player: " + uUID + " has connection refused: already playing.");
+            if (SReferences.getIsSocketRef(uUID) != isSocket)
+                SReferences.addIsSocketRef(uUID, isSocket);
+            return "You already playing! Hold on while the server calls you again";
         }
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
