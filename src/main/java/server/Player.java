@@ -80,8 +80,7 @@ public class Player {
                 return true;
             }
         }
-        Logger.log(game + " player " + uUID + " attempt of unauthorized usage of "
-                + game.revealToolCard(nCard));
+        Logger.log(game + " player " + uUID + " attempt of unauthorized usage of ToolCard");
         return false;
 
     }
@@ -250,7 +249,7 @@ public class Player {
             }
         }
         Logger.log(game + " player " + uUID + " attempt of unauthorized placement of dice " +
-                dice + " in position " + position);
+                "in position " + position);
         return false;
     }
 }
