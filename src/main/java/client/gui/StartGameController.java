@@ -86,6 +86,7 @@ public class StartGameController implements Initializable {
         loadDadi();
         loadToolCard();
         shut();
+        paneCarta0.setGridLinesVisible(true);
         // OTTIMIZZARE INSERENDO QUESTO DUPLICATO IN UNA FUNZIONE
         for (int i = 0; i < listaDadi.size(); i++){
             listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
@@ -161,6 +162,8 @@ public class StartGameController implements Initializable {
         // Inserimento toolCards
         for (int i=0; i<gameManager.toolCards.size();i++) {
             String nomeToolCard = gameManager.toolCards.get(i).name;
+            System.out.println("NOME TOOCARD:"+nomeToolCard);
+
             Image image = new Image(nomeToolCard+".png");
             System.out.println("CARICAMENTO TOOLCARD");
 
@@ -179,26 +182,36 @@ public class StartGameController implements Initializable {
         System.out.println("DOPO Assegnamento MATRICE");
         // Questo frammento di codice crea problemi, da rivedere! Se inserisco i come variabile esterna e j come interna, crasha tutto! Perchè? (Curiosità personale)
         // Da testare il funzionamento
-        for (int k=0; k<5;k++) {
-             for (int y = 0; y < 4; y++) {
-                 int z = 0;
+        int z = 0;
+        for (int k=0; k<4;k++) {
+             for (int y = 0; y < 5; y++) {
+
                  System.out.println("NEL CICLO, PRIMA DELL'IF");
 
-               /*  if (matrice[k][y] != null) {
-                     char mycolor = matrice[i][j].getColor();
+                 if (matrice[k][y] != null) {
+                     System.out.println("APPENA ENTRATO NELL'IF ");
+                     char mycolor = matrice[k][y].getColor();
                      System.out.println("Stampo Colore"+ mycolor);
-                     int mynumber = matrice[i][j].getValue();
+                     int mynumber = matrice[k][y].getValue();
                      System.out.println("Stampo Numero"+ mynumber);
+
                      paneCarta0.getChildren().get(z).setStyle(("-fx-background-image: url('" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
+                     paneCarta0.getChildren().get(z).setOpacity(100);
                      System.out.println("ASSEGNAZIONE DADO FATTA ");
 
-                 }*/
+                 }
+                 System.out.println("FUORI IF ");
+
+
                  z++;
+                 System.out.println(z);
+
              }
 
          }
+        System.out.println("FUORI DAL FOR  ");
 
-        }
+    }
 
     @FXML
     private void fineTurno(ActionEvent event) throws IOException{
