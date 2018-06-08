@@ -301,7 +301,7 @@ public class GameManager extends GeneralTask {
             case 1:
                 return "ToolC1";
             case 2:
-                return "Tool2";
+                return "ToolC2";
             case 3:
                 return "ToolC3";
             case 4:
