@@ -233,6 +233,7 @@ public class Player {
     }
 
     public synchronized boolean placeDice(Integer index, Position position) {
+        System.out.println("(temporary print) Window: "+ MatchManager.getWindows().indexOf(this.window));
         Dice dice = null;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 public class MatchManager {
     private static final Integer MAX_ACTIVE_PLAYER_REFS = Config.maxActivePlayerRefs;
     private static LinkedList<String> q = new LinkedList<>();
-    private ArrayList<Window> windows = new ArrayList<>();
+    private static ArrayList<Window> windows = new ArrayList<>();
     private static final Object obj = new Object();
     private static final Object obj2 = new Object();
     private static MatchManager instance = new MatchManager();
@@ -657,7 +657,7 @@ public class MatchManager {
         return q;
     }
 
-    public ArrayList<Window> getWindows() {
+    public static ArrayList<Window> getWindows() {
         return windows;
     }
 
