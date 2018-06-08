@@ -729,10 +729,7 @@ public class GameManager extends GeneralTask {
             Logger.log(this + " player: " + remotePlayer +
                     "jump this turn");
         } else if (active.contains(remotePlayer)) {
-            new Thread(
-                    this::updateView
-            ).start();
-            //this.updateView();
+            this.updateView();
             setExpected(remotePlayer);
             middlewareServer.enable(remotePlayer);
 
