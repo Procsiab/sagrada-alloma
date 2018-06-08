@@ -32,7 +32,7 @@ public class Player {
 
     public synchronized Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         Boolean esito = false;
-        Integer nCard = null;
+        Integer nCard;
 
         if (!(i1 == null || i1 < 0 || i1 > 2)) {
             nCard = game.getToolCards().get(i1);
@@ -196,7 +196,7 @@ public class Player {
             this.privateTurn = 1;
     }
 
-    public Window getWindow() {
+    public synchronized Window getWindow() {
         return window;
     }
 
@@ -234,7 +234,7 @@ public class Player {
 
     public synchronized boolean placeDice(Integer index, Position position) {
         System.out.println("(temporary print) Window: "+ MatchManager.getWindows().indexOf(this.window));
-        Dice dice = null;
+        Dice dice;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
             if (index >= pool.size())

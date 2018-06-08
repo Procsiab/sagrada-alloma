@@ -1,13 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="sagrada_server">
-    <output-path>$PROJECT_DIR$/out/artifacts/sagrada_server</output-path>
+    <output-path />
     <root id="archive" name="sagrada_server.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/src/main/java/server/META-INF/MANIFEST.MF" />
       </element>
       <element id="directory" name="server">
         <element id="dir-copy" path="$PROJECT_DIR$/target/classes/server" />
-        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/server/config.txt" />
+        <element id="file-copy" path="$PROJECT_DIR$/config.txt" />
       </element>
       <element id="directory" name="shared">
         <element id="dir-copy" path="$PROJECT_DIR$/target/classes/shared" />

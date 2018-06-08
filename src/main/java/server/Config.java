@@ -18,7 +18,7 @@ public class Config {
     public static boolean read() {
 
         ArrayList<Integer> timers = new ArrayList<>();
-        File file = new File("./src/main/java/server/config.txt");
+        File file = new File("config.txt");
         try (Scanner scan = new Scanner(file)) {
             scan.useDelimiter(Pattern.compile("@"));
             while (scan.hasNext()) {
