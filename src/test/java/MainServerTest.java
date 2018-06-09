@@ -132,23 +132,60 @@ class MainServerTest {
         player.placeDice(0, new Position(3, 4));
         after();
 
+        Dice test[][] = new Dice[4][5];
+        test[0][0] = new Dice('y', 2);
+        test[0][1] = new Dice('b', 3);
+        test[0][2] = new Dice('r', 6);
+        test[0][3] = new Dice('b', 5);
+        test[0][4] = new Dice('v', 1);
+        test[1][0] = new Dice('g', 4);
+        test[1][1] = new Dice('y', 6);
+        test[1][2] = new Dice('g', 5);
+        test[1][3] = new Dice('v', 2);
+        test[1][4] = new Dice('b', 4);
+        test[2][0] = null;
+        test[2][1] = new Dice('v', 2);
+        test[2][2] = new Dice('r', 6);
+        test[2][3] = new Dice('g', 4);
+        test[2][4] = null;
+        test[3][0] = new Dice('g', 2);
+        test[3][1] = new Dice('y', 3);
+        test[3][2] = new Dice('v', 2);
+        test[3][3] = new Dice('b', 5);
+        test[3][4] = new Dice('y', 3);
+
 
         player.setTokens(800);
         ArrayList<Dice> pool = gameManager.getPool();
 
         //test tc1
+        player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
+        after();
+        player.useTool(players.get(0), 0, new Position(5, 0), null, null, null, null, 0, +1);
+        after();
+        player.useTool(players.get(0), 0, new Position(2, 5), null, null, null, null, 0, +1);
+        after();
         player.useTool(players.get(0), 0, new Position(2, 0), null, null, null, null, 0, +1);
-
         after();
 
+
         //use tc2
+        player.useTool(players.get(0), 1, null, null, null, null, null, null, null);
+        after();
+        player.useTool(players.get(0), 1, new Position(0, 4), new Position(3, 2), null
+                , null, null, null, null);
+        after();
         player.getOverlay().setDicePosition(null, new Position(3, 3));
         player.useTool(players.get(0), 1, new Position(0, 3), new Position(3, 3), null
                 , null, null, null, null);
         after();
 
         //use tc3
+        player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
+        after();
+        player.useTool(players.get(0), 2, new Position(0, 0), new Position(2, -1), null, null, null, null, null);
         player.getOverlay().setDicePosition(null, new Position(2, 0));
+        after();
         player.useTool(players.get(0), 2, new Position(0, 2), new Position(2, 0), null, null, null, null, null);
         after();
 
@@ -157,15 +194,23 @@ class MainServerTest {
         ais.set(2, 5);
 
         //use tc4
+        player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
+        after();
         player.useTool(players.get(0), 0, new Position(1, 1), new Position(0, 2), new Position(1, 4), new Position(0, 3), null, null, null);
         after();
 
         //use tc5
+        player.useTool(players.get(0), 1, null, null, null, null, null, null, null);
+        after();
+        player.useTool(players.get(0), 1, new Position(1, null), null, null, null, new PositionR(4, 0), 0, null);
+        after();
         gameManager.getRoundTrack().addDice(new Dice('r', 6), 4);
         player.useTool(players.get(0), 1, new Position(1, 1), null, null, null, new PositionR(4, 0), 0, null);
         after();
 
         //use tc6
+        player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
+        after();
         player.useTool(players.get(0), 2, new Position(1, 4), null, null, null, null, 2, null);
         after();
 
@@ -176,14 +221,36 @@ class MainServerTest {
         //use tc7
         player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
         after();
+        player.useTool(players.get(0), 5, null, null, null, null, null, null, null);
+        after();
+        player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
+        after();
 
         //use tc8
+        player.useTool(players.get(0), 1, null, null, null, null, null, null, null);
+        after();
+        player.useTool(players.get(0), 1, new Position(4, 4), null, null, null, null, 15, null);
+        after();
+        player.getOverlay().setDicePosition(null, new Position(1, 4));
+        player.useTool(players.get(0), 1, new Position(1, 4), null, null, null, null, -1, null);
+        after();
         pool.add(0, new Dice('b', 4));
         player.getOverlay().setDicePosition(null, new Position(1, 4));
         player.useTool(players.get(0), 1, new Position(1, 4), null, null, null, null, 0, null);
         after();
 
         //use tc9
+        player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
+        after();
+        player.useTool(players.get(0), 2, new Position(1, -1), new Position(null, 4), null, null, null, 0, null);
+        after();
+        player.getOverlay().setDicePosition(null, new Position(1, 4));
+        player.getOverlay().setDicePosition(null, new Position(1, 3));
+        player.getOverlay().setDicePosition(null, new Position(2, 3));
+        player.getOverlay().setDicePosition(null, new Position(3, 3));
+        player.getOverlay().setDicePosition(null, new Position(3, 4));
+        player.useTool(players.get(0), 2, new Position(1, 0), new Position(2, 4), null, null, null, 0, null);
+        after();
         pool.add(0, new Dice('g', 5));
         player.getOverlay().setDicePosition(null, new Position(1, 4));
         player.getOverlay().setDicePosition(null, new Position(1, 3));
@@ -198,12 +265,25 @@ class MainServerTest {
         ais.set(2, 11);
 
         //use tc10
+        player.useTool(players.get(0), 5, null, null, null, null, null, null, null);
+        after();
+        player.useTool(players.get(0), 0, new Position(14, 4), null, null, null, null, 0, null);
+        after();
+        player.getOverlay().setDicePosition(new Dice('g', 3), new Position(2, 4));
+        player.useTool(players.get(0), 0, new Position(1, 4), null, null, null, null, 0, null);
+        after();
         pool.set(0, new Dice('r', 3));
         player.getOverlay().setDicePosition(new Dice('g', 3), new Position(2, 4));
         player.useTool(players.get(0), 0, new Position(1, 4), null, null, null, null, 0, null);
         after();
 
         //use tc11
+        player.useTool(players.get(0), 1, null, null, null, null, null, null, null);
+        after();
+        player.getOverlay().setDicePosition(null, new Position(0, 3));
+        player.getOverlay().setDicePosition(null, new Position(0, 4));
+        player.useTool(players.get(0), 1, new Position(0, 3), null, null, null, null, 0, 4);
+        after();
         player.getOverlay().setDicePosition(null, new Position(0, 2));
         player.getOverlay().setDicePosition(null, new Position(0, 3));
         player.getOverlay().setDicePosition(null, new Position(0, 4));
@@ -211,6 +291,11 @@ class MainServerTest {
         after();
 
         //use tc12
+        player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
+        after();
+        player.getWindow().getMatrices()[3][3] = new Cell('g');
+        player.useTool(players.get(0), 2, new Position(2, 0), new Position(0, 2), new Position(2, 2), new Position(3, 3), new PositionR(4, 0), 0, null);
+        after();
         player.getOverlay().setDicePosition(new Dice('g', 6), new Position(2, 0));
         player.getOverlay().setDicePosition(new Dice('g', 6), new Position(2, 2));
         player.getOverlay().setDicePosition(new Dice('b', 5), new Position(1, 2));
@@ -239,120 +324,15 @@ class MainServerTest {
 
         sum = player.getScore();
 
-
         assert (true);
-    }
-
-    public void testWebIssues() {
-        pause(1000);
-
-        String player1 = "player1";
-        String player2 = "player2";
-        String player3 = "player3";
-        String player4 = "player4";
-        String player5 = "player5";
-        String player6 = "player6";
-        String player7 = "player7";
-
-        startGame(player1);
-        startGame(player2);
-
-
-        pause(2000);
-        System.out.println("uscita player 2");
-        middlewareServer.exitGame1(player2);
-        middlewareServer.setUnresponsive(player2);
-
-        pause(2000);
-        System.out.println("rientra player 2, entra player3");
-        middlewareServer.setResponsive(player2);
-        startGame(player2);
-        startGame(player3);
-
-        updateGameManagers();
-
-
-        pause(6000);
-        System.out.println("scelta finestre");
-        middlewareServer.chooseWindowBack(player1, 5);
-        middlewareServer.chooseWindowBack(player2, 5);
-
-        pause(25000);
-
-        //offline player2
-        System.out.println("offline player2");
-        middlewareServer.setUnresponsive(player2);
-
-        pause(15000);
-
-        //online player2
-        System.out.println("online player2");
-        middlewareServer.setResponsive(player2);
-
-
-        startGame(player4);
-        startGame(player5);
-        startGame(player6);
-        startGame(player7);
-
-        updateGameManagers();
-
-        pause(5000);
-        //exit player2
-        System.out.println("uscita dal gioco player2");
-        middlewareServer.exitGame2(player2);
-        middlewareServer.setUnresponsive(player2);
-
-        //vittoria a tavolino
-        String tavolo = player5;
-        middlewareServer.exitGame2(player7);
-        middlewareServer.exitGame2(player6);
-        middlewareServer.setUnresponsive(player4);
-        middlewareServer.exitGame2(player5);
-
-        pause(1000);
-        middlewareServer.setResponsive(player4);
-        pause(15000);
-
-        if (gameManagers.get(1) != null) {
-            tavolo = gameManagers.get(1).getTavolo();
-        }
-
-
-        pause(2000);
-        //in game player2
-        System.out.println("si riconnette player2");
-        startGame(player2);
-        middlewareServer.setResponsive(player2);
-
-
-pause(12000);
-        System.out.println("-----------------------------now");
-
-        middlewareServer.useToolC(player3,2,new Position(2,3),new Position(3,4),
-                new Position(0,4), new Position(2,1), new PositionR(1,5),
-                1,2);
-        middlewareServer.placeDice(player3,1,new Position(2,4));
-
-        pause(20000);
-
-        middlewareServer.useToolC(player1,1,new Position(2,3),new Position(3,4),
-                new Position(0,4), new Position(2,1), new PositionR(1,5),
-                0,2);
-        middlewareServer.placeDice(player1,3,new Position(2,4));
-
-
-        pause(25000);
 
     }
-
 
     @Test
     void main() {
 
         MainServer.simulation();
         obj = MainServer.obj;
-        testWebIssues();
         testCards();
     }
 }

@@ -122,8 +122,11 @@ public class Window implements Serializable {
         if (index == null || position == null)
             return false;
 
+        if(position.getRow()<0||position.getRow()>3||position.getColumn()<0||position.getColumn()>4)
+            return false;
+
         ArrayList<Dice> pool = player.getGame().getPool();
-        if (index >= pool.size())
+        if (index >= pool.size()||index<0)
             return false;
 
         Dice dice = pool.get(index);

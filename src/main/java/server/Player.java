@@ -38,7 +38,7 @@ public class Player {
             nCard = game.getToolCards().get(i1);
             switch (nCard + 1) {
                 case 1:
-                    esito = Tool.use1(game, i1, SReferences.getPlayerRef(uUID), p2, i2, i3);
+                    esito = Tool.use1(game, i1, SReferences.getPlayerRef(uUID), p1, i2, i3);
                     break;
                 case 2:
                     esito = Tool.use2(i1, SReferences.getPlayerRef(uUID), p1, p2);

@@ -294,12 +294,12 @@ public class PublicObject {
     public static Integer use10(Overlay overlay1) {
         Overlay overlay = MainServer.deepClone(overlay1);
         Dice[][] dices = overlay.getDicePositions();
-        int i = 1;
-        int j = 1;
+        int i = 0;
+        int j;
         int sum = 0;
-        while (i < 5) {
-            j = 1;
-            while (j < 6) {
+        while (i < 4) {
+            j = 0;
+            while (j < 5) {
                 sum = sum + computate(dices, 'a', i, j, true);
                 j++;
             }
@@ -311,13 +311,13 @@ public class PublicObject {
     private static Integer computate(Dice[][] dices, Character color,
                                      Integer r, Integer c, Boolean firstTime) {
 
-        if (r > 4 || r < 1 || c > 5 || c < 1)
+        if (r > 3 || r < 0 || c > 4 || c < 0)
             return 0;
-        if (dices[r - 1][c - 1] == null)
+        if (dices[r][c] == null)
             return 0;
-        if (dices[r - 1][c - 1].getColor() != color)
-            return computate(dices, dices[r - 1][c - 1].getColor(), r, c, true);
-        dices[r - 1][c - 1] = null;
+        if (dices[r][c].getColor() != color)
+            return computate(dices, dices[r][c].getColor(), r, c, true);
+        dices[r][c] = null;
         Integer ul = computate(dices, color, r - 1, c - 1, false);
         Integer ur = computate(dices, color, r - 1, c + 1, false);
         Integer dr = computate(dices, color, r + 1, c + 1, false);

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class RoundTrack implements Serializable {
     private Integer turn = 0;
-    private ArrayList<ArrayList<Dice>> dices = new ArrayList<>(10);
+    private ArrayList<ArrayList<Dice>> dices = new ArrayList<>();
 
     public RoundTrack() {
         for (int i = 1; i <= 10; i++) {
