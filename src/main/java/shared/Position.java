@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 public class Position implements Serializable {
     private static final long serialVersionUID = 1524857704L;
-    public Integer row;
-    public Integer column;
+    private Integer row;
+    private Integer column;
 
     public Position(){
     }
@@ -19,7 +19,7 @@ public class Position implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public final boolean equals(Object object) {
         if (!(object instanceof Position))
             return false;
         Position position= (Position) object;
@@ -30,11 +30,11 @@ public class Position implements Serializable {
         return true;
     }
 
-    public Integer getRow() {
+    public final Integer getRow() {
         return row;
     }
 
-    public Integer getColumn() {
+    public final Integer getColumn() {
         return column;
     }
 
@@ -46,7 +46,7 @@ public class Position implements Serializable {
         this.column = column;
     }
 
-    public String toString(){
+    public final String toString(){
         return this.getRow()+", "+this.getColumn();
     }
 }

@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 public class PositionR implements Serializable {
     private static final long serialVersionUID = 1524857752L;
-    public Integer column;
-    public Integer height;
+    private Integer column;
+    private Integer height;
 
     public PositionR(){}
     public PositionR(Integer column, Integer height){
@@ -15,8 +15,24 @@ public class PositionR implements Serializable {
         this.height = height;
     }
 
+    public final Integer getColumn() {
+        return column;
+    }
+
+    public final Integer getHeight() {
+        return height;
+    }
+
+    public void setColumn(Integer column) {
+        this.column = column;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
     @Override
-    public String toString() {
+    public final String toString() {
         return column+", "+height;
     }
 }

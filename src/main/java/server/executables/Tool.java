@@ -36,7 +36,7 @@ public class Tool {
         return true;
     }
 
-    public static Boolean use1(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use1(GameManager game, Integer i1, Player player, Position p1, Integer i2, Integer i3) {
 
         if (!ableAndSettleDiceAndCard(player, i1))
             return false;
@@ -69,7 +69,7 @@ public class Tool {
         return false;
     }
 
-    public static Boolean use2(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use2(Integer i1, Player player, Position p1, Position p2) {
 
         if (!ableAndSettleCard(player, i1))
             return false;
@@ -78,7 +78,7 @@ public class Tool {
         return player.getWindow().moveDiceNoColor(player, p1, p2);
     }
 
-    public static Boolean use3(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use3(Integer i1, Player player, Position p1, Position p2) {
 
         if (!ableAndSettleCard(player, i1))
             return false;
@@ -87,7 +87,7 @@ public class Tool {
         return player.getWindow().moveDiceNoShade(player, p1, p2);
     }
 
-    public static Boolean use4(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use4(Integer i1, Player player, Position p1, Position p2, Position p3, Position p4) {
 
         if (!ableAndSettleCard(player, i1))
             return false;
@@ -98,17 +98,17 @@ public class Tool {
         return player.getWindow().moveDice(player, p1, p2, p3, p4);
     }
 
-    public static Boolean use5(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use5(GameManager game, Integer i1, Player player, Position p1, PositionR pr, Integer i2) {
 
         if (!ableAndSettleDiceAndCard(player, i1))
             return false;
         if (i2 == null || p1 == null || pr == null)
             return false;
 
-        return player.getWindow().moveDiceWindowRoundtrack(game, player,i2, p1, pr);
+        return player.getWindow().moveDiceWindowRoundtrack(game, player, i2, p1, pr);
     }
 
-    public static Boolean use6(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use6(GameManager game, Integer i1, Player player, Position p1, Integer i2) {
 
         if (!ableAndSettleDiceAndCard(player, i1))
             return false;
@@ -126,7 +126,7 @@ public class Tool {
         return false;
     }
 
-    public static Boolean use7(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use7(GameManager game, Integer i1, Player player) {
 
         if (!ableAndSettleCard(player, i1))
             return false;
@@ -143,7 +143,7 @@ public class Tool {
         return true;
     }
 
-    public static Boolean use8(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use8(GameManager game, Integer i1, Player player, Position p1, Integer i2) {
 
         if (!ableAndSettleCard(player, i1))
             return false;
@@ -161,7 +161,7 @@ public class Tool {
         return false;
     }
 
-    public static Boolean use9(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use9(Integer i1, Player player, Position p1, Position p2, Integer i2) {
 
         if (!ableAndSettleDiceAndCard(player, i1))
             return false;
@@ -171,7 +171,7 @@ public class Tool {
         return player.getWindow().moveDiceAlone(player, p1, p2);
     }
 
-    public static Boolean use10(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use10(GameManager game, Integer i1, Player player, Position p1, Integer i2) {
 
         if (!ableAndSettleDiceAndCard(player, i1))
             return false;
@@ -198,7 +198,7 @@ public class Tool {
         return player.getWindow().setDiceFromPool(player, i2, p1);
     }
 
-    public static Boolean use11(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use11(GameManager game, Integer i1, Player player, Position p1, Integer i2, Integer i3) {
 
         if (!ableAndSettleDiceAndCard(player, i1))
             return false;
@@ -211,6 +211,9 @@ public class Tool {
 
         Dice dice;
         ArrayList<Dice> dices = game.getDices();
+        if(dices.isEmpty())
+            return false;
+
         Random rand = new Random();
         int k = rand.nextInt(dices.size() - 1);
         dice = dices.get(k);
@@ -221,7 +224,7 @@ public class Tool {
         return player.getWindow().setDiceFromPool(player, i2, p1);
     }
 
-    public static Boolean use12(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    public static Boolean use12(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr) {
 
         if (!ableAndSettleCard(player, i1))
             return false;
@@ -232,7 +235,7 @@ public class Tool {
         if (diceRoundrack == null)
             return false;
 
-        if(p3==null&&p4== null) {
+        if (p3 == null && p4 == null) {
             Dice dice1 = player.getOverlay().getDice(p1);
             if (dice1 == null)
                 return false;

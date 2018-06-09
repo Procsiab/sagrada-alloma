@@ -133,7 +133,6 @@ public class Window implements Serializable {
         if (player.getOverlay().busy(position))
             return false;
 
-
         if (!checkDice(player, dice, position))
             return false;
 

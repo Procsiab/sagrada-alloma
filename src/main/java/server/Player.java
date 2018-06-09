@@ -38,40 +38,40 @@ public class Player {
             nCard = game.getToolCards().get(i1);
             switch (nCard + 1) {
                 case 1:
-                    esito = Tool.use1(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use1(game, i1, SReferences.getPlayerRef(uUID), p2, i2, i3);
                     break;
                 case 2:
-                    esito = Tool.use2(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use2(i1, SReferences.getPlayerRef(uUID), p1, p2);
                     break;
                 case 3:
-                    esito = Tool.use3(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use3(i1, SReferences.getPlayerRef(uUID), p1, p2);
                     break;
                 case 4:
-                    esito = Tool.use4(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use4(i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4);
                     break;
                 case 5:
-                    esito = Tool.use5(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use5(game, i1, SReferences.getPlayerRef(uUID), p1, pr, i2);
                     break;
                 case 6:
-                    esito = Tool.use6(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use6(game, i1, SReferences.getPlayerRef(uUID), p1, i2);
                     break;
                 case 7:
-                    esito = Tool.use7(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use7(game, i1, SReferences.getPlayerRef(uUID));
                     break;
                 case 8:
-                    esito = Tool.use8(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use8(game, i1, SReferences.getPlayerRef(uUID), p1, i2);
                     break;
                 case 9:
-                    esito = Tool.use9(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use9(i1, SReferences.getPlayerRef(uUID), p1, p2, i2);
                     break;
                 case 10:
-                    esito = Tool.use10(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use10(game, i1, SReferences.getPlayerRef(uUID), p1, i2);
                     break;
                 case 11:
-                    esito = Tool.use11(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use11(game, i1, SReferences.getPlayerRef(uUID), p1, i2, i3);
                     break;
                 case 12:
-                    esito = Tool.use12(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr, i2, i3);
+                    esito = Tool.use12(game, i1, SReferences.getPlayerRef(uUID), p1, p2, p3, p4, pr);
                     break;
             }
             if (esito) {
@@ -89,7 +89,7 @@ public class Player {
         this.possibleWindows.addAll(possibleWindows);
     }
 
-    public String getNickName(){
+    public String getNickName() {
         return nickName;
     }
 
@@ -222,7 +222,7 @@ public class Player {
     }
 
     public synchronized void setWindow(Integer n) {
-        this.window = matchManager.getWindows().get(n);
+        this.window = MatchManager.getWindows().get(n);
         setTokens();
         Logger.log(game + " player " + uUID + " server assigned Window n° " + n + ". It has " + window.getTokens() +
                 " tokens. Will be forced start client-side");
@@ -233,7 +233,7 @@ public class Player {
     }
 
     public synchronized boolean placeDice(Integer index, Position position) {
-        System.out.println("(temporary print) Window: "+ MatchManager.getWindows().indexOf(this.window));
+        System.out.println("(temporary print) Window: " + MatchManager.getWindows().indexOf(this.window));
         Dice dice;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
