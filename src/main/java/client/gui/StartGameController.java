@@ -6,6 +6,7 @@ import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -171,46 +172,55 @@ public class StartGameController implements Initializable {
             listaToolCard.get(i).setImage(image);
         }
 
+
+
         //Loading Dice into Maps
-        System.out.println("Stampo Figli"+paneCarta0.getChildren());
-        for(int j =0; j <paneCarta0.getChildren().size();j++) {
-            System.out.println("Stampo Figlio singolo " + paneCarta0.getChildren().get(j));
+        counterPosition = gameManager.pos;
+
+        System.out.println("Valore counterPosition:" + counterPosition);
+        System.out.println("Valore gameManager:" + gameManager.pos);
+
+
+        for (int i = 0; i < playersLocal.size(); i++) {
+            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
+            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
+
+            if(counterPosition>playersLocal.size()-1)
+                counterPosition=0;
+            Dice[][] myOverlay = playersLocal.get(counterPosition).overlay.getDicePositions();
+
+            ObservableList<Node> myGrid = listaGriglie.get(i).getChildren();
+            int z = 0;
+            for (int k=0; k<4;k++) {
+                for (int y = 0; y < 5; y++) {
+
+                    System.out.println("NEL CICLO, PRIMA DELL'IF");
+
+                    if (myOverlay[k][y] != null) {
+                        System.out.println("APPENA ENTRATO NELL'IF ");
+                        char mycolor = myOverlay[k][y].getColor();
+                        System.out.println("Stampo Colore"+ mycolor);
+                        int mynumber = myOverlay[k][y].getValue();
+                        System.out.println("Stampo Numero"+ mynumber);
+
+                        myGrid.get(z).setStyle(("-fx-background-image: url('" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
+                        myGrid.get(z).setOpacity(100);
+                        System.out.println("ASSEGNAZIONE DADO FATTA ");
+
+                    }
+                    System.out.println("FUORI IF ");
+
+
+                    z++;
+                    System.out.println(z);
+
+                }
+
+            }
+            counterPosition++;
+
         }
 
-        System.out.println("Assegnamento MATRICE");
-
-        Dice[][] matrice = playersLocal.get(gameManager.pos).overlay.getDicePositions();
-        System.out.println("DOPO Assegnamento MATRICE");
-        // Questo frammento di codice crea problemi, da rivedere! Se inserisco i come variabile esterna e j come interna, crasha tutto! Perchè? (Curiosità personale)
-        // Da testare il funzionamento
-        int z = 0;
-        for (int k=0; k<4;k++) {
-             for (int y = 0; y < 5; y++) {
-
-                 System.out.println("NEL CICLO, PRIMA DELL'IF");
-
-                 if (matrice[k][y] != null) {
-                     System.out.println("APPENA ENTRATO NELL'IF ");
-                     char mycolor = matrice[k][y].getColor();
-                     System.out.println("Stampo Colore"+ mycolor);
-                     int mynumber = matrice[k][y].getValue();
-                     System.out.println("Stampo Numero"+ mynumber);
-
-                     paneCarta0.getChildren().get(z).setStyle(("-fx-background-image: url('" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
-                     paneCarta0.getChildren().get(z).setOpacity(100);
-                     System.out.println("ASSEGNAZIONE DADO FATTA ");
-
-                 }
-                 System.out.println("FUORI IF ");
-
-
-                 z++;
-                 System.out.println(z);
-
-             }
-
-         }
-        System.out.println("FUORI DAL FOR  ");
 
     }
 
