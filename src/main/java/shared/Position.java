@@ -19,7 +19,7 @@ public class Position implements Serializable {
     }
 
     @Override
-    public final boolean equals(Object object) {
+    public boolean equals(Object object) {
         if (!(object instanceof Position))
             return false;
         Position position= (Position) object;
@@ -30,11 +30,11 @@ public class Position implements Serializable {
         return true;
     }
 
-    public final Integer getRow() {
+    public Integer getRow() {
         return row;
     }
 
-    public final Integer getColumn() {
+    public Integer getColumn() {
         return column;
     }
 
@@ -46,7 +46,7 @@ public class Position implements Serializable {
         this.column = column;
     }
 
-    public final String toString(){
+    public String toString(){
         return this.getRow()+", "+this.getColumn();
     }
 }

@@ -1,6 +1,5 @@
 package shared;
 
-
 import shared.Dice;
 
 import java.io.Serializable;

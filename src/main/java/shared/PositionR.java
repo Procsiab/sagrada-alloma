@@ -15,11 +15,11 @@ public class PositionR implements Serializable {
         this.height = height;
     }
 
-    public final Integer getColumn() {
+    public Integer getColumn() {
         return column;
     }
 
-    public final Integer getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
@@ -32,7 +32,7 @@ public class PositionR implements Serializable {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return column+", "+height;
     }
 }
