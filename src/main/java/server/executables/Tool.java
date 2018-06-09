@@ -98,7 +98,8 @@ public class Tool {
 
     public static Boolean use6(GameManager game, Integer i1, Player player, Position p1, Integer i2) {
 
-        if (!ableAndSettleDiceAndCard(player, i1) || i2 == null || p1 == null)
+        if (!ableAndSettleDiceAndCard(player, i1) || i2 == null || p1 == null||
+                i2>=game.getPool().size()||i2<0)
             return false;
 
         Dice dice = game.getPool().get(i2);

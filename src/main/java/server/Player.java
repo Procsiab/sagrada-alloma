@@ -237,9 +237,7 @@ public class Player {
         Dice dice;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
-            if (index >= pool.size())
-                return false;
-            if (pool.get(index) == null)
+            if (index >= pool.size()||index<0||pool.get(index)==null)
                 return false;
             dice = pool.get(index);
             if (this.window.setDiceFromPool(this, index, position)) {
