@@ -69,9 +69,11 @@ public class ChooseWindowController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
                     try{
                     Parent root1 = loader.load();
+                    StartGameController controller = loader.getController();
                     Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
                     Stage window = (Stage) chooseWindowPane.getScene().getWindow();
                     window.setScene(startedGame);
+                    window.setOnHidden(e -> controller.shutdown());
                     window.show();}
                     catch (IOException Exception) {
                         System.out.println("View not found. Error while loading");

@@ -5,6 +5,7 @@ import client.MiddlewareClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -261,6 +262,14 @@ public class StartGameController implements Initializable {
         System.out.print("\"Dado Posizionato\"");
 
 
+    }
+    public void shutdown() {
+        // cleanup code here...
+        System.out.println("CHIUSURA FINESTRA");
+
+        // note that typically (i.e. if Platform.isImplicitExit() is true, which is the default)
+        // closing the last open window will invoke Platform.exit() anyway
+        Platform.exit();
     }
 
 
