@@ -43,7 +43,7 @@
             <Image url="@SingleBar.png" />
          </image>
       </ImageView>
-      <Text layoutX="521.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Caricamento in corso" wrappingWidth="239.958984375">
+      <Text fill="WHITE" layoutX="521.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Caricamento in corso" wrappingWidth="239.958984375">
          <font>
             <Font name="Segoe Print" size="22.0" />
          </font>

@@ -11,8 +11,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,6 +44,9 @@ public class WaitingRoomController implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+        loadBackground();
+        //CHIEDERE COME AGGIUSTARE IL PERCORSO
+        //playMusic();
         loadArray();
         rotateTransition();
         int attesa=0;
@@ -103,6 +109,17 @@ public class WaitingRoomController implements Initializable {
         SequentialTransition seqT = new SequentialTransition (bar, pt, tt);
         seqT.play();
 
+    }
+    private void loadBackground(){
+        BackgroundImage myBI = new BackgroundImage(new Image("https://wfdd-live.s3.amazonaws.com/styles/story-full/s3/images/story/Shanghai-Nightscapes-Dancing-Drinking-And-All-That-Jazz-472949512-1459855820.jpg?itok=zgXBN8Ar", 1280, 800, false, true),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        paneTest.setBackground(new Background(myBI));
+    }
+    private void playMusic(){
+        Media media = new Media("resources/jazz.mp3"); //replace /Movies/test.mp3 with your file
+        MediaPlayer player = new MediaPlayer(media);
+        player.play();
     }
 
 }
