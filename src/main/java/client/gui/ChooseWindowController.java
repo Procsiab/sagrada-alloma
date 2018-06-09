@@ -54,9 +54,13 @@ public class ChooseWindowController implements Initializable {
         selectedCard = MainClient.choosenCards.get(tempSelectedCard-1);
         middlewareClient.chooseWindowBack(selectedCard);
         System.out.println(selectedCard);
+        StartGameController controller = loader.getController();
+
         Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(startedGame);
+        window.setOnHidden(e -> controller.shutdown());
+
         window.show();
 
     }

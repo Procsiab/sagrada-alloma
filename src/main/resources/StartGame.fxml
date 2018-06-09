@@ -530,9 +530,9 @@
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <ImageView fx:id="toolCard1" fitHeight="90.0" fitWidth="65.0" layoutX="24.0" layoutY="15.0" onMouseEntered="#zoomToolCard" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="toolCard2" fitHeight="90.0" fitWidth="65.0" layoutX="108.0" layoutY="17.0" onMouseEntered="#zoomToolCard" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="toolCard3" fitHeight="90.0" fitWidth="65.0" layoutX="227.0" layoutY="19.0" onMouseEntered="#zoomToolCard" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="toolCard1" fitHeight="90.0" fitWidth="65.0" layoutX="74.0" layoutY="14.0" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="toolCard2" fitHeight="90.0" fitWidth="65.0" layoutX="181.0" layoutY="14.0" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="toolCard3" fitHeight="90.0" fitWidth="65.0" layoutX="289.0" layoutY="14.0" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">

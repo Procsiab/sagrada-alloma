@@ -5,6 +5,7 @@ import client.MiddlewareClient;
 import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -333,15 +334,45 @@ public class StartGameController implements Initializable {
         ft.play();
 
     }
+    // CHANGE TO ABSOLUTE VALUES THE TRANSITION, TO AVOID BUGS WHEN THE USER KEEPS MOVING AROUND OVER THE CARDS
     @FXML
     private void zoomToolCard(MouseEvent event){
         ScaleTransition st = new ScaleTransition(Duration.millis(2000), (Node)event.getSource());
-        st.setByX(1.5f);
-        st.setByY(1.5f);
-        st.setCycleCount(4);
+        st.setByX(2.5f);
+        st.setByY(2.5f);
+        st.setCycleCount(1);
         st.setAutoReverse(true);
+        TranslateTransition traslate = new TranslateTransition();
+        traslate.setNode((Node)event.getSource());
+        traslate.setDuration(Duration.seconds(2));
+        traslate.setByX(50);
+        traslate.setByY(50);
+        ((Node) event.getSource()).toFront();
+
+
 
         st.play();
+        traslate.play();
+
+
+    }
+    @FXML
+    private void zoomOutToolCard(MouseEvent event){
+        ScaleTransition st = new ScaleTransition(Duration.millis(2000), (Node)event.getSource());
+        st.setByX(-2.5f);
+        st.setByY(-2.5f);
+        st.setCycleCount(1);
+        st.setAutoReverse(true);
+        TranslateTransition traslate = new TranslateTransition();
+        traslate.setNode((Node)event.getSource());
+        traslate.setDuration(Duration.seconds(2));
+        traslate.setByX(-50);;
+        traslate.setByY(-50);
+
+
+
+        st.play();
+        traslate.play();
 
 
     }
