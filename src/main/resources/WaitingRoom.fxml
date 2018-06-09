@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="paneTest" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.WaitingRoomController">
    <children>
-      <Text layoutX="572.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ASPETTA PIPPO CIVATI " />
+      <ImageView fx:id="outerCircle" fitHeight="495.0" fitWidth="495.0" layoutX="393.0" layoutY="153.0">
+         <image>
+            <Image url="@OuterCircle.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="458.0" fitWidth="458.0" layoutX="411.0" layoutY="172.0">
+         <image>
+            <Image url="@InnerCircle.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bar1" fitHeight="199.0" fitWidth="19.0" layoutX="528.0" layoutY="301.0">
+         <image>
+            <Image url="@SingleBar.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bar2" fitHeight="199.0" fitWidth="19.0" layoutX="582.0" layoutY="301.0">
+         <image>
+            <Image url="@SingleBar.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bar3" fitHeight="199.0" fitWidth="19.0" layoutX="631.0" layoutY="301.0">
+         <image>
+            <Image url="@SingleBar.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bar4" fitHeight="199.0" fitWidth="19.0" layoutX="683.0" layoutY="301.0">
+         <image>
+            <Image url="@SingleBar.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="bar5" fitHeight="199.0" fitWidth="19.0" layoutX="734.0" layoutY="301.0">
+         <image>
+            <Image url="@SingleBar.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="521.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Caricamento in corso" wrappingWidth="239.958984375">
+         <font>
+            <Font name="Segoe Print" size="22.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
