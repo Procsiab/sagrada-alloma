@@ -246,11 +246,11 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public synchronized ArrayList<Dice> getDices() {
+    public ArrayList<Dice> getDices() {
         return dices;
     }
 
-    public synchronized ArrayList<Dice> getPool() {
+    public ArrayList<Dice> getPool() {
         return pool;
     }
 
@@ -395,11 +395,11 @@ public class GameManager extends GeneralTask {
         return expected;
     }
 
-    public synchronized Integer getTCtokens(Integer pos) {
+    public Integer getTCtokens(Integer pos) {
         return tCtokens.get(pos);
     }
 
-    public synchronized void addTCtokens(Integer pos) {
+    public void addTCtokens(Integer pos) {
         tCtokens.set(pos, 2);
     }
 
