@@ -34,6 +34,7 @@ public class GameManager extends GeneralTask {
     private ArrayList<Integer> tCtokens = new ArrayList<>();
     private Set<String> left = new HashSet<>();
     private Vector<String> jump = new Vector<>();
+    private Vector<Thread> threads = new Vector<>();
     private String tavolo;
     private Set<String> unrespAltoughP = new HashSet<>();
     private Set<String> active = new HashSet<>();
@@ -198,6 +199,10 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    public Vector<Thread> getThreads() {
+        return threads;
+    }
+
     private synchronized void setAction(boolean action) {
         synchronized (obj2) {
             this.action = action;
@@ -241,11 +246,11 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public ArrayList<Dice> getDices() {
+    public synchronized ArrayList<Dice> getDices() {
         return dices;
     }
 
-    public ArrayList<Dice> getPool() {
+    public synchronized ArrayList<Dice> getPool() {
         return pool;
     }
 
@@ -390,11 +395,11 @@ public class GameManager extends GeneralTask {
         return expected;
     }
 
-    public Integer getTCtokens(Integer pos) {
+    public synchronized Integer getTCtokens(Integer pos) {
         return tCtokens.get(pos);
     }
 
-    public void addTCtokens(Integer pos) {
+    public synchronized void addTCtokens(Integer pos) {
         tCtokens.set(pos, 2);
     }
 
@@ -731,9 +736,9 @@ public class GameManager extends GeneralTask {
         } else if (active.contains(remotePlayer)) {
             this.updateView();
             setExpected(remotePlayer);
-            middlewareServer.enable(remotePlayer);
-
+            localPlayer.clearUsedTcAndPlacedDice();
             localPlayer.incrementTurn();
+            middlewareServer.enable(remotePlayer);
 
             synchronized (obj2) {
                 while (!getAction()) {
@@ -748,10 +753,20 @@ public class GameManager extends GeneralTask {
                         Thread.currentThread().interrupt();
                     }
                 }
+
+              /*  for (Thread thread :
+                        threads) {
+                    try {
+                        thread.interrupt();
+                        thread.join();
+                    } catch (InterruptedException e) {
+                        Logger.log("Interrupted thread from server");
+                    }
+                }
+                threads.clear();*/
+                middlewareServer.shut(remotePlayer);
                 setExpected("none");
                 setAction(false);
-                middlewareServer.shut(remotePlayer);
-                localPlayer.clearUsedTcAndPlacedDice();
             }
         }
     }

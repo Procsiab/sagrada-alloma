@@ -72,6 +72,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 Logger.log("Denied access for UUID " + uuid);
                 return true;
             }
+            //game.getThreads().add(Thread.currentThread());
             return false;
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
