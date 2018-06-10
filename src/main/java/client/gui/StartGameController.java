@@ -9,10 +9,12 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -56,6 +58,10 @@ public class StartGameController implements Initializable {
     private Text numTokens;
     @FXML
     private ImageView toolCard1,toolCard2,toolCard3;
+    @FXML
+    private AnchorPane roundTrack;
+    @FXML
+    private ComboBox comboBox1;
 
     // Utility Variables
     int posizionePoolDice;
@@ -84,7 +90,16 @@ public class StartGameController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
-        backGroundTransition();
+       // backGroundTransition();
+        comboBox1.getItems().removeAll(comboBox1.getItems());
+        Button button3 = new Button();
+        Button button2 = new Button();
+        Button button1 = new Button();
+        button1.setPrefSize(50,50);
+        button1.setStyle("-fx-background-image: url('2b.png');-fx-background-size: 100% 100%;");
+
+        comboBox1.getItems().addAll(button1, button2,  button3);
+        comboBox1.getSelectionModel().select("Option B");
         loadArray();
         loadDadi();
         loadToolCard();
@@ -366,13 +381,28 @@ public class StartGameController implements Initializable {
         TranslateTransition traslate = new TranslateTransition();
         traslate.setNode((Node)event.getSource());
         traslate.setDuration(Duration.seconds(2));
-        traslate.setByX(-50);;
+        traslate.setByX(-50);
         traslate.setByY(-50);
 
 
 
         st.play();
         traslate.play();
+
+
+    }
+    @FXML
+    private void showRoundTrack(ActionEvent event){
+        if(roundTrack.isVisible()==true){
+            roundTrack.setVisible(false);
+        }
+        else
+            roundTrack.setVisible(true);
+
+    }
+    @FXML
+    private void selectedRoundDice(ActionEvent event){
+        System.out.print("\"Dado Selezionato\"");
 
 
     }
