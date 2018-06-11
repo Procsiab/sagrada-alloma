@@ -45,8 +45,8 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public String startGame(String uuid, String ip, Integer port, Boolean isSocket) {
-        return MatchManager.getInstance().startGameOld(uuid, ip, port, isSocket);
+    public String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket) {
+        return MatchManager.startGame(uuid, nick, ip, port, isSocket);
     }
 
     @Override
@@ -76,9 +76,7 @@ public class DummyMiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public Boolean ping(String uuid) {
-        if (left.contains(uuid)||unreponsive.contains(uuid))
-            return false;
-        return true;
+        return !left.contains(uuid) && !unreponsive.contains(uuid);
     }
 
     @Override

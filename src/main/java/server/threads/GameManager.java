@@ -56,8 +56,9 @@ public class GameManager extends GeneralTask {
         this.timeout3 = Config.timeout3;
         this.timeout4 = Config.timeout4;
 
+        System.out.println("\n");
 
-        Logger.log("\n\n" + this + ". Game started with " + players.size() +
+        Logger.log(this + ". Game started with " + players.size() +
                 " players. They are: ");
         for (String player :
                 players) {
@@ -542,7 +543,7 @@ public class GameManager extends GeneralTask {
         setAction(true);
     }
 
-    public void exitGame2(String loser) {
+    public synchronized void exitGame2(String loser) {
         synchronized (obj) {
             this.left.add(loser);
         }
@@ -655,7 +656,7 @@ public class GameManager extends GeneralTask {
         pause(timeout3);
     }
 
-    private void resetPlayers() {
+    private synchronized void resetPlayers() {
         players2.clear();
         unrespAltoughP.clear();
         active.clear();

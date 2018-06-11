@@ -46,7 +46,7 @@ public class MainServer {
     }
 
     public static void simulation() {
-        if(!Config.read()){
+        if (!Config.read()) {
             Logger.log("Can't read config. Server close now.");
             return;
         }
@@ -70,15 +70,22 @@ public class MainServer {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        if(!Config.read()){
+        if (!Config.read()) {
             Logger.log("Can't read config. Server close now.");
             return;
         }
 
         ConcurrencyManager.submit(new GameGenerator1());
         ConcurrencyManager.submit(new GameGenerator2());
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+        }
 
         Logger.log("Send 'exit' command to teardown...\n\n");
         Scanner scan = new Scanner(System.in);

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public interface SharedMiddlewareServer extends Remote {
     Boolean deniedAccess(String uuid) throws RemoteException;
-    String startGame(String uuid, String ip, Integer port, Boolean isSocket) throws RemoteException;
+    String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket) throws RemoteException;
     void updateView(String uuid, GameManagerT gameManager) throws RemoteException;
     Boolean chooseWindow(String uuid, ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) throws RemoteException;
     Boolean ping(String uuid) throws RemoteException;

@@ -226,12 +226,12 @@ public class MatchManager {
         windows.add(new Window(cells, "Window9", 3));
 
         cells = new Cell[4][5];
-        cells[0][0] = new Cell(5);
+        cells[0][0] = new Cell(6);
         cells[0][1] = new Cell('v');
         cells[0][2] = new Cell();
         cells[0][3] = new Cell();
         cells[0][4] = new Cell(5);
-        cells[1][0] = new Cell('5');
+        cells[1][0] = new Cell(5);
         cells[1][1] = new Cell();
         cells[1][2] = new Cell('v');
         cells[1][3] = new Cell();
@@ -262,12 +262,12 @@ public class MatchManager {
         cells[2][0] = new Cell('y');
         cells[2][1] = new Cell();
         cells[2][2] = new Cell(6);
-        cells[2][3] = new Cell('g');
+        cells[2][3] = new Cell();
         cells[2][4] = new Cell('v');
         cells[3][0] = new Cell(1);
         cells[3][1] = new Cell();
         cells[3][2] = new Cell();
-        cells[3][3] = new Cell();
+        cells[3][3] = new Cell('g');
         cells[3][4] = new Cell(4);
         windows.add(new Window(cells, "Window11", 5));
 
@@ -584,7 +584,7 @@ public class MatchManager {
             return "You already playing! Hold on while the server calls you again";
         }
 
-        if(nickName.equals("")||nickName==null)
+        if(nickName == null||nickName.equals(""))
             return "Please enter a valid NickName";
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
@@ -593,7 +593,7 @@ public class MatchManager {
         }
 
         synchronized (obj2) {
-            if (!SReferences.checkNickNameRef(uUID,q))
+            if (!SReferences.checkNickNameRef(nickName,q))
                 return "NickName is not available.";
         }
 
@@ -613,45 +613,13 @@ public class MatchManager {
         return "Connections successful. Please wait for other players to connect";
     }
 
-    @Deprecated
-    public static synchronized String startGameOld(String uUID, String ip, Integer port, boolean isSocket) {
-
-        if (SReferences.contains(uUID)) {
-            Logger.log("Player: " + uUID + " has connection refused: already playing.");
-            if (SReferences.getIsSocketRef(uUID) != isSocket)
-                SReferences.addIsSocketRef(uUID, isSocket);
-            return "You already playing! Hold on while the server calls you again";
-        }
-
-        if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
-            Logger.log("Player: " + uUID + " has connection refused: too many players.");
-            return "Too many players connected. Please try again later. Sorry for that.";
-        }
-
-        Logger.log("Player: " + uUID + " has connection accepted.");
-
-        SReferences.addUuidRefEnhanced(uUID);
-        SReferences.addIpRef(uUID, ip);
-        SReferences.addPortRef(uUID, port);
-        SReferences.addIsSocketRef(uUID, isSocket);
-
-        synchronized (obj2) {
-            q.addLast(uUID);
-            obj2.notifyAll();
-        }
-
-        return "Connections successful. Please wait for other players to connect";
-    }
-
     public static synchronized boolean exitGame1(String uUID) {
-        boolean exit;
         synchronized (obj2) {
-            exit = q.remove(uUID);
-        }
-        if (exit) {
-            Logger.log("Player: " + uUID + " leaved platform before game started. Bye.");
-            SReferences.removeRef(uUID);
-            return true;
+            if (q.remove(uUID)) {
+                Logger.log("Player: " + uUID + " leaved platform before game started. Bye.");
+                SReferences.removeRef(uUID);
+                return true;
+            }
         }
         return false;
     }

@@ -33,6 +33,7 @@ public class MainClient extends Application {
     private static Console cnsl;
     private static String connection;
     private static String interfaccia;
+    private static String nickname;
 
     public static LogInScreenController logInScreenController;
     public static ChooseWindowController chooseWindowController;
@@ -67,7 +68,6 @@ public class MainClient extends Application {
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
 
         uuid = String.valueOf(LocalTime.now().getSecond());
-
         //uuid = getUuid();
         Logger.log("UUID: " + uuid);
 
