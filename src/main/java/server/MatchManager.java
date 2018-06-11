@@ -585,7 +585,7 @@ public class MatchManager {
         }
 
         if(nickName.equals("")||nickName==null)
-            return "Please enter a valid NickName"
+            return "Please enter a valid NickName";
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
             Logger.log("Player: " + uUID + " has connection refused: too many players.");
