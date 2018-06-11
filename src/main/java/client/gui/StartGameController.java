@@ -7,6 +7,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -91,15 +92,12 @@ public class StartGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
        // backGroundTransition();
-        comboBox1.getItems().removeAll(comboBox1.getItems());
-        Button button3 = new Button();
-        Button button2 = new Button();
-        Button button1 = new Button();
-        button1.setPrefSize(50,50);
-        button1.setStyle("-fx-background-image: url('2b.png');-fx-background-size: 100% 100%;");
-
-        comboBox1.getItems().addAll(button1, button2,  button3);
-        comboBox1.getSelectionModel().select("Option B");
+        String notOnLine = "1b.png";
+        String onLine = "2r.png";
+        ObservableList<String> options = FXCollections.observableArrayList();
+        options.addAll(notOnLine, onLine);
+        comboBox1.setItems(options);
+        comboBox1.setCellFactory(c -> new StatusListCell());
         loadArray();
         loadDadi();
         loadToolCard();
@@ -402,7 +400,7 @@ public class StartGameController implements Initializable {
     }
     @FXML
     private void selectedRoundDice(ActionEvent event){
-        System.out.print("\"Dado Selezionato\"");
+        System.out.print("\"Dado Selezionato dal round dice!\"");
 
 
     }
