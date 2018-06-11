@@ -62,7 +62,7 @@ public class StartGameController implements Initializable {
     @FXML
     private AnchorPane roundTrack;
     @FXML
-    private ComboBox comboBox1;
+    private ComboBox comboBox1,comboBox2,comboBox3,comboBox4,comboBox5,comboBox6,comboBox7,comboBox8,comboBox9,comboBox10;
 
     // Utility Variables
     int posizionePoolDice;
@@ -71,6 +71,7 @@ public class StartGameController implements Initializable {
     private ArrayList<GridPane> listaGriglie = new ArrayList<>();
     private ArrayList<Button> listaDadi = new ArrayList<>();
     private ArrayList<ImageView> listaToolCard = new ArrayList<>();
+    private ArrayList<ComboBox> listaComboBox = new ArrayList<>();
 
 
 
@@ -92,15 +93,10 @@ public class StartGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
        // backGroundTransition();
-        String notOnLine = "1b.png";
-        String onLine = "2r.png";
-        ObservableList<String> options = FXCollections.observableArrayList();
-        options.addAll(notOnLine, onLine);
-        comboBox1.setItems(options);
-        comboBox1.setCellFactory(c -> new StatusListCell());
         loadArray();
         loadDadi();
         loadToolCard();
+        loadComboBox();
         shut();
         paneCarta0.setGridLinesVisible(true);
         // OTTIMIZZARE INSERENDO QUESTO DUPLICATO IN UNA FUNZIONE
@@ -110,6 +106,7 @@ public class StartGameController implements Initializable {
         System.out.print("INIZIALIZZAZIONE COMPLETATA");
 
     }
+
 
 
     public void updateView(GameManagerT gameManager) {
@@ -234,6 +231,47 @@ public class StartGameController implements Initializable {
             counterPosition++;
 
         }
+        //LOADING DICES INTO ROUNDTRACK
+        ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
+        System.out.println(roundTrackData);
+        for(int h=0; h<roundTrackData.size();h++){
+            System.out.println(" h Value:" + h);
+
+            ArrayList<Dice> testing = roundTrackData.get(h);
+             System.out.println(" Testing:" + testing);
+             System.out.println(" Testing size:" + testing.size());
+
+
+            for(int u=0; u<testing.size();u++){
+                 System.out.println(" Dentro ciclo assegnamento dadi round ");
+
+                 char color = testing.get(u).getColor();
+                 int value = testing.get(u).getValue();
+                 String notOnLine = "1b.png";
+                 String onLine = "2r.png";
+                 ObservableList<String> options = FXCollections.observableArrayList();
+                 options.addAll(notOnLine, onLine);
+                 comboBox1.setItems(options);
+                 comboBox1.setCellFactory(c -> new StatusListCell());
+                 System.out.println("COLORE DADO i-esimo NEL PRIMO TURNO "+ color);
+                 System.out.println("COLORE DADO i-esimo NEL PRIMO TURNO"+ value);
+
+
+
+
+
+
+
+
+
+        }
+}
+        System.out.println(" Dopo Ciclo roundTrack");
+
+
+
+        
+        
 
 
     }
@@ -328,6 +366,20 @@ public class StartGameController implements Initializable {
         listaToolCard.add(toolCard3);
 
     }
+    private void loadComboBox() {
+        listaComboBox.add(comboBox1);
+        listaComboBox.add(comboBox2);
+        listaComboBox.add(comboBox3);
+        listaComboBox.add(comboBox4);
+        listaComboBox.add(comboBox5);
+        listaComboBox.add(comboBox6);
+        listaComboBox.add(comboBox7);
+        listaComboBox.add(comboBox8);
+        listaComboBox.add(comboBox9);
+        listaComboBox.add(comboBox10);
+
+    }
+
 
     private void loadBackground() {
         BackgroundImage myBI = new BackgroundImage(new Image("https://www.freevector.com/uploads/vector/preview/27785/Sagrada_Familia_Building.jpg", 1280, 800, false, true),

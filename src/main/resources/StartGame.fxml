@@ -552,15 +552,15 @@
       <AnchorPane fx:id="roundTrack" maxHeight="200.0" minHeight="200.0" minWidth="1280.0" prefHeight="202.0" prefWidth="1280.0" translateY="-300.0">
          <children>
             <ComboBox fx:id="comboBox1" layoutX="196.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="294.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="389.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="479.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="573.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="673.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="771.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="862.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="955.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
-            <ComboBox layoutX="1051.0" layoutY="59.0" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox2" layoutX="294.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox3" layoutX="389.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox4" layoutX="479.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox5" layoutX="573.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox6" layoutX="673.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox7" layoutX="771.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox8" layoutX="862.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox9" layoutX="955.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
+            <ComboBox fx:id="comboBox10" layoutX="1051.0" layoutY="59.0" onAction="#selectedRoundDice" prefHeight="25.0" prefWidth="14.0" />
          </children>
       </AnchorPane>
    </children>
