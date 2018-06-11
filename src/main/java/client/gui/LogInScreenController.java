@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -27,10 +28,11 @@ public class LogInScreenController implements Initializable {
     // Logic Variables
     private static StartGameController gameClient;
     private GameHelper game;
-
+    private String nickname;
     // GUI Variables
     @FXML private ImageView sagradaImage;
-    @FXML private Button startButton;
+    @FXML private Button startButton, okButton;
+    @FXML private TextField nicknameField;
 
     public static StartGameController getGameClient() {
         return gameClient;
@@ -53,7 +55,7 @@ public class LogInScreenController implements Initializable {
         game = MainClient.game;
 
 
-        String message1 = MiddlewareClient.getInstance().startGame("nickHere");
+        String message1 = MiddlewareClient.getInstance().startGame(nickname);
         Logger.log("Server responded as: " + message1);
 
         if (message1.equals("Connections successful. Please wait for other players to connect")) {
@@ -112,6 +114,11 @@ public class LogInScreenController implements Initializable {
         //Playing the animation
         scaleTransition.play();
 
+
+    }
+    @FXML
+    private void saveNickname(ActionEvent event){
+       nickname = nicknameField.getText();
 
     }
 
