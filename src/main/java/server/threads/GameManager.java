@@ -211,7 +211,7 @@ public class GameManager extends GeneralTask {
         return action;
     }
 
-    public AtomicInteger getThreads(){
+    public AtomicInteger getThreads() {
         return threads;
     }
 

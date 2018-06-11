@@ -584,6 +584,9 @@ public class MatchManager {
             return "You already playing! Hold on while the server calls you again";
         }
 
+        if(nickName.equals("")||nickName==null)
+            return "Please enter a valid NickName"
+
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
             Logger.log("Player: " + uUID + " has connection refused: too many players.");
             return "Too many players connected. Please try again later. Sorry for that.";
