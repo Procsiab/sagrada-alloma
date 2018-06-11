@@ -10,6 +10,7 @@ import shared.TransferObjects.*;
 import server.concurrency.GeneralTask;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameManager extends GeneralTask {
 
@@ -34,7 +35,7 @@ public class GameManager extends GeneralTask {
     private ArrayList<Integer> tCtokens = new ArrayList<>();
     private Set<String> left = new HashSet<>();
     private Vector<String> jump = new Vector<>();
-    private Vector<Thread> threads = new Vector<>();
+    private AtomicInteger threads = new AtomicInteger(0);
     private String tavolo;
     private Set<String> unrespAltoughP = new HashSet<>();
     private Set<String> active = new HashSet<>();
@@ -199,10 +200,6 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public Vector<Thread> getThreads() {
-        return threads;
-    }
-
     private synchronized void setAction(boolean action) {
         synchronized (obj2) {
             this.action = action;
@@ -212,6 +209,10 @@ public class GameManager extends GeneralTask {
 
     private synchronized Boolean getAction() {
         return action;
+    }
+
+    public AtomicInteger getThreads(){
+        return threads;
     }
 
     @Override
@@ -753,19 +754,10 @@ public class GameManager extends GeneralTask {
                         Thread.currentThread().interrupt();
                     }
                 }
-
-              /*  for (Thread thread :
-                        threads) {
-                    try {
-                        thread.interrupt();
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        Logger.log("Interrupted thread from server");
-                    }
-                }
-                threads.clear();*/
-                middlewareServer.shut(remotePlayer);
                 setExpected("none");
+                middlewareServer.shut(remotePlayer);
+                while (threads.get() != 0) {
+                }
                 setAction(false);
             }
         }

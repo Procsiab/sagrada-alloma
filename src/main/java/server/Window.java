@@ -118,13 +118,17 @@ public class Window implements Serializable {
         if (index == null || position == null ||
                 position.getRow() < 0 || position.getRow() > 3
                 || position.getColumn() < 0 || position.getColumn() > 4 ||
-                index >= pool.size() || index < 0)
+                index >= pool.size() || index < 0) {
+            System.out.println("(temporary print) error code 1 ");
             return false;
+        }
 
         Dice dice = pool.get(index);
         if (dice == null || player.getOverlay().busy(position)
-                || !checkDice(player, dice, position))
+                || !checkDice(player, dice, position)) {
+            System.out.println("(temporary print) error code 2 ");
             return false;
+        }
 
         player.getOverlay().setDicePosition(dice, position);
         pool.set(index, null);

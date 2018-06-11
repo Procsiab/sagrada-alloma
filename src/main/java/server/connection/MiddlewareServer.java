@@ -72,7 +72,6 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 Logger.log("Denied access for UUID " + uuid);
                 return true;
             }
-            //game.getThreads().add(Thread.currentThread());
             return false;
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
@@ -165,7 +164,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return false;
-            return SReferences.getPlayerRef(uuid).placeDice(index, p);
+            Boolean value;
+            GameManager game = SReferences.getGameRef(uuid);
+            game.getThreads().incrementAndGet();
+            value = SReferences.getPlayerRef(uuid).placeDice(index, p);
+            game.getThreads().decrementAndGet();
+            return value;
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
@@ -178,7 +182,12 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return false;
-            return SReferences.getPlayerRef(uuid).useTool(uuid, i1, p1, p2, p3, p4, pr, i2, i3);
+            Boolean value;
+            GameManager game = SReferences.getGameRef(uuid);
+            game.getThreads().incrementAndGet();
+            value = SReferences.getPlayerRef(uuid).useTool(uuid, i1, p1, p2, p3, p4, pr, i2, i3);
+            game.getThreads().decrementAndGet();
+            return value;
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
             Logger.strace(npe);
