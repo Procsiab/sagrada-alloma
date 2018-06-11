@@ -231,12 +231,49 @@ public class StartGameController implements Initializable {
             counterPosition++;
 
         }
+
         //LOADING DICES INTO ROUNDTRACK
+        ObservableList<String> options = FXCollections.observableArrayList();
+        ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
+        System.out.println(roundTrackData);
+        for(int h=0; h<roundTrackData.size();h++){
+            listaComboBox.get(h).getItems().clear();
+
+            System.out.println(" h Value:" + h);
+            ArrayList<Dice> testing = roundTrackData.get(h);
+            System.out.println(" Testing:" + testing);
+            System.out.println(" Testing size:" + testing.size());
+
+
+            for(int u=0; u<testing.size();u++){
+                System.out.println(" Dentro ciclo assegnamento dadi round ");
+
+                String color = Character.toString(testing.get(u).getColor());
+                String value = testing.get(u).getValue().toString();
+                String diceRound = value+color+".png";
+
+                listaComboBox.get(h).getItems().add(diceRound);
+
+
+
+
+
+
+
+
+
+
+            }
+        }
+
+
+
+        /*
+        ObservableList<String> options = FXCollections.observableArrayList();
         ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
         System.out.println(roundTrackData);
         for(int h=0; h<roundTrackData.size();h++){
             System.out.println(" h Value:" + h);
-
             ArrayList<Dice> testing = roundTrackData.get(h);
              System.out.println(" Testing:" + testing);
              System.out.println(" Testing size:" + testing.size());
@@ -245,14 +282,13 @@ public class StartGameController implements Initializable {
             for(int u=0; u<testing.size();u++){
                  System.out.println(" Dentro ciclo assegnamento dadi round ");
 
-                 char color = testing.get(u).getColor();
-                 int value = testing.get(u).getValue();
-                 String notOnLine = "1b.png";
-                 String onLine = "2r.png";
-                 ObservableList<String> options = FXCollections.observableArrayList();
-                 options.addAll(notOnLine, onLine);
-                 comboBox1.setItems(options);
-                 comboBox1.setCellFactory(c -> new StatusListCell());
+                 String color = Character.toString(testing.get(u).getColor());
+                 String value = testing.get(u).getValue().toString();
+                 String diceRound = value+color+".png";
+
+                 options.add(diceRound);
+                 listaComboBox.get(h).setItems(options);
+                 listaComboBox.get(h).setCellFactory(c -> new StatusListCell());
                  System.out.println("COLORE DADO i-esimo NEL PRIMO TURNO "+ color);
                  System.out.println("COLORE DADO i-esimo NEL PRIMO TURNO"+ value);
 
@@ -265,8 +301,7 @@ public class StartGameController implements Initializable {
 
 
         }
-}
-        System.out.println(" Dopo Ciclo roundTrack");
+}*/
 
 
 
