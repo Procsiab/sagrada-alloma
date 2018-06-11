@@ -80,8 +80,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     @Override
-    public String startGame(String uuid, String ip, Integer port, Boolean isSocket) {
-        return MatchManager.getInstance().startGameOld(uuid, ip, port, isSocket);
+    public String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket) {
+        return MatchManager.startGame(uuid, nick, ip, port, isSocket);
     }
 
     @Override

@@ -28,7 +28,6 @@ public class SocketServer implements Closeable, Runnable {
         try {
             // Setup the socket which will receive data from the client
             this.socketConsumer = new ServerSocket(port);
-            Logger.log("Opened socket on port " + socketConsumer.getLocalPort());
         }  catch (IOException ioe) {
             Logger.log("Error while opening socket on port " + port.toString() + "!");
             Logger.strace(ioe);
@@ -39,7 +38,6 @@ public class SocketServer implements Closeable, Runnable {
         Socket clientCon = null;
         try {
             clientCon = socketConsumer.accept();
-            Logger.log("Connection accepted from " + clientCon.getRemoteSocketAddress().toString());
         } catch (IOException ioe) {
             Logger.log("Error while accepting data on socket!");
             Logger.strace(ioe);
@@ -50,7 +48,6 @@ public class SocketServer implements Closeable, Runnable {
     @Override
     public void run() {
         do {
-            Logger.log("Waiting for clients...");
             final Socket client = acceptConnection();
             pool.submit(new SocketHandler(client, exportedObjects));
         } while (runForever);

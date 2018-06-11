@@ -35,7 +35,7 @@ class MainServerTest {
     }
 
     public void startGame(String player) {
-        middlewareServer.startGame(player, "192.168.223.1", -1, false);
+        middlewareServer.startGame(player, "player", "192.168.223.1", -1, false);
     }
 
     public void updateGameManagers() {
