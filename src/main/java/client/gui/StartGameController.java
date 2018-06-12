@@ -86,17 +86,9 @@ public class StartGameController implements Initializable {
 
 
 
+
     public StartGameController() {
         MainClient.startGameController = this;
-    }
-
-
-    public void setWinner(){
-        //start animation for the winner
-    }
-
-    public void setNetGameManager(GameManager netGameManager) {
-        this.netGameManager = netGameManager;
     }
 
 
@@ -324,28 +316,7 @@ public class StartGameController implements Initializable {
 
     }
 
-    @FXML
-    private void fineTurno(ActionEvent event) throws IOException{
-        System.out.print("\"Turno Finito\"");
 
-    }
-
-    @FXML
-    private void onClickMap(ActionEvent e){
-        System.out.println("MouseEntered");
-        Node source = (Node)e.getSource() ;
-        System.out.println(source);
-
-        colIndex = paneCarta0.getColumnIndex(source);
-        rowIndex = paneCarta0.getRowIndex(source);
-        aggiungiPosizione(rowIndex,colIndex);
-        System.out.println(colIndex);
-        System.out.println(rowIndex);
-
-
-        //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
-
-    }
 
     private void aggiungiPosizione(int row,int column){
         if(counterPosizione<4) {
@@ -359,33 +330,6 @@ public class StartGameController implements Initializable {
 
     }
 
-
-    @FXML
-    private void setSelectedDice(ActionEvent event){
-        Node selectedDice = (Node)event.getSource();
-        String nomeDado = selectedDice.getId();
-        System.out.println(nomeDado);
-
-        posizionePoolDice = listaDadi.indexOf(selectedDice);
-        System.out.println(posizionePoolDice);
-
-
-
-    }
-
-    @FXML
-    private void placeDice(ActionEvent event){
-        System.out.print("\"Entrata Dado \"");
-
-        Position diceGridPosition =  new Position();
-        diceGridPosition.setRow(rowIndex);
-        diceGridPosition.setColumn(colIndex);
-
-        middlewareClient.placeDice( posizionePoolDice , diceGridPosition );
-        System.out.print("\"Dado Posizionato\"");
-
-
-    }
     public void shutdown() {
         // cleanup code here...
         System.out.println("CHIUSURA FINESTRA");
@@ -460,6 +404,59 @@ public class StartGameController implements Initializable {
         ft.play();
 
     }
+
+
+
+
+    private void clearPosizioni(){
+        for(int i=0;i<posizioni.length;i++){
+            posizioni[i]=null;
+        }
+    }
+
+
+
+    //FXML METHODS
+    @FXML
+    private void fineTurno(ActionEvent event) throws IOException{
+        System.out.print("\"Turno Finito\"");
+
+    }
+    @FXML
+    private void onClickMap(ActionEvent e){
+        System.out.println("MouseEntered");
+        Node source = (Node)e.getSource() ;
+        System.out.println(source);
+
+        colIndex = paneCarta0.getColumnIndex(source);
+        rowIndex = paneCarta0.getRowIndex(source);
+        aggiungiPosizione(rowIndex,colIndex);
+        System.out.println(colIndex);
+        System.out.println(rowIndex);
+    }
+    @FXML
+    private void setSelectedDice(ActionEvent event){
+        Node selectedDice = (Node)event.getSource();
+        String nomeDado = selectedDice.getId();
+        System.out.println(nomeDado);
+
+        posizionePoolDice = listaDadi.indexOf(selectedDice);
+        System.out.println(posizionePoolDice);
+    }
+    @FXML
+    private void placeDice(ActionEvent event){
+        System.out.print("\"Entrata Dado \"");
+
+        Position diceGridPosition =  new Position();
+        diceGridPosition.setRow(rowIndex);
+        diceGridPosition.setColumn(colIndex);
+
+        middlewareClient.placeDice( posizionePoolDice , diceGridPosition );
+        clearPosizioni();
+        System.out.print("\"Dado Posizionato\"");
+
+
+    }
     // CHANGE TO ABSOLUTE VALUES THE TRANSITION, TO AVOID BUGS WHEN THE USER KEEPS MOVING AROUND OVER THE CARDS
     @FXML
     private void zoomToolCard(MouseEvent event){
@@ -474,14 +471,9 @@ public class StartGameController implements Initializable {
         traslate.setByX(50);
         traslate.setByY(50);
         ((Node) event.getSource()).toFront();
-
-
-
         st.play();
         traslate.play();
-
-
-    }
+        }
     @FXML
     private void zoomOutToolCard(MouseEvent event){
         ScaleTransition st = new ScaleTransition(Duration.millis(2000), (Node)event.getSource());
@@ -494,14 +486,9 @@ public class StartGameController implements Initializable {
         traslate.setDuration(Duration.seconds(2));
         traslate.setByX(-50);
         traslate.setByY(-50);
-
-
-
         st.play();
         traslate.play();
-
-
-    }
+        }
     @FXML
     private void showRoundTrack(ActionEvent event){
         if(roundTrack.isVisible()==true){
@@ -529,11 +516,7 @@ public class StartGameController implements Initializable {
     private void selectToolCard(MouseEvent event){
         indexofToolCard = listaToolCard.indexOf(event.getSource());
         System.out.print("Posizione toolCard"+ indexofToolCard);
-
-
-
-    }
-
+        }
     @FXML
     private void useToolCard(ActionEvent event){
         System.out.print("\"Using toolCard!\"");
@@ -542,6 +525,26 @@ public class StartGameController implements Initializable {
         //pr è la posizione nel roundtrack, già inserita
         //i2 è la posizione del dado nel pool
         //i3 è il cambio valore o incremento
+        System.out.print("Valore di indexToolCard:" + indexofToolCard + "\n");
+        for(int i=0;i<posizioni.length;i++){
+            if(posizioni[i]!=null){
+                System.out.print("Valore di posizioni["+i+"]:" + posizioni[i].getRow() + posizioni[i].getColumn() + "\n");
+            }
+            else
+                System.out.print("Valore di posizioni["+i+"]:NULL\n");
+
+
+        }
+
+        System.out.print("Valore di posizioneDadoRoundTrack:" + posizioneDadoRoundTrack + "\n");
+        System.out.print("Valore di posizionePoolDice:" + posizionePoolDice + "\n");
+        System.out.print("Valore di incrementvalue:" + incrementValue + "\n");
+
+
+
+
+
+
 
         middlewareClient.useToolC(indexofToolCard,posizioni[0],posizioni[1],posizioni[2],posizioni[3],posizioneDadoRoundTrack,posizionePoolDice,incrementValue);
 
@@ -551,22 +554,23 @@ public class StartGameController implements Initializable {
     @FXML
     private void sendDataValue(ActionEvent event){
 
-            incrementValue = Integer.parseInt(changeValueField.getText());
-            System.out.print("Valore di incremento:" + incrementValue);
+        incrementValue = Integer.parseInt(changeValueField.getText());
+        System.out.print("Valore di incremento:" + incrementValue);
 
     }
-    private void clearPosizioni(){
-        for(int i=0;i<posizioni.length;i++){
-            posizioni[i]=null;
-        }
-    }
 
-
-
-    // END SUPPORT METHODS
-
+    //END OF FXML METHODS
 
     //TODO Implement the following methods
+    // METHODS CALLED FROM MIDDLEWARE
+
+    public void setNetGameManager(GameManager netGameManager) {
+        this.netGameManager = netGameManager;
+    }
+
+    public void setWinner(){
+        //start animation for the winner
+    }
 
     public void enable() {
         for (int i = 0; i < listaDadi.size(); i++){
