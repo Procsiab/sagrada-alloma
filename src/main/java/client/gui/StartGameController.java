@@ -80,7 +80,9 @@ public class StartGameController implements Initializable {
     private ArrayList<ImageView> listaToolCard = new ArrayList<>();
     private ArrayList<ComboBox> listaComboBox = new ArrayList<>();
     private PositionR posizioneDadoRoundTrack = new PositionR();
-    private ArrayList<Position> posizioni = new ArrayList<>();
+    private Position posizioni[];
+    private int counterPosizione=0;
+
 
 
 
@@ -102,7 +104,7 @@ public class StartGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
        // backGroundTransition();
-
+        posizioni = new Position[4];
         loadArray();
         loadDadi();
         loadToolCard();
@@ -123,7 +125,8 @@ public class StartGameController implements Initializable {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
 
         // Useful variables
-        posizioni.clear();
+        clearPosizioni();
+        counterPosizione=0;
         String nomeCarta,numeroTokens;
         int numDadi;
         ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
@@ -335,18 +338,24 @@ public class StartGameController implements Initializable {
 
         colIndex = paneCarta0.getColumnIndex(source);
         rowIndex = paneCarta0.getRowIndex(source);
-        if(posizioni.size()<4){
-            posizioni.add(new Position(rowIndex,colIndex));
-        }
-        else{
-            System.out.println("Superato limite posizioni!");
-
-        }
+        aggiungiPosizione(rowIndex,colIndex);
         System.out.println(colIndex);
         System.out.println(rowIndex);
 
 
         //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+
+    }
+
+    private void aggiungiPosizione(int row,int column){
+        if(counterPosizione<4) {
+            posizioni[counterPosizione] = new Position(row, column);
+            counterPosizione++;
+        }
+        else {
+            System.out.println("Superato limite posizioni!");
+
+        }
 
     }
 
@@ -534,12 +543,7 @@ public class StartGameController implements Initializable {
         //i2 è la posizione del dado nel pool
         //i3 è il cambio valore o incremento
 
-        Position p1 = posizioni.get(0);
-        Position p2 = posizioni.get(1);
-        Position p3 = posizioni.get(2);
-        Position p4 = posizioni.get(3);
-
-        middlewareClient.useToolC(indexofToolCard,posizioni.get(0),posizioni.get(1),posizioni.get(2),posizioni.get(3),posizioneDadoRoundTrack,posizionePoolDice,incrementValue);
+        middlewareClient.useToolC(indexofToolCard,posizioni[0],posizioni[1],posizioni[2],posizioni[3],posizioneDadoRoundTrack,posizionePoolDice,incrementValue);
 
 
 
@@ -550,6 +554,11 @@ public class StartGameController implements Initializable {
             incrementValue = Integer.parseInt(changeValueField.getText());
             System.out.print("Valore di incremento:" + incrementValue);
 
+    }
+    private void clearPosizioni(){
+        for(int i=0;i<posizioni.length;i++){
+            posizioni[i]=null;
+        }
     }
 
 
