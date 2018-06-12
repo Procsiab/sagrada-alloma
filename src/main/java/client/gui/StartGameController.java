@@ -488,6 +488,12 @@ public class StartGameController implements Initializable {
     @FXML
     private void selectedRoundDice(ActionEvent event){
         System.out.print("\"Dado Selezionato dal round dice!\"");
+        int comboboxselected = listaComboBox.indexOf(event.getSource());
+        System.out.print("Combobox selezionato:"+ comboboxselected);
+        int indextest = listaComboBox.get(comboboxselected).getSelectionModel().getSelectedIndex();
+        System.out.print("Item all'interno del combobox:"+ indextest);
+
+
 
 
     }
