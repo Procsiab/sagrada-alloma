@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 public class Cell implements Serializable {
 
+    @Deprecated
     public Integer value;
+    @Deprecated
     public Character color;
 
     public Cell(Integer shade, Character color) {
@@ -28,4 +30,11 @@ public class Cell implements Serializable {
         return color;
     }
 
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public void setColor(Character color) {
+        this.color = color;
+    }
 }

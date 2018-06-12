@@ -23,9 +23,9 @@ public class Position implements Serializable {
         if (!(object instanceof Position))
             return false;
         Position position= (Position) object;
-        if (position.row != this.row)
+        if (!position.row.equals( this.row))
             return false;
-        if (position.column != this.column)
+        if (!position.column.equals(this.column))
             return false;
         return true;
     }

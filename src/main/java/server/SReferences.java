@@ -123,7 +123,7 @@ public class SReferences {
         while (i < uuidRef.size() && uuidRef.get(i) != null)
             i++;
 
-        if(i == uuidRef.size()){
+        if (i == uuidRef.size()) {
             SReferences.uuidRef.add(uUID);
             SReferences.portRef.add(null);
             SReferences.playerRef.add(null);
@@ -142,10 +142,10 @@ public class SReferences {
         return uuidRef.contains(s);
     }
 
-    public static synchronized boolean checkNickNameRef(String nickNameRef, List<String> queue){
-        for (String uUID:
-             queue) {
-            if(getNickNameRef(uUID).equals(nickNameRef))
+    public static synchronized boolean checkNickNameRef(String nickNameRef, List<String> queue) {
+        for (String uUID :
+                queue) {
+            if (getNickNameRef(uUID).equals(nickNameRef))
                 return false;
         }
         return true;
@@ -160,7 +160,7 @@ public class SReferences {
         SReferences.isSocketRef.set(index, null);
         SReferences.playerRef.set(index, null);
         SReferences.portRef.set(index, null);
-        SReferences.nickNameRef.set(index,null);
+        SReferences.nickNameRef.set(index, null);
         SReferences.uuidRef.set(index, null);
         SReferences.activePlayer--;
         return true;

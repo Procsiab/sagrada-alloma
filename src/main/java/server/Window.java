@@ -61,7 +61,7 @@ public class Window implements Serializable {
     }
 
     private boolean checkEdgePosTurn(Player player, Position position) {
-        if (position.getRow() == 0 || position.getRow() == 3 || position.getColumn() == 0 || position.getColumn() == 4)
+        if (position.getRow().equals(0) || position.getRow().equals(3) || position.getColumn().equals(0) || position.getColumn().equals(4))
             return true;
         return false;
     }
@@ -92,18 +92,18 @@ public class Window implements Serializable {
     }
 
     private boolean checkPlaceColorRequirements(Dice dice, Position position) {
-        if (getCell(position) == null || getCell(position).getColor() == null)
+        if (getCell(position).getColor() == null)
             return true;
-        if (dice.getColor() != getCell(position).getColor()) {
+        if (!dice.getColor().equals(getCell(position).getColor())) {
             return false;
         }
         return true;
     }
 
     private boolean checkPlaceValueRequirements(Dice dice, Position position) {
-        if (getCell(position) == null || getCell(position).getValue() == null)
+        if (getCell(position).getValue() == null)
             return true;
-        if (dice.getValue() != getCell(position).getValue()) {
+        if (!dice.getValue().equals(getCell(position).getValue())) {
             return false;
         }
         return true;
@@ -126,7 +126,12 @@ public class Window implements Serializable {
         Dice dice = pool.get(index);
         if (dice == null || player.getOverlay().busy(position)
                 || !checkDice(player, dice, position)) {
-            System.out.println("(temporary print) error code 2 ");
+            if(dice == null)
+            System.out.println("(temporary print) error code 2a ");
+            if(player.getOverlay().busy(position))
+                System.out.println("(temporary print) error code 2b ");
+            if(!checkDice(player, dice, position))
+                System.out.println("(temporary print) error code 2c ");
             return false;
         }
 
@@ -185,14 +190,20 @@ public class Window implements Serializable {
     private boolean checkDice(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
         if (player.getLastPlacedFromPool().equals(new Position(-1, -1))) {
-            if (!checkEdgePosTurn(player, position))
+            if (!checkEdgePosTurn(player, position)) {
+                System.out.println("(temporary print) error code 3a");
                 return false;
+            }
         } else {
-            if (!checkAdjDicesFull(overlay, position, dice))
+            if (!checkAdjDicesFull(overlay, position, dice)) {
+                System.out.println("(temporary print) error code 3b");
                 return false;
+            }
         }
-        if (!checkPlaceRequirements(dice, position))
+        if (!checkPlaceRequirements(dice, position)) {
+            System.out.println("(temporary print) error code 3c");
             return false;
+        }
         return true;
     }
 

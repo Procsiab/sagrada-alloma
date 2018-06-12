@@ -104,8 +104,8 @@ public class Player {
             while (j < 5) {
                 Dice dice = overlay.getDice(new Position(i, j));
                 if (dice != null)
-                    if (dice.color == privateO)
-                        score = score + dice.value;
+                    if (dice.getColor().equals(privateO))
+                        score = score + dice.getValue();
                 j++;
             }
             j = 0;
@@ -233,7 +233,7 @@ public class Player {
     }
 
     public synchronized boolean placeDice(Integer index, Position position) {
-        System.out.println("(temporary print) Window: " + MatchManager.getWindows().indexOf(this.window));
+        System.out.println("(temporary print) " + game.revealWindow(MatchManager.getWindows().indexOf(this.window)));
         Dice dice;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();

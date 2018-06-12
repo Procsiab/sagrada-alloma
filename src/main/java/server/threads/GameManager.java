@@ -234,8 +234,8 @@ public class GameManager extends GeneralTask {
     }
 
     private synchronized void setExpected(String access) {
-        System.out.println("\n");
-        Logger.log(this + " Access granted to: " + access + "\n");
+        //System.out.println("\n");
+        Logger.log(this + " Access granted to: " + access);
         this.expected = access;
     }
 
@@ -592,7 +592,7 @@ public class GameManager extends GeneralTask {
                 Logger.log(player + "; ");
             }
         }
-        Logger.log(this + " we play with " + count(pool) + " dices\n");
+        Logger.log(this + " we play with " + count(pool) + " dices");
 
     }
 

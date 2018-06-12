@@ -9,17 +9,19 @@ public class Dice implements Serializable {
         this.value = n;
     }
 
+    @Deprecated
     public Integer value;
-    public char color;
+    @Deprecated
+    public Character color;
 
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Dice))
             return false;
         Dice dice1 = (Dice) object;
-        if (dice1.value != this.value)
+        if (!dice1.value.equals(this.value))
             return false;
-        if (dice1.color != this.color)
+        if (!dice1.color.equals(this.color))
             return false;
         return true;
     }
@@ -32,11 +34,19 @@ public class Dice implements Serializable {
         return false;
     }
 
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public void setColor(Character color) {
+        this.color = color;
+    }
+
     public Integer getValue() {
         return value;
     }
 
-    public char getColor() {
+    public Character getColor() {
         return color;
     }
 

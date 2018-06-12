@@ -45,22 +45,22 @@ public class Tool {
             return false;
 
         if (i3.equals(-1)) {
-            if (dice.value.equals(1))
+            if (dice.getValue().equals(1))
                 return false;
-            dice.value--;
+            dice.setValue(dice.getValue()-1);
         } else if (i3.equals(1)) {
-            if (dice.value.equals(6))
+            if (dice.getValue().equals(6))
                 return false;
-            dice.value++;
+            dice.setValue(dice.getValue()+1);
         } else return false;
 
         if (player.getWindow().setDiceFromPool(player, i2, p1))
             return true;
 
         if (i3.equals(-1)) {
-            dice.value++;
+            dice.setValue(dice.getValue()+1);
         } else if (i3.equals(1)) {
-            dice.value--;
+            dice.setValue(dice.getValue()-1);
         }
         return false;
     }
@@ -98,14 +98,14 @@ public class Tool {
 
     public static Boolean use6(GameManager game, Integer i1, Player player, Position p1, Integer i2) {
 
-        if (!ableAndSettleDiceAndCard(player, i1) || i2 == null || p1 == null||
-                i2>=game.getPool().size()||i2<0)
+        if (!ableAndSettleDiceAndCard(player, i1) || i2 == null || p1 == null ||
+                i2 >= game.getPool().size() || i2 < 0)
             return false;
 
         Dice dice = game.getPool().get(i2);
-        Integer value = dice.value;
+        Integer value = dice.getValue();
         Random rand = new Random();
-        dice.value = 1 + rand.nextInt(5);
+        dice.setValue( 1 + rand.nextInt(5));
 
         if (player.getWindow().setDiceFromPool(player, i2, p1))
             return true;
@@ -122,7 +122,7 @@ public class Tool {
         for (Dice d :
                 game.getPool()) {
             if (d != null)
-                d.value = 1 + rand.nextInt(5);
+                d.setValue( 1 + rand.nextInt(5));
         }
         return true;
     }
@@ -158,11 +158,11 @@ public class Tool {
         if (dice == null)
             return false;
 
-        Integer value = game.getPool().get(i2).value;
+        Integer value = game.getPool().get(i2).getValue();
         int i = 1;
         while (i < 7) {
             if (value == i) {
-                game.getPool().get(i2).value = 7 - i;
+                game.getPool().get(i2).setValue(7 - i);
                 break;
             }
             i++;
@@ -186,7 +186,7 @@ public class Tool {
         Random rand = new Random();
         int k = rand.nextInt(dices.size() - 1);
         dice = dices.get(k);
-        dice.value = i3;
+        dice.setValue(i3);
         dices.set(k, game.getPool().get(i2));
         game.getPool().set(i2, dice);
 
@@ -205,8 +205,8 @@ public class Tool {
             Dice dice1 = player.getOverlay().getDice(p1);
             if (dice1 == null)
                 return false;
-            char color = diceRoundrack.color;
-            if (color != dice1.color)
+            Character color = diceRoundrack.getColor();
+            if (!color.equals(dice1.getColor()))
                 return false;
 
             return player.getWindow().moveDice(player, p1, p2);
@@ -218,8 +218,8 @@ public class Tool {
         if (dice1 == null || dice2 == null)
             return false;
 
-        char color = diceRoundrack.color;
-        if (color != dice1.color || color != dice2.color)
+        Character color = diceRoundrack.getColor();
+        if (!color.equals(dice1.getColor()) || !color.equals(dice2.getColor()))
             return false;
         return player.getWindow().moveDice(player, p1, p2, p3, p4);
     }

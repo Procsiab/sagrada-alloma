@@ -26,7 +26,7 @@ public class PublicObject {
                 dice = overlay.getDicePositions()[i][j];
                 if (dice == null)
                     esito = 0;
-                else if (!colors.add(dice.color))
+                else if (!colors.add(dice.getColor()))
                     esito = 0;
                 j++;
             }
@@ -55,7 +55,7 @@ public class PublicObject {
                 dice = overlay.getDicePositions()[j][i];
                 if (dice == null)
                     esito = 0;
-                else if (!colors.add(dice.color))
+                else if (!colors.add(dice.getColor()))
                     esito = 0;
                 j++;
             }
@@ -84,7 +84,7 @@ public class PublicObject {
                 dice = overlay.getDicePositions()[j][i];
                 if (dice == null)
                     esito = 0;
-                else if (!numbers.add(dice.value))
+                else if (!numbers.add(dice.getValue()))
                     esito = 0;
                 j++;
             }
@@ -113,7 +113,7 @@ public class PublicObject {
                 dice = overlay.getDicePositions()[i][j];
                 if (dice == null)
                     esito = 0;
-                else if (!numbers.add(dice.value))
+                else if (!numbers.add(dice.getValue()))
                     esito = 0;
                 j++;
             }
@@ -142,11 +142,11 @@ public class PublicObject {
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
                 if (dice != null)
-                    if (!colors1.add(dice.color))
-                        if (!colors2.add(dice.color))
-                            if (!colors3.add(dice.color))
-                                if (!colors4.add(dice.color))
-                                    colors5.add(dice.color);
+                    if (!colors1.add(dice.getColor()))
+                        if (!colors2.add(dice.getColor()))
+                            if (!colors3.add(dice.getColor()))
+                                if (!colors4.add(dice.getColor()))
+                                    colors5.add(dice.getColor());
                 j++;
             }
             j = 0;
@@ -182,10 +182,10 @@ public class PublicObject {
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
                 if (dice != null)
-                    if (!shades1.add(dice.value))
-                        if (!shades2.add(dice.value))
-                            if (!shades3.add(dice.value))
-                                shades4.add(dice.value);
+                    if (!shades1.add(dice.getValue()))
+                        if (!shades2.add(dice.getValue()))
+                            if (!shades3.add(dice.getValue()))
+                                shades4.add(dice.getValue());
                 j++;
             }
             j = 0;
@@ -217,9 +217,9 @@ public class PublicObject {
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
                 if (dice != null)
-                    if (dice.value == 5)
+                    if (dice.getValue().equals(5))
                         shades5.add(true);
-                    else if (dice.value == 6)
+                    else if (dice.getValue().equals(6))
                         shades6.add(true);
                 j++;
             }
@@ -246,9 +246,9 @@ public class PublicObject {
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
                 if (dice != null)
-                    if (dice.value == 3)
+                    if (dice.getValue().equals(3))
                         shades3.add(true);
-                    else if (dice.value == 4)
+                    else if (dice.getValue().equals(4))
                         shades4.add(true);
                 j++;
             }
@@ -275,9 +275,9 @@ public class PublicObject {
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
                 if (dice != null)
-                    if (dice.value == 1)
+                    if (dice.getValue().equals(1))
                         shades1.add(true);
-                    else if (dice.value == 2)
+                    else if (dice.getValue().equals(2))
                         shades2.add(true);
                 j++;
             }
@@ -315,7 +315,7 @@ public class PublicObject {
             return 0;
         if (dices[r][c] == null)
             return 0;
-        if (dices[r][c].getColor() != color)
+        if (!dices[r][c].getColor().equals(color))
             return computate(dices, dices[r][c].getColor(), r, c, true);
         dices[r][c] = null;
         Integer ul = computate(dices, color, r - 1, c - 1, false);
