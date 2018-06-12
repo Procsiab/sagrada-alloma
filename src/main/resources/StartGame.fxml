@@ -539,7 +539,7 @@
                   </Button>
                   <Button layoutX="306.0" layoutY="209.0" mnemonicParsing="false" onAction="#showRoundTrack" text="ShowRoundTrack" />
                   <TextField fx:id="changeValueField" layoutX="14.0" layoutY="209.0" promptText="Inserire valore" />
-                  <Button fx:id="sendData" layoutX="173.0" layoutY="209.0" mnemonicParsing="false" text="Enter" />
+                  <Button fx:id="sendDataButton" layoutX="173.0" layoutY="209.0" mnemonicParsing="false" onAction="#sendDataValue" text="Enter" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">

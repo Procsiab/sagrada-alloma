@@ -7,6 +7,8 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -72,6 +74,7 @@ public class StartGameController implements Initializable {
     int posizionePoolDice,indexofToolCard;
     Integer colIndex;
     Integer rowIndex;
+    int incrementValue;
     private ArrayList<GridPane> listaGriglie = new ArrayList<>();
     private ArrayList<Button> listaDadi = new ArrayList<>();
     private ArrayList<ImageView> listaToolCard = new ArrayList<>();
@@ -99,6 +102,7 @@ public class StartGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadBackground();
        // backGroundTransition();
+
         loadArray();
         loadDadi();
         loadToolCard();
@@ -529,11 +533,25 @@ public class StartGameController implements Initializable {
         //pr è la posizione nel roundtrack, già inserita
         //i2 è la posizione del dado nel pool
         //i3 è il cambio valore o incremento
-        //middlewareClient.useToolC()
+
+        Position p1 = posizioni.get(0);
+        Position p2 = posizioni.get(1);
+        Position p3 = posizioni.get(2);
+        Position p4 = posizioni.get(3);
+
+        middlewareClient.useToolC(indexofToolCard,posizioni.get(0),posizioni.get(1),posizioni.get(2),posizioni.get(3),posizioneDadoRoundTrack,posizionePoolDice,incrementValue);
 
 
 
     }
+    @FXML
+    private void sendDataValue(ActionEvent event){
+
+            incrementValue = Integer.parseInt(changeValueField.getText());
+            System.out.print("Valore di incremento:" + incrementValue);
+
+    }
+
 
 
     // END SUPPORT METHODS
