@@ -26,6 +26,7 @@ import server.threads.GameManager;
 import shared.Dice;
 import shared.Logger;
 import shared.Position;
+import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.TransferObjects.PlayerT;
 
@@ -52,7 +53,7 @@ public class StartGameController implements Initializable {
     @FXML
     private GridPane paneCarta0,paneCarta1,paneCarta2,paneCarta3;
     @FXML
-    private Button placeDice,fineTurno;
+    private Button placeDice,fineTurno,useToolCard;
     @FXML
     private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
     @FXML
@@ -72,6 +73,7 @@ public class StartGameController implements Initializable {
     private ArrayList<Button> listaDadi = new ArrayList<>();
     private ArrayList<ImageView> listaToolCard = new ArrayList<>();
     private ArrayList<ComboBox> listaComboBox = new ArrayList<>();
+    private PositionR posizioneDadoRoundTrack = new PositionR();
 
 
 
@@ -492,11 +494,36 @@ public class StartGameController implements Initializable {
         System.out.print("Combobox selezionato:"+ comboboxselected);
         int indextest = listaComboBox.get(comboboxselected).getSelectionModel().getSelectedIndex();
         System.out.print("Item all'interno del combobox:"+ indextest);
+        posizioneDadoRoundTrack.setColumn(comboboxselected);
+        posizioneDadoRoundTrack.setHeight(indextest);
 
+        System.out.print("Colonna in positionR:"+ posizioneDadoRoundTrack.getColumn());
+        System.out.print("Altezza colonna in positionR:"+ posizioneDadoRoundTrack.getHeight());
+
+    }
+    @FXML
+    private void selectToolCard(MouseEvent event){
+        int indexoftool = listaToolCard.indexOf(event.getSource());
+        System.out.print("Posizione toolCard"+ indexoftool);
 
 
 
     }
+
+    @FXML
+    private void useToolCard(ActionEvent event){
+        System.out.print("\"Using toolCard!\"");
+        //i1 è la posizione della toolcard selezionata
+        //p1,p2,p3,p4 sono le posizioni nella griglia mappa. Le dispari sono la posizione finale, le pari la finale
+        //pr è la posizione nel roundtrack, già inserita
+        //i2 è la posizione del dado nel pool
+        //i3 è il cambio valore o incremento
+        //middlewareClient.useToolC()
+
+
+
+    }
+
 
     // END SUPPORT METHODS
 
@@ -510,6 +537,7 @@ public class StartGameController implements Initializable {
         }
         placeDice.setDisable(false);
         fineTurno.setDisable(false);
+        useToolCard.setDisable(false);
 
     }
 
@@ -534,6 +562,7 @@ public class StartGameController implements Initializable {
         }
         placeDice.setDisable(true);
         fineTurno.setDisable(true);
+        useToolCard.setDisable(true);
 
     }
 
