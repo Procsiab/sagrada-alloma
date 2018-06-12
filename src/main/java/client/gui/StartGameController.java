@@ -66,7 +66,7 @@ public class StartGameController implements Initializable {
     private ComboBox comboBox1,comboBox2,comboBox3,comboBox4,comboBox5,comboBox6,comboBox7,comboBox8,comboBox9,comboBox10;
 
     // Utility Variables
-    int posizionePoolDice;
+    int posizionePoolDice,indexofToolCard;
     Integer colIndex;
     Integer rowIndex;
     private ArrayList<GridPane> listaGriglie = new ArrayList<>();
@@ -74,6 +74,7 @@ public class StartGameController implements Initializable {
     private ArrayList<ImageView> listaToolCard = new ArrayList<>();
     private ArrayList<ComboBox> listaComboBox = new ArrayList<>();
     private PositionR posizioneDadoRoundTrack = new PositionR();
+    private ArrayList<Position> posizioni = new ArrayList<>();
 
 
 
@@ -115,7 +116,7 @@ public class StartGameController implements Initializable {
         System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
 
         // Useful variables
-
+        posizioni.clear();
         String nomeCarta,numeroTokens;
         int numDadi;
         ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
@@ -327,6 +328,13 @@ public class StartGameController implements Initializable {
 
         colIndex = paneCarta0.getColumnIndex(source);
         rowIndex = paneCarta0.getRowIndex(source);
+        if(posizioni.size()<4){
+            posizioni.add(new Position(rowIndex,colIndex));
+        }
+        else{
+            System.out.println("Superato limite posizioni!");
+
+        }
         System.out.println(colIndex);
         System.out.println(rowIndex);
 
@@ -503,8 +511,8 @@ public class StartGameController implements Initializable {
     }
     @FXML
     private void selectToolCard(MouseEvent event){
-        int indexoftool = listaToolCard.indexOf(event.getSource());
-        System.out.print("Posizione toolCard"+ indexoftool);
+        indexofToolCard = listaToolCard.indexOf(event.getSource());
+        System.out.print("Posizione toolCard"+ indexofToolCard);
 
 
 
