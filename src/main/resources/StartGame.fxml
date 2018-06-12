@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -536,7 +537,9 @@
                         <Font name="Castellar" size="33.0" />
                      </font>
                   </Button>
-                  <Button layoutX="160.0" layoutY="211.0" mnemonicParsing="false" onAction="#showRoundTrack" text="ShowRoundTrack" />
+                  <Button layoutX="306.0" layoutY="209.0" mnemonicParsing="false" onAction="#showRoundTrack" text="ShowRoundTrack" />
+                  <TextField fx:id="changeValueField" layoutX="14.0" layoutY="209.0" promptText="Inserire valore" />
+                  <Button fx:id="sendData" layoutX="173.0" layoutY="209.0" mnemonicParsing="false" text="Enter" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">

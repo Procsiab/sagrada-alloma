@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -53,7 +54,7 @@ public class StartGameController implements Initializable {
     @FXML
     private GridPane paneCarta0,paneCarta1,paneCarta2,paneCarta3;
     @FXML
-    private Button placeDice,fineTurno,useToolCard;
+    private Button placeDice,fineTurno,useToolCard,sendDataButton;
     @FXML
     private Button dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9;
     @FXML
@@ -64,6 +65,8 @@ public class StartGameController implements Initializable {
     private AnchorPane roundTrack;
     @FXML
     private ComboBox comboBox1,comboBox2,comboBox3,comboBox4,comboBox5,comboBox6,comboBox7,comboBox8,comboBox9,comboBox10;
+    @FXML
+    private TextField changeValueField;
 
     // Utility Variables
     int posizionePoolDice,indexofToolCard;
