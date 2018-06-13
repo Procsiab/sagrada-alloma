@@ -242,7 +242,7 @@ public class StartGameController implements Initializable {
         }
 
         //LOADING DICES INTO ROUNDTRACK
-        ObservableList<String> options = FXCollections.observableArrayList();
+
         ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
         System.out.println(roundTrackData);
         for(int h=0; h<roundTrackData.size();h++){
@@ -254,7 +254,7 @@ public class StartGameController implements Initializable {
             System.out.println(" Testing size:" + testing.size());
 
 
-            for(int u=0; u<testing.size();u++){
+            for(int u=0; u<roundTrackData.get(h).size();u++){
                 System.out.println(" Dentro ciclo assegnamento dadi round ");
 
                 String color = Character.toString(testing.get(u).getColor());
@@ -262,54 +262,39 @@ public class StartGameController implements Initializable {
                 String diceRound = value+color+".png";
 
                 listaComboBox.get(h).getItems().add(diceRound);
-
-
-
-
-
-
-
-
-
-
-            }
+                }
         }
 
 
 
         /*
-        ObservableList<String> options = FXCollections.observableArrayList();
-        ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
-        System.out.println(roundTrackData);
-        for(int h=0; h<roundTrackData.size();h++){
-            System.out.println(" h Value:" + h);
-            ArrayList<Dice> testing = roundTrackData.get(h);
-             System.out.println(" Testing:" + testing);
-             System.out.println(" Testing size:" + testing.size());
+//Arraylist made of arraylist containing the data I need
+ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
+System.out.println(roundTrackData);
+final Map<String, WeakReference<Image>> cache = new HashMap<>();
 
+for(int h = 0; h < roundTrackData.size(); h++) {
+    ComboBox<String> combo = listaComboBox.get(h);
+    combo.setCellFactory(c -> new StatusListCell(cache));
+    ObservableList<String> options = FXCollections.observableArrayList();
 
-            for(int u=0; u<testing.size();u++){
-                 System.out.println(" Dentro ciclo assegnamento dadi round ");
+    List<Dice> testing = roundTrackData.get(h);
+    System.out.println(" Testing:" + testing);
+    System.out.println(" Testing size:" + testing.size());
 
-                 String color = Character.toString(testing.get(u).getColor());
-                 String value = testing.get(u).getValue().toString();
-                 String diceRound = value+color+".png";
+    for(Dice die : testing){
+         System.out.println(" Inside cicle ");
+         String color = Character.toString(die.getColor());
+         String value = die.getValue().toString();
+         String diceRound = value+color+".png";
 
-                 options.add(diceRound);
-                 listaComboBox.get(h).setItems(options);
-                 listaComboBox.get(h).setCellFactory(c -> new StatusListCell());
-                 System.out.println("COLORE DADO i-esimo NEL PRIMO TURNO "+ color);
-                 System.out.println("COLORE DADO i-esimo NEL PRIMO TURNO"+ value);
+         options.add(diceRound);
+         //listaComboBox is an array list containing 10 comboboxes
+         System.out.println("Dice color "+ color);
+         System.out.println("Dice value"+ value);
+    }
 
-
-
-
-
-
-
-
-
-        }
+    combo.setItems(options);
 }*/
 
 
