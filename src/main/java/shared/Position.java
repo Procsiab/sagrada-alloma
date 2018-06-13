@@ -30,6 +30,10 @@ public class Position implements Serializable {
         return true;
     }
 
+    public boolean isValid() {
+        return !(row == null || column == null || row < 0 || row > 3 || column < 0 || column > 4);
+    }
+
     public Integer getRow() {
         return row;
     }

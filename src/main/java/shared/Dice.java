@@ -9,10 +9,9 @@ public class Dice implements Serializable {
         this.value = n;
     }
 
-    @Deprecated
-    public Integer value;
-    @Deprecated
-    public Character color;
+
+    private Integer value;
+    private Character color;
 
     @Override
     public boolean equals(Object object) {
@@ -32,6 +31,12 @@ public class Dice implements Serializable {
         if(dice.value== this.value)
             return true;
         return false;
+    }
+
+    public boolean isValid() {
+        return !(value == null || color == null || value < 1 || value > 6 || !(color.equals('g')
+                || color.equals('b') || color.equals('v') ||
+                color.equals('y') || color.equals('r')));
     }
 
     public void setValue(Integer value) {

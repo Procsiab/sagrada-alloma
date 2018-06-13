@@ -3,7 +3,6 @@ package server.executables;
 import server.Player;
 import server.threads.GameManager;
 import shared.Dice;
-import shared.Overlay;
 import shared.Position;
 import shared.PositionR;
 
@@ -140,12 +139,12 @@ public class Tool {
         return false;
     }
 
-    public static Boolean use9(Integer i1, Player player, Position p1, Position p2, Integer i2) {
+    public static Boolean use9(Integer i1, Player player, Position p1, Integer i2) {
 
         if (!ableAndSettleDiceAndCard(player, i1) || p1 == null && i2 == null)
             return false;
 
-        return player.getWindow().moveDiceAlone(player, p1, p2);
+        return player.getWindow().placeDiceAlone(player, i2, p1);
     }
 
     public static Boolean use10(GameManager game, Integer i1, Player player, Position p1, Integer i2) {

@@ -9,10 +9,16 @@ public class PositionR implements Serializable {
     private Integer column;
     private Integer height;
 
-    public PositionR(){}
-    public PositionR(Integer column, Integer height){
+    public PositionR() {
+    }
+
+    public PositionR(Integer column, Integer height) {
         this.column = column;
         this.height = height;
+    }
+
+    public boolean isValid() {
+        return !(column == null || height == null);
     }
 
     public Integer getColumn() {
@@ -33,6 +39,6 @@ public class PositionR implements Serializable {
 
     @Override
     public String toString() {
-        return column+", "+height;
+        return column + ", " + height;
     }
 }

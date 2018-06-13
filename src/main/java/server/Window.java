@@ -67,10 +67,10 @@ public class Window implements Serializable {
     }
 
     private boolean checkAdjDicesFull(Overlay overlay, Position position, Dice dice) {
-        return checkSideBySide(overlay, position, dice) && !CheckNotAdjacentToAny(overlay, position);
+        return checkSideBySide(overlay, position, dice) && !checkNotAdjacentToAny(overlay, position);
     }
 
-    private boolean CheckNotAdjacentToAny(Overlay overlay, Position position1) {
+    private boolean checkNotAdjacentToAny(Overlay overlay, Position position1) {
         if (overlay.busy(new Position(position1.getRow() - 1, position1.getColumn() - 1)))
             return false;
         if (overlay.busy(new Position(position1.getRow(), position1.getColumn() - 1)))
@@ -285,16 +285,23 @@ public class Window implements Serializable {
         return true;
     }
 
-    public boolean moveDiceAlone(Player player, Position p1, Position p2) {
-        Dice dice = player.getOverlay().getDice(p1);
-        if (p1 == null || p2 == null || dice == null ||
-                player.getOverlay().busy(p2) ||
-                !CheckNotAdjacentToAny(player.getOverlay(), p2) ||
-                !checkPlaceRequirements(dice, p2))
+    public boolean placeDiceAlone(Player player, Integer index, Position position) {
+
+        ArrayList<Dice> pool = player.getGame().getPool();
+        if (index == null || position == null || !position.isValid() ||
+                index >= pool.size() || index < 0) {
+            return false;
+        }
+
+        Dice dice = pool.get(index);
+        if (dice == null || player.getOverlay().busy(position)
+                || !checkEdgePosTurn(player, position) ||
+                !checkNotAdjacentToAny(player.getOverlay(), position)
+                || !checkPlaceRequirements(dice, position))
             return false;
 
-        player.getOverlay().setDicePosition(dice, p2);
-        player.getOverlay().setDicePosition(null, p1);
+        player.getOverlay().setDicePosition(dice, position);
+        pool.set(index, null);
         return true;
     }
 }

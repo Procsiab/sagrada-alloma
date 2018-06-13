@@ -62,7 +62,7 @@ public class Player {
                     esito = Tool.use8(game, i1, SReferences.getPlayerRef(uUID), p1, i2);
                     break;
                 case 9:
-                    esito = Tool.use9(i1, SReferences.getPlayerRef(uUID), p1, p2, i2);
+                    esito = Tool.use9(i1, SReferences.getPlayerRef(uUID), p1, i2);
                     break;
                 case 10:
                     esito = Tool.use10(game, i1, SReferences.getPlayerRef(uUID), p1, i2);
