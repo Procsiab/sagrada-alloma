@@ -38,59 +38,62 @@ public class MainCLI {
 
         boolean stop = false;
         do {
-            if (readInput.hasNext()) {
+            if (readInput.hasNextLine()) {
                 String s = readInput.nextLine();
                 if (s.equals("exit")) {
                     stop = true;
                     MiddlewareClient.getInstance().exitGame2();
-                }
-                switch (functionId) {
-                    case 1: // chooseWindow()
-                        int i = Integer.parseInt(s);
-                        if (windows.contains(i)) {
-                            MiddlewareClient.getInstance().chooseWindowBack(i);
-                            functionId = 0;
-                        } else {
-                            wrongCommand();
-                        }
-                        break;
-                    case 2: // enable()
-                        switch (s) {
-                            case "dice":
-                                AnsiConsole.out().print(ansi().fgBrightRed()
-                                        .a("Input the number of the dice you want to pick: ").fgDefault());
-                                i = readInput.nextInt();
-                                if (this.gm.pool.size() < i) {
-                                    wrongCommand();
-                                } else {
-                                    placeDice(i - 1);
-                                }
-                                break;
-                            case "card":
-                                AnsiConsole.out().print(ansi().fgBrightRed()
-                                        .a("Input the number of the tool card you want to use: ").fgDefault());
-                                i = readInput.nextInt();
-                                if (this.gm.toolCards.size() < i) {
+                    AnsiConsole.out().println(ansi().fgBrightRed().a("[EXIT] ").fgBrightYellow()
+                            .a("You left the game: connect again to re-join the match").fgDefault());
+                } else {
+                    switch (functionId) {
+                        case 1: // chooseWindow()
+                            int i = Integer.parseInt(s);
+                            if (windows.contains(i)) {
+                                MiddlewareClient.getInstance().chooseWindowBack(i);
+                                functionId = 0;
+                            } else {
+                                wrongCommand();
+                            }
+                            break;
+                        case 2: // enable()
+                            switch (s) {
+                                case "dice":
+                                    AnsiConsole.out().print(ansi().fgBrightRed()
+                                            .a("Input the number of the dice you want to pick: ").fgDefault());
+                                    i = readInput.nextInt();
+                                    if (this.gm.pool.size() < i) {
+                                        wrongCommand();
+                                    } else {
+                                        placeDice(i - 1);
+                                    }
+                                    break;
+                                case "card":
+                                    AnsiConsole.out().print(ansi().fgBrightRed()
+                                            .a("Input the number of the tool card you want to use: ").fgDefault());
+                                    i = readInput.nextInt();
+                                    if (this.gm.toolCards.size() < i) {
+                                        wrongCommand();
+                                        break;
+                                    }
+                                    useToolC(i - 1);
+                                    break;
+                                case "end":
+                                    MiddlewareClient.getInstance().endTurn();
+                                    break;
+                                case "\n":
+                                case "":
+                                    break;
+                                default:
                                     wrongCommand();
                                     break;
-                                }
-                                useToolC(i - 1);
-                                break;
-                            case "end":
-                                MiddlewareClient.getInstance().endTurn();
-                                break;
-                            case "\n":
-                            case "":
-                                break;
-                            default:
-                                wrongCommand();
-                                break;
-                        }
-                        break;
-                    case 3: // method()
-                        break;
-                    default: // functionId = 0
-                        break;
+                            }
+                            break;
+                        case 3: // method()
+                            break;
+                        default: // functionId = 0
+                            break;
+                    }
                 }
             }
         } while (!stop);
@@ -104,7 +107,8 @@ public class MainCLI {
     private void placeDice(Integer index) {
         AnsiConsole.out().print(ansi().fgBrightRed()
                 .a("Enter row and column position of the cell you would like to place it, separated by a space: ").fgDefault());
-        Integer r, c;
+        Integer r;
+        Integer c;
         r = readInput.nextInt();
         c = readInput.nextInt();
         Position p = new Position(r - 1, c - 1);
@@ -118,8 +122,15 @@ public class MainCLI {
 
     private void useToolC(Integer index) {
         ToolCT c = this.gm.toolCards.get(index);
-        Integer i2 = null, i3 = null, row, col, hgt;
-        Position p1 = null, p2 = null, p3 = null, p4 = null;
+        Integer i2 = null;
+        Integer i3 = null;
+        Integer row;
+        Integer col;
+        Integer hgt;
+        Position p1 = null;
+        Position p2 = null;
+        Position p3 = null;
+        Position p4 = null;
         PositionR pr = null;
         switch (c.name) {
             case "ToolC1":
@@ -250,14 +261,14 @@ public class MainCLI {
     }
 
     private void printCell(Cell c) {
-        if (c == null || (c.color == null && c.value == null)) { // Empty white cell
+        if (c == null || (c.getColor() == null && c.getValue() == null)) { // Empty white cell
             AnsiConsole.out().print(ansi().fg(Ansi.Color.WHITE).bg(Ansi.Color.WHITE).a(' ')
                     .fgDefault().bgDefault());
-        } else if (c.value != null && c.color == null) { // Dice value constraint
-            AnsiConsole.out().print(ansi().fg(Ansi.Color.BLACK).bg(Ansi.Color.WHITE).a(c.value)
+        } else if (c.getValue() != null && c.getColor() == null) { // Dice value constraint
+            AnsiConsole.out().print(ansi().fg(Ansi.Color.BLACK).bg(Ansi.Color.WHITE).a(c.getValue())
                     .fgDefault().bgDefault());
-        } else if (c.value == null) { // Dice color constraint
-            switch (c.color) {
+        } else if (c.getValue() == null) { // Dice color constraint
+            switch (c.getColor()) {
                 case 'r':
                     AnsiConsole.out().print(ansi().bgRed());
                     break;
@@ -286,7 +297,7 @@ public class MainCLI {
         } else {
             if (inverted) {
                 AnsiConsole.out().print(ansi().fg(Ansi.Color.BLACK));
-                switch (d.color) {
+                switch (d.getColor()) {
                     case 'r':
                         AnsiConsole.out().print(ansi().bgRed());
                         break;
@@ -308,7 +319,7 @@ public class MainCLI {
                 }
             } else {
                 AnsiConsole.out().print(ansi().bg(Ansi.Color.BLACK));
-                switch (d.color) {
+                switch (d.getColor()) {
                     case 'r':
                         AnsiConsole.out().print(ansi().fgBrightRed());
                         break;
@@ -329,7 +340,7 @@ public class MainCLI {
                         break;
                 }
             }
-            AnsiConsole.out().print(ansi().a(d.value).fgDefault().bgDefault());
+            AnsiConsole.out().print(ansi().a(d.getValue()).fgDefault().bgDefault());
         }
     }
 
@@ -368,7 +379,17 @@ public class MainCLI {
     }
 
     private void printRoundTrack(RoundTrack rt) {
-        //TODO print round track
+        for (int i = 8; i >= 0; i--) {
+            for (int j = 0; j < 9; j++) {
+                Dice d = null;
+                if (rt.getDices().get(j).size() >= i) {
+                    d = rt.getDice(new PositionR(j, i));
+                }
+                printDice(d, true);
+                AnsiConsole.out().print('\t');
+            }
+            AnsiConsole.out().print('\n');
+        }
     }
 
     private void printPoolAndRoundTrack(GameManagerT gm) {

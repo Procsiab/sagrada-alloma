@@ -95,6 +95,7 @@ public class MainClient extends Application {
             isPrompt = true;
             cliController = new MainCLI();
             cliController.launch();
+
         }
         else if (interfaccia.equals("gui")){
             launch(args);

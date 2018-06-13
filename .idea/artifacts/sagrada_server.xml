@@ -12,7 +12,6 @@
         <element id="dir-copy" path="$PROJECT_DIR$/target/classes/server" />
       </element>
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/fusesource/jansi/jansi/1.17.1/jansi-1.17.1.jar" path-in-jar="/" />
-      <element id="file-copy" path="$PROJECT_DIR$/config.txt" />
     </root>
   </artifact>
 </component>

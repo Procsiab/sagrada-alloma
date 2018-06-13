@@ -175,6 +175,7 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         Object[] args = {uuid};
         String methodName = "exitGame2";
         connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        connection.close();
     }
 
     @Override
