@@ -71,10 +71,10 @@ public class StartGameController implements Initializable {
     private TextField changeValueField;
 
     // Utility Variables
-    int posizionePoolDice,indexofToolCard;
-    Integer colIndex;
-    Integer rowIndex;
-    int incrementValue;
+    private int posizionePoolDice,indexofToolCard;
+    private Integer colIndex;
+    private Integer rowIndex;
+    private int incrementValue;
     private ArrayList<GridPane> listaGriglie = new ArrayList<>();
     private ArrayList<Button> listaDadi = new ArrayList<>();
     private ArrayList<ImageView> listaToolCard = new ArrayList<>();
@@ -161,8 +161,8 @@ public class StartGameController implements Initializable {
             System.out.println("Valore di i nel ciclo:" + i);
             // INSERIRE EFFETIVO VALORE DEL DADO
             if (gameManager.pool.get(i)!=null){
-                int numero = gameManager.pool.get(i).value;
-                char color = gameManager.pool.get(i).color;
+                int numero = gameManager.pool.get(i).getValue();
+                char color = gameManager.pool.get(i).getColor();
                 System.out.println("Numero :" + numero + "\n");
                 System.out.println("Colore :" + color + "\n");
                 listaDadi.get(i).setStyle("-fx-background-image: url('" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
@@ -222,6 +222,10 @@ public class StartGameController implements Initializable {
                         myGrid.get(z).setStyle(("-fx-background-image: url('" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
                         myGrid.get(z).setOpacity(100);
                         System.out.println("ASSEGNAZIONE DADO FATTA ");
+
+                    }
+                    else{
+                        myGrid.get(z).setStyle(("-fx-background-color: transparent;-fx-background-size: 100% 100%;"));
 
                     }
                     System.out.println("FUORI IF ");
