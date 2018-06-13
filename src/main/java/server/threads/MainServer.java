@@ -72,6 +72,17 @@ public class MainServer {
 
     public static void main(String[] args) {
 
+        /*
+        try (
+                PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
+        ) {
+            writer.println("The first line");
+            writer.println("The second line");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+
         if (!Config.read()) {
             Logger.log("Can't read config. Server close now.");
             return;
@@ -81,7 +92,7 @@ public class MainServer {
         ConcurrencyManager.submit(new GameGenerator2());
 
         try {
-            Thread.sleep(500);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();

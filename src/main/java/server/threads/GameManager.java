@@ -33,7 +33,7 @@ public class GameManager extends GeneralTask {
     private ArrayList<Integer> publicOCs = new ArrayList<>();
     private ArrayList<Integer> toolCards = new ArrayList<>();
     private ArrayList<Integer> tCtokens = new ArrayList<>();
-    private Set<String> left = new HashSet<>();
+    private Set<String> left = Collections.synchronizedSet(new HashSet<>());
     private Vector<String> jump = new Vector<>();
     private AtomicInteger threads = new AtomicInteger(0);
     private String tavolo;
@@ -44,7 +44,6 @@ public class GameManager extends GeneralTask {
     private ArrayList<Dice> dices = new ArrayList<>();
     private ArrayList<Dice> pool = new ArrayList<>();
     private final Object obj = new Object();
-    private final Object obj2 = new Object();
 
     public GameManager(ArrayList<String> players) {
 
@@ -201,14 +200,14 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    private synchronized void setAction(boolean action) {
-        synchronized (obj2) {
+    private void setAction(boolean action) {
+        synchronized (obj) {
             this.action = action;
-            obj2.notifyAll();
+            obj.notifyAll();
         }
     }
 
-    private synchronized Boolean getAction() {
+    private Boolean getAction() {
         return action;
     }
 
@@ -544,9 +543,7 @@ public class GameManager extends GeneralTask {
     }
 
     public synchronized void exitGame2(String loser) {
-        synchronized (obj) {
-            this.left.add(loser);
-        }
+        this.left.add(loser);
     }
 
     private void checkActive() {
@@ -559,11 +556,9 @@ public class GameManager extends GeneralTask {
                 unrespAltoughP.add(pla);
                 active.remove(pla);
             }
-            synchronized (obj) {
-                if (left.contains(pla)) {
-                    active.remove(pla);
-                    unrespAltoughP.remove(pla);
-                }
+            if (left.contains(pla)) {
+                active.remove(pla);
+                unrespAltoughP.remove(pla);
             }
         }
     }
@@ -584,15 +579,15 @@ public class GameManager extends GeneralTask {
                 unrespAltoughP) {
             Logger.log(player + "; ");
         }
-        synchronized (obj) {
-            Logger.log(this + " players who quit " +
-                    "are " + left.size() + ". They are: ");
-            for (String player :
-                    left) {
-                Logger.log(player + "; ");
-            }
+        Logger.log(this + " players who quit " +
+                "are " + left.size() + ". They are: ");
+        for (String player :
+                left) {
+            Logger.log(player + "; ");
         }
-        Logger.log(this + " we play with " + count(pool) + " dices");
+        Logger.log(this + " we play with " +
+
+                count(pool) + " dices");
 
     }
 
@@ -664,9 +659,7 @@ public class GameManager extends GeneralTask {
         for (String p :
                 players) {
             if (middlewareServer.ping(p)) {
-                synchronized (obj) {
-                    left.remove(p);
-                }
+                left.remove(p);
             }
         }
         players2.removeAll(left);
@@ -741,12 +734,12 @@ public class GameManager extends GeneralTask {
             localPlayer.incrementTurn();
             middlewareServer.enable(remotePlayer);
 
-            synchronized (obj2) {
+            synchronized (obj) {
                 while (!getAction()) {
                     try {
                         Logger.log(this + " waiting player "
                                 + remotePlayer + "'s move");
-                        obj2.wait(timeout1);
+                        obj.wait(timeout1);
                         setAction(true);
                     } catch (InterruptedException ie) {
                         Logger.log("Thread sleep was interrupted!");
