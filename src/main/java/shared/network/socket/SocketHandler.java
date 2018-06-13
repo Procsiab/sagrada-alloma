@@ -43,7 +43,7 @@ class SocketHandler implements Runnable, Closeable {
             out.writeObject(resp);
             out.flush();
         } catch (IOException ioe) {
-            Logger.log("Error in handling client input!");
+            //TODO IO Exception manager
         } catch (ClassNotFoundException cnfe) {
             Logger.log("Received data has unknown class!");
         } finally {

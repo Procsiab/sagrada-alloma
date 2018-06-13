@@ -10,6 +10,7 @@ import shared.TransferObjects.ToolCT;
 import shared.TransferObjects.WindowT;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -38,70 +39,83 @@ public class MainCLI {
 
         boolean stop = false;
         do {
-            if (readInput.hasNextLine()) {
-                String s = readInput.nextLine();
-                if (s.equals("exit")) {
-                    stop = true;
-                    MiddlewareClient.getInstance().exitGame2();
-                    AnsiConsole.out().println(ansi().fgBrightRed().a("[EXIT] ").fgBrightYellow()
-                            .a("You left the game: connect again to re-join the match").fgDefault());
-                } else {
-                    switch (functionId) {
-                        case 1: // chooseWindow()
-                            int i = Integer.parseInt(s);
-                            if (windows.contains(i)) {
-                                MiddlewareClient.getInstance().chooseWindowBack(i);
-                                functionId = 0;
-                            } else {
-                                wrongCommand();
-                            }
-                            break;
-                        case 2: // enable()
-                            switch (s) {
-                                case "dice":
-                                    AnsiConsole.out().print(ansi().fgBrightRed()
-                                            .a("Input the number of the dice you want to pick: ").fgDefault());
-                                    i = readInput.nextInt();
-                                    if (this.gm.pool.size() < i) {
-                                        wrongCommand();
-                                    } else {
-                                        placeDice(i - 1);
-                                    }
-                                    break;
-                                case "card":
-                                    AnsiConsole.out().print(ansi().fgBrightRed()
-                                            .a("Input the number of the tool card you want to use: ").fgDefault());
-                                    i = readInput.nextInt();
-                                    if (this.gm.toolCards.size() < i) {
-                                        wrongCommand();
-                                        break;
-                                    }
-                                    useToolC(i - 1);
-                                    break;
-                                case "end":
-                                    MiddlewareClient.getInstance().endTurn();
-                                    break;
-                                case "\n":
-                                case "":
-                                    break;
-                                default:
-                                    wrongCommand();
-                                    break;
-                            }
-                            break;
-                        case 3: // method()
-                            break;
-                        default: // functionId = 0
-                            break;
+            try {
+                if (readInput.hasNextLine()) {
+                    String s = readInput.nextLine();
+                    if (s.equals("exit")) {
+                        stop = true;
+                        MiddlewareClient.getInstance().exitGame2();
+                        AnsiConsole.out().println(ansi().fgBrightRed().a("[EXIT] ").fgBrightYellow()
+                                .a("You left the game: connect again to re-join the match").fgDefault());
+                    } else {
+                        useCommand(s);
                     }
                 }
+            } catch (InputMismatchException ime) {
+                wrongCommand("command format not recognized!");
+            } catch (NumberFormatException nfe) {
+                wrongCommand("you should enter a valid integer number!");
             }
         } while (!stop);
+    }
+
+    private void useCommand(String s) {
+        switch (functionId) {
+            case 1: // chooseWindow()
+                int i = Integer.parseInt(s);
+                if (windows.contains(i)) {
+                    MiddlewareClient.getInstance().chooseWindowBack(i);
+                    functionId = 0;
+                } else {
+                    wrongCommand();
+                }
+                break;
+            case 2: // enable()
+                switch (s) {
+                    case "dice":
+                        AnsiConsole.out().print(ansi().fgBrightRed()
+                                .a("Input the number of the dice you want to pick: ").fgDefault());
+                        i = readInput.nextInt();
+                        if (this.gm.pool.size() < i) {
+                            wrongCommand();
+                        } else {
+                            placeDice(i - 1);
+                        }
+                        break;
+                    case "card":
+                        AnsiConsole.out().print(ansi().fgBrightRed()
+                                .a("Input the number of the tool card you want to use: ").fgDefault());
+                        i = readInput.nextInt();
+                        if (this.gm.toolCards.size() < i) {
+                            wrongCommand();
+                            break;
+                        }
+                        useToolC(i - 1);
+                        break;
+                    case "end":
+                        MiddlewareClient.getInstance().endTurn();
+                        break;
+                    case "\n":
+                    case "":
+                        break;
+                    default:
+                        wrongCommand();
+                        break;
+                }
+                break;
+            default: // functionId = 0
+                break;
+        }
     }
 
     private void wrongCommand() {
         AnsiConsole.out().println(ansi().fgBrightRed().a("[ERROR] ").fgBrightYellow()
                 .a("Wrong input, check for typos!").fgDefault());
+    }
+
+    private void wrongCommand(String m) {
+        AnsiConsole.out().println(ansi().fgBrightRed().a("[ERROR] ").fgBrightYellow()
+                .a("Wrong input: " + m).fgDefault());
     }
 
     private void placeDice(Integer index) {

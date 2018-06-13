@@ -36,7 +36,6 @@ public class NetworkSocket implements Connection {
             }
         } catch (UnknownHostException uhe) {
             Logger.log("Unable to resolve local host name/address!");
-            Logger.strace(uhe);
         }
     }
 
@@ -57,7 +56,6 @@ public class NetworkSocket implements Connection {
             inStream = new ObjectInputStream(socketProducer.getInputStream());
         } catch (IOException ioe) {
             Logger.log("Error while opening socket on server port " + port.toString() + "!");
-            Logger.strace(ioe);
         }
     }
 
@@ -105,7 +103,6 @@ public class NetworkSocket implements Connection {
             exportedObjects.put(n, o);
         } catch (ClassCastException cce) {
             Logger.log("Error casting given object into Serializable!");
-            Logger.strace(cce);
         } catch (NullPointerException npe) {
             Logger.log("Cannot export null object with name " + n);
         }
@@ -120,7 +117,6 @@ public class NetworkSocket implements Connection {
             exportedObject = (T) inStream.readObject();
         } catch (IOException ioe) {
             Logger.log("Error sending request packet to server!");
-            Logger.strace(ioe);
         } catch (ClassCastException cce) {
             Logger.log("Error casting server response!");
         } catch (ClassNotFoundException cnfe) {
@@ -138,7 +134,6 @@ public class NetworkSocket implements Connection {
             returnValue = inStream.readObject();
         } catch (IOException ioe) {
             Logger.log("Error sending request packet to server!");
-            Logger.strace(ioe);
         } catch (ClassCastException cce) {
             Logger.log("Error casting server response!");
         } catch (ClassNotFoundException cnfe) {
@@ -154,7 +149,6 @@ public class NetworkSocket implements Connection {
             this.socketProducer.close();
         } catch (IOException ioe) {
             Logger.log("Error closing streams or socket before shutting down!");
-            Logger.strace(ioe);
         }
     }
 }

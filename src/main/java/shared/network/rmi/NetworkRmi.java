@@ -35,7 +35,6 @@ public class NetworkRmi implements Connection {
             System.setProperty("java.rmi.server.useCodebaseOnly", "false");
         } catch (UnknownHostException uhe) {
             Logger.log("Unable to resolve local host name/address!");
-            Logger.strace(uhe);
         }
     }
 
@@ -46,7 +45,6 @@ public class NetworkRmi implements Connection {
             this.rmiRegistry = LocateRegistry.createRegistry(port);
         } catch (RemoteException re) {
             Logger.log("Error in RMI Registry initialization!");
-            Logger.strace(re);
         }
     }
 
@@ -61,7 +59,6 @@ public class NetworkRmi implements Connection {
             }
         } catch (RemoteException re) {
             Logger.log("Error in RMI Registry connection! (server: " + server + ")");
-            Logger.strace(re);
         }
     }
 
@@ -90,7 +87,6 @@ public class NetworkRmi implements Connection {
             return r;
         } catch (RemoteException re) {
             Logger.log("Error exporting with UnicastRemoteObject!");
-            Logger.strace(re);
         }   catch (ClassCastException cce) {
             Logger.log("Error casting given object into Remote!");
         }
@@ -109,7 +105,6 @@ public class NetworkRmi implements Connection {
             Naming.rebind(rmiUrl, remotize(o));
         } catch (RemoteException re) {
             Logger.log("Error binding " + n + " in RMI Registry!");
-            Logger.strace(re);
         } catch (MalformedURLException mue) {
             Logger.log("Error in URL formatting: " + rmiUrl);
         } catch (NullPointerException npe) {
@@ -127,7 +122,6 @@ public class NetworkRmi implements Connection {
             Logger.log("Error in lookup for name  " + name + " in RMI Registry: maybe is not bound!");
         } catch (RemoteException re) {
             Logger.log("Error retrieving " + name + " from RMI Registry!");
-            Logger.strace(re);
         } catch (ClassCastException cce) {
             Logger.log("Error casting Remote object into destination class!");
         }
@@ -140,7 +134,7 @@ public class NetworkRmi implements Connection {
             Object e = getExported(callee);
             return router.route(e, methodName, argList);
         } catch (NullPointerException npe) {
-            Logger.log("Could not find requested object " + callee + " among exported ones!");
+            Logger.log("Null pointer: maybe object " + callee + " wasn't exported!");
             Logger.strace(npe, true);
         } catch (ClassCastException cce) {
             Logger.log("Cast type exception: do your parameters extend Serializable?");

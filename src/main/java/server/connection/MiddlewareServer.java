@@ -42,20 +42,18 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     private Object forwardMethod(String uuid, String methodName, Object[] args) {
         try {
-            if (SReferences.getIsSocketRef(uuid)) {
+            if (SReferences.getIsSocketRef(uuid)) { //TODO Check for double exceptions
                 try (Connection client = new NetworkSocket(SReferences.getIpRef(uuid), SReferences.getPortRef(uuid))) {
                     return client.invokeMethod(uuid, methodName, args);
                 } catch (Exception e) {
                     Logger.log("An error occurred while invoking method " + methodName + " on host " +
                             SReferences.getIpRef(uuid) + "@" + SReferences.getPortRef(uuid));
-                    Logger.strace(e);
                 }
             } else {
                 return serverRmi.invokeMethod(uuid, methodName, args);
             }
         } catch (NullPointerException npe) {
             Logger.log("Unable to find player with UUID " + uuid);
-            Logger.strace(npe);
         }
         return null;
     }
@@ -74,9 +72,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             }
             return false;
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
+            return true;
         }
-        return true;
     }
 
     @Override
@@ -136,17 +133,13 @@ public class MiddlewareServer implements SharedMiddlewareServer {
 
     @Override
     public Boolean chooseWindowBack(String uuid, Integer window) {
-
         try {
-            if (deniedAccess(uuid)) {
+            if (deniedAccess(uuid))
                 return false;
-            }
             return SReferences.getPlayerRef(uuid).setWindowFromC(window - 1);
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
-            Logger.strace(npe);
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -171,10 +164,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             game.getThreads().decrementAndGet();
             return value;
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
-            Logger.strace(npe);
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -189,10 +180,8 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             game.getThreads().decrementAndGet();
             return value;
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
-            Logger.strace(npe);
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -200,8 +189,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             SReferences.getGameRef(uuid).exitGame2(uuid);
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
-            Logger.strace(npe);
+            Logger.log("Unable to log out player with UUID " + uuid);
         }
     }
 
@@ -212,8 +200,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 return;
             SReferences.getGameRef(uuid).endTurn();
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
-            Logger.strace(npe);
+            Logger.log("Unable to terminate turn for player with UUID " + uuid);
         }
     }
 
@@ -224,8 +211,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 return;
             SReferences.getGameRef(uuid).updateView(uuid);
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
-            Logger.strace(npe);
+            Logger.log("Unable to update teh view of player with UUID " + uuid);
         }
     }
 
@@ -234,8 +220,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             return MatchManager.exitGame1(uuid);
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
-            Logger.strace(npe);
+            Logger.log("Unable to log out player with UUID " + uuid);
         }
         return false;
     }
