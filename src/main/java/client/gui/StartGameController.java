@@ -323,6 +323,7 @@ for(int h = 0; h < roundTrackData.size(); h++) {
         // cleanup code here...
         System.out.println("CHIUSURA FINESTRA");
 
+
         // note that typically (i.e. if Platform.isImplicitExit() is true, which is the default)
         // closing the last open window will invoke Platform.exit() anyway
         Platform.exit();
@@ -409,6 +410,7 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     @FXML
     private void fineTurno(ActionEvent event) throws IOException{
         System.out.print("\"Turno Finito\"");
+        middlewareClient.endTurn();
 
     }
     @FXML
