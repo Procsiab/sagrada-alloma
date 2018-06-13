@@ -731,8 +731,7 @@ public class GameManager extends GeneralTask {
     }
 
     private void handleEffectiveTurn(String remotePlayer, Player localPlayer) {
-        if (jump.contains(remotePlayer)) {
-            jump.remove(remotePlayer);
+        if (jump.remove(remotePlayer)) {
             Logger.log(this + " player: " + remotePlayer +
                     "jump this turn");
         } else if (active.contains(remotePlayer)) {

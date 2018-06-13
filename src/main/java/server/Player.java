@@ -11,14 +11,14 @@ public class Player {
     private String uUID;
     private String nickName;
     private Character privateO;
-    private ArrayList<Integer> possibleWindows;
+    private ArrayList<Integer> possibleWindows = new ArrayList<>();
     private Window window;
     private Overlay overlay = new Overlay();
     private Integer tokens = 0;
     private Integer turno = 0;
     private Integer score = 0;
     private Integer privateTurn = 0; //can be either 1 or 2
-    private Position lastPlacedFromPool = new Position(-1, -1);
+    private Position lastPlacedFromPool;
     private boolean hasPlacedDice = false;
     private boolean hasUsedTc = false;
     private GameManager game;
@@ -26,7 +26,7 @@ public class Player {
     public Player(GameManager gameManager, String uUID) {
         this.uUID = uUID;
         this.game = gameManager;
-        this.possibleWindows = new ArrayList<>();
+        this.lastPlacedFromPool = new Position(-1, -1);
         this.nickName = SReferences.getNickNameRef(uUID);
     }
 
@@ -237,7 +237,7 @@ public class Player {
         Dice dice;
         if (!this.placedDice()) {
             ArrayList<Dice> pool = game.getPool();
-            if (index >= pool.size()||index<0||pool.get(index)==null) {
+            if (index >= pool.size() || index < 0 || pool.get(index) == null) {
                 System.out.println("(temporary print) index out of bounds");
                 return false;
             }

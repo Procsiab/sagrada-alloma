@@ -47,20 +47,20 @@ public class Tool {
         if (i3.equals(-1)) {
             if (dice.getValue().equals(1))
                 return false;
-            dice.setValue(dice.getValue()-1);
+            dice.setValue(dice.getValue() - 1);
         } else if (i3.equals(1)) {
             if (dice.getValue().equals(6))
                 return false;
-            dice.setValue(dice.getValue()+1);
+            dice.setValue(dice.getValue() + 1);
         } else return false;
 
         if (player.getWindow().setDiceFromPool(player, i2, p1))
             return true;
 
         if (i3.equals(-1)) {
-            dice.setValue(dice.getValue()+1);
+            dice.setValue(dice.getValue() + 1);
         } else if (i3.equals(1)) {
-            dice.setValue(dice.getValue()-1);
+            dice.setValue(dice.getValue() - 1);
         }
         return false;
     }
@@ -105,11 +105,11 @@ public class Tool {
         Dice dice = game.getPool().get(i2);
         Integer value = dice.getValue();
         Random rand = new Random();
-        dice.setValue( 1 + rand.nextInt(5));
+        dice.setValue(1 + rand.nextInt(5));
 
         if (player.getWindow().setDiceFromPool(player, i2, p1))
             return true;
-        //dice.value = value;
+        dice.setValue(value);
         return false;
     }
 
@@ -122,7 +122,7 @@ public class Tool {
         for (Dice d :
                 game.getPool()) {
             if (d != null)
-                d.setValue( 1 + rand.nextInt(5));
+                d.setValue(1 + rand.nextInt(5));
         }
         return true;
     }

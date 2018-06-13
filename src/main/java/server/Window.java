@@ -94,19 +94,13 @@ public class Window implements Serializable {
     private boolean checkPlaceColorRequirements(Dice dice, Position position) {
         if (getCell(position).getColor() == null)
             return true;
-        if (!dice.getColor().equals(getCell(position).getColor())) {
-            return false;
-        }
-        return true;
+        return dice.getColor().equals(getCell(position).getColor());
     }
 
     private boolean checkPlaceValueRequirements(Dice dice, Position position) {
         if (getCell(position).getValue() == null)
             return true;
-        if (!dice.getValue().equals(getCell(position).getValue())) {
-            return false;
-        }
-        return true;
+        return dice.getValue().equals(getCell(position).getValue());
     }
 
     private boolean checkPlaceRequirements(Dice dice, Position position) {
@@ -126,11 +120,11 @@ public class Window implements Serializable {
         Dice dice = pool.get(index);
         if (dice == null || player.getOverlay().busy(position)
                 || !checkDice(player, dice, position)) {
-            if(dice == null)
-            System.out.println("(temporary print) error code 2a ");
-            if(player.getOverlay().busy(position))
+            if (dice == null)
+                System.out.println("(temporary print) error code 2a ");
+            if (player.getOverlay().busy(position))
                 System.out.println("(temporary print) error code 2b ");
-            if(!checkDice(player, dice, position))
+            if (!checkDice(player, dice, position))
                 System.out.println("(temporary print) error code 2c ");
             return false;
         }
