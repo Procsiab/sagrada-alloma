@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import client.threads.GameHelper;
 import org.fusesource.jansi.AnsiConsole;
 import shared.Logger;
+import shared.network.MethodConnectionException;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
@@ -82,7 +83,11 @@ public class MainClient extends Application {
             MiddlewareClient.setConnection(new NetworkRmi("", 0));
         }
         else if (connection.equals("socket")){
-            MiddlewareClient.setConnection(new NetworkSocket("", 0));
+            try {
+                MiddlewareClient.setConnection(new NetworkSocket("", 0));
+            } catch (MethodConnectionException mce) {
+                Logger.strace(mce);
+            }
         }
 
         AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the input interface ('GUI' | 'CMD')").fgDefault());

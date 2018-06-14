@@ -2,6 +2,7 @@ package shared.network.socket;
 
 import shared.Logger;
 import shared.network.Connection;
+import shared.network.MethodConnectionException;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -11,7 +12,6 @@ import java.util.*;
 
 public class NetworkSocket implements Connection {
     private static final Integer SOCKET_PORT = 1101;
-    private static final String SERVER_ADDRESS = "localhost";
     private static Map<String, Object> exportedObjects = Collections.synchronizedMap(new HashMap<String, Object>());
 
     private Socket socketProducer;
@@ -39,7 +39,7 @@ public class NetworkSocket implements Connection {
         }
     }
 
-    private void startProducer(String server, Integer port) {
+    private void startProducer(String server, Integer port) throws MethodConnectionException {
         try {
             this.ip = InetAddress.getLocalHost().getHostAddress();
             // Setup the socket which will output data to the server
@@ -54,18 +54,18 @@ public class NetworkSocket implements Connection {
             outStream = new ObjectOutputStream(socketProducer.getOutputStream());
             outStream.flush();
             inStream = new ObjectInputStream(socketProducer.getInputStream());
-        } catch (IOException ioe) {
-            Logger.log("Error while opening socket on server port " + port.toString() + "!");
+        } catch (Exception e) {
+            throw new MethodConnectionException();
         }
     }
 
-    public NetworkSocket(String server, Integer port) {
+    public NetworkSocket(String server, Integer port) throws MethodConnectionException {
         this.port = port;
         this.server = server;
         startProducer(this.server, this.port);
     }
 
-    public NetworkSocket(String server) {
+    public NetworkSocket(String server) throws MethodConnectionException {
         this.port = SOCKET_PORT;
         this.server = server;
         startProducer(this.server, this.port);
@@ -126,7 +126,7 @@ public class NetworkSocket implements Connection {
     }
 
     @Override
-    public Object invokeMethod(String callee, String methodName, Object[] argList) {
+    public Object invokeMethod(String callee, String methodName, Object[] argList) throws MethodConnectionException {
         Object returnValue = null;
         startProducer(this.server, this.port);
         try {
@@ -138,6 +138,8 @@ public class NetworkSocket implements Connection {
             Logger.log("Error casting server response!");
         } catch (ClassNotFoundException cnfe) {
             Logger.log("Server response object has unknown class!");
+        } finally {
+            close();
         }
         return returnValue;
     }
@@ -148,7 +150,7 @@ public class NetworkSocket implements Connection {
             this.outStream.close();
             this.socketProducer.close();
         } catch (IOException ioe) {
-            Logger.log("Error closing streams or socket before shutting down!");
+            Logger.log("Error closing streams or socket before terminating consumer!");
         }
     }
 }

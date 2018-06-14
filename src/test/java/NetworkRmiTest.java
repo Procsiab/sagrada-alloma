@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import shared.network.MethodConnectionException;
 import shared.network.rmi.NetworkRmi;
 import static org.mockito.Mockito.*;
 
@@ -34,7 +35,11 @@ public class NetworkRmiTest {
             Logger.log("Error calling remote method getName() through reference myFoo");
             Logger.strace(re);
         }
-        Assert.assertEquals(bar.getName(), myNetClient.invokeMethod("bar", "getName", null));
+        try {
+            Assert.assertEquals(bar.getName(), myNetClient.invokeMethod("bar", "getName", null));
+        } catch (MethodConnectionException mce) {
+            Logger.strace(mce);
+        }
     }
 }
 

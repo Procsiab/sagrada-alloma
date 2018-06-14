@@ -9,6 +9,7 @@ import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.Connection;
+import shared.network.MethodConnectionException;
 import shared.network.SharedMiddlewareServer;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
@@ -41,19 +42,32 @@ public class MiddlewareServer implements SharedMiddlewareServer {
     }
 
     private Object forwardMethod(String uuid, String methodName, Object[] args) {
+        boolean useSocket = false;
         try {
-            if (SReferences.getIsSocketRef(uuid)) { //TODO Check for double exceptions
-                try (Connection client = new NetworkSocket(SReferences.getIpRef(uuid), SReferences.getPortRef(uuid))) {
-                    return client.invokeMethod(uuid, methodName, args);
-                } catch (Exception e) {
-                    Logger.log("An error occurred while invoking method " + methodName + " on host " +
-                            SReferences.getIpRef(uuid) + "@" + SReferences.getPortRef(uuid));
-                }
-            } else {
-                return serverRmi.invokeMethod(uuid, methodName, args);
-            }
+            useSocket = SReferences.getIsSocketRef(uuid);
         } catch (NullPointerException npe) {
-            Logger.log("Unable to find player with UUID " + uuid);
+            Logger.log("Unable to find player with UUID: " + uuid);
+        }
+        if (useSocket) {
+            Connection client = null;
+            try {
+                client = new NetworkSocket(SReferences.getIpRef(uuid), SReferences.getPortRef(uuid));
+                return client.invokeMethod(uuid, methodName, args);
+            } catch (MethodConnectionException mce) {
+                Logger.log("Socket error occurred while invoking method " + methodName + " on host " +
+                        SReferences.getIpRef(uuid) + "@" + SReferences.getPortRef(uuid));
+            } finally {
+                if (client != null) {
+                    client.close();
+                }
+            }
+        } else {
+            try {
+                return serverRmi.invokeMethod(uuid, methodName, args);
+            } catch (MethodConnectionException mce) {
+                Logger.log("RMI error occurred while invoking method " + methodName + "on host"
+                        + SReferences.getIpRef(uuid));
+            }
         }
         return null;
     }

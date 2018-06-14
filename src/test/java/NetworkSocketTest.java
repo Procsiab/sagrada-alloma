@@ -1,5 +1,6 @@
 import shared.Logger;
 import shared.network.Connection;
+import shared.network.MethodConnectionException;
 import shared.network.socket.NetworkSocket;
 
 import java.io.Serializable;
@@ -28,11 +29,19 @@ public class NetworkSocketTest {
         myNetServer.export(foo, "foo");
         TimeUnit.MILLISECONDS.sleep(100);
 
-        myNetClient = new NetworkSocket("");
+        try {
+            myNetClient = new NetworkSocket("");
+        } catch (MethodConnectionException mce) {
+            Logger.strace(mce);
+        }
         Logger.log("Retrieving Foo from server");
         SharedBar myBar = myNetClient.getExported("foo");
         Assert.assertEquals(foo.getName(), myBar.getName());
-        Assert.assertEquals(foo.getName(), myNetClient.invokeMethod("foo", "getName", null));
+        try {
+            Assert.assertEquals(foo.getName(), myNetClient.invokeMethod("foo", "getName", null));
+        } catch (MethodConnectionException mce) {
+            Logger.strace(mce);
+        }
     }
 }
 
