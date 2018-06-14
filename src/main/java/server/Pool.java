@@ -25,7 +25,7 @@ public class Pool {
         for (Dice d :
                 poolOfDice) {
             if (d != null)
-                d.setValue(1 + rand.nextInt(5));
+                d.setValue(1 + rand.nextInt(6));
         }
     }
 

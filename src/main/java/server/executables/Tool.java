@@ -98,7 +98,7 @@ public class Tool {
 
         Dice dice = pool.getDice(i2);
         Random rand = new Random();
-        dice.setValue(1 + rand.nextInt(5));
+        dice.setValue(1 + rand.nextInt(6));
 
         return player.getWindow().placeDiceFromPool(player, i2, p1);
 
@@ -168,7 +168,7 @@ public class Tool {
 
         Dice dice;
         Random rand = new Random();
-        int k = rand.nextInt(diceBag.size() - 1);
+        int k = rand.nextInt(diceBag.size());
         dice = diceBag.get(k);
         dice.setValue(i3);
         diceBag.set(k, pool.getDice(i2));

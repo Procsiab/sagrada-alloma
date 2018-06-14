@@ -164,7 +164,7 @@ public class GameManager extends GeneralTask {
     private ArrayList<Integer> set(Integer lowerBound, Integer upperBound, Integer size) {
         ArrayList<Integer> a = new ArrayList<>();
         Random rand = new Random();
-        int j = lowerBound + rand.nextInt(upperBound);
+        int j = lowerBound + rand.nextInt(upperBound++);
         int i = 1;
         size++;
 
@@ -184,15 +184,15 @@ public class GameManager extends GeneralTask {
 
         while (i <= 90) {
             if (1 <= i && i <= 18)
-                dices.add(new Dice('r', 1 + rand.nextInt(5)));
+                dices.add(new Dice('r', 1 + rand.nextInt(6)));
             else if (19 <= i && i <= 36)
-                dices.add(new Dice('y', 1 + rand.nextInt(5)));
+                dices.add(new Dice('y', 1 + rand.nextInt(6)));
             else if (37 <= i && i <= 54)
-                dices.add(new Dice('g', 1 + rand.nextInt(5)));
+                dices.add(new Dice('g', 1 + rand.nextInt(6)));
             else if (55 <= i && i <= 72)
-                dices.add(new Dice('b', 1 + rand.nextInt(5)));
+                dices.add(new Dice('b', 1 + rand.nextInt(6)));
             else if (73 <= i)
-                dices.add(new Dice('v', 1 + rand.nextInt(5)));
+                dices.add(new Dice('v', 1 + rand.nextInt(6)));
             i++;
         }
     }
@@ -516,7 +516,7 @@ public class GameManager extends GeneralTask {
         Random rand = new Random();
 
         while (i < num) {
-            pool.addDice(dices.remove(rand.nextInt(dices.size() - 1)));
+            pool.addDice(dices.remove(rand.nextInt(dices.size())));
             i++;
         }
     }
@@ -588,10 +588,10 @@ public class GameManager extends GeneralTask {
         Integer j;
         ArrayList<Integer> a = new ArrayList<>();
 
-        j = rand.nextInt(22);
+        j = rand.nextInt(23);
         while (i < 2 * players.size()) {
             while (a.contains(j) || j % 2 == 1) {
-                j = rand.nextInt(22);
+                j = rand.nextInt(23);
             }
             a.add(j);
             a.add(j + 1);
@@ -633,7 +633,7 @@ public class GameManager extends GeneralTask {
                 players) {
             vPlayer = SReferences.getPlayerRef(player);
             if (vPlayer.getWindow() == null) {
-                vPlayer.setWindow(a.get(4 * i + rand.nextInt(3)));
+                vPlayer.setWindow(a.get(4 * i + rand.nextInt(4)));
                 middlewareServer.startGameViewForced(vPlayer.getuUID());
             }
             i++;
