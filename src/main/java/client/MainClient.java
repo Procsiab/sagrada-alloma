@@ -111,7 +111,7 @@ public class MainClient extends Application {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
             Process process;
-            String cmd = "wmic csproduct getDice UUID";
+            String cmd = "wmic csproduct get UUID";
             try {
                 process = Runtime.getRuntime().exec(cmd);
                 process.waitFor();
