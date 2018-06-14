@@ -35,10 +35,9 @@ import shared.TransferObjects.PlayerT;
 
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class StartGameController implements Initializable {
@@ -246,7 +245,7 @@ public class StartGameController implements Initializable {
         }
 
         //LOADING DICES INTO ROUNDTRACK
-
+/*
         ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
         System.out.println(roundTrackData);
         for(int h=0; h<roundTrackData.size();h++){
@@ -268,10 +267,11 @@ public class StartGameController implements Initializable {
                 listaComboBox.get(h).getItems().add(diceRound);
                 }
         }
+        */
 
 
 
-        /*
+
 //Arraylist made of arraylist containing the data I need
 ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
 System.out.println(roundTrackData);
@@ -299,7 +299,7 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     }
 
     combo.setItems(options);
-}*/
+}
 
 
 
