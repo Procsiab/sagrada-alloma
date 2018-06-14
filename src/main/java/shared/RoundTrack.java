@@ -19,12 +19,22 @@ public class RoundTrack implements Serializable {
         return dices;
     }
 
-    public boolean busy(PositionR positionR) {
-        Dice dice = getDice(positionR);
-        if (dice == null)
+    public boolean isAValidPositionToRead(PositionR positionR) {
+        if (positionR == null || positionR.getHeight() == null || positionR.getColumn() == null)
+            return false;
+        if (positionR.getColumn() < 0 || positionR.getColumn() > dices.size() - 1)
+            return false;
+        if (positionR.getHeight() < 0 || positionR.getHeight() > dices.get(positionR.getColumn()).size() - 1)
             return false;
         return true;
     }
+
+    /*
+    public synchronized boolean busy(PositionR positionR) {
+        Dice dice = getDice(positionR);
+        return (dice == null);
+    }
+    */
 
     public void setDice(Dice dice, PositionR positionR) {
 
@@ -36,14 +46,10 @@ public class RoundTrack implements Serializable {
     }
 
     public Dice getDice(PositionR positionR) {
-        if(positionR.getColumn()<0||positionR.getColumn()>9)
-            return null;
-        if(positionR.getHeight()<0||positionR.getHeight()>=dices.get(positionR.getColumn()).size())
-            return null;
         return this.dices.get(positionR.getColumn()).get(positionR.getHeight());
     }
 
-    public Integer sumDices() {
+   /* public Integer sumDices() {
         int sum = 0;
         for (ArrayList<Dice> arr :
                 dices) {
@@ -56,4 +62,5 @@ public class RoundTrack implements Serializable {
         }
         return sum;
     }
+    */
 }

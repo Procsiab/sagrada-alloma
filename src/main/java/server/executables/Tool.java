@@ -11,32 +11,47 @@ import java.util.Random;
 
 public class Tool {
 
-    public static Boolean ableAndSettleCard(Player player, Integer i1) {
+    public static Boolean ableCard(Player player, Integer i1) {
         Integer tokens = player.getTokens();
         Integer tokensRequired = player.getGame().getTCtokens(i1);
         if (player.usedTc() || (tokens < tokensRequired))
             return false;
-        player.setTokens(tokens - tokensRequired);
-        player.getGame().addTCtokens(i1);
+        /*player.setTokens(tokens - tokensRequired);
+        player.getGame().addTCtokens(i1);*/
         return true;
     }
 
-    public static Boolean ableAndSettleDiceAndCard(Player player, Integer i1) {
+    public static Boolean ableDiceAndCard(Player player, Integer i1) {
         Integer tokens = player.getTokens();
         Integer tokensRequired = player.getGame().getTCtokens(i1);
         if (player.usedTcAndPlacedDice() || (tokens < tokensRequired))
             return false;
-        player.setTokens(tokens - tokensRequired);
-        player.getGame().addTCtokens(i1);
+        /*player.setTokens(tokens - tokensRequired);
+        player.getGame().addTCtokens(i1);*/
         return true;
     }
 
     public static Boolean use1(GameManager game, Integer i1, Player player, Position p1, Integer i2, Integer i3) {
 
-        if (!ableAndSettleDiceAndCard(player, i1) ||
+
+        if (!ableDiceAndCard(player, i1) ||
                 i2 == null || i3 == null || p1 == null
-                || i2 >= game.getPool().size() || i2 < 0)
+                || i2 < 0 || i2 > game.getPool().size() - 1)
             return false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         Dice dice = game.getPool().get(i2);
 
@@ -66,21 +81,21 @@ public class Tool {
 
     public static Boolean use2(Integer i1, Player player, Position p1, Position p2) {
 
-        if (!ableAndSettleCard(player, i1) || p1 == null || p2 == null)
+        if (!ableCard(player, i1) || p1 == null || p2 == null)
             return false;
         return player.getWindow().moveDiceNoColor(player, p1, p2);
     }
 
     public static Boolean use3(Integer i1, Player player, Position p1, Position p2) {
 
-        if (!ableAndSettleCard(player, i1) || p1 == null || p2 == null)
+        if (!ableCard(player, i1) || p1 == null || p2 == null)
             return false;
         return player.getWindow().moveDiceNoShade(player, p1, p2);
     }
 
     public static Boolean use4(Integer i1, Player player, Position p1, Position p2, Position p3, Position p4) {
 
-        if (!ableAndSettleCard(player, i1) ||
+        if (!ableCard(player, i1) ||
                 p1 == null || p2 == null || p3 == null || p4 == null)
             return false;
 
@@ -89,7 +104,7 @@ public class Tool {
 
     public static Boolean use5(GameManager game, Integer i1, Player player, Position p1, PositionR pr, Integer i2) {
 
-        if (!ableAndSettleDiceAndCard(player, i1) || i2 == null || p1 == null || pr == null)
+        if (!ableDiceAndCard(player, i1) || i2 == null || p1 == null || pr == null)
             return false;
 
         return player.getWindow().moveDiceWindowRoundtrack(game, player, i2, p1, pr);
@@ -97,7 +112,7 @@ public class Tool {
 
     public static Boolean use6(GameManager game, Integer i1, Player player, Position p1, Integer i2) {
 
-        if (!ableAndSettleDiceAndCard(player, i1) || i2 == null || p1 == null ||
+        if (!ableDiceAndCard(player, i1) || i2 == null || p1 == null ||
                 i2 >= game.getPool().size() || i2 < 0)
             return false;
 
@@ -114,7 +129,7 @@ public class Tool {
 
     public static Boolean use7(GameManager game, Integer i1, Player player) {
 
-        if (!ableAndSettleCard(player, i1) || player.getPrivateTurn() == 1)
+        if (!ableCard(player, i1) || player.getPrivateTurn() == 1)
             return false;
 
         Random rand = new Random();
@@ -128,7 +143,7 @@ public class Tool {
 
     public static Boolean use8(GameManager game, Integer i1, Player player, Position p1, Integer i2) {
 
-        if (!ableAndSettleCard(player, i1) || player.getPrivateTurn() == 1
+        if (!ableCard(player, i1) || player.getPrivateTurn() == 1
                 || i2 == null || p1 == null)
             return false;
 
@@ -141,7 +156,7 @@ public class Tool {
 
     public static Boolean use9(Integer i1, Player player, Position p1, Integer i2) {
 
-        if (!ableAndSettleDiceAndCard(player, i1) || p1 == null && i2 == null)
+        if (!ableDiceAndCard(player, i1) || p1 == null && i2 == null)
             return false;
 
         return player.getWindow().placeDiceAlone(player, i2, p1);
@@ -149,7 +164,7 @@ public class Tool {
 
     public static Boolean use10(GameManager game, Integer i1, Player player, Position p1, Integer i2) {
 
-        if (!ableAndSettleDiceAndCard(player, i1) || i2 == null || p1 == null ||
+        if (!ableDiceAndCard(player, i1) || i2 == null || p1 == null ||
                 i2 < 0 || i2 >= game.getPool().size())
             return false;
 
@@ -172,9 +187,9 @@ public class Tool {
 
     public static Boolean use11(GameManager game, Integer i1, Player player, Position p1, Integer i2, Integer i3) {
 
-        if (!ableAndSettleDiceAndCard(player, i1) || p1 == null || i2 == null
+        if (!ableDiceAndCard(player, i1) || p1 == null || i2 == null
                 || i3 == null || i2 >= game.getPool().size() || i2 < 0
-                || game.getPool().get(i2) == null)
+                || game.getPool().get(i2) == null || i3 < 1 || i3 > 6)
             return false;
 
         Dice dice;
@@ -194,8 +209,8 @@ public class Tool {
 
     public static Boolean use12(GameManager game, Integer i1, Player player, Position p1, Position p2, Position p3, Position p4, PositionR pr) {
 
-        if (!ableAndSettleCard(player, i1) || p1 == null || p2 == null ||
-                game.getRoundTrack().getDice(pr) == null)
+        if (!ableCard(player, i1) || p1 == null || p2 == null ||
+                !game.getRoundTrack().isAValidPositionToRead(pr))
             return false;
 
         Dice diceRoundrack = game.getRoundTrack().getDice(pr);

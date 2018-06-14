@@ -17,10 +17,6 @@ public class PositionR implements Serializable {
         this.height = height;
     }
 
-    public boolean isValid() {
-        return !(column == null || height == null);
-    }
-
     public Integer getColumn() {
         return column;
     }

@@ -1,4 +1,5 @@
 
+import javafx.geometry.Pos;
 import server.Player;
 import server.SReferences;
 import server.connection.DummyMiddlewareServer;
@@ -6,6 +7,7 @@ import server.threads.MainServer;
 import server.threads.GameManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 import org.junit.jupiter.api.Test;
@@ -329,10 +331,79 @@ class MainServerTest {
     }
 
     @Test
+    public boolean testHashCode() {
+        HashSet<Integer> hashSet = new HashSet<>();
+        Dice dice = new Dice('g', 1);
+        int i = 1;
+        while (i < 7) {
+            dice = new Dice('g', i);
+            System.out.println(dice.hashCode());
+            if (!hashSet.add(dice.hashCode()))
+                return false;
+            i++;
+        }
+
+        i = 1;
+        while (i < 7) {
+            dice = new Dice('b', i);
+            System.out.println(dice.hashCode());
+            if (!hashSet.add(dice.hashCode()))
+                return false;
+            i++;
+        }
+
+        i = 1;
+        while (i < 7) {
+            dice = new Dice('y', i);
+            System.out.println(dice.hashCode());
+            if (!hashSet.add(dice.hashCode()))
+                return false;
+            i++;
+        }
+
+        i = 1;
+        while (i < 7) {
+            dice = new Dice('v', i);
+            System.out.println(dice.hashCode());
+            if (!hashSet.add(dice.hashCode()))
+                return false;
+            i++;
+        }
+
+        i = 1;
+        while (i < 7) {
+            dice = new Dice('r', i);
+            System.out.println(dice.hashCode());
+            if (!hashSet.add(dice.hashCode()))
+                return false;
+            i++;
+        }
+
+        hashSet.clear();
+        i = 0;
+        int j = 0;
+        while (i < 4) {
+            while (j < 5) {
+                Position pos = new Position(i, j);
+                System.out.println(dice.hashCode());
+                if (!hashSet.add(dice.hashCode()))
+                    return false;
+                j++;
+            }
+            j = 0;
+            i++;
+        }
+
+        return true;
+    }
+
+    @Test
     void main() {
 
         MainServer.simulation();
         obj = MainServer.obj;
-        testCards();
+        //if(testHashCode())
+            testCards();
+        //assert(false);
     }
 }

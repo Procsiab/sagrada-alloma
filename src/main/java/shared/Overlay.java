@@ -10,7 +10,7 @@ public class Overlay implements Serializable {
     public Overlay(){}
 
     public Dice getDice(Position pos) {
-        if(pos.getRow()>3 ||pos.getRow()<0 ||pos.getColumn()>4||pos.getColumn()<0)
+        if(!pos.validate())
             return null;
         return dicePositions[pos.getRow()][pos.getColumn()];
     }
@@ -33,7 +33,7 @@ public class Overlay implements Serializable {
         return str;
     }
 
-    public boolean busy(Position position) {
+    public Boolean busy(Position position) {
         if (getDice(position) != null)
             return true;
         return false;

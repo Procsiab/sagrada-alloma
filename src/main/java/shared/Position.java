@@ -1,7 +1,6 @@
 package shared;
 
-import javafx.geometry.Pos;
-import org.junit.experimental.theories.PotentialAssignment;
+import server.threads.MainServer;
 
 import java.io.Serializable;
 
@@ -20,17 +19,20 @@ public class Position implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Position))
+        if (!(object instanceof Position)||!((Position) object).validate())
             return false;
         Position position= (Position) object;
-        if (!position.row.equals( this.row))
-            return false;
-        if (!position.column.equals(this.column))
+        if (!position.row.equals( this.row)||!position.column.equals(this.column))
             return false;
         return true;
     }
 
-    public boolean isValid() {
+    @Override
+    public int hashCode() {
+        return MainServer.primeNumber(row) * MainServer.primeNumber(row * column);
+    }
+
+    public boolean validate() {
         return !(row == null || column == null || row < 0 || row > 3 || column < 0 || column > 4);
     }
 

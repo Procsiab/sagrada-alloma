@@ -1,10 +1,12 @@
 package shared;
 
+import server.threads.MainServer;
+
 import java.io.Serializable;
 
 public class Dice implements Serializable {
 
-    public Dice(char color, Integer n){
+    public Dice(Character color, Integer n){
         this.color = color;
         this.value = n;
     }
@@ -25,18 +27,17 @@ public class Dice implements Serializable {
         return true;
     }
 
+    @Override
+    public int hashCode() {
+        return MainServer.primeNumber(value) * MainServer.primeNumber(value * color);
+    }
+
     public boolean isCloseTo(Dice dice){
         if(dice.color == this.color)
             return true;
         if(dice.value== this.value)
             return true;
         return false;
-    }
-
-    public boolean isValid() {
-        return !(value == null || color == null || value < 1 || value > 6 || !(color.equals('g')
-                || color.equals('b') || color.equals('v') ||
-                color.equals('y') || color.equals('r')));
     }
 
     public void setValue(Integer value) {

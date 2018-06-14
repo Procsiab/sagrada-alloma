@@ -224,6 +224,7 @@ public class GameManager extends GeneralTask {
         return jump;
     }
 
+
     public String getTavolo() {
         return tavolo;
     }
