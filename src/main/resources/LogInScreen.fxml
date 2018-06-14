@@ -28,7 +28,7 @@
             </ImageView>
             <Button fx:id="startButton" layoutX="395.0" layoutY="496.0" mnemonicParsing="false" onAction="#LogIn" prefHeight="97.0" prefWidth="490.0" />
             <TextField fx:id="nicknameField" layoutX="566.0" layoutY="451.0" promptText="Inserire Nickname" />
-            <Button fx:id="okButton" layoutX="755.0" layoutY="451.0" mnemonicParsing="false" onAction="#saveNickname" text="OK" />
+            <Button id="okButton" fx:id="okButton" layoutX="755.0" layoutY="451.0" mnemonicParsing="false" onAction="#saveNickname" stylesheets="@button.css" text="OK" />
          </children>
       </AnchorPane>
    </children>
