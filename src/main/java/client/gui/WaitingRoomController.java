@@ -6,6 +6,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import shared.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -120,6 +122,11 @@ public class WaitingRoomController implements Initializable {
         Media media = new Media("resources/jazz.mp3"); //replace /Movies/test.mp3 with your file
         MediaPlayer player = new MediaPlayer(media);
         player.play();
+    }
+    @FXML
+    private void disconnect(ActionEvent event){
+        Logger.log("Mi sto disconnettendo");
+
     }
 
 }

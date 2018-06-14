@@ -35,10 +35,9 @@ import shared.TransferObjects.PlayerT;
 
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class StartGameController implements Initializable {
@@ -64,6 +63,8 @@ public class StartGameController implements Initializable {
     @FXML
     private ImageView toolCard1,toolCard2,toolCard3;
     @FXML
+    private ImageView publicOC1,publicOC2,publicOC3;
+    @FXML
     private AnchorPane roundTrack;
     @FXML
     private ComboBox comboBox1,comboBox2,comboBox3,comboBox4,comboBox5,comboBox6,comboBox7,comboBox8,comboBox9,comboBox10;
@@ -75,10 +76,12 @@ public class StartGameController implements Initializable {
     private Integer colIndex;
     private Integer rowIndex;
     private int incrementValue;
-    private ArrayList<GridPane> listaGriglie = new ArrayList<>();
+    private List<GridPane> listaGriglie = new ArrayList<>();
     private ArrayList<Button> listaDadi = new ArrayList<>();
     private ArrayList<ImageView> listaToolCard = new ArrayList<>();
     private ArrayList<ComboBox> listaComboBox = new ArrayList<>();
+    private ArrayList<ImageView> listPublicOC = new ArrayList<>();
+
     private PositionR posizioneDadoRoundTrack = new PositionR();
     private Position posizioni[];
     private int counterPosizione=0;
@@ -101,6 +104,7 @@ public class StartGameController implements Initializable {
         loadDadi();
         loadToolCard();
         loadComboBox();
+        loadPrivateOC();
         shut();
         paneCarta0.setGridLinesVisible(true);
         // OTTIMIZZARE INSERENDO QUESTO DUPLICATO IN UNA FUNZIONE
@@ -110,7 +114,6 @@ public class StartGameController implements Initializable {
         System.out.print("INIZIALIZZAZIONE COMPLETATA");
 
     }
-
 
 
     public void updateView(GameManagerT gameManager) {
@@ -242,7 +245,7 @@ public class StartGameController implements Initializable {
         }
 
         //LOADING DICES INTO ROUNDTRACK
-
+/*
         ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
         System.out.println(roundTrackData);
         for(int h=0; h<roundTrackData.size();h++){
@@ -264,10 +267,11 @@ public class StartGameController implements Initializable {
                 listaComboBox.get(h).getItems().add(diceRound);
                 }
         }
+        */
 
 
 
-        /*
+
 //Arraylist made of arraylist containing the data I need
 ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
 System.out.println(roundTrackData);
@@ -295,7 +299,7 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     }
 
     combo.setItems(options);
-}*/
+}
 
 
 
@@ -375,6 +379,13 @@ for(int h = 0; h < roundTrackData.size(); h++) {
 
     }
 
+    private void loadPrivateOC() {
+        listPublicOC.add(publicOC1);
+        listPublicOC.add(publicOC2);
+        listPublicOC.add(publicOC3);
+    }
+
+
 
     private void loadBackground() {
         BackgroundImage myBI = new BackgroundImage(new Image("https://www.freevector.com/uploads/vector/preview/27785/Sagrada_Familia_Building.jpg", 1280, 800, false, true),
@@ -452,33 +463,22 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     @FXML
     private void zoomToolCard(MouseEvent event){
         ScaleTransition st = new ScaleTransition(Duration.millis(2000), (Node)event.getSource());
-        st.setByX(2.5f);
-        st.setByY(2.5f);
+        st.setToX(3.5f);
+        st.setToY(3.5f);
         st.setCycleCount(1);
         st.setAutoReverse(true);
-        TranslateTransition traslate = new TranslateTransition();
-        traslate.setNode((Node)event.getSource());
-        traslate.setDuration(Duration.seconds(2));
-        traslate.setByX(50);
-        traslate.setByY(50);
+
         ((Node) event.getSource()).toFront();
         st.play();
-        traslate.play();
         }
     @FXML
     private void zoomOutToolCard(MouseEvent event){
         ScaleTransition st = new ScaleTransition(Duration.millis(2000), (Node)event.getSource());
-        st.setByX(-2.5f);
-        st.setByY(-2.5f);
+        st.setToX(1f);
+        st.setToY(1f);
         st.setCycleCount(1);
         st.setAutoReverse(true);
-        TranslateTransition traslate = new TranslateTransition();
-        traslate.setNode((Node)event.getSource());
-        traslate.setDuration(Duration.seconds(2));
-        traslate.setByX(-50);
-        traslate.setByY(-50);
         st.play();
-        traslate.play();
         }
     @FXML
     private void showRoundTrack(ActionEvent event){

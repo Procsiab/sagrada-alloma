@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -48,5 +49,6 @@
             <Font name="Segoe Print" size="22.0" />
          </font>
       </Text>
+      <Button id="disconnectButton"  layoutX="86.0" layoutY="636.0" mnemonicParsing="false" onAction="#disconnect" stylesheets="@button.css" text="Disconnettiti" />
    </children>
 </AnchorPane>

@@ -116,11 +116,15 @@ public class LogInScreenController implements Initializable {
 
 
     }
+
     @FXML
     private void saveNickname(ActionEvent event){
        nickname = nicknameField.getText();
 
     }
+
+
+
 
 }
 

@@ -13,7 +13,7 @@ public class StatusListCell extends ListCell<String> {
     private final ImageView imageView;
 
     public StatusListCell(Map<String, WeakReference<Image>> cache) {
-        imageView = new ImageView(new Image(getItem())); //ERRORE QUI
+        imageView = new ImageView();
         imageView.setFitWidth(40);
         imageView.setFitHeight(40);
         setGraphic(imageView); // keep image even if empty for constant cell size
