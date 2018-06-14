@@ -29,23 +29,15 @@ public class Dice implements Serializable {
 
     @Override
     public int hashCode() {
-        return MainServer.primeNumber(value) * MainServer.primeNumber(value * color);
+        return color * value;
     }
 
-    public boolean isCloseTo(Dice dice){
-        if(dice.color == this.color)
-            return true;
-        if(dice.value== this.value)
-            return true;
-        return false;
+    public boolean isCloseTo(Dice dice) {
+        return (dice.color == this.color) || (dice.value.equals(this.value));
     }
 
     public void setValue(Integer value) {
         this.value = value;
-    }
-
-    public void setColor(Character color) {
-        this.color = color;
     }
 
     public Integer getValue() {

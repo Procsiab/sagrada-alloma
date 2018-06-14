@@ -19,14 +19,8 @@ public class RoundTrack implements Serializable {
         return dices;
     }
 
-    public boolean isAValidPositionToRead(PositionR positionR) {
-        if (positionR == null || positionR.getHeight() == null || positionR.getColumn() == null)
-            return false;
-        if (positionR.getColumn() < 0 || positionR.getColumn() > dices.size() - 1)
-            return false;
-        if (positionR.getHeight() < 0 || positionR.getHeight() > dices.get(positionR.getColumn()).size() - 1)
-            return false;
-        return true;
+    public Boolean validateBusy(PositionR positionR) {
+        return positionR != null && positionR.getColumn() != null && positionR.getHeight() != null && positionR.getColumn() > -1 && positionR.getColumn() < dices.size() && positionR.getHeight() > -1 && positionR.getHeight() < dices.get(positionR.getColumn()).size();
     }
 
     /*
@@ -37,7 +31,6 @@ public class RoundTrack implements Serializable {
     */
 
     public void setDice(Dice dice, PositionR positionR) {
-
         this.dices.get(positionR.getColumn()).set(positionR.getHeight(), dice);
     }
 

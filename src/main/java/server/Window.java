@@ -4,7 +4,6 @@ import server.threads.GameManager;
 import shared.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Window implements Serializable {
 
@@ -36,59 +35,58 @@ public class Window implements Serializable {
         return name;
     }
 
+    private Boolean checkFirstTurn(Player player) {
+        Boolean esito= player.getLastPlacedFromPool().equals(new Position(-1, -1));
+    return esito;
+    }
+
     private Boolean checkSideBySide(Overlay overlay, Position position, Dice dice) {
+        Position positionAdj;
         Dice adj;
         Integer row = position.getRow();
         Integer col = position.getColumn();
+        Boolean esito = true;
 
-        adj = overlay.getDice(new Position(row, col - 1));
-        if (adj != null)
+        positionAdj = new Position(row, col - 1);
+        if (overlay.validateBusy(positionAdj)) {
+            adj = overlay.getDice(positionAdj);
             if (dice.isCloseTo(adj))
-                return false;
-        adj = overlay.getDice(new Position(row - 1, col));
-        if (adj != null)
+                esito = false;
+        }
+        positionAdj = new Position(row - 1, col);
+        if (overlay.validateBusy(positionAdj)) {
+            adj = overlay.getDice(positionAdj);
             if (dice.isCloseTo(adj))
-                return false;
-        adj = overlay.getDice(new Position(row, col + 1));
-        if (adj != null)
+                esito = false;
+        }
+        positionAdj = new Position(row, col + 1);
+        if (overlay.validateBusy(positionAdj)) {
+            adj = overlay.getDice(positionAdj);
             if (dice.isCloseTo(adj))
-                return false;
-        adj = overlay.getDice(new Position(row + 1, col));
-        if (adj != null)
+                esito = false;
+        }
+        positionAdj = new Position(row + 1, col);
+        if (overlay.validateBusy(positionAdj)) {
+            adj = overlay.getDice(positionAdj);
             if (dice.isCloseTo(adj))
-                return false;
-        return true;
+                esito = false;
+        }
+        return esito;
     }
 
-    private Boolean checkEdgePosTurn(Player player, Position position) {
-        if (position.getRow().equals(0) || position.getRow().equals(3) || position.getColumn().equals(0) || position.getColumn().equals(4))
-            return true;
-        return false;
+    private Boolean checkEdgePosTurn(Position position) {
+        Boolean esito = position.getRow().equals(0) || position.getRow().equals(3) || position.getColumn().equals(0) || position.getColumn().equals(4);
+    return esito;
     }
 
     private Boolean checkAdjDicesFull(Overlay overlay, Position position, Dice dice) {
-        return checkSideBySide(overlay, position, dice) && !checkNotAdjacentToAny(overlay, position);
+        Boolean esito = checkSideBySide(overlay, position, dice) && !checkNotAdjacentToAny(overlay, position);
+   return esito;
     }
 
     private Boolean checkNotAdjacentToAny(Overlay overlay, Position position1) {
-        if (overlay.busy(new Position(position1.getRow() - 1, position1.getColumn() - 1)))
-            return false;
-        if (overlay.busy(new Position(position1.getRow(), position1.getColumn() - 1)))
-            return false;
-        if (overlay.busy(new Position(position1.getRow() + 1, position1.getColumn() - 1)))
-            return false;
-        if (overlay.busy(new Position(position1.getRow() - 1, position1.getColumn())))
-            return false;
-        if (overlay.busy(new Position(position1.getRow() + 1, position1.getColumn())))
-            return false;
-        if (overlay.busy(new Position(position1.getRow() - 1, position1.getColumn() + 1)))
-            return false;
-        if (overlay.busy(new Position(position1.getRow(), position1.getColumn() + 1)))
-            return false;
-        if (overlay.busy(new Position(position1.getRow() + 1, position1.getColumn() + 1)))
-            return false;
-
-        return true;
+        Boolean es = !(overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() - 1)) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() + 1))));
+    return es;
     }
 
     private Boolean checkPlaceColorRequirements(Dice dice, Position position) {
@@ -104,38 +102,27 @@ public class Window implements Serializable {
     }
 
     private Boolean checkPlaceRequirements(Dice dice, Position position) {
-        return checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
+        Boolean esito = checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
+   return esito;
     }
 
-    public Boolean setDiceFromPool(Player player, Integer index, Position position) {
-        ArrayList<Dice> pool = player.getGame().getPool();
-        if (index == null || position == null ||
-                !position.validate()||
-                index >= pool.size() || index < 0) {
-            System.out.println("(temporary print) error code 1 ");
+    public Boolean placeDiceFromPool(Player player, Integer index, Position position) {
+
+        Pool pool = player.getPool();
+        Overlay overlay = player.getOverlay();
+        Dice dice = pool.getDice(index);
+        if (!checkDice(player, dice, position)) {
             return false;
         }
-
-        Dice dice = pool.get(index);
-        if (dice == null || player.getOverlay().busy(position)
-                || !checkDice(player, dice, position)) {
-            return false;
-        }
-
-        player.getOverlay().setDicePosition(dice, position);
-        pool.set(index, null);
+        overlay.setDicePosition(dice, position);
+        pool.setDice(index, null);
         return true;
     }
 
     public Boolean moveDice(Player player, Position p1, Position p2) {
+
         Overlay overlay = player.getOverlay();
-
-        if (p1 == null || p2 == null||!p1.validate()||!p2.validate())
-            return false;
         Dice dice1 = overlay.getDice(p1);
-
-        if (overlay.busy(p2) || !overlay.busy(p1))
-            return false;
 
         if (checkDice(player, dice1, p2)) {
             overlay.setDicePosition(dice1, p2);
@@ -149,16 +136,9 @@ public class Window implements Serializable {
 
     public Boolean moveDice(Player player, Position p1, Position p2, Position p3, Position p4) {
         Overlay overlay = player.getOverlay();
-        if (p1 == null || p2 == null || p3 == null || p4 == null||p1.validate()||
-                p2.validate()||p3.validate()||p4.validate())
-            return false;
 
         Dice dice1 = overlay.getDice(p1);
         Dice dice2 = overlay.getDice(p3);
-
-        if (overlay.busy(p2) ||
-                overlay.busy(p4) || !overlay.busy(p1) || !overlay.busy(p3))
-            return false;
 
         if (checkDice(player, dice1, p2)) {
             overlay.setDicePosition(dice1, p2);
@@ -178,28 +158,13 @@ public class Window implements Serializable {
 
     private Boolean checkDice(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
-        if (player.getLastPlacedFromPool().equals(new Position(-1, -1))) {
-            if (!checkEdgePosTurn(player, position)) {
-                System.out.println("(temporary print) error code 3a");
-                return false;
-            }
-        } else {
-            if (!checkAdjDicesFull(overlay, position, dice)||!checkPlaceRequirements(dice, position)) {
-                System.out.println("(temporary print) error code 3b");
-                return false;
-            }
-        }
-        return true;
+        return (!checkFirstTurn(player) && checkAdjDicesFull(overlay, position, dice) || checkFirstTurn(player) && checkEdgePosTurn(position)) && checkPlaceRequirements(dice, position);
     }
 
     public Boolean moveDiceNoShade(Player player, Position p1, Position p2) {
-        Overlay overlay = player.getOverlay();
-        if (p1 == null || p2 == null||!p1.validate()||!p2.validate())
-            return false;
 
+        Overlay overlay = player.getOverlay();
         Dice dice = overlay.getDice(p1);
-        if (dice == null || overlay.busy(p2))
-            return false;
 
         if (checkDiceNoShade(player, dice, p2)) {
             overlay.setDicePosition(dice, p2);
@@ -211,27 +176,15 @@ public class Window implements Serializable {
 
     private Boolean checkDiceNoShade(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
-        if (!player.getLastPlacedFromPool().equals(new Position(-1, -1))) {
-            if (!checkEdgePosTurn(player, position))
-                return false;
-        } else {
-            if (!checkAdjDicesFull(overlay, position, dice))
-                return false;
-        }
-        if (!checkPlaceColorRequirements(dice, position))
-            return false;
-        return true;
+        return (!checkFirstTurn(player) && checkAdjDicesFull(overlay, position, dice) || checkFirstTurn(player) && checkEdgePosTurn(position)) && checkPlaceColorRequirements(dice, position);
+
+
     }
 
     public Boolean moveDiceNoColor(Player player, Position p1, Position p2) {
 
-        if (p1 == null || p2 == null||!p1.validate()||!p2.validate())
-            return false;
-
         Overlay overlay = player.getOverlay();
         Dice dice = overlay.getDice(p1);
-        if (dice == null || overlay.busy(p2))
-            return false;
 
         if (checkDiceNoColor(player, dice, p2)) {
             overlay.setDicePosition(dice, p2);
@@ -243,56 +196,40 @@ public class Window implements Serializable {
 
     private Boolean checkDiceNoColor(Player player, Dice dice, Position position) {
         Overlay overlay = player.getOverlay();
-        if (!player.getLastPlacedFromPool().equals(new Position(-1, -1))) {
-            if (!checkEdgePosTurn(player, position))
-                return false;
-        } else {
-            if (!checkAdjDicesFull(overlay, position, dice))
-                return false;
-        }
-        if (!checkPlaceValueRequirements(dice, position))
-            return false;
-        return true;
+        return (!checkFirstTurn(player) && checkAdjDicesFull(overlay, position, dice) || checkFirstTurn(player) && checkEdgePosTurn(position)) && checkPlaceValueRequirements(dice, position);
     }
 
-    public Boolean moveDiceWindowRoundtrack(GameManager gameManager, Player player, Integer pos, Position p1, PositionR pr) {
+    public Boolean moveDiceWindowRoundtrack(Player player, Integer pos, Position p1, PositionR pr) {
 
+        GameManager gameManager = player.getGame();
         RoundTrack roundTrack = gameManager.getRoundTrack();
-        if (!roundTrack.isAValidPositionToRead(pr)||
-                (pos < 0 || pos > gameManager.getPool().size() - 1) ||
-                (gameManager.getPool().get(pos) == null)||!p1.validate()||player.getOverlay().busy(p1))
-            return false;
+        Dice diceRoundTrack = roundTrack.getDice(pr);
+        Pool pool = gameManager.getPool();
+        Overlay overlay = player.getOverlay();
 
-        Dice diceRoundtrack = roundTrack.getDice(pr);
+        roundTrack.setDice(pool.getDice(pos), pr);
 
-        roundTrack.setDice(gameManager.getPool().get(pos), pr);
-
-        if (!checkDice(player, diceRoundtrack, p1)) {
-            gameManager.getPool().set(pos, diceRoundtrack);
+        if (!checkDice(player, diceRoundTrack, p1)) {
+            pool.setDice(pos, diceRoundTrack);
             return false;
         }
-        gameManager.getPool().set(pos, null);
-        player.getOverlay().setDicePosition(diceRoundtrack, p1);
+        pool.setDice(pos, null);
+        overlay.setDicePosition(diceRoundTrack, p1);
         return true;
     }
 
     public Boolean placeDiceAlone(Player player, Integer index, Position position) {
 
-        ArrayList<Dice> pool = player.getGame().getPool();
-        if (index == null || position == null || !position.validate() ||
-                index >= pool.size() || index < 0) {
-            return false;
-        }
+        GameManager gameManager = player.getGame();
+        Pool pool = gameManager.getPool();
+        Overlay overlay = player.getOverlay();
 
-        Dice dice = pool.get(index);
-        if (dice == null || player.getOverlay().busy(position)
-                || !checkEdgePosTurn(player, position) ||
-                !checkNotAdjacentToAny(player.getOverlay(), position)
-                || !checkPlaceRequirements(dice, position))
+        Dice dice = pool.getDice(index);
+        if (!(!checkFirstTurn(player) && checkNotAdjacentToAny(overlay, position) || checkFirstTurn(player) && checkEdgePosTurn(position)) && checkPlaceRequirements(dice, position))
             return false;
 
         player.getOverlay().setDicePosition(dice, position);
-        pool.set(index, null);
+        pool.setDice(index, null);
         return true;
     }
 }

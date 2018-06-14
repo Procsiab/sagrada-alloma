@@ -27,12 +27,4 @@ public class Cell implements Serializable {
     public Character getColor() {
         return color;
     }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public void setColor(Character color) {
-        this.color = color;
-    }
 }

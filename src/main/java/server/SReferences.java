@@ -66,55 +66,37 @@ public class SReferences {
         return nickNameRef.get(index);
     }
 
-    public static synchronized boolean addGameRef(String s, GameManager gameRef) {
+    public static synchronized void addGameRef(String s, GameManager gameRef) {
         Integer index = uuidRef.indexOf(s);
-        if (index.equals(-1))
-            return false;
         SReferences.gameRef.set(index, gameRef);
-        return true;
     }
 
-    public static synchronized boolean addIpRef(String s, String ipRef) {
+    public static synchronized void addIpRef(String s, String ipRef) {
         Integer index = uuidRef.indexOf(s);
-        if (index.equals(-1))
-            return false;
         SReferences.ipRef.set(index, ipRef);
-        return true;
     }
 
-    public static synchronized boolean addIsSocketRef(String s, Boolean isSocketRef) {
+    public static synchronized void addIsSocketRef(String s, Boolean isSocketRef) {
         Integer index = uuidRef.indexOf(s);
-        if (index.equals(-1))
-            return false;
         SReferences.isSocketRef.set(index, isSocketRef);
-        return true;
     }
 
-    public static synchronized boolean addPlayerRef(String s, Player playerRef) {
+    public static synchronized void addPlayerRef(String s, Player playerRef) {
         Integer index = uuidRef.indexOf(s);
-        if (index.equals(-1))
-            return false;
         SReferences.playerRef.set(index, playerRef);
-        return true;
     }
 
-    public static synchronized boolean addPortRef(String s, Integer portRef) {
+    public static synchronized void addPortRef(String s, Integer portRef) {
         Integer index = uuidRef.indexOf(s);
-        if (index.equals(-1))
-            return false;
         SReferences.portRef.set(index, portRef);
-        return true;
     }
 
-    public static synchronized boolean addNickNameRef(String s, String nickNameRef) {
+    public static synchronized void addNickNameRef(String s, String nickNameRef) {
         Integer index = uuidRef.indexOf(s);
-        if (index.equals(-1))
-            return false;
         SReferences.nickNameRef.set(index, nickNameRef);
-        return true;
     }
 
-    public static synchronized boolean addUuidRefEnhanced(String uUID) {
+    public static synchronized Boolean addUuidRefEnhanced(String uUID) {
         int i = 0;
 
         if (uuidRef.contains(uUID))
@@ -151,10 +133,8 @@ public class SReferences {
         return true;
     }
 
-    public static synchronized boolean removeRef(String s) {
+    public static synchronized void removeRef(String s) {
         Integer index = uuidRef.indexOf(s);
-        if (index.equals(-1))
-            return false;
         SReferences.gameRef.set(index, null);
         SReferences.ipRef.set(index, null);
         SReferences.isSocketRef.set(index, null);
@@ -163,7 +143,6 @@ public class SReferences {
         SReferences.nickNameRef.set(index, null);
         SReferences.uuidRef.set(index, null);
         SReferences.activePlayer--;
-        return true;
     }
 
 }

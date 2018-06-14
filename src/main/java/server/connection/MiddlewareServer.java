@@ -150,7 +150,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return false;
-            return SReferences.getPlayerRef(uuid).setWindowFromC(window - 1);
+            return SReferences.getPlayerRef(uuid).setWindowFromC(window);
         } catch (NullPointerException npe) {
             return false;
         }

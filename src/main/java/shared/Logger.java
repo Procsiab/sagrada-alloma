@@ -15,7 +15,7 @@ public class Logger {
     private Logger() {}
 
     /**
-     * This method will add a {@code String} message to the logger, with a timestamp of the event
+     * This method will addDice a {@code String} message to the logger, with a timestamp of the event
      * @param s The message that will be added to the application log
      */
     public static void  log(Object s) {
@@ -23,7 +23,7 @@ public class Logger {
     }
 
     /**
-     * This method will add to the log the exception name and its stack trace
+     * This method will addDice to the log the exception name and its stack trace
      * @param e An {@code Exception} object to obtain its name and stack trace
      */
     public static void strace(Exception e) {
@@ -33,7 +33,7 @@ public class Logger {
     }
 
     /**
-     * This method will add to the log the exception name and its stack trace
+     * This method will addDice to the log the exception name and its stack trace
      * @param e An {@code Exception} object to obtain its name and stack trace
      * @param evil Choose whether the stack trace should be logged in magenta ({@code true} | {@code false})
      */

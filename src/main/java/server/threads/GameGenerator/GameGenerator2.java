@@ -11,10 +11,10 @@ import java.util.Queue;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class GameGenerator2 extends GeneralTask {
-    private final Object obj2 = MatchManager.getObj2();
+    private final Object obj = MatchManager.getObj();
 
-    private static synchronized void setStart(Boolean value) {
-        GameGenerator1.setStart(value);
+    private static synchronized void setStart() {
+        GameGenerator1.setStart(false);
     }
 
     @Override
@@ -26,14 +26,14 @@ public class GameGenerator2 extends GeneralTask {
         boolean t = true;
         while (t) {
             try {
-                synchronized (obj2) {
+                synchronized (obj) {
                     if (queue.size() != 4)
-                        obj2.wait();
+                        obj.wait();
                     else {
                         clients = new ArrayList<>(queue.size());
                         clients.addAll(queue);
                         queue.clear();
-                        setStart(false);
+                        setStart();
 
                         ConcurrencyManager.submit(new GameManager(clients));
                     }

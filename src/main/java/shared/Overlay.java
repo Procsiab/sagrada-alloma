@@ -9,9 +9,16 @@ public class Overlay implements Serializable {
 
     public Overlay(){}
 
+    public Boolean validateEmpty(Position position) {
+        return position != null && position.getRow() != null && position.getColumn() != null && position.getRow() > -1 && position.getRow() < 4 && position.getColumn() > -1 && position.getColumn() < 5 && dicePositions[position.getRow()][position.getColumn()] == null;
+    }
+
+    public Boolean validateBusy(Position position) {
+        Boolean esit = position != null && position.getRow() != null && position.getColumn() != null && position.getRow() > -1 && position.getRow() < 4 && position.getColumn() > -1 && position.getColumn() < 5 && dicePositions[position.getRow()][position.getColumn()] != null;
+    return esit;
+    }
+
     public Dice getDice(Position pos) {
-        if(!pos.validate())
-            return null;
         return dicePositions[pos.getRow()][pos.getColumn()];
     }
 
@@ -33,14 +40,8 @@ public class Overlay implements Serializable {
         return str;
     }
 
-    public Boolean busy(Position position) {
-        if (getDice(position) != null)
-            return true;
-        return false;
-    }
-
     public Dice[][] getDicePositions() {
-        return dicePositions;
+        return this.dicePositions;
     }
 
     public void setDicePosition(Dice dice, Position position) {

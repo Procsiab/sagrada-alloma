@@ -1,8 +1,7 @@
 
-import javafx.geometry.Pos;
 import server.Player;
 import server.SReferences;
-import server.connection.DummyMiddlewareServer;
+import server.connection.MiddlewareServer;
 import server.threads.MainServer;
 import server.threads.GameManager;
 
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 class MainServerTest {
 
     public static ArrayList<GameManager> gameManagers = new ArrayList<>();
-    public static DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
+    public static MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
     public static Object obj;
     public static Integer timeout;
     public GameManager gameManager;
@@ -37,21 +36,7 @@ class MainServerTest {
     }
 
     public void startGame(String player) {
-        middlewareServer.startGame(player, "player", "192.168.223.1", -1, false);
-    }
-
-    public void updateGameManagers() {
-        Integer i = gameManagers.size();
-        while (gameManagers.size() == i)
-            try {
-                synchronized (obj) {
-                    obj.wait();
-                    gameManagers = MainServer.getGameManagers();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        timeout = gameManagers.get(0).getTimeout1();
+        middlewareServer.startGame(player, player, "192.168.223.1", -1, false);
     }
 
     public void after() {
@@ -59,7 +44,7 @@ class MainServerTest {
         }
         String s = "";
         for (Dice dice :
-                gameManager.getPool()) {
+                gameManager.getPool().getDices()) {
             s = s + dice.toString() + "; ";
         }
         System.out.println(s + "\n");
@@ -74,7 +59,9 @@ class MainServerTest {
         players.add("player1");
         players.add("player2");
         players.add("player3");
-
+        startGame(players.get(0));
+        startGame(players.get(1));
+        startGame(players.get(2));
         gameManager = new GameManager(players);
         player = new Player(gameManager, "player1");
 
@@ -158,7 +145,14 @@ class MainServerTest {
 
 
         player.setTokens(800);
-        ArrayList<Dice> pool = gameManager.getPool();
+        ArrayList<Dice> pool = new ArrayList<>();
+        pool.addAll(gameManager.getPool().getDices());
+
+        test[3][3].equals(new Dice('b',5));
+        test[3][3].equals(new Dice('c',3));
+        Position position = new Position(2,3);
+        position.equals(new Position(2,3));
+        position.equals(new Position(1,4));
 
         //test tc1
         player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
@@ -194,6 +188,7 @@ class MainServerTest {
         ais.set(0, 3);
         ais.set(1, 4);
         ais.set(2, 5);
+        gameManager.setToolCards(ais);
 
         //use tc4
         player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
@@ -213,18 +208,25 @@ class MainServerTest {
         //use tc6
         player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
         after();
+        player.getOverlay().setDicePosition(null,new Position(0,4));
+        player.getOverlay().setDicePosition(null,new Position(1,3));
+        player.getWindow().getMatrices()[1][4] = new Cell('b');
         player.useTool(players.get(0), 2, new Position(1, 4), null, null, null, null, 2, null);
         after();
+        player.getOverlay().setDicePosition(null,new Position(1,4));
 
         ais.set(0, 6);
         ais.set(1, 7);
         ais.set(2, 8);
+        gameManager.setToolCards(ais);
 
         //use tc7
         player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
         after();
         player.useTool(players.get(0), 5, null, null, null, null, null, null, null);
         after();
+        player.incrementTurn();
+        player.incrementTurn();
         player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
         after();
 
@@ -233,11 +235,15 @@ class MainServerTest {
         after();
         player.useTool(players.get(0), 1, new Position(4, 4), null, null, null, null, 15, null);
         after();
+        player.clearUsedTcAndPlacedDice();
         player.getOverlay().setDicePosition(null, new Position(1, 4));
         player.useTool(players.get(0), 1, new Position(1, 4), null, null, null, null, -1, null);
         after();
         pool.add(0, new Dice('b', 4));
         player.getOverlay().setDicePosition(null, new Position(1, 4));
+        after();
+        player.getWindow().getMatrices()[1][4] = new Cell('y');
+        player.incrementTurn();
         player.useTool(players.get(0), 1, new Position(1, 4), null, null, null, null, 0, null);
         after();
 
@@ -254,17 +260,15 @@ class MainServerTest {
         player.useTool(players.get(0), 2, new Position(1, 0), new Position(2, 4), null, null, null, 0, null);
         after();
         pool.add(0, new Dice('g', 5));
-        player.getOverlay().setDicePosition(null, new Position(1, 4));
-        player.getOverlay().setDicePosition(null, new Position(1, 3));
-        player.getOverlay().setDicePosition(null, new Position(2, 3));
-        player.getOverlay().setDicePosition(null, new Position(3, 3));
-        player.getOverlay().setDicePosition(null, new Position(3, 4));
+        player.getOverlay().setDicePosition(null, new Position(1, 0));
+        after();
         player.useTool(players.get(0), 2, new Position(1, 0), new Position(2, 4), null, null, null, 0, null);
         after();
 
         ais.set(0, 9);
         ais.set(1, 10);
         ais.set(2, 11);
+        gameManager.setToolCards(ais);
 
         //use tc10
         player.useTool(players.get(0), 5, null, null, null, null, null, null, null);
@@ -274,7 +278,8 @@ class MainServerTest {
         player.getOverlay().setDicePosition(new Dice('g', 3), new Position(2, 4));
         player.useTool(players.get(0), 0, new Position(1, 4), null, null, null, null, 0, null);
         after();
-        pool.set(0, new Dice('r', 3));
+        gameManager.getPool().addDice(new Dice('r', 3));
+        player.getWindow().getMatrices()[1][4] = new Cell('r');
         player.getOverlay().setDicePosition(new Dice('g', 3), new Position(2, 4));
         player.useTool(players.get(0), 0, new Position(1, 4), null, null, null, null, 0, null);
         after();
@@ -286,6 +291,7 @@ class MainServerTest {
         player.getOverlay().setDicePosition(null, new Position(0, 4));
         player.useTool(players.get(0), 1, new Position(0, 3), null, null, null, null, 0, 4);
         after();
+        gameManager.getPool().addDice(new Dice('v',6));
         player.getOverlay().setDicePosition(null, new Position(0, 2));
         player.getOverlay().setDicePosition(null, new Position(0, 3));
         player.getOverlay().setDicePosition(null, new Position(0, 4));
@@ -323,6 +329,8 @@ class MainServerTest {
         ais.add(8, 8);
         ais.add(9, 9);
         ais.add(10, 10);
+
+        gameManager.setPublicOCs(ais);
 
         sum = player.getScore();
 
@@ -385,8 +393,8 @@ class MainServerTest {
         while (i < 4) {
             while (j < 5) {
                 Position pos = new Position(i, j);
-                System.out.println(dice.hashCode());
-                if (!hashSet.add(dice.hashCode()))
+                System.out.println(pos.hashCode());
+                if (!hashSet.add(pos.hashCode()))
                     return false;
                 j++;
             }
@@ -402,8 +410,9 @@ class MainServerTest {
 
         MainServer.simulation();
         obj = MainServer.obj;
-        //if(testHashCode())
+        if (testHashCode()) {
             testCards();
-        //assert(false);
+        } else
+            assert (false);
     }
 }

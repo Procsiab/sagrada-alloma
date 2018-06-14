@@ -12,25 +12,25 @@ import java.util.Queue;
 
 public class GameGenerator1 extends GeneralTask {
     private Integer sleepTime = Config.timeout1GG; //config
-    private final Object obj2 = MatchManager.getObj2();
+    private final Object obj = MatchManager.getObj();
     private static boolean start = false;
 
-    public synchronized static void setStart(Boolean value) {
+    static synchronized void setStart(Boolean value) {
         start = value;
     }
 
     @Override
     public void run() {
         super.run();
-        Logger.log("GameGenerator1 online. Timer runs out every: "+sleepTime/1000+ "s");
+        Logger.log("GameGenerator1 online. Timer runs out every: " + sleepTime / 1000 + "s");
         ArrayList<String> clients;
         Queue<String> queue = MatchManager.getQ();
         boolean t = true;
         while (t) {
             try {
-                synchronized (obj2) {
+                synchronized (obj) {
                     if (queue.size() == 4 || queue.size() < 2 || !start)
-                        obj2.wait();
+                        obj.wait();
                     else {
                         clients = new ArrayList<>(queue.size());
                         clients.addAll(queue);

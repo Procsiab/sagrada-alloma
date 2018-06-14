@@ -10,6 +10,8 @@ import java.util.Set;
 
 public class PublicObject {
 
+    private PublicObject(){}
+
     public static Integer use1(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -24,9 +26,7 @@ public class PublicObject {
             colors.clear();
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
-                if (dice == null)
-                    esito = 0;
-                else if (!colors.add(dice.getColor()))
+                if (dice != null&&!colors.add(dice.getColor()))
                     esito = 0;
                 j++;
             }
@@ -53,9 +53,7 @@ public class PublicObject {
             colors.clear();
             while (j < 4) {
                 dice = overlay.getDicePositions()[j][i];
-                if (dice == null)
-                    esito = 0;
-                else if (!colors.add(dice.getColor()))
+                if (dice != null&&!colors.add(dice.getColor()))
                     esito = 0;
                 j++;
             }
@@ -82,9 +80,7 @@ public class PublicObject {
             numbers.clear();
             while (j < 4) {
                 dice = overlay.getDicePositions()[j][i];
-                if (dice == null)
-                    esito = 0;
-                else if (!numbers.add(dice.getValue()))
+                if (dice != null&&!numbers.add(dice.getValue()))
                     esito = 0;
                 j++;
             }
@@ -111,9 +107,7 @@ public class PublicObject {
             numbers.clear();
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
-                if (dice == null)
-                    esito = 0;
-                else if (!numbers.add(dice.getValue()))
+                if (dice != null&&!numbers.add(dice.getValue()))
                     esito = 0;
                 j++;
             }
@@ -207,7 +201,6 @@ public class PublicObject {
     public static Integer use7(Overlay overlay) {
         int i = 0;
         int j = 0;
-        int sum = 0;
 
         Dice dice;
         ArrayList<Boolean> shades5 = new ArrayList<>();
@@ -236,7 +229,6 @@ public class PublicObject {
     public static Integer use8(Overlay overlay) {
         int i = 0;
         int j = 0;
-        int sum = 0;
 
         Dice dice;
         ArrayList<Boolean> shades3 = new ArrayList<>();
@@ -265,7 +257,6 @@ public class PublicObject {
     public static Integer use9(Overlay overlay) {
         int i = 0;
         int j = 0;
-        int sum = 0;
 
         Dice dice;
         ArrayList<Boolean> shades1 = new ArrayList<>();
@@ -291,9 +282,8 @@ public class PublicObject {
         return Math.min(shades1.size(), shades2.size()) * 2;
     }
 
-    public static Integer use10(Overlay overlay1) {
-        Overlay overlay = MainServer.deepClone(overlay1);
-        Dice[][] dices = overlay.getDicePositions();
+    public static Integer use10(Overlay overlay) {
+        Dice[][] dices = MainServer.deepClone(overlay.getDicePositions());
         int i = 0;
         int j;
         int sum = 0;

@@ -10,10 +10,8 @@ import server.concurrency.ConcurrencyManager;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-import static java.lang.Math.sqrt;
 
 public class MainServer {
     //create an object of MainServer
@@ -87,7 +85,8 @@ public class MainServer {
     private static boolean isPrime(int n) {
         if (n % 2 == 0) return n == 2;
         if (n % 3 == 0) return n == 3;
-        int step = 4, m = (int)Math.sqrt(n) + 1;
+        int step = 4;
+        int m = (int)Math.sqrt(n) + 1;
         for(int i = 5; i < m; step = 6-step, i += step) {
             if (n % i == 0) {
                 return false;
@@ -96,17 +95,7 @@ public class MainServer {
         return true;
     }
 
-    public static void main(String[] args) {
-
-        /*
-        try (
-                PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
-        ) {
-            writer.println("The first line");
-            writer.println("The second line");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+    public static void main(String[] args){
 
 
         if (!Config.read()) {

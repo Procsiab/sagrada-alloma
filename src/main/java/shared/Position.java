@@ -29,11 +29,11 @@ public class Position implements Serializable {
 
     @Override
     public int hashCode() {
-        return MainServer.primeNumber(row) * MainServer.primeNumber(row * column);
+        return row * 10 + column;
     }
 
-    public boolean validate() {
-        return !(row == null || column == null || row < 0 || row > 3 || column < 0 || column > 4);
+    private Boolean validate() {
+        return !(row == null || column == null);
     }
 
     public Integer getRow() {

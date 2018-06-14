@@ -5,13 +5,13 @@ import shared.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MatchManager {
     private static final Integer MAX_ACTIVE_PLAYER_REFS = Config.maxActivePlayerRefs;
     private static LinkedList<String> q = new LinkedList<>();
     private static ArrayList<Window> windows = new ArrayList<>();
     private static final Object obj = new Object();
-    private static final Object obj2 = new Object();
     private static MatchManager instance = new MatchManager();
 
     private MatchManager() {
@@ -592,7 +592,7 @@ public class MatchManager {
             return "Too many players connected. Please try again later. Sorry for that.";
         }
 
-        synchronized (obj2) {
+        synchronized (obj) {
             if (!SReferences.checkNickNameRef(nickName,q))
                 return "NickName is not available.";
         }
@@ -605,16 +605,16 @@ public class MatchManager {
         SReferences.addIsSocketRef(uUID, isSocket);
         SReferences.addNickNameRef(uUID, nickName);
 
-        synchronized (obj2) {
+        synchronized (obj) {
             q.addLast(uUID);
-            obj2.notifyAll();
+            obj.notifyAll();
         }
 
         return "Connections successful. Please wait for other players to connect";
     }
 
     public static synchronized boolean exitGame1(String uUID) {
-        synchronized (obj2) {
+        synchronized (obj) {
             if (q.remove(uUID)) {
                 Logger.log("Player: " + uUID + " leaved platform before game started. Bye.");
                 SReferences.removeRef(uUID);
@@ -628,16 +628,12 @@ public class MatchManager {
         return q;
     }
 
-    public static ArrayList<Window> getWindows() {
+    public static List<Window> getWindows() {
         return windows;
     }
 
     public static Object getObj() {
         return obj;
-    }
-
-    public static Object getObj2() {
-        return obj2;
     }
 
 }

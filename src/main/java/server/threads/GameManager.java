@@ -16,10 +16,7 @@ public class GameManager extends GeneralTask {
 
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
-    // Real server, use this to run code
     private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
-    // Dummy server used for testing class
-    //private DummyMiddlewareServer middlewareServer = DummyMiddlewareServer.getInstance();
     private final ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
@@ -42,10 +39,10 @@ public class GameManager extends GeneralTask {
     private String expected = "none";
     private RoundTrack roundTrack = new RoundTrack();
     private ArrayList<Dice> dices = new ArrayList<>();
-    private ArrayList<Dice> pool = new ArrayList<>();
+    private Pool pool = new Pool();
     private final Object obj = new Object();
 
-    public GameManager(ArrayList<String> players) {
+    public GameManager(List<String> players) {
 
         this.code = MainServer.addGameManagers(this);
         this.players.addAll(players);
@@ -135,29 +132,29 @@ public class GameManager extends GeneralTask {
                 + revealPublicOC(a.get(1)) + ", " + revealPublicOC(a.get(2)));
 
         //initialize some dices
-        pool.add(new Dice('y', 2));
-        pool.add(new Dice('b', 3));
-        pool.add(new Dice('r', 6));
-        pool.add(new Dice('b', 5));
-        pool.add(new Dice('v', 1));
-        pool.add(new Dice('g', 4));
-        pool.add(new Dice('y', 6));
-        pool.add(new Dice('g', 5));
-        pool.add(new Dice('v', 2));
-        pool.add(new Dice('b', 4));
-        pool.add(new Dice('v', 2));
-        pool.add(new Dice('r', 6));
-        pool.add(new Dice('g', 4));
-        pool.add(new Dice('g', 2));
-        pool.add(new Dice('y', 3));
-        pool.add(new Dice('v', 2));
-        pool.add(new Dice('b', 5));
-        pool.add(new Dice('y', 3));
-        pool.add(new Dice('b', 2));
-        pool.add(new Dice('g', 3));
-        pool.add(new Dice('y', 5));
-        pool.add(new Dice('r', 2));
-        pool.add(new Dice('b', 5));
+        pool.addDice(new Dice('y', 2));
+        pool.addDice(new Dice('b', 3));
+        pool.addDice(new Dice('r', 6));
+        pool.addDice(new Dice('b', 5));
+        pool.addDice(new Dice('v', 1));
+        pool.addDice(new Dice('g', 4));
+        pool.addDice(new Dice('y', 6));
+        pool.addDice(new Dice('g', 5));
+        pool.addDice(new Dice('v', 2));
+        pool.addDice(new Dice('b', 4));
+        pool.addDice(new Dice('v', 2));
+        pool.addDice(new Dice('r', 6));
+        pool.addDice(new Dice('g', 4));
+        pool.addDice(new Dice('g', 2));
+        pool.addDice(new Dice('y', 3));
+        pool.addDice(new Dice('v', 2));
+        pool.addDice(new Dice('b', 5));
+        pool.addDice(new Dice('y', 3));
+        pool.addDice(new Dice('b', 2));
+        pool.addDice(new Dice('g', 3));
+        pool.addDice(new Dice('y', 5));
+        pool.addDice(new Dice('r', 2));
+        pool.addDice(new Dice('b', 5));
 
         Logger.log(this + " Initialization sequence completed");
         pause(5000);
@@ -234,7 +231,6 @@ public class GameManager extends GeneralTask {
     }
 
     private synchronized void setExpected(String access) {
-        //System.out.println("\n");
         Logger.log(this + " Access granted to: " + access);
         this.expected = access;
     }
@@ -252,7 +248,7 @@ public class GameManager extends GeneralTask {
         return dices;
     }
 
-    public ArrayList<Dice> getPool() {
+    public Pool getPool() {
         return pool;
     }
 
@@ -260,12 +256,14 @@ public class GameManager extends GeneralTask {
         return roundTrack;
     }
 
-    public void setPublicOCs(ArrayList<Integer> publicOCs) {
-        this.publicOCs = publicOCs;
+    public void setPublicOCs(List<Integer> publicOCs) {
+        this.publicOCs.addAll(publicOCs);
     }
 
-    public void setToolCards(ArrayList<Integer> toolCards) {
-        this.toolCards = toolCards;
+    public void setToolCards(List<Integer> toolCards) {
+        //only for testing
+        this.toolCards.clear();
+        this.toolCards.addAll( toolCards);
     }
 
     public String revealPublicOC(Integer i) {
@@ -432,31 +430,23 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        Player player = SReferences.getPlayerRef(uUID);
-
-        /*Logger.log("Player: " + uUID + " has " + player.getTokens() + " tokens, is at turn n° " + player.getTurno() +
-                ", has " + player.getComputatedScore() + " points, is at private turn n° " + player.getPrivateTurn() +
-                ", last dice placed was in position " + player.getLastPlacedFromPool().toString());*/
         try {
             middlewareServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
-                    toolCsT, roundTrack, pool, tCtokens, publicRef.indexOf(uUID)));
+                    toolCsT, roundTrack, pool.getDices(), tCtokens, publicRef.indexOf(uUID)));
         } catch (NullPointerException npe) {
             Logger.log(this + " player " + uUID + ", remote application error");
         }
     }
 
-    public void updateView() {
-        /*Logger.log(this + " updating view: This is the game's state:" +
-                "\n\t\t\t\t\t\t\tIt has roundtrack with " + roundTrack.sumDices() + " dices on it, has " + pool.size() + " dices in the pool, " +
-                "Tool cards have respectively " + tCtokens.get(0) + ", " + tCtokens.get(1) + ", " + tCtokens.get(2) + " tokens");
-       */
+    private void updateView() {
+
         for (String player :
                 active) {
             updateView(player);
         }
     }
 
-    private <T> Integer count(ArrayList<T> ts) {
+    private <T> Integer count(List<T> ts) {
         int i = 0;
         for (T t :
                 ts) {
@@ -515,7 +505,7 @@ public class GameManager extends GeneralTask {
         players.add(temp);
     }
 
-    public ArrayList<Integer> getToolCards() {
+    public List<Integer> getToolCards() {
         return toolCards;
     }
 
@@ -526,14 +516,14 @@ public class GameManager extends GeneralTask {
         Random rand = new Random();
 
         while (i < num) {
-            pool.add(dices.remove(rand.nextInt(dices.size() - 1)));
+            pool.addDice(dices.remove(rand.nextInt(dices.size() - 1)));
             i++;
         }
     }
 
     private void settleRoundtrack(Integer col) {
         for (Dice dice :
-                pool) {
+                pool.getDices()) {
             if (dice != null)
                 roundTrack.addDice(dice, col - 1);
         }
@@ -588,7 +578,7 @@ public class GameManager extends GeneralTask {
         }
         Logger.log(this + " we play with " +
 
-                count(pool) + " dices");
+                count(pool.getDices()) + " dices");
 
     }
 
@@ -611,9 +601,8 @@ public class GameManager extends GeneralTask {
 
         while (i < players.size()) {
             Integer k;
-            ArrayList<Integer> b = new ArrayList<>();
+            ArrayList<Integer> b = new ArrayList<>(a.subList(((i) * 4), ((i + 1) * 4)));
             ArrayList<Cell[][]> matrices = new ArrayList<>();
-            b.addAll(a.subList(((i) * 4), ((i + 1) * 4)));
             SReferences.getPlayerRef(players.get(i)).setPossibleWindows(b);
             Logger.log("Player: " + players.get(i) + " can chose its Window among the following: " +
                     revealWindow(b.get(0)) + ", " + revealWindow(b.get(1)) +
@@ -621,7 +610,7 @@ public class GameManager extends GeneralTask {
             k = 0;
             for (Integer y :
                     b) {
-                matrices.add(matchManager.getWindows().get(y).getMatrices());
+                matrices.add(MatchManager.getWindows().get(y).getMatrices());
                 y++;
                 b.set(k, y);
                 k++;
@@ -750,8 +739,7 @@ public class GameManager extends GeneralTask {
                 }
                 setExpected("none");
                 middlewareServer.shut(remotePlayer);
-                while (threads.get() != 0) {
-                }
+                while (threads.get() != 0) {}
                 setAction(false);
             }
         }
