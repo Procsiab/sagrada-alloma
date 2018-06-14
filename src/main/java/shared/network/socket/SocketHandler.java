@@ -80,15 +80,9 @@ class SocketHandler implements Runnable, Closeable {
         try {
             Object e = getExported(callee);
             return router.route(e, methodName, argList);
-        } catch (NullPointerException npe) {
-            Logger.log("Null pointer: maybe object " + callee + " wasn't exported!");
-            Logger.strace(npe, true);
-        } catch (ClassCastException cce) {
-            Logger.log("Cast type exception: do your parameters extend Serializable?");
-        } catch (RemoteException re) {
-            Logger.log("Error calling remote method " + methodName);
+        } catch (Exception e) {
+            return null;
         }
-        return null;
     }
 
     @Override

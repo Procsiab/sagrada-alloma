@@ -35,7 +35,7 @@ public class MainCLI {
             String nick = readInput.nextLine();
             resp = MiddlewareClient.getInstance().startGame(nick);
             AnsiConsole.out().println(ansi().fgBrightRed().a("Server response: ").fgDefault().a(resp));
-        } while (resp.equals("NickName is not available."));
+        } while (resp == null || resp.equals("NickName is not available"));
 
         boolean stop = false;
         do {
@@ -48,7 +48,11 @@ public class MainCLI {
                         AnsiConsole.out().println(ansi().fgBrightRed().a("[EXIT] ").fgBrightYellow()
                                 .a("You left the game: connect again to re-join the match").fgDefault());
                     } else {
-                        useCommand(s);
+                        try {
+                            useCommand(s);
+                        } catch (NullPointerException npe) {
+                            wrongCommand("server sent invalid data: check your connection");
+                        }
                     }
                 }
             } catch (InputMismatchException ime) {

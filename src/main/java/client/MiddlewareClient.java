@@ -7,6 +7,7 @@ import shared.Logger;
 import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
+import shared.network.MethodConnectionException;
 import shared.network.SharedMiddlewareClient;
 import shared.network.Connection;
 import shared.network.socket.NetworkSocket;
@@ -46,7 +47,11 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public Boolean deniedAccess() {
         Object[] args = {uuid};
         String methodName = "deniedAccess";
-        return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        try {
+            return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
+            return false;
+        }
     }
 
     @Override
@@ -54,7 +59,11 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
         connection.export(instance, uuid);
         Object[] args = {uuid, nick, connection.getIp(), connection.getListeningPort(), isSocket};
         String methodName = "startGame";
-        return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        try {
+            return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
+            return "Connection error";
+        }
     }
 
     @Override
@@ -139,10 +148,9 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public Boolean chooseWindowBack(Integer window) {
         Object[] args = {uuid, window};
         String methodName = "chooseWindowBack";
-        Boolean ret = (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
-        if (ret != null) {
-            return ret;
-        } else {
+        try {
+            return (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
             return false;
         }
     }
@@ -150,10 +158,9 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public Boolean placeDice(Integer index, Position p) {
         Object[] args = {uuid, index, p};
         String methodName = "placeDice";
-        Boolean ret = (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
-        if (ret != null) {
-            return ret;
-        } else {
+        try {
+            return  (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
             return false;
         }
     }
@@ -162,10 +169,9 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public Boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         Object[] args = {uuid, i1, p1, p2, p3, p4, pr, i2, i3};
         String methodName = "useToolC";
-        Boolean ret = (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
-        if (ret != null) {
-            return ret;
-        } else {
+        try {
+            return (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
             return false;
         }
     }
@@ -174,21 +180,34 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     public void exitGame2() {
         Object[] args = {uuid};
         String methodName = "exitGame2";
-        connection.invokeMethod(SERVER_INTERFACE, methodName, args);
-        connection.close();
+        try {
+            connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
+            Logger.log("Unable to inform server of the log out");
+        } finally {
+            connection.close();
+        }
     }
 
     @Override
     public void endTurn() {
         Object[] args = {uuid};
         String methodName = "endTurn";
-        connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        try {
+            connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
+            Logger.strace(mce);
+        }
     }
 
     @Override
     public void updateViewFromC() {
         Object[] args = {uuid};
         String methodName = "updateViewFromC";
-        connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        try {
+            connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
+            Logger.strace(mce);
+        }
     }
 }

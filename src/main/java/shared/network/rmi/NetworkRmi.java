@@ -16,7 +16,6 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class NetworkRmi implements Connection {
     private static final Integer RMI_METHOD_PORT = 1099;
-    private static final String SERVER_ADDRESS = "localhost";
     private static final Router router = new MethodRouter();
 
     private Registry rmiRegistry;
@@ -129,19 +128,13 @@ public class NetworkRmi implements Connection {
     }
 
     @Override
-    public Object invokeMethod(String callee, String methodName, Object[] argList) {
+    public Object invokeMethod(String callee, String methodName, Object[] argList) throws MethodConnectionException {
         try {
             Object e = getExported(callee);
             return router.route(e, methodName, argList);
-        } catch (NullPointerException npe) {
-            Logger.log("Null pointer: maybe object " + callee + " wasn't exported!");
-            Logger.strace(npe, true);
-        } catch (ClassCastException cce) {
-            Logger.log("Cast type exception: do your parameters extend Serializable?");
-        } catch (RemoteException re) {
-            Logger.log("Error calling remote method " + methodName);
+        } catch (Exception e) {
+            throw new MethodConnectionException();
         }
-        return null;
     }
 
     public void close() {
