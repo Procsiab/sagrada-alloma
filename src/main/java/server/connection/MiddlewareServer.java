@@ -212,7 +212,10 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return;
+            GameManager game = SReferences.getGameRef(uuid);
+            game.getThreads().incrementAndGet();
             SReferences.getGameRef(uuid).endTurn();
+            game.getThreads().decrementAndGet();
         } catch (NullPointerException npe) {
             Logger.log("Unable to terminate turn for player with UUID " + uuid);
         }
