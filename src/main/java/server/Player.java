@@ -119,7 +119,7 @@ public class Player {
 
     }
 
-    public synchronized void updateViewFromC(String uUID){
+    public synchronized void updateViewFromC(String uUID) {
         game.updateView(uUID);
     }
 
@@ -248,19 +248,21 @@ public class Player {
     }
 
     public synchronized boolean setWindowFromC(Integer n) {
-        n--;
         if (this.window != null) {
             Logger.log("Player: " + uUID + " Server already assigned Window for this player");
             return false;
         }
-        if (n == null || !this.possibleWindows.contains(n)) {
-            Logger.log("Player: " + uUID + " Attempt to set improper Window");
-            return false;
+        if (n != null) {
+            n = n - 1;
+            if (this.possibleWindows.contains(n)) {
+                this.window = MatchManager.getWindows().get(n);
+                setTokens();
+                Logger.log("Player: " + uUID + " choose " + game.revealWindow(n) + ". It has: " + window.getTokens() + " tokens");
+                return true;
+            }
         }
-        this.window = MatchManager.getWindows().get(n);
-        setTokens();
-        Logger.log("Player: " + uUID + " choose " + game.revealWindow(n) + ". It has: " + window.getTokens() + " tokens");
-        return true;
+        Logger.log("Player: " + uUID + " Attempt to set improper Window");
+        return false;
     }
 
     public synchronized void setWindow(Integer n) {

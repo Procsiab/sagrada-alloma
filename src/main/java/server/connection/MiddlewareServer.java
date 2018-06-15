@@ -54,7 +54,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
                 client = new NetworkSocket(SReferences.getIpRef(uuid), SReferences.getPortRef(uuid));
                 return client.invokeMethod(uuid, methodName, args);
             } catch (MethodConnectionException mce) {
-                Logger.log("Socket error occurred while invoking method " + methodName + " on host " +
+                Logger.log(SReferences.getGameRef(uuid) + " Socket error occurred while invoking method " + methodName + " on host " +
                         SReferences.getIpRef(uuid) + "@" + SReferences.getPortRef(uuid));
             } finally {
                 if (client != null) {
@@ -65,7 +65,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             try {
                 return serverRmi.invokeMethod(uuid, methodName, args);
             } catch (MethodConnectionException mce) {
-                Logger.log("RMI error occurred while invoking method " + methodName + " on host"
+                Logger.log(SReferences.getGameRef(uuid) + " RMI error occurred while invoking method " + methodName + " on host "
                         + SReferences.getIpRef(uuid));
             }
         }
