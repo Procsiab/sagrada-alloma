@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import client.threads.GameHelper;
 import org.fusesource.jansi.AnsiConsole;
 import shared.Logger;
 import shared.network.MethodConnectionException;
@@ -28,7 +27,6 @@ import java.io.Console;
 import static org.fusesource.jansi.Ansi.*;
 
 public class MainClient extends Application {
-    public static GameHelper game; //resetta scelte utente
     public static String uuid = null;
     private static boolean isPrompt = false;
     private static Console cnsl;

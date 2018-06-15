@@ -1,7 +1,6 @@
 package client.gui;
 import client.MainClient;
 import client.MiddlewareClient;
-import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -27,7 +26,6 @@ public class LogInScreenController implements Initializable {
 
     // Logic Variables
     private static StartGameController gameClient;
-    private GameHelper game;
     private String nickname;
     // GUI Variables
     @FXML private ImageView sagradaImage;
@@ -52,7 +50,6 @@ public class LogInScreenController implements Initializable {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/WaitingRoom.fxml"));
         Parent root1 = loader.load();
-        game = MainClient.game;
 
 
         String message1 = MiddlewareClient.getInstance().startGame(nickname);

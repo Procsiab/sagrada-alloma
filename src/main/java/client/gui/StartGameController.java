@@ -2,7 +2,6 @@ package client.gui;
 
 import client.MainClient;
 import client.MiddlewareClient;
-import client.threads.GameHelper;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -46,7 +45,6 @@ public class StartGameController implements Initializable {
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
-    private GameHelper game = MainClient.game;
     private MiddlewareClient middlewareClient = MiddlewareClient.getInstance();
 
     // FXML GUI Variables
