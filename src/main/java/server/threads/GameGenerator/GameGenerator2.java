@@ -44,4 +44,5 @@ public class GameGenerator2 extends GeneralTask {
             }
         }
     }
+
 }

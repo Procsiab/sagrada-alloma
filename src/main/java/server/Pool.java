@@ -12,7 +12,7 @@ public class Pool {
     public Pool() {
     }
 
-    public List<Dice> getDices(){
+    public List<Dice> getDices() {
         return poolOfDice;
     }
 
@@ -29,7 +29,7 @@ public class Pool {
         }
     }
 
-    public void flip(Integer index){
+    public void flip(Integer index) {
         Integer value = getDice(index).getValue();
         int i = 1;
         while (i < 7) {
@@ -41,11 +41,11 @@ public class Pool {
         }
     }
 
-    public void clear(){
+    public void clear() {
         poolOfDice.clear();
     }
 
-    public Boolean remove(Dice dice){
+    public Boolean remove(Dice dice) {
         return poolOfDice.remove(dice);
     }
 
@@ -60,4 +60,5 @@ public class Pool {
     public Boolean validateBusy(Integer index) {
         return index != null && index > -1 && index < poolOfDice.size() && poolOfDice.get(index) != null;
     }
+
 }

@@ -36,8 +36,7 @@ public class Window implements Serializable {
     }
 
     private Boolean checkFirstTurn(Player player) {
-        Boolean esito= player.getLastPlacedFromPool().equals(new Position(-1, -1));
-    return esito;
+        return player.getLastPlacedFromPool().equals(new Position(-1, -1));
     }
 
     private Boolean checkSideBySide(Overlay overlay, Position position, Dice dice) {
@@ -75,18 +74,15 @@ public class Window implements Serializable {
     }
 
     private Boolean checkEdgePosTurn(Position position) {
-        Boolean esito = position.getRow().equals(0) || position.getRow().equals(3) || position.getColumn().equals(0) || position.getColumn().equals(4);
-    return esito;
+        return position.getRow().equals(0) || position.getRow().equals(3) || position.getColumn().equals(0) || position.getColumn().equals(4);
     }
 
     private Boolean checkAdjDicesFull(Overlay overlay, Position position, Dice dice) {
-        Boolean esito = checkSideBySide(overlay, position, dice) && !checkNotAdjacentToAny(overlay, position);
-   return esito;
+        return checkSideBySide(overlay, position, dice) && !checkNotAdjacentToAny(overlay, position);
     }
 
     private Boolean checkNotAdjacentToAny(Overlay overlay, Position position1) {
-        Boolean es = !(overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() - 1)) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() + 1))));
-    return es;
+        return !(overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() - 1)) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() + 1))));
     }
 
     private Boolean checkPlaceColorRequirements(Dice dice, Position position) {
@@ -102,8 +98,7 @@ public class Window implements Serializable {
     }
 
     private Boolean checkPlaceRequirements(Dice dice, Position position) {
-        Boolean esito = checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
-   return esito;
+        return checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
     }
 
     public Boolean placeDiceFromPool(Player player, Integer index, Position position) {
@@ -232,4 +227,5 @@ public class Window implements Serializable {
         pool.setDice(index, null);
         return true;
     }
+
 }

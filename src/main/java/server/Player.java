@@ -117,6 +117,10 @@ public class Player {
 
     }
 
+    public synchronized void updateViewFromC(String uUID){
+        game.updateView(uUID);
+    }
+
     public void setPossibleWindows(List<Integer> possibleWindows) {
         this.possibleWindows = new ArrayList<>(possibleWindows);
     }
@@ -288,4 +292,5 @@ public class Player {
                 "in position " + position);
         return false;
     }
+
 }

@@ -584,7 +584,7 @@ public class MatchManager {
             return "You already playing! Hold on while the server calls you again";
         }
 
-        if(nickName == null||nickName.equals(""))
+        if (nickName == null || nickName.equals(""))
             return "Please enter a valid NickName";
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
@@ -593,7 +593,7 @@ public class MatchManager {
         }
 
         synchronized (obj) {
-            if (!SReferences.checkNickNameRef(nickName,q))
+            if (!SReferences.checkNickNameRef(nickName, q))
                 return "NickName is not available.";
         }
 

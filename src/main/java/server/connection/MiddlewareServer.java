@@ -223,7 +223,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
         try {
             if (deniedAccess(uuid))
                 return;
-            SReferences.getGameRef(uuid).updateView(uuid);
+            SReferences.getPlayerRef(uuid).updateViewFromC(uuid);
         } catch (NullPointerException npe) {
             Logger.log("Unable to update teh view of player with UUID " + uuid);
         }

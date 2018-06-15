@@ -18,17 +18,16 @@ public class ConcurrencyManager {
 
     private static final ExecutorService ThreadManager = Executors.newCachedThreadPool();
 
-    private ConcurrencyManager(){
+    private ConcurrencyManager() {
     }
 
-    public static void submit(GeneralTask task){
+    public static void submit(GeneralTask task) {
         ThreadManager.submit(task);
     }
 
-    public static void shutdown(){
+    public static void shutdown() {
         ThreadManager.shutdown();
     }
 }
-
 
 

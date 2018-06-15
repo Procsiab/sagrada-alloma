@@ -263,7 +263,7 @@ public class GameManager extends GeneralTask {
     public void setToolCards(List<Integer> toolCards) {
         //only for testing
         this.toolCards.clear();
-        this.toolCards.addAll( toolCards);
+        this.toolCards.addAll(toolCards);
     }
 
     public String revealPublicOC(Integer i) {
@@ -739,7 +739,8 @@ public class GameManager extends GeneralTask {
                 }
                 setExpected("none");
                 middlewareServer.shut(remotePlayer);
-                while (threads.get() != 0) {}
+                while (threads.get() != 0) {
+                }
                 setAction(false);
             }
         }
@@ -821,4 +822,5 @@ public class GameManager extends GeneralTask {
         Logger.log(this + ". We are done here! Bye!");
         pause(10000);
     }
+
 }

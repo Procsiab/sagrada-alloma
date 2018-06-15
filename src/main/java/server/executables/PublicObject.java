@@ -10,7 +10,8 @@ import java.util.Set;
 
 public class PublicObject {
 
-    private PublicObject(){}
+    private PublicObject() {
+    }
 
     public static Integer use1(Overlay overlay) {
         int i = 0;
@@ -26,7 +27,7 @@ public class PublicObject {
             colors.clear();
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
-                if (dice != null&&!colors.add(dice.getColor()))
+                if (dice != null && !colors.add(dice.getColor()))
                     esito = 0;
                 j++;
             }
@@ -53,7 +54,7 @@ public class PublicObject {
             colors.clear();
             while (j < 4) {
                 dice = overlay.getDicePositions()[j][i];
-                if (dice != null&&!colors.add(dice.getColor()))
+                if (dice != null && !colors.add(dice.getColor()))
                     esito = 0;
                 j++;
             }
@@ -80,7 +81,7 @@ public class PublicObject {
             numbers.clear();
             while (j < 4) {
                 dice = overlay.getDicePositions()[j][i];
-                if (dice != null&&!numbers.add(dice.getValue()))
+                if (dice != null && !numbers.add(dice.getValue()))
                     esito = 0;
                 j++;
             }
@@ -107,7 +108,7 @@ public class PublicObject {
             numbers.clear();
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
-                if (dice != null&&!numbers.add(dice.getValue()))
+                if (dice != null && !numbers.add(dice.getValue()))
                     esito = 0;
                 j++;
             }

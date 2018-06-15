@@ -73,21 +73,21 @@ public class MainServer {
 
     public static Integer primeNumber(int n) {
         int candidate, count;
-        for(candidate = 2, count = 0; count < n; ++candidate) {
+        for (candidate = 2, count = 0; count < n; ++candidate) {
             if (isPrime(candidate)) {
                 ++count;
             }
         }
         // The candidate has been incremented once after the count reached n
-        return candidate-1;
+        return candidate - 1;
     }
 
     private static boolean isPrime(int n) {
         if (n % 2 == 0) return n == 2;
         if (n % 3 == 0) return n == 3;
         int step = 4;
-        int m = (int)Math.sqrt(n) + 1;
-        for(int i = 5; i < m; step = 6-step, i += step) {
+        int m = (int) Math.sqrt(n) + 1;
+        for (int i = 5; i < m; step = 6 - step, i += step) {
             if (n % i == 0) {
                 return false;
             }
@@ -95,8 +95,7 @@ public class MainServer {
         return true;
     }
 
-    public static void main(String[] args){
-
+    public static void main(String[] args) {
 
         if (!Config.read()) {
             Logger.log("Can't read config. Server close now.");
@@ -113,6 +112,7 @@ public class MainServer {
             Thread.currentThread().interrupt();
         }
 
+        System.out.println();
         Logger.log("Send 'exit' command to teardown...\n\n");
         Scanner scan = new Scanner(System.in);
         while (!scan.nextLine().equals("exit")) {
@@ -121,4 +121,5 @@ public class MainServer {
         ConcurrencyManager.shutdown();
         System.exit(0);
     }
+
 }
