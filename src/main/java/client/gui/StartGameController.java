@@ -117,161 +117,160 @@ public class StartGameController implements Initializable {
 
 
     public void updateView(GameManagerT gameManager) {
-        System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
+        Platform.runLater(
+                () -> {
+                    System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
 
-        // Useful variables
-        clearPosizioni();
-        counterPosizione=0;
-        String nomeCarta,numeroTokens;
-        int numDadi;
-        ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
-        int counterPosition = gameManager.pos;
+                    // Useful variables
+                    clearPosizioni();
+                    counterPosizione = 0;
+                    String nomeCarta, numeroTokens;
+                    int numDadi;
+                    ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
+                    int counterPosition = gameManager.pos;
 
-        System.out.println("Valore counterPosition:" + counterPosition);
-        System.out.println("Valore gameManager:" + gameManager.pos);
+                    System.out.println("Valore counterPosition:" + counterPosition);
+                    System.out.println("Valore gameManager:" + gameManager.pos);
 
-        //Loading mapCards into view
+                    //Loading mapCards into view
 
-        for (int i = 0; i < playersLocal.size(); i++) {
-            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
-            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
+                    for (int i = 0; i < playersLocal.size(); i++) {
+                        System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
+                        System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
 
-            if(counterPosition>playersLocal.size()-1)
-                counterPosition=0;
-            System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
-            System.out.println(playersLocal.get(counterPosition).window.getName());
-            nomeCarta = playersLocal.get(counterPosition).window.getName();
+                        if (counterPosition > playersLocal.size() - 1)
+                            counterPosition = 0;
+                        System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
+                        System.out.println(playersLocal.get(counterPosition).window.getName());
+                        nomeCarta = playersLocal.get(counterPosition).window.getName();
 
-            listaGriglie.get(i).setStyle("-fx-background-image: url('"+nomeCarta+".png');-fx-background-size: 100% 100%;");
-            counterPosition++;
-
-        }
-
-        // GET TOKENS
-        numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
-        numTokens.setText(numeroTokens);
-
-        //avendo questi aggiorni la grafica all'inizio di ogni turno.
-        //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
-        //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
-        //che stanno nel server.
-
-        // LOAD POOL
-        numDadi= gameManager.pool.size();
-        System.out.println("Numero di dadi :" + numDadi);
-        for (int i = 0; i < numDadi; i++) {
-
-            System.out.println("Valore di i nel ciclo:" + i);
-            // INSERIRE EFFETIVO VALORE DEL DADO
-            if (gameManager.pool.get(i)!=null){
-                int numero = gameManager.pool.get(i).getValue();
-                char color = gameManager.pool.get(i).getColor();
-                System.out.println("Numero :" + numero + "\n");
-                System.out.println("Colore :" + color + "\n");
-                listaDadi.get(i).setStyle("-fx-background-image: url('" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
-        }
-            else {
-                listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
-
-            }
-
-            }
-        for (int i = numDadi; i < listaDadi.size(); i++){
-            listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
-
-        }
-        // Inserimento toolCards
-        for (int i=0; i<gameManager.toolCards.size();i++) {
-            String nomeToolCard = gameManager.toolCards.get(i).name;
-            System.out.println("NOME TOOCARD:"+nomeToolCard);
-
-            Image image = new Image(nomeToolCard+".png");
-            System.out.println("CARICAMENTO TOOLCARD");
-
-            listaToolCard.get(i).setImage(image);
-        }
-
-
-
-        //Loading Dice into Maps
-        counterPosition = gameManager.pos;
-
-        System.out.println("Valore counterPosition:" + counterPosition);
-        System.out.println("Valore gameManager:" + gameManager.pos);
-
-
-        for (int i = 0; i < playersLocal.size(); i++) {
-            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
-            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
-
-            if(counterPosition>playersLocal.size()-1)
-                counterPosition=0;
-            Dice[][] myOverlay = playersLocal.get(counterPosition).overlay.getDicePositions();
-
-            ObservableList<Node> myGrid = listaGriglie.get(i).getChildren();
-            int z = 0;
-            for (int k=0; k<4;k++) {
-                for (int y = 0; y < 5; y++) {
-
-                    System.out.println("NEL CICLO, PRIMA DELL'IF");
-
-                    if (myOverlay[k][y] != null) {
-                        System.out.println("APPENA ENTRATO NELL'IF ");
-                        char mycolor = myOverlay[k][y].getColor();
-                        System.out.println("Stampo Colore"+ mycolor);
-                        int mynumber = myOverlay[k][y].getValue();
-                        System.out.println("Stampo Numero"+ mynumber);
-
-                        myGrid.get(z).setStyle(("-fx-background-image: url('" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
-                        myGrid.get(z).setOpacity(100);
-                        System.out.println("ASSEGNAZIONE DADO FATTA ");
+                        listaGriglie.get(i).setStyle("-fx-background-image: url('" + nomeCarta + ".png');-fx-background-size: 100% 100%;");
+                        counterPosition++;
 
                     }
-                    else{
-                        myGrid.get(z).setStyle(("-fx-background-color: transparent;-fx-background-size: 100% 100%;"));
+
+                    // GET TOKENS
+                    numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
+                    numTokens.setText(numeroTokens);
+
+                    //avendo questi aggiorni la grafica all'inizio di ogni turno.
+                    //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
+                    //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
+                    //che stanno nel server.
+
+                    // LOAD POOL
+                    numDadi = gameManager.pool.size();
+                    System.out.println("Numero di dadi :" + numDadi);
+                    for (int i = 0; i < numDadi; i++) {
+
+                        System.out.println("Valore di i nel ciclo:" + i);
+                        // INSERIRE EFFETIVO VALORE DEL DADO
+                        if (gameManager.pool.get(i) != null) {
+                            int numero = gameManager.pool.get(i).getValue();
+                            char color = gameManager.pool.get(i).getColor();
+                            System.out.println("Numero :" + numero + "\n");
+                            System.out.println("Colore :" + color + "\n");
+                            listaDadi.get(i).setStyle("-fx-background-image: url('" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
+                        } else {
+                            listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+
+                        }
 
                     }
-                    System.out.println("FUORI IF ");
+                    for (int i = numDadi; i < listaDadi.size(); i++) {
+                        listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+
+                    }
+                    // Inserimento toolCards
+                    for (int i = 0; i < gameManager.toolCards.size(); i++) {
+                        String nomeToolCard = gameManager.toolCards.get(i).name;
+                        System.out.println("NOME TOOCARD:" + nomeToolCard);
+
+                        Image image = new Image(nomeToolCard + ".png");
+                        System.out.println("CARICAMENTO TOOLCARD");
+
+                        listaToolCard.get(i).setImage(image);
+                    }
 
 
-                    z++;
-                    System.out.println(z);
+                    //Loading Dice into Maps
+                    counterPosition = gameManager.pos;
 
-                }
+                    System.out.println("Valore counterPosition:" + counterPosition);
+                    System.out.println("Valore gameManager:" + gameManager.pos);
 
-            }
-            counterPosition++;
 
-        }
+                    for (int i = 0; i < playersLocal.size(); i++) {
+                        System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
+                        System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
 
-        //LOADING DICES INTO ROUNDTRACK
+                        if (counterPosition > playersLocal.size() - 1)
+                            counterPosition = 0;
+                        Dice[][] myOverlay = playersLocal.get(counterPosition).overlay.getDicePositions();
+
+                        ObservableList<Node> myGrid = listaGriglie.get(i).getChildren();
+                        int z = 0;
+                        for (int k = 0; k < 4; k++) {
+                            for (int y = 0; y < 5; y++) {
+
+                                System.out.println("NEL CICLO, PRIMA DELL'IF");
+
+                                if (myOverlay[k][y] != null) {
+                                    System.out.println("APPENA ENTRATO NELL'IF ");
+                                    char mycolor = myOverlay[k][y].getColor();
+                                    System.out.println("Stampo Colore" + mycolor);
+                                    int mynumber = myOverlay[k][y].getValue();
+                                    System.out.println("Stampo Numero" + mynumber);
+
+                                    myGrid.get(z).setStyle(("-fx-background-image: url('" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
+                                    myGrid.get(z).setOpacity(100);
+                                    System.out.println("ASSEGNAZIONE DADO FATTA ");
+
+                                } else {
+                                    myGrid.get(z).setStyle(("-fx-background-color: transparent;-fx-background-size: 100% 100%;"));
+
+                                }
+                                System.out.println("FUORI IF ");
+
+
+                                z++;
+                                System.out.println(z);
+
+                            }
+
+                        }
+                        counterPosition++;
+
+                    }
+
+                    //LOADING DICES INTO ROUNDTRACK
+
+                    ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
+                    System.out.println(roundTrackData);
+                    for (int h = 0; h < roundTrackData.size(); h++) {
+                        listaComboBox.get(h).getItems().clear();
+
+                        System.out.println(" h Value:" + h);
+                        ArrayList<Dice> testing = roundTrackData.get(h);
+                        System.out.println(" Testing:" + testing);
+                        System.out.println(" Testing size:" + testing.size());
+
+
+                        for (int u = 0; u < roundTrackData.get(h).size(); u++) {
+                            System.out.println(" Dentro ciclo assegnamento dadi round ");
+
+                            String color = Character.toString(testing.get(u).getColor());
+                            String value = testing.get(u).getValue().toString();
+                            String diceRound = value + color + ".png";
+
+                            listaComboBox.get(h).getItems().add(diceRound);
+                        }
+                    }
+
+
+
+
 /*
-        ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
-        System.out.println(roundTrackData);
-        for(int h=0; h<roundTrackData.size();h++){
-            listaComboBox.get(h).getItems().clear();
-
-            System.out.println(" h Value:" + h);
-            ArrayList<Dice> testing = roundTrackData.get(h);
-            System.out.println(" Testing:" + testing);
-            System.out.println(" Testing size:" + testing.size());
-
-
-            for(int u=0; u<roundTrackData.get(h).size();u++){
-                System.out.println(" Dentro ciclo assegnamento dadi round ");
-
-                String color = Character.toString(testing.get(u).getColor());
-                String value = testing.get(u).getValue().toString();
-                String diceRound = value+color+".png";
-
-                listaComboBox.get(h).getItems().add(diceRound);
-                }
-        }
-        */
-
-
-
-
 //Arraylist made of arraylist containing the data I need
 ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
 System.out.println(roundTrackData);
@@ -299,14 +298,10 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     }
 
     combo.setItems(options);
-}
+} */
 
 
-
-        
-        
-
-
+                });
     }
 
 
