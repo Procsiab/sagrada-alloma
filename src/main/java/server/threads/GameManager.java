@@ -156,7 +156,7 @@ public class GameManager extends GeneralTask {
         pool.addDice(new Dice('r', 2));
         pool.addDice(new Dice('b', 5));
 
-        Logger.log(this + " Initialization sequence completed");
+        Logger.log(this + " Initialization sequence completed\n");
         pause(5000);
 
     }
@@ -220,7 +220,6 @@ public class GameManager extends GeneralTask {
     public Vector<String> getJump() {
         return jump;
     }
-
 
     public String getTavolo() {
         return tavolo;
@@ -555,7 +554,6 @@ public class GameManager extends GeneralTask {
     }
 
     private void printStatusOfClients() {
-        checkActive();
 
         Logger.log(this + " players online are " + active.size() +
                 ". They are: ");
