@@ -251,7 +251,7 @@ public class Player {
             return false;
         }
         if (n == null || !this.possibleWindows.contains(n--)) {
-            Logger.log("Player: " + uUID + " Attempt to setDice improper Window");
+            Logger.log("Player: " + uUID + " Attempt to set improper Window");
             return false;
         }
         this.window = MatchManager.getWindows().get(n);

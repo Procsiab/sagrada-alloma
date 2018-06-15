@@ -25,7 +25,6 @@ public class GameManager extends GeneralTask {
     private final Integer timeout4; //for window back
     private final ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
-    private MatchManager matchManager = MatchManager.getInstance();
     private boolean action = false;
     private ArrayList<Integer> publicOCs = new ArrayList<>();
     private ArrayList<Integer> toolCards = new ArrayList<>();
@@ -431,9 +430,9 @@ public class GameManager extends GeneralTask {
 
         try {
             middlewareServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
-                    toolCsT, roundTrack, pool.getDices(), tCtokens, publicRef.indexOf(uUID)));
+                    toolCsT, roundTrack, pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
         } catch (NullPointerException npe) {
-            Logger.log(this + " player " + uUID + ", remote application error");
+            //Logger.log(this + " player " + uUID + ", remote application error");
         }
     }
 

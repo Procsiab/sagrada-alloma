@@ -1,11 +1,13 @@
 package shared.TransferObjects;
 
+import server.SReferences;
 import shared.Dice;
 import shared.RoundTrack;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class GameManagerT implements Serializable {
 
@@ -15,11 +17,13 @@ public class GameManagerT implements Serializable {
     public final RoundTrack roundTrack;
     public final ArrayList<Dice> pool = new ArrayList<>();
     public final ArrayList<Integer> tCtokens = new ArrayList<>();
+    public final ArrayList<String> online = new ArrayList<>();
+    public final ArrayList<String> offline = new ArrayList<>();
     public final Integer pos;
 
     public GameManagerT(List<PlayerT> vPlayers, List<String> publicOCs,
                         List<ToolCT> toolCards, RoundTrack roundTrack, List<Dice> pool,
-                        List<Integer> tCtokens, Integer pos) {
+                        List<Integer> tCtokens, Set<String> active, List<String> everybody, Integer pos) {
 
         this.vPlayers.addAll(vPlayers);
         this.publicOCs.addAll(publicOCs);
@@ -28,5 +32,14 @@ public class GameManagerT implements Serializable {
         this.roundTrack = roundTrack;
         this.pool.addAll(pool);
         this.pos = pos;
+
+        for (String player :
+                everybody) {
+            String nickName = SReferences.getNickNameRef(player);
+            if (active.contains(player))
+                online.add(nickName);
+            else
+                offline.add(nickName);
+        }
     }
 }
