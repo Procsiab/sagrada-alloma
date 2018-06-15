@@ -248,11 +248,12 @@ public class Player {
     }
 
     public synchronized boolean setWindowFromC(Integer n) {
+        n--;
         if (this.window != null) {
             Logger.log("Player: " + uUID + " Server already assigned Window for this player");
             return false;
         }
-        if (n == null || !this.possibleWindows.contains(n--)) {
+        if (n == null || !this.possibleWindows.contains(n)) {
             Logger.log("Player: " + uUID + " Attempt to set improper Window");
             return false;
         }
