@@ -17,7 +17,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class MainCLI {
     private final Scanner readInput = new Scanner(System.in);
-    private Integer functionId = 0;
+    private Integer functionId = -1;
     private ArrayList<Integer> windows;
     private GameManagerT gm;
 
@@ -28,7 +28,7 @@ public class MainCLI {
     public void launch() {
         System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
-        AnsiConsole.out().print(ansi().eraseScreen(Ansi.Erase.ALL));
+        AnsiConsole.out().print(ansi().eraseScreen(Ansi.Erase.ALL).cursor(0, 0));
         String resp;
         do {
             AnsiConsole.out().print(ansi().fgBrightRed().a("Enter your nickname before connecting: ").fgDefault());
@@ -44,7 +44,11 @@ public class MainCLI {
                     String s = readInput.nextLine();
                     if (s.equals("exit")) {
                         stop = true;
-                        MiddlewareClient.getInstance().exitGame2();
+                        if (functionId == -1) {
+                            MiddlewareClient.getInstance().exitGame1();
+                        } else {
+                            MiddlewareClient.getInstance().exitGame2();
+                        }
                         AnsiConsole.out().println(ansi().fgBrightRed().a("[EXIT] ").fgBrightYellow()
                                 .a("You left the game: connect again to re-join the match").fgDefault());
                     } else {
@@ -336,7 +340,7 @@ public class MainCLI {
                         break;
                 }
             } else {
-                AnsiConsole.out().print(ansi().bg(Ansi.Color.BLACK));
+                AnsiConsole.out().print(ansi().bg(Ansi.Color.BLACK).bold());
                 switch (d.getColor()) {
                     case 'r':
                         AnsiConsole.out().print(ansi().fgBrightRed());
@@ -358,7 +362,7 @@ public class MainCLI {
                         break;
                 }
             }
-            AnsiConsole.out().print(ansi().a(d.getValue()).fgDefault().bgDefault());
+            AnsiConsole.out().print(ansi().a(d.getValue()).fgDefault().bgDefault().boldOff());
         }
     }
 
@@ -400,7 +404,7 @@ public class MainCLI {
         for (int i = 8; i >= 0; i--) {
             for (int j = 0; j < 9; j++) {
                 Dice d = null;
-                if (rt.getDices().get(j).size() >= i) {
+                if (rt.getDices().get(j).size() > i) {
                     d = rt.getDice(new PositionR(j, i));
                 }
                 printDice(d, true);
@@ -421,7 +425,7 @@ public class MainCLI {
     }
 
     private void printPlayerInfo(PlayerT p) {
-        AnsiConsole.out.println(ansi().fgBrightRed().a("Turn number: ").fgDefault().a(Integer.toString(p.turno + 1)));
+        AnsiConsole.out.println(ansi().fgBrightRed().a("Turn number: ").fgDefault().a(Integer.toString(p.turno)));
         AnsiConsole.out.print(ansi().fgBrightRed().a("Private objective: ").fgDefault());
         printCell(new Cell(null, p.privateO));
         AnsiConsole.out().print('\n');
@@ -436,6 +440,20 @@ public class MainCLI {
         }
     }
 
+    private void printConnectionInfo(PlayerT p) {
+        final String BALL = "●";
+        if (this.gm.offline.contains(p.nickName)) {
+            AnsiConsole.out().print(ansi().fgBrightRed());
+        } else if (this.gm.online.contains(p.nickName)) {
+            AnsiConsole.out().print(ansi().fgBrightGreen());
+        } else {
+            AnsiConsole.out().print(ansi().fgBrightYellow());
+        }
+        AnsiConsole.out().print(ansi().a(BALL).fgDefault().a(' ').bold().a(p.nickName).boldOff());
+    }
+
+    /* Public functions, used by ProxyClient to notify the view */
+
     public void updateView(GameManagerT gm) {
         if (functionId == 2) {
             AnsiConsole.out().print(ansi().eraseScreen(Ansi.Erase.ALL).cursor(0, 0));
@@ -446,7 +464,8 @@ public class MainCLI {
             gm.vPlayers.remove(me);
             // Print other's windows
             for (PlayerT p : gm.vPlayers) {
-                AnsiConsole.out().println(p.nickName + "'s window");
+                printConnectionInfo(p);
+                AnsiConsole.out().println("'s window");
                 printWindow(p.window, p.overlay);
             }
             // Print local player's window

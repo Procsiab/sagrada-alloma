@@ -24,9 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import server.threads.GameManager;
 import shared.Dice;
-import shared.Logger;
 import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
@@ -41,7 +39,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class StartGameController implements Initializable {
     // Logic Variables
-    private GameManager netGameManager;
+    private GameManagerT netGameManager;
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
@@ -548,7 +546,7 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     //TODO Implement the following methods
     // METHODS CALLED FROM MIDDLEWARE
 
-    public void setNetGameManager(GameManager netGameManager) {
+    public void setNetGameManager(GameManagerT netGameManager) {
         this.netGameManager = netGameManager;
     }
 
