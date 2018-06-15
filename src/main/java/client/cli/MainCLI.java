@@ -1,6 +1,6 @@
 package client.cli;
 
-import client.MiddlewareClient;
+import client.ProxyClient;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import shared.*;
@@ -33,7 +33,7 @@ public class MainCLI {
         do {
             AnsiConsole.out().print(ansi().fgBrightRed().a("Enter your nickname before connecting: ").fgDefault());
             String nick = readInput.nextLine();
-            resp = MiddlewareClient.getInstance().startGame(nick);
+            resp = ProxyClient.getInstance().startGame(nick);
             AnsiConsole.out().println(ansi().fgBrightRed().a("Server response: ").fgDefault().a(resp));
         } while (resp == null || resp.equals("NickName is not available"));
 
@@ -45,9 +45,9 @@ public class MainCLI {
                     if (s.equals("exit")) {
                         stop = true;
                         if (functionId == -1) {
-                            MiddlewareClient.getInstance().exitGame1();
+                            ProxyClient.getInstance().exitGame1();
                         } else {
-                            MiddlewareClient.getInstance().exitGame2();
+                            ProxyClient.getInstance().exitGame2();
                         }
                         AnsiConsole.out().println(ansi().fgBrightRed().a("[EXIT] ").fgBrightYellow()
                                 .a("You left the game: connect again to re-join the match").fgDefault());
@@ -72,7 +72,7 @@ public class MainCLI {
             case 1: // chooseWindow()
                 int i = Integer.parseInt(s);
                 if (windows.contains(i)) {
-                    MiddlewareClient.getInstance().chooseWindowBack(i);
+                    ProxyClient.getInstance().chooseWindowBack(i);
                     functionId = 0;
                 } else {
                     wrongCommand();
@@ -101,7 +101,7 @@ public class MainCLI {
                         useToolC(i - 1);
                         break;
                     case "end":
-                        MiddlewareClient.getInstance().endTurn();
+                        ProxyClient.getInstance().endTurn();
                         break;
                     case "\n":
                     case "":
@@ -134,8 +134,8 @@ public class MainCLI {
         r = readInput.nextInt();
         c = readInput.nextInt();
         Position p = new Position(r - 1, c - 1);
-        if (MiddlewareClient.getInstance().placeDice(index, p)) {
-            MiddlewareClient.getInstance().updateViewFromC();
+        if (ProxyClient.getInstance().placeDice(index, p)) {
+            ProxyClient.getInstance().updateViewFromC();
         } else {
             AnsiConsole.out().println(ansi().fgBrightGreen().a("[INFO] ").fgBrightYellow()
                     .a("Selected dice could not be placed in specified position!").fgDefault());
@@ -274,8 +274,8 @@ public class MainCLI {
             default:
                 break;
         }
-        if (MiddlewareClient.getInstance().useToolC(index, p1, p2, p3, p4, pr, i2, i3)) {
-            MiddlewareClient.getInstance().updateViewFromC();
+        if (ProxyClient.getInstance().useToolC(index, p1, p2, p3, p4, pr, i2, i3)) {
+            ProxyClient.getInstance().updateViewFromC();
         } else {
             AnsiConsole.out().println(ansi().fgBrightGreen().a("[INFO] ").fgBrightYellow()
                     .a("Selected Tool Card could not be used with specified parameters!").fgDefault());
@@ -502,7 +502,7 @@ public class MainCLI {
         functionId = 2;
         AnsiConsole.out().println(ansi().fgBrightGreen().a("\n[INFO] ").fgBrightYellow()
                 .a("Your turn has now started").fgDefault());
-        MiddlewareClient.getInstance().updateViewFromC();
+        ProxyClient.getInstance().updateViewFromC();
     }
 
     public void shut() {

@@ -19,7 +19,6 @@ import shared.network.socket.NetworkSocket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalTime;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Console;
@@ -70,11 +69,11 @@ public class MainClient extends Application {
             connection = scan.nextLine();
         }
         if (connection.equals("rmi")){
-            MiddlewareClient.setConnection(new NetworkRmi("", 0));
+            ProxyClient.setConnection(new NetworkRmi("", 0));
         }
         else if (connection.equals("socket")){
             try {
-                MiddlewareClient.setConnection(new NetworkSocket("", 0));
+                ProxyClient.setConnection(new NetworkSocket("", 0));
             } catch (MethodConnectionException mce) {
                 Logger.strace(mce);
             }

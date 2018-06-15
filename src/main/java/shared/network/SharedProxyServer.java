@@ -9,7 +9,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface SharedMiddlewareServer extends Remote {
+public interface SharedProxyServer extends Remote {
     Boolean deniedAccess(String uuid) throws RemoteException;
     String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket) throws RemoteException;
     void updateView(String uuid, GameManagerT gameManager) throws RemoteException;

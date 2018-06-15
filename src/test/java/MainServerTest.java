@@ -1,7 +1,7 @@
 
 import server.Player;
 import server.SReferences;
-import server.connection.MiddlewareServer;
+import server.connection.ProxyServer;
 import server.threads.MainServer;
 import server.threads.GameManager;
 
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 class MainServerTest {
 
     public static ArrayList<GameManager> gameManagers = new ArrayList<>();
-    public static MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    public static ProxyServer middlewareServer = ProxyServer.getInstance();
     public static Object obj;
     public static Integer timeout;
     public GameManager gameManager;

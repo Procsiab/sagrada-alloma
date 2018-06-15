@@ -1,6 +1,6 @@
 package client.gui;
 import client.MainClient;
-import client.MiddlewareClient;
+import client.ProxyClient;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -52,7 +52,7 @@ public class LogInScreenController implements Initializable {
         Parent root1 = loader.load();
 
 
-        String message1 = MiddlewareClient.getInstance().startGame(nickname);
+        String message1 = ProxyClient.getInstance().startGame(nickname);
         Logger.log("Server responded as: " + message1);
 
         if (message1.equals("Connections successful. Please wait for other players to connect")) {

@@ -1,7 +1,7 @@
 package server.threads;
 
 import server.*;
-import server.connection.MiddlewareServer;
+import server.connection.ProxyServer;
 import server.executables.PublicObject;
 import server.Window;
 import shared.*;
@@ -16,7 +16,7 @@ public class GameManager extends GeneralTask {
 
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
-    private MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    private ProxyServer middlewareServer = ProxyServer.getInstance();
     private final ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config

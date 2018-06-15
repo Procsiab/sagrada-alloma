@@ -19,8 +19,8 @@ public class MethodRouter implements Router {
         if (e == null) {
             throw new NullPointerException();
         }
-        if (e instanceof SharedMiddlewareClient) {
-            SharedMiddlewareClient o = (SharedMiddlewareClient) e;
+        if (e instanceof SharedProxyClient) {
+            SharedProxyClient o = (SharedProxyClient) e;
             switch (methodName) {
                 case "deniedAccess":
                     return o.deniedAccess();
@@ -69,11 +69,11 @@ public class MethodRouter implements Router {
                     o.exitGame1();
                     break;
                 default:
-                    Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareClient!");
+                    Logger.log("Requested wrong method " + methodName + " for interface SharedProxyClient!");
                     break;
             }
-        } else if (e instanceof SharedMiddlewareServer) {
-            SharedMiddlewareServer o = (SharedMiddlewareServer) e;
+        } else if (e instanceof SharedProxyServer) {
+            SharedProxyServer o = (SharedProxyServer) e;
             switch (methodName) {
                 case "deniedAccess":
                     return o.deniedAccess((String) argList[0]);
@@ -122,7 +122,7 @@ public class MethodRouter implements Router {
                     o.exitGame1((String) argList[0]);
                     break;
                 default:
-                    Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareServer!");
+                    Logger.log("Requested wrong method " + methodName + " for interface SharedProxyServer!");
                     break;
             }
         } else {

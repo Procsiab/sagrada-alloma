@@ -8,28 +8,27 @@ import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.MethodConnectionException;
-import shared.network.SharedMiddlewareClient;
+import shared.network.SharedProxyClient;
 import shared.network.Connection;
 import shared.network.socket.NetworkSocket;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public final class MiddlewareClient implements SharedMiddlewareClient {
-    private static final String SERVER_INTERFACE = "MiddlewareServer";
+public final class ProxyClient implements SharedProxyClient {
+    private static final String SERVER_INTERFACE = "ProxyServer";
 
     private static String uuid = MainClient.uuid;
     private static Connection connection = null;
     private static Boolean isSocket = false;
-    private static MiddlewareClient instance = new MiddlewareClient();
+    private static ProxyClient instance = new ProxyClient();
     private static LogInScreenController logInScreenController;
     private static StartGameController startGameController;
 
-    private MiddlewareClient() {
+    private ProxyClient() {
         super();
     }
 
-    public static MiddlewareClient getInstance() {
+    public static ProxyClient getInstance() {
         return instance;
     }
 
@@ -213,13 +212,15 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
     }
 
     @Override
-    public Boolean exitGame1() {
+    public void exitGame1() {
         Object[] args = {uuid};
         String methodName = "exitGame1";
         try {
-            return (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+            connection.invokeMethod(SERVER_INTERFACE, methodName, args);
         } catch (MethodConnectionException mce) {
-            return false;
+            Logger.log("Unable to inform server of the log out");
+        } finally {
+            connection.close();
         }
     }
 }

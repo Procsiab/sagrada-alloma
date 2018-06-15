@@ -10,26 +10,26 @@ import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.Connection;
 import shared.network.MethodConnectionException;
-import shared.network.SharedMiddlewareServer;
+import shared.network.SharedProxyServer;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
 import java.util.ArrayList;
 
-public class MiddlewareServer implements SharedMiddlewareServer {
-    private static final String SERVER_INTERFACE = "MiddlewareServer";
+public class ProxyServer implements SharedProxyServer {
+    private static final String SERVER_INTERFACE = "ProxyServer";
 
     private static Connection serverSocket = new NetworkSocket();
     private static Connection serverRmi = new NetworkRmi();
-    private static MiddlewareServer instance = new MiddlewareServer();
+    private static ProxyServer instance = new ProxyServer();
 
-    private MiddlewareServer() {
+    private ProxyServer() {
         super();
         serverRmi.export(this, SERVER_INTERFACE);
         serverSocket.export(this, SERVER_INTERFACE);
     }
 
-    public static MiddlewareServer getInstance() {
+    public static ProxyServer getInstance() {
         return instance;
     }
 

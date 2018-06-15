@@ -1,8 +1,7 @@
 package client.gui;
 
 import client.MainClient;
-import client.MiddlewareClient;
-import com.sun.tools.javac.Main;
+import client.ProxyClient;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +24,7 @@ public class ChooseWindowController implements Initializable {
 
     // Logic Variables
     private Integer  tempSelectedCard, selectedCard;
-    private MiddlewareClient middlewareClient = MiddlewareClient.getInstance();
+    private ProxyClient middlewareClient = ProxyClient.getInstance();
 
     // GUI Variables
     @FXML private Button card1,card2,card3,card4;

@@ -1,17 +1,13 @@
 package client.gui;
 
 import client.MainClient;
-import client.MiddlewareClient;
+import client.ProxyClient;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -43,7 +39,7 @@ public class StartGameController implements Initializable {
     private Integer nMates;
     private Integer nPlayer;
     private ReentrantLock lock1 = new ReentrantLock();
-    private MiddlewareClient middlewareClient = MiddlewareClient.getInstance();
+    private ProxyClient middlewareClient = ProxyClient.getInstance();
 
     // FXML GUI Variables
     @FXML

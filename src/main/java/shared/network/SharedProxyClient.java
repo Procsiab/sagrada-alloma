@@ -9,7 +9,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface SharedMiddlewareClient extends Remote {
+public interface SharedProxyClient extends Remote {
     Boolean deniedAccess() throws RemoteException;
     String startGame(String nick) throws RemoteException;
     void updateView(GameManagerT gameManager) throws RemoteException;
@@ -27,5 +27,5 @@ public interface SharedMiddlewareClient extends Remote {
     void exitGame2() throws RemoteException;
     void endTurn() throws RemoteException;
     void updateViewFromC() throws RemoteException;
-    Boolean exitGame1() throws RemoteException;
+    void exitGame1() throws RemoteException;
 }

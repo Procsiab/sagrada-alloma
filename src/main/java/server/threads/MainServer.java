@@ -2,7 +2,7 @@ package server.threads;
 
 
 import server.Config;
-import server.connection.MiddlewareServer;
+import server.connection.ProxyServer;
 import server.threads.GameGenerator.GameGenerator1;
 import server.threads.GameGenerator.GameGenerator2;
 import shared.Logger;
@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class MainServer {
     //create an object of MainServer
     private static final MainServer instance = new MainServer();
-    public static MiddlewareServer middlewareServer = MiddlewareServer.getInstance();
+    public static ProxyServer middlewareServer = ProxyServer.getInstance();
     private static ArrayList<GameManager> gameManagers = new ArrayList<>();
     private static Integer gameManagerCode = 0;
     public static final Object obj = new Object();
