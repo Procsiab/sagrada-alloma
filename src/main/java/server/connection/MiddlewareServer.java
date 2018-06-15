@@ -65,7 +65,7 @@ public class MiddlewareServer implements SharedMiddlewareServer {
             try {
                 return serverRmi.invokeMethod(uuid, methodName, args);
             } catch (MethodConnectionException mce) {
-                Logger.log("RMI error occurred while invoking method " + methodName + "on host"
+                Logger.log("RMI error occurred while invoking method " + methodName + " on host"
                         + SReferences.getIpRef(uuid));
             }
         }

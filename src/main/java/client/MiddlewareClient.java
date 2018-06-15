@@ -12,6 +12,7 @@ import shared.network.SharedMiddlewareClient;
 import shared.network.Connection;
 import shared.network.socket.NetworkSocket;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public final class MiddlewareClient implements SharedMiddlewareClient {
@@ -208,6 +209,17 @@ public final class MiddlewareClient implements SharedMiddlewareClient {
             connection.invokeMethod(SERVER_INTERFACE, methodName, args);
         } catch (MethodConnectionException mce) {
             Logger.strace(mce);
+        }
+    }
+
+    @Override
+    public Boolean exitGame1() {
+        Object[] args = {uuid};
+        String methodName = "exitGame1";
+        try {
+            return (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+        } catch (MethodConnectionException mce) {
+            return false;
         }
     }
 }

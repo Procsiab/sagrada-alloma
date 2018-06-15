@@ -65,6 +65,9 @@ public class MethodRouter implements Router {
                 case "updateViewFromC":
                     o.updateViewFromC();
                     break;
+                case "exitGame1":
+                    o.exitGame1();
+                    break;
                 default:
                     Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareClient!");
                     break;
@@ -114,6 +117,9 @@ public class MethodRouter implements Router {
                     break;
                 case "updateViewFromC":
                     o.updateViewFromC((String) argList[0]);
+                    break;
+                case "exitGame1":
+                    o.exitGame1((String) argList[0]);
                     break;
                 default:
                     Logger.log("Requested wrong method " + methodName + " for interface SharedMiddlewareServer!");

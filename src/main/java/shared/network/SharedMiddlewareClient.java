@@ -27,4 +27,5 @@ public interface SharedMiddlewareClient extends Remote {
     void exitGame2() throws RemoteException;
     void endTurn() throws RemoteException;
     void updateViewFromC() throws RemoteException;
+    Boolean exitGame1() throws RemoteException;
 }

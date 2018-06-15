@@ -1,7 +1,9 @@
 package shared.network;
 
 public class MethodConnectionException extends Exception {
-    public MethodConnectionException() {
-        super();
+    public MethodConnectionException() {}
+
+    public  MethodConnectionException (String message) {
+        super(message);
     }
 }
