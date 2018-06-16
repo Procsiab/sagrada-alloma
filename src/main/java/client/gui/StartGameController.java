@@ -87,7 +87,7 @@ public class StartGameController implements Initializable {
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        loadBackground();
+        //loadBackground();
         // backGroundTransition();
         posizioni = new Position[4];
         initMapCards();
@@ -405,13 +405,13 @@ public class StartGameController implements Initializable {
     }
 
 
-    private void loadBackground() {
+  /*  private void loadBackground() {
         BackgroundImage myBI = new BackgroundImage(new Image("https://www.freevector.com/uploads/vector/preview/27785/Sagrada_Familia_Building.jpg", 1280, 800, false, true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         paneBackground.setBackground(new Background(myBI));
 
-    }
+    } */
 
     private void backGroundTransition() {
         FadeTransition ft = new FadeTransition(Duration.millis(1000), paneBackground);
@@ -605,6 +605,7 @@ public class StartGameController implements Initializable {
 
 
     public void printScore(Integer score) {
+
 
     }
 
