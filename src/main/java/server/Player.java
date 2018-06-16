@@ -6,10 +6,12 @@ import server.threads.GameManager;
 import server.threads.MainServer;
 import shared.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Player {
+public class Player implements Comparable {
     private String uUID;
     private String nickName;
     private Character privateO;
@@ -32,6 +34,17 @@ public class Player {
         this.lastPlacedFromPool = new Position(-1, -1);
         this.pool = gameManager.getPool();
         this.nickName = SReferences.getNickNameRef(uUID);
+    }
+
+    @Override
+    public int compareTo(Object player) {
+        Integer r1 = Integer.compare(score,((Player) player).score);
+        if(r1==0) {
+            String s1 = nickName;
+            String s2 = ((Player) player).nickName;
+            return s1.compareTo(s2);
+        }
+        return r1;
     }
 
     public synchronized Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
