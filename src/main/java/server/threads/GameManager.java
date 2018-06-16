@@ -428,12 +428,8 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        try {
-            middlewareServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
-                    toolCsT, roundTrack, pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
-        } catch (NullPointerException npe) {
-            //Logger.log(this + " player " + uUID + ", remote application error");
-        }
+        middlewareServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
+                toolCsT, roundTrack, pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
     }
 
     private void updateView() {

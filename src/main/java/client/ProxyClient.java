@@ -2,6 +2,7 @@ package client;
 
 import client.gui.LogInScreenController;
 import client.gui.StartGameController;
+import com.sun.tools.javac.Main;
 import shared.Cell;
 import shared.Logger;
 import shared.Position;
@@ -71,7 +72,8 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.updateView(gameManager);
         } else {
-            MainClient.startGameController.updateView(gameManager);
+            if (MainClient.startGameController != null)
+                MainClient.startGameController.updateView(gameManager);
         }
     }
 
@@ -81,7 +83,8 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.chooseWindow(windows, matrices);
         } else {
-            MainClient.waitingRoomController.chooseWindow(windows);
+            if (MainClient.chooseWindowController != null)
+                MainClient.waitingRoomController.chooseWindow(windows);
         }
         return true;
     }
@@ -90,7 +93,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.startGameViewForced();
         } else {
-            if (MainClient.startGameController == null)
+            if (MainClient.chooseWindowController != null)
                 MainClient.chooseWindowController.startGameViewForced();
         }
         Logger.log("OK client start forced");
@@ -107,7 +110,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.aPrioriWin();
         } else {
-            //TODO Call GUI method
+            //TODO Call GUI method, ensure it is != null with the same pattern as updateviw for example
         }
     }
 
@@ -116,7 +119,9 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.enable();
         } else {
-            MainClient.startGameController.enable();         }
+            if (MainClient.startGameController != null)
+                MainClient.startGameController.enable();
+        }
     }
 
     @Override
@@ -124,7 +129,9 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.shut();
         } else {
-            MainClient.startGameController.shut();        }
+            if (MainClient.startGameController != null)
+                MainClient.startGameController.shut();
+        }
     }
 
     @Override
@@ -132,7 +139,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.printScore(score);
         } else {
-            //TODO Call GUI method
+            //TODO Call GUI method...
         }
     }
 
@@ -159,7 +166,7 @@ public final class ProxyClient implements SharedProxyClient {
         Object[] args = {uuid, index, p};
         String methodName = "placeDice";
         try {
-            return  (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+            return (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
         } catch (MethodConnectionException mce) {
             return false;
         }
