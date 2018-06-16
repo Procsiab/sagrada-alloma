@@ -9,9 +9,10 @@ import shared.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
-public class Player implements Comparable {
+public class Player {
     private String uUID;
     private String nickName;
     private Character privateO;
@@ -36,16 +37,16 @@ public class Player implements Comparable {
         this.nickName = SReferences.getNickNameRef(uUID);
     }
 
-    @Override
-    public int compareTo(Object player) {
-        Integer r1 = Integer.compare(score,((Player) player).score);
-        if(r1==0) {
-            String s1 = nickName;
-            String s2 = ((Player) player).nickName;
-            return s1.compareTo(s2);
+    public static Comparator<Player> cmp = new Comparator<Player>() {
+        @Override
+        public int compare(Player o1, Player o2) {
+            Integer r1 = Integer.compare(o1.score, o2.score);
+            if (r1 == 0) {
+                return o1.nickName.compareTo(o2.nickName);
+            }
+            return r1;
         }
-        return r1;
-    }
+    };
 
     public synchronized Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         Boolean esito = false;

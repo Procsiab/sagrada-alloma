@@ -9,6 +9,7 @@ import server.Player;
 import shared.TransferObjects.*;
 import server.concurrency.GeneralTask;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -755,6 +756,7 @@ public class GameManager extends GeneralTask {
             if (temp > max)
                 max = temp;
         }
+
 
         Collections.sort(playersS);
 
