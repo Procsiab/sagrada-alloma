@@ -775,7 +775,6 @@ public class GameManager extends GeneralTask {
             if (play.getScore().equals(max)) {
                 Logger.log(this + " the winner is player: " + play.getuUID() + "." +
                         "Congratulations!.");
-                middlewareServer.setWinner(play.getuUID());
             }
         }
     }
