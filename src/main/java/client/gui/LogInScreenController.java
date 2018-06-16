@@ -25,16 +25,12 @@ import java.util.ResourceBundle;
 public class LogInScreenController implements Initializable {
 
     // Logic Variables
-    private static StartGameController gameClient;
     private String nickname;
     // GUI Variables
     @FXML private ImageView sagradaImage;
     @FXML private Button startButton, okButton;
     @FXML private TextField nicknameField;
 
-    public static StartGameController getGameClient() {
-        return gameClient;
-    }
 
     // Initialization
     @Override

@@ -35,10 +35,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class StartGameController implements Initializable {
     // Logic Variables
-    private GameManagerT netGameManager;
-    private Integer nMates;
-    private Integer nPlayer;
-    private ReentrantLock lock1 = new ReentrantLock();
     private ProxyClient middlewareClient = ProxyClient.getInstance();
 
     // FXML GUI Variables
@@ -56,6 +52,8 @@ public class StartGameController implements Initializable {
     private ImageView toolCard1,toolCard2,toolCard3;
     @FXML
     private ImageView publicOC1,publicOC2,publicOC3;
+    @FXML
+    private ImageView privateOC;
     @FXML
     private AnchorPane roundTrack;
     @FXML
@@ -96,13 +94,9 @@ public class StartGameController implements Initializable {
         loadDadi();
         loadToolCard();
         loadComboBox();
-        loadPrivateOC();
+        loadPublicOC();
         shut();
-        paneCarta0.setGridLinesVisible(true);
-        // OTTIMIZZARE INSERENDO QUESTO DUPLICATO IN UNA FUNZIONE
-        for (int i = 0; i < listaDadi.size(); i++){
-            listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
-        }
+        loadPool();
         System.out.print("INIZIALIZZAZIONE COMPLETATA");
 
     }
@@ -183,6 +177,25 @@ public class StartGameController implements Initializable {
 
                         listaToolCard.get(i).setImage(image);
                     }
+
+                    // Inserimento PublicOC
+                    for(int i=0;i<gameManager.publicOCs.size();i++){
+                        String namePublicOC = gameManager.publicOCs.get(i);
+                        System.out.println("NOME PublicOC:" + namePublicOC);
+
+                        Image image = new Image(namePublicOC + ".png");
+                        System.out.println("CARICAMENTO PublicOC");
+
+                        listPublicOC.get(i).setImage(image);
+
+
+                    }
+                    // Inserimento PrivateOC
+                    char namePrivateOC = playersLocal.get(gameManager.pos).privateO;
+                    Image image = new Image(namePrivateOC + ".png");
+                    privateOC.setImage(image);
+
+
 
 
                     //Loading Dice into Maps
@@ -366,10 +379,16 @@ for(int h = 0; h < roundTrackData.size(); h++) {
 
     }
 
-    private void loadPrivateOC() {
+    private void loadPublicOC() {
         listPublicOC.add(publicOC1);
         listPublicOC.add(publicOC2);
         listPublicOC.add(publicOC3);
+    }
+
+    private void loadPool(){
+        for (int i = 0; i < listaDadi.size(); i++){
+            listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+        }
     }
 
 
@@ -542,9 +561,6 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     //TODO Implement the following methods
     // METHODS CALLED FROM MIDDLEWARE
 
-    public void setNetGameManager(GameManagerT netGameManager) {
-        this.netGameManager = netGameManager;
-    }
 
     public void setWinner(){
         //start animation for the winner
@@ -561,9 +577,6 @@ for(int h = 0; h < roundTrackData.size(); h++) {
 
     }
 
-    public boolean ping() {
-        return false;
-    }
 
 
 
@@ -571,9 +584,8 @@ for(int h = 0; h < roundTrackData.size(); h++) {
 
     }
 
-    public void setNPlayer(Integer nPlayer) {
 
-    }
+
 
     public void shut() {
         for (int i = 0; i < listaDadi.size(); i++){

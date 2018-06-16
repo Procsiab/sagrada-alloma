@@ -544,12 +544,13 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
+                  <ImageView fx:id="privateOC" fitHeight="90.0" fitWidth="65.0" layoutX="354.0" layoutY="133.0" onMouseClicked="#selectToolCard" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="toolCard1" fitHeight="90.0" fitWidth="65.0" layoutX="74.0" layoutY="14.0" onMouseClicked="#selectToolCard" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="toolCard2" fitHeight="90.0" fitWidth="65.0" layoutX="181.0" layoutY="14.0" onMouseClicked="#selectToolCard" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="toolCard3" fitHeight="90.0" fitWidth="65.0" layoutX="289.0" layoutY="14.0" onMouseClicked="#selectToolCard" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="publicOC1" fitHeight="90.0" fitWidth="65.0" layoutX="74.0" layoutY="133.0" onMouseClicked="#selectToolCard" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fx:id="publicOC2" fitHeight="90.0" fitWidth="65.0" layoutX="181.0" layoutY="133.0" onMouseClicked="#selectToolCard" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="publicOC3" fitHeight="90.0" fitWidth="65.0" layoutX="322.0" layoutY="133.0" onMouseClicked="#selectToolCard" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="publicOC3" fitHeight="90.0" fitWidth="65.0" layoutX="289.0" layoutY="133.0" onMouseClicked="#selectToolCard" onMouseEntered="#zoomToolCard" onMouseExited="#zoomOutToolCard" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
