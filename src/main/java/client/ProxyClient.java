@@ -43,14 +43,20 @@ public final class ProxyClient implements SharedProxyClient {
 
     @Override
     public String startGame(String nick) {
-        SharedProxyClient stub = instance;
-        Integer port = connection.getListeningPort();
+        Object stub = instance;
+        Integer port;
         if (isSocket) {
+            // First register the stub for remote calls, starting the consumer
             connection.export(stub, uuid);
+            // Get consumer's port after starting the consumer
+            port = connection.getListeningPort();
+            // Set the stub to null, as without calling exportObject won't be passed as reference
             stub = null;
         } else {
+            // RMI has its objectMethodPort initialized at constructor time
+            port = connection.getListeningPort();
+            // This static method calls UnicastRemoteObject's exportObject
             NetworkRmi.remotize(stub, port);
-            port = -1;
         }
         Object[] args = {uuid, nick, connection.getIp(), port, isSocket, stub};
         String methodName = "startGame";

@@ -89,8 +89,9 @@ public class ProxyServer implements SharedProxyServer {
     }
 
     @Override
-    public String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, SharedProxyClient stub) {
+    public String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, Object stub) {
         if (!isSocket) {
+            // Export given stub to let the server call the client's methods
             serverRmi.export(stub, uuid);
         }
         return MatchManager.startGame(uuid, nick, ip, port, isSocket);

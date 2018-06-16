@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface SharedProxyServer extends Remote {
-    String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, SharedProxyClient stub) throws RemoteException;
+    String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, Object stub) throws RemoteException;
     void updateView(String uuid, GameManagerT gameManager) throws RemoteException;
     Boolean chooseWindow(String uuid, ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) throws RemoteException;
     Boolean ping(String uuid) throws RemoteException;
