@@ -22,8 +22,6 @@ public class MethodRouter implements Router {
         if (e instanceof SharedProxyClient) {
             SharedProxyClient o = (SharedProxyClient) e;
             switch (methodName) {
-                case "deniedAccess":
-                    return o.deniedAccess();
                 case "startGame":
                     return o.startGame((String) argList[0]);
                 case "updateView":
@@ -75,8 +73,6 @@ public class MethodRouter implements Router {
         } else if (e instanceof SharedProxyServer) {
             SharedProxyServer o = (SharedProxyServer) e;
             switch (methodName) {
-                case "deniedAccess":
-                    return o.deniedAccess((String) argList[0]);
                 case "startGame":
                     return o.startGame((String) argList[0], (String) argList[1], (String) argList[2], (Integer) argList[3], (Boolean) argList[4]);
                 case "updateView":

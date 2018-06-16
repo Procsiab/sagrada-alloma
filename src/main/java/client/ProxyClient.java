@@ -45,17 +45,6 @@ public final class ProxyClient implements SharedProxyClient {
     }
 
     @Override
-    public Boolean deniedAccess() {
-        Object[] args = {uuid};
-        String methodName = "deniedAccess";
-        try {
-            return (boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
-        } catch (MethodConnectionException mce) {
-            return false;
-        }
-    }
-
-    @Override
     public String startGame(String nick) {
         connection.export(instance, uuid);
         Object[] args = {uuid, nick, connection.getIp(), connection.getListeningPort(), isSocket};

@@ -70,8 +70,7 @@ public class ProxyServer implements SharedProxyServer {
         return null;
     }
 
-    @Override
-    public Boolean deniedAccess(String uuid) {
+    private Boolean deniedAccess(String uuid) {
         try {
             GameManager game = SReferences.getGameRef(uuid);
             String expected = game.getExpected();

@@ -10,7 +10,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface SharedProxyClient extends Remote {
-    Boolean deniedAccess() throws RemoteException;
     String startGame(String nick) throws RemoteException;
     void updateView(GameManagerT gameManager) throws RemoteException;
     Boolean chooseWindow(ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) throws RemoteException;
