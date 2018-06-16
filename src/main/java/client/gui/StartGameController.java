@@ -34,7 +34,7 @@ import java.util.*;
 
 public class StartGameController implements Initializable {
     // Logic Variables
-    private ProxyClient middlewareClient = ProxyClient.getInstance();
+    private ProxyClient proxyClient = ProxyClient.getInstance();
 
     // FXML GUI Variables
     @FXML
@@ -332,6 +332,7 @@ public class StartGameController implements Initializable {
     public void shutdown() {
         // cleanup code here...
         System.out.println("CHIUSURA FINESTRA");
+        proxyClient.exitGame2();
 
 
         // note that typically (i.e. if Platform.isImplicitExit() is true, which is the default)
@@ -430,7 +431,7 @@ public class StartGameController implements Initializable {
     @FXML
     private void fineTurno(ActionEvent event) throws IOException {
         System.out.print("\"Turno Finito\"");
-        middlewareClient.endTurn();
+        proxyClient.endTurn();
 
     }
 
@@ -465,7 +466,7 @@ public class StartGameController implements Initializable {
         diceGridPosition.setRow(rowIndex);
         diceGridPosition.setColumn(colIndex);
 
-        middlewareClient.placeDice(posizionePoolDice, diceGridPosition);
+        proxyClient.placeDice(posizionePoolDice, diceGridPosition);
         clearPosizioni();
         System.out.print("\"Dado Posizionato\"");
 
@@ -548,7 +549,7 @@ public class StartGameController implements Initializable {
         System.out.print("Valore di incrementvalue:" + incrementValue + "\n");
 
 
-        middlewareClient.useToolC(indexofToolCard, posizioni[0], posizioni[1], posizioni[2], posizioni[3], posizioneDadoRoundTrack, posizionePoolDice, incrementValue);
+        proxyClient.useToolC(indexofToolCard, posizioni[0], posizioni[1], posizioni[2], posizioni[3], posizioneDadoRoundTrack, posizionePoolDice, incrementValue);
 
 
     }

@@ -1,6 +1,7 @@
 package client.gui;
 
 import client.MainClient;
+import client.ProxyClient;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
@@ -37,6 +38,7 @@ public class WaitingRoomController implements Initializable {
     private ImageView bar1,bar2,bar3,bar4,bar5;
 
     private ArrayList<ImageView> bars = new ArrayList<>();
+    private ProxyClient proxyClient = ProxyClient.getInstance();
 
 
 
@@ -126,6 +128,23 @@ public class WaitingRoomController implements Initializable {
     @FXML
     private void disconnect(ActionEvent event){
         Logger.log("Mi sto disconnettendo");
+        proxyClient.exitGame1();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/LogInScreen.fxml"));
+        try {
+            Parent root1 = loader.load();
+            Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
+            Stage window = (Stage) paneTest.getScene().getWindow();
+            window.setScene(startedGame);
+            window.show();
+        } catch (IOException Exception) {
+            System.out.println("View not found. Error while loading");
+
+        }
+
+
+
+
 
     }
 
