@@ -758,7 +758,7 @@ public class GameManager extends GeneralTask {
         }
 
 
-        Collections.sort(playersS);
+        Collections.sort(playersS, Player.cmp);
 
         for (Player play : vPlayers
                 ) {
