@@ -137,7 +137,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.setWinner();
         } else {
-            //TODO Call GUI method
+            MainClient.startGameController.setWinner();
         }
     }
 

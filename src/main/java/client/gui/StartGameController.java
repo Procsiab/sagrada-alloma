@@ -9,8 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -18,7 +21,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import shared.Dice;
 import shared.Position;
@@ -570,6 +575,21 @@ public class StartGameController implements Initializable {
 
     public void setWinner() {
         //start animation for the winner
+        System.out.println("HAI VINTO FROCETTO");
+        Platform.runLater(
+                () -> {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Winner.fxml"));
+                    try {
+                        Parent root1 = loader.load();
+                        Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
+                        Stage window = (Stage) paneCarta0.getScene().getWindow();
+                        window.setScene(startedGame);
+                        window.show();
+                    } catch (IOException Exception) {
+                        System.out.println("View not found. Error while loading");
+
+                    }
+                });
     }
 
     public void enable() {
