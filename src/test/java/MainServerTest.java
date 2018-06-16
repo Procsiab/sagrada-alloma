@@ -1,4 +1,5 @@
 
+import client.ProxyClient;
 import server.Player;
 import server.SReferences;
 import server.connection.ProxyServer;
@@ -14,13 +15,14 @@ import shared.Cell;
 import shared.Dice;
 import shared.Position;
 import shared.PositionR;
+import shared.network.SharedProxyClient;
 
 import static org.junit.Assert.assertEquals;
 
 class MainServerTest {
 
     public static ArrayList<GameManager> gameManagers = new ArrayList<>();
-    public static ProxyServer middlewareServer = ProxyServer.getInstance();
+    public static ProxyServer proxyServer = ProxyServer.getInstance();
     public static Object obj;
     public static Integer timeout;
     public GameManager gameManager;
@@ -36,7 +38,8 @@ class MainServerTest {
     }
 
     public void startGame(String player) {
-        middlewareServer.startGame(player, player, "192.168.223.1", -1, false);
+        SharedProxyClient p = ProxyClient.getInstance();
+        proxyServer.startGame(player, player, "192.168.223.1", -1, false, p);
     }
 
     public void after() {

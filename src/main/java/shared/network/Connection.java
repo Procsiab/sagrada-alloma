@@ -2,8 +2,8 @@ package shared.network;
 
 public interface Connection extends AutoCloseable {
 
-    String SERVER_ADDRESS = "10.14.2.103";
-    //String SERVER_ADDRESS = "localhost";
+    //String SERVER_ADDRESS = "10.14.2.103";
+    String SERVER_ADDRESS = "localhost";
 
     void export(Object o, String name);
 

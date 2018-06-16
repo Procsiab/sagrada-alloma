@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class MainServer {
     //create an object of MainServer
     private static final MainServer instance = new MainServer();
-    public static ProxyServer middlewareServer = ProxyServer.getInstance();
+    public static ProxyServer proxyServer = ProxyServer.getInstance();
     private static ArrayList<GameManager> gameManagers = new ArrayList<>();
     private static Integer gameManagerCode = 0;
     public static final Object obj = new Object();

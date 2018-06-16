@@ -10,6 +10,7 @@ import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.Connection;
 import shared.network.MethodConnectionException;
+import shared.network.SharedProxyClient;
 import shared.network.SharedProxyServer;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
@@ -88,7 +89,10 @@ public class ProxyServer implements SharedProxyServer {
     }
 
     @Override
-    public String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket) {
+    public String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, SharedProxyClient stub) {
+        if (!isSocket) {
+            serverRmi.export(stub, uuid);
+        }
         return MatchManager.startGame(uuid, nick, ip, port, isSocket);
     }
 

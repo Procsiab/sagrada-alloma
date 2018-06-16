@@ -71,7 +71,7 @@ public class MethodRouter implements Router {
             SharedProxyServer o = (SharedProxyServer) e;
             switch (methodName) {
                 case "startGame":
-                    return o.startGame((String) argList[0], (String) argList[1], (String) argList[2], (Integer) argList[3], (Boolean) argList[4]);
+                    return o.startGame((String) argList[0], (String) argList[1], (String) argList[2], (Integer) argList[3], (Boolean) argList[4], (SharedProxyClient) argList[5]);
                 case "updateView":
                     o.updateView((String) argList[0], (GameManagerT) argList[1]);
                     break;
@@ -116,7 +116,7 @@ public class MethodRouter implements Router {
                     break;
             }
         } else {
-            Logger.log("Found exported object of wrong type: expected SharedMiddleware<Client|Server>");
+            Logger.log("Found exported object of wrong type: expected SharedProxy<Client|Server>");
         }
         return null;
     }

@@ -8,8 +8,10 @@ import shared.TransferObjects.GameManagerT;
 import shared.network.MethodConnectionException;
 import shared.network.SharedProxyClient;
 import shared.network.Connection;
+import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public final class ProxyClient implements SharedProxyClient {
@@ -41,8 +43,16 @@ public final class ProxyClient implements SharedProxyClient {
 
     @Override
     public String startGame(String nick) {
-        connection.export(instance, uuid);
-        Object[] args = {uuid, nick, connection.getIp(), connection.getListeningPort(), isSocket};
+        SharedProxyClient stub = instance;
+        Integer port = connection.getListeningPort();
+        if (isSocket) {
+            connection.export(stub, uuid);
+            stub = null;
+        } else {
+            NetworkRmi.remotize(stub, port);
+            port = -1;
+        }
+        Object[] args = {uuid, nick, connection.getIp(), port, isSocket, stub};
         String methodName = "startGame";
         try {
             return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
@@ -123,7 +133,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.printScore(nicks, scores, winner);
         } else {
-            //TODO Call GUI method...
+            MainClient.startGameController.printScore(nicks, scores, winner);
         }
     }
 

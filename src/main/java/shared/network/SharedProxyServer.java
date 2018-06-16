@@ -10,14 +10,14 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface SharedProxyServer extends Remote {
-    String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket) throws RemoteException;
+    String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, SharedProxyClient stub) throws RemoteException;
     void updateView(String uuid, GameManagerT gameManager) throws RemoteException;
     Boolean chooseWindow(String uuid, ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) throws RemoteException;
     Boolean ping(String uuid) throws RemoteException;
     void tavoloWin(String uuid) throws RemoteException;
     void enable(String uuid) throws RemoteException;
     void shut(String uuid) throws RemoteException;
-    void printScore(String uuid, ArrayList<String> nicks, ArrayList<Integer> score, ArrayList<Boolean> winer) throws RemoteException;
+    void printScore(String uuid, ArrayList<String> nicks, ArrayList<Integer> score, ArrayList<Boolean> winner) throws RemoteException;
     Boolean chooseWindowBack(String uuid, Integer window) throws RemoteException;
     Boolean startGameViewForced(String uuid) throws RemoteException;
     Boolean placeDice(String uuid, Integer index, Position p) throws RemoteException;

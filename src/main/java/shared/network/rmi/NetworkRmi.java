@@ -76,13 +76,13 @@ public class NetworkRmi implements Connection {
 
     @Override
     public Integer getListeningPort() {
-        return -1;
+        return this.rmiObjectPort;
     }
 
-    private Remote remotize(Object o) {
+    public static Remote remotize(Object o, Integer p) {
         try {
             Remote r = (Remote) o;
-            UnicastRemoteObject.exportObject(r, this.rmiObjectPort);
+            UnicastRemoteObject.exportObject(r, p);
             return r;
         } catch (RemoteException re) {
             Logger.log("Error exporting with UnicastRemoteObject!");
@@ -95,13 +95,13 @@ public class NetworkRmi implements Connection {
     @Override
     public void export(Object o, String n) {
         // Format an URL string to be used in RMI registry
-        String rmiUrl = "//" + this.getIp() + ":" + RMI_METHOD_PORT.toString() + "/" + n;
+        String rmiUrl = "//" + Connection.SERVER_ADDRESS + ":" + RMI_METHOD_PORT.toString() + "/" + n;
         try {
             if (o == null) {
                 throw new NullPointerException();
             }
             // Bind the interface to that symbolic URL in the RMI registry
-            Naming.rebind(rmiUrl, remotize(o));
+            Naming.rebind(rmiUrl, remotize(o, this.rmiObjectPort));
         } catch (RemoteException re) {
             Logger.log("Error binding " + n + " in RMI Registry!");
         } catch (MalformedURLException mue) {

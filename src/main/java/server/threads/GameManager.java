@@ -9,7 +9,6 @@ import server.Player;
 import shared.TransferObjects.*;
 import server.concurrency.GeneralTask;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,7 +16,7 @@ public class GameManager extends GeneralTask {
 
     private Integer code;
     private final ArrayList<String> publicRef = new ArrayList<>();
-    private ProxyServer middlewareServer = ProxyServer.getInstance();
+    private ProxyServer proxyServer = ProxyServer.getInstance();
     private final ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
@@ -429,7 +428,7 @@ public class GameManager extends GeneralTask {
             i++;
         }
 
-        middlewareServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
+        proxyServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
                 toolCsT, roundTrack, pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
     }
 
@@ -535,7 +534,7 @@ public class GameManager extends GeneralTask {
     private void checkActive() {
         for (String pla : players2
                 ) {
-            if (middlewareServer.ping(pla)) {
+            if (proxyServer.ping(pla)) {
                 active.add(pla);
                 unrespAltoughP.remove(pla);
             } else {
@@ -610,7 +609,7 @@ public class GameManager extends GeneralTask {
                 k++;
             }
 
-            middlewareServer.chooseWindow(players.get(i), b, matrices);
+            proxyServer.chooseWindow(players.get(i), b, matrices);
             b.clear();
             matrices.clear();
             i++;
@@ -628,7 +627,7 @@ public class GameManager extends GeneralTask {
             vPlayer = SReferences.getPlayerRef(player);
             if (vPlayer.getWindow() == null) {
                 vPlayer.setWindow(a.get(4 * i + rand.nextInt(4)));
-                middlewareServer.startGameViewForced(vPlayer.getuUID());
+                proxyServer.startGameViewForced(vPlayer.getuUID());
             }
             i++;
         }
@@ -642,7 +641,7 @@ public class GameManager extends GeneralTask {
         players2.addAll(players);
         for (String p :
                 players) {
-            if (middlewareServer.ping(p)) {
+            if (proxyServer.ping(p)) {
                 left.remove(p);
             }
         }
@@ -685,8 +684,8 @@ public class GameManager extends GeneralTask {
                 Logger.log(this + " we're having a victory decided by arbitration");
 
             tavolo = players2.get(0);
-            if (middlewareServer.ping(tavolo)) {
-                middlewareServer.tavoloWin(tavolo);
+            if (proxyServer.ping(tavolo)) {
+                proxyServer.tavoloWin(tavolo);
                 closeGame();
                 Logger.log(this + " the winner is " + tavolo + "! Bye");
                 pause(15000);
@@ -716,7 +715,7 @@ public class GameManager extends GeneralTask {
             setExpected(remotePlayer);
             localPlayer.clearUsedTcAndPlacedDice();
             localPlayer.incrementTurn();
-            middlewareServer.enable(remotePlayer);
+            proxyServer.enable(remotePlayer);
 
             synchronized (obj) {
                 while (!getAction()) {
@@ -732,7 +731,7 @@ public class GameManager extends GeneralTask {
                     }
                 }
                 setExpected("none");
-                middlewareServer.shut(remotePlayer);
+                proxyServer.shut(remotePlayer);
                 while (threads.get() != 0) {
                 }
                 setAction(false);
@@ -773,7 +772,7 @@ public class GameManager extends GeneralTask {
 
         for (Player play : vPlayers
                 ) {
-            middlewareServer.printScore(play.getuUID(), nickNames, points, winner);
+            proxyServer.printScore(play.getuUID(), nickNames, points, winner);
             if (play.getScore().equals(max)) {
                 Logger.log(this + " the winner is player: " + play.getuUID() + "." +
                         "Congratulations!.");
