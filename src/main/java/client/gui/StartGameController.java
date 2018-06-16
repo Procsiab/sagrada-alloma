@@ -604,7 +604,8 @@ public class StartGameController implements Initializable {
     }
 
 
-    public void printScore(Integer score) {
+    public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
+
 
 
     }

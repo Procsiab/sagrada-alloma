@@ -1,0 +1,20 @@
+
+#leaderBoardElement {
+    -fx-background-color:#e6f3ff;
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-border-width: 0 0 0 5;
+    -fx-border-color: #80c1ff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+
+
+
+
+
+
