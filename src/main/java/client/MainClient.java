@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.fusesource.jansi.AnsiConsole;
+import org.fusesource.jansi.internal.WindowsSupport;
 import shared.Logger;
 import shared.network.MethodConnectionException;
 import shared.network.rmi.NetworkRmi;
@@ -54,6 +55,7 @@ public class MainClient extends Application {
     public static void main(String[] args) {
         System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
+        WindowsSupport.setConsoleMode(512);
         AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
         // Use current seconds as UUID, allowing multiple connections from the same machine

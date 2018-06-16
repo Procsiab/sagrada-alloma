@@ -35,7 +35,8 @@ public class MainCLI {
             String nick = readInput.nextLine();
             resp = ProxyClient.getInstance().startGame(nick);
             AnsiConsole.out().println(ansi().fgBrightRed().a("Server response: ").fgDefault().a(resp));
-        } while (resp == null || resp.equals("NickName is not available"));
+        } while (resp == null || resp.equals("NickName is not available.") ||
+                resp.equals("Please enter a valid NickName") || resp.equals("Connection error"));
 
         boolean stop = false;
         do {
