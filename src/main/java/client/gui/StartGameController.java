@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class StartGameController implements Initializable {
     // Logic Variables
@@ -66,9 +65,9 @@ public class StartGameController implements Initializable {
     private Integer colIndex;
     private Integer rowIndex;
     private int incrementValue;
-    private List<GridPane> listaGriglie = new ArrayList<>();
-    private ArrayList<Button> listaDadi = new ArrayList<>();
-    private ArrayList<ImageView> listaToolCard = new ArrayList<>();
+    private List<GridPane> listMapCard = new ArrayList<>();
+    private ArrayList<Button> listDice = new ArrayList<>();
+    private ArrayList<ImageView> listToolCard = new ArrayList<>();
     private ArrayList<ComboBox> listaComboBox = new ArrayList<>();
     private ArrayList<ImageView> listPublicOC = new ArrayList<>();
 
@@ -90,9 +89,9 @@ public class StartGameController implements Initializable {
         loadBackground();
        // backGroundTransition();
         posizioni = new Position[4];
-        loadArray();
+        initMapCards();
         loadDadi();
-        loadToolCard();
+        initToolCards();
         loadComboBox();
         loadPublicOC();
         shut();
@@ -110,63 +109,25 @@ public class StartGameController implements Initializable {
                     // Useful variables
                     clearPosizioni();
                     counterPosizione = 0;
-                    String nomeCarta, numeroTokens;
+                    String numeroTokens;
                     int numDadi;
                     ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
                     int counterPosition = gameManager.pos;
 
                     System.out.println("Valore counterPosition:" + counterPosition);
                     System.out.println("Valore gameManager:" + gameManager.pos);
-
                     //Loading mapCards into view
-
-                    for (int i = 0; i < playersLocal.size(); i++) {
-                        System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
-                        System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
-
-                        if (counterPosition > playersLocal.size() - 1)
-                            counterPosition = 0;
-                        System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
-                        System.out.println(playersLocal.get(counterPosition).window.getName());
-                        nomeCarta = playersLocal.get(counterPosition).window.getName();
-
-                        listaGriglie.get(i).setStyle("-fx-background-image: url('" + nomeCarta + ".png');-fx-background-size: 100% 100%;");
-                        counterPosition++;
-
-                    }
+                    addMapCards(gameManager);
 
                     // GET TOKENS
-                    numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
-                    numTokens.setText(numeroTokens);
+                    loadTokens(gameManager);
 
-                    //avendo questi aggiorni la grafica all'inizio di ogni turno.
-                    //quando poi ad esempio l'utente chiama il metodo posizionadado, startgamecontroller chiama
-                    //fixedPlayer.get(id).posizionadado, e aggiornerà di per se le classi di riferimento di player e match
-                    //che stanno nel server.
 
                     // LOAD POOL
-                    numDadi = gameManager.pool.size();
-                    System.out.println("Numero di dadi :" + numDadi);
-                    for (int i = 0; i < numDadi; i++) {
+                    loadPoolDice(gameManager);
 
-                        System.out.println("Valore di i nel ciclo:" + i);
-                        // INSERIRE EFFETIVO VALORE DEL DADO
-                        if (gameManager.pool.get(i) != null) {
-                            int numero = gameManager.pool.get(i).getValue();
-                            char color = gameManager.pool.get(i).getColor();
-                            System.out.println("Numero :" + numero + "\n");
-                            System.out.println("Colore :" + color + "\n");
-                            listaDadi.get(i).setStyle("-fx-background-image: url('" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
-                        } else {
-                            listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+                    // LOAD TOOLCARDS
 
-                        }
-
-                    }
-                    for (int i = numDadi; i < listaDadi.size(); i++) {
-                        listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
-
-                    }
                     // Inserimento toolCards
                     for (int i = 0; i < gameManager.toolCards.size(); i++) {
                         String nomeToolCard = gameManager.toolCards.get(i).name;
@@ -175,7 +136,7 @@ public class StartGameController implements Initializable {
                         Image image = new Image(nomeToolCard + ".png");
                         System.out.println("CARICAMENTO TOOLCARD");
 
-                        listaToolCard.get(i).setImage(image);
+                        listToolCard.get(i).setImage(image);
                     }
 
                     // Inserimento PublicOC
@@ -213,7 +174,7 @@ public class StartGameController implements Initializable {
                             counterPosition = 0;
                         Dice[][] myOverlay = playersLocal.get(counterPosition).overlay.getDicePositions();
 
-                        ObservableList<Node> myGrid = listaGriglie.get(i).getChildren();
+                        ObservableList<Node> myGrid = listMapCard.get(i).getChildren();
                         int z = 0;
                         for (int k = 0; k < 4; k++) {
                             for (int y = 0; y < 5; y++) {
@@ -309,6 +270,61 @@ for(int h = 0; h < roundTrackData.size(); h++) {
                 });
     }
 
+    private void addMapCards(GameManagerT gameManager){
+        ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
+        int counterPosition = gameManager.pos;
+        for (int i = 0; i < playersLocal.size(); i++) {
+            String nomeCarta;
+            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
+            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
+
+            if (counterPosition > playersLocal.size() - 1)
+                counterPosition = 0;
+            System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
+            System.out.println(playersLocal.get(counterPosition).window.getName());
+            nomeCarta = playersLocal.get(counterPosition).window.getName();
+
+            listMapCard.get(i).setStyle("-fx-background-image: url('" + nomeCarta + ".png');-fx-background-size: 100% 100%;");
+            counterPosition++;
+
+        }
+
+
+    }
+    private void loadTokens(GameManagerT gameManager){
+        ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
+        String numeroTokens = playersLocal.get(gameManager.pos).tokens.toString();
+        numTokens.setText(numeroTokens);
+
+
+    }
+    private void loadPoolDice(GameManagerT gameManager){
+        int numDadi = gameManager.pool.size();
+        System.out.println("Numero di dadi :" + numDadi);
+        for (int i = 0; i < numDadi; i++) {
+
+            System.out.println("Valore di i nel ciclo:" + i);
+            // INSERIRE EFFETIVO VALORE DEL DADO
+            if (gameManager.pool.get(i) != null) {
+                int numero = gameManager.pool.get(i).getValue();
+                char color = gameManager.pool.get(i).getColor();
+                System.out.println("Numero :" + numero + "\n");
+                System.out.println("Colore :" + color + "\n");
+                listDice.get(i).setStyle("-fx-background-image: url('" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
+            } else {
+                listDice.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+
+            }
+
+        }
+        for (int i = numDadi; i < listDice.size(); i++) {
+            listDice.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+
+        }
+
+
+    }
+
 
 
     private void aggiungiPosizione(int row,int column){
@@ -337,32 +353,32 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     // SUPPORT METHODS FOR THE MAIN ONES!
 
 
-    private void loadArray(){
-        listaGriglie.add(paneCarta0);
-        listaGriglie.add(paneCarta1);
-        listaGriglie.add(paneCarta2);
-        listaGriglie.add(paneCarta3);
+    private void initMapCards(){
+        listMapCard.add(paneCarta0);
+        listMapCard.add(paneCarta1);
+        listMapCard.add(paneCarta2);
+        listMapCard.add(paneCarta3);
 
     }
 
     private void loadDadi(){
-        listaDadi.add(dice1);
-        listaDadi.add(dice2);
-        listaDadi.add(dice3);
-        listaDadi.add(dice4);
-        listaDadi.add(dice5);
-        listaDadi.add(dice6);
-        listaDadi.add(dice7);
-        listaDadi.add(dice8);
-        listaDadi.add(dice9);
+        listDice.add(dice1);
+        listDice.add(dice2);
+        listDice.add(dice3);
+        listDice.add(dice4);
+        listDice.add(dice5);
+        listDice.add(dice6);
+        listDice.add(dice7);
+        listDice.add(dice8);
+        listDice.add(dice9);
 
 
 
     }
-    private void loadToolCard(){
-        listaToolCard.add(toolCard1);
-        listaToolCard.add(toolCard2);
-        listaToolCard.add(toolCard3);
+    private void initToolCards(){
+        listToolCard.add(toolCard1);
+        listToolCard.add(toolCard2);
+        listToolCard.add(toolCard3);
 
     }
     private void loadComboBox() {
@@ -386,8 +402,8 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     }
 
     private void loadPool(){
-        for (int i = 0; i < listaDadi.size(); i++){
-            listaDadi.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+        for (int i = 0; i < listDice.size(); i++){
+            listDice.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
         }
     }
 
@@ -448,7 +464,7 @@ for(int h = 0; h < roundTrackData.size(); h++) {
         String nomeDado = selectedDice.getId();
         System.out.println(nomeDado);
 
-        posizionePoolDice = listaDadi.indexOf(selectedDice);
+        posizionePoolDice = listDice.indexOf(selectedDice);
         System.out.println(posizionePoolDice);
     }
     @FXML
@@ -511,7 +527,7 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     }
     @FXML
     private void selectToolCard(MouseEvent event){
-        indexofToolCard = listaToolCard.indexOf(event.getSource());
+        indexofToolCard = listToolCard.indexOf(event.getSource());
         System.out.print("Posizione toolCard"+ indexofToolCard);
         }
     @FXML
@@ -567,8 +583,8 @@ for(int h = 0; h < roundTrackData.size(); h++) {
     }
 
     public void enable() {
-        for (int i = 0; i < listaDadi.size(); i++){
-            listaDadi.get(i).setDisable(false);
+        for (int i = 0; i < listDice.size(); i++){
+            listDice.get(i).setDisable(false);
 
         }
         placeDice.setDisable(false);
@@ -588,8 +604,8 @@ for(int h = 0; h < roundTrackData.size(); h++) {
 
 
     public void shut() {
-        for (int i = 0; i < listaDadi.size(); i++){
-            listaDadi.get(i).setDisable(true);
+        for (int i = 0; i < listDice.size(); i++){
+            listDice.get(i).setDisable(true);
 
         }
         placeDice.setDisable(true);
