@@ -64,7 +64,7 @@ public class LogInScreenController implements Initializable {
         //todo: start StartGameController
             FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
             Parent root2  = loader1.load();
-            StartGameController controller = loader.getController();
+            StartGameController controller = loader1.getController();
 
             Scene startedGame2 = new Scene(root2, 1280, 800, Color.WHITE);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
