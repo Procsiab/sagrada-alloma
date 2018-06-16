@@ -41,10 +41,7 @@ public class MethodRouter implements Router {
                     o.shut();
                     break;
                 case "printScore":
-                    o.printScore((Integer) argList[0]);
-                    break;
-                case "setWinner":
-                    o.setWinner();
+                    o.printScore((ArrayList<String>) argList[0], (ArrayList<Integer>) argList[1], (ArrayList<Boolean>) argList[2]);
                     break;
                 case "chooseWindowBack":
                     return o.chooseWindowBack((Integer) argList[0]);
@@ -92,10 +89,7 @@ public class MethodRouter implements Router {
                     o.shut((String) argList[0]);
                     break;
                 case "printScore":
-                    o.printScore((String) argList[0], (Integer) argList[1]);
-                    break;
-                case "setWinner":
-                    o.setWinner((String) argList[0]);
+                    o.printScore((String) argList[0], (ArrayList<String>) argList[1], (ArrayList<Integer>) argList[2], (ArrayList<Boolean>) argList[3]);
                     break;
                 case "chooseWindowBack":
                     return o.chooseWindowBack((String) argList[0], (Integer) argList[1]);

@@ -17,8 +17,7 @@ public interface SharedProxyServer extends Remote {
     void tavoloWin(String uuid) throws RemoteException;
     void enable(String uuid) throws RemoteException;
     void shut(String uuid) throws RemoteException;
-    void printScore(String uuid, Integer score) throws RemoteException;
-    void setWinner(String uuid) throws RemoteException;
+    void printScore(String uuid, ArrayList<String> nicks, ArrayList<Integer> score, ArrayList<Boolean> winer) throws RemoteException;
     Boolean chooseWindowBack(String uuid, Integer window) throws RemoteException;
     Boolean startGameViewForced(String uuid) throws RemoteException;
     Boolean placeDice(String uuid, Integer index, Position p) throws RemoteException;

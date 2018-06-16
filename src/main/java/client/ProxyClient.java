@@ -1,8 +1,5 @@
 package client;
 
-import client.gui.LogInScreenController;
-import client.gui.StartGameController;
-import com.sun.tools.javac.Main;
 import shared.Cell;
 import shared.Logger;
 import shared.Position;
@@ -22,8 +19,6 @@ public final class ProxyClient implements SharedProxyClient {
     private static Connection connection = null;
     private static Boolean isSocket = false;
     private static ProxyClient instance = new ProxyClient();
-    private static LogInScreenController logInScreenController;
-    private static StartGameController startGameController;
 
     private ProxyClient() {
         super();
@@ -124,20 +119,11 @@ public final class ProxyClient implements SharedProxyClient {
     }
 
     @Override
-    public void printScore(Integer score) {
+    public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
         if (MainClient.isPrompt()) {
-            MainClient.cliController.printScore(score);
+            MainClient.cliController.printScore(nicks, scores, winner);
         } else {
             //TODO Call GUI method...
-        }
-    }
-
-    @Override
-    public void setWinner() {
-        if (MainClient.isPrompt()) {
-            MainClient.cliController.setWinner();
-        } else {
-            MainClient.startGameController.setWinner();
         }
     }
 

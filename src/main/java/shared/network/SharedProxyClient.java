@@ -17,8 +17,7 @@ public interface SharedProxyClient extends Remote {
     void aPrioriWin() throws RemoteException;
     void enable() throws RemoteException;
     void shut() throws RemoteException;
-    void printScore(Integer score) throws RemoteException;
-    void setWinner() throws RemoteException;
+    void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) throws RemoteException;
     Boolean chooseWindowBack(Integer window) throws RemoteException;
     Boolean startGameViewForced() throws RemoteException;
     Boolean placeDice(Integer index, Position p) throws RemoteException;

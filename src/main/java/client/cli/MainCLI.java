@@ -512,9 +512,9 @@ public class MainCLI {
                 .a("Your turn has ended: wait for you opponents").fgDefault());
     }
 
-    public void printScore(Integer score) {
-        AnsiConsole.out().println(ansi().fgBrightRed().a("Game has ended! Your score: ").fgDefault()
-                .a(score.toString()));
+    public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
+        /*AnsiConsole.out().println(ansi().fgBrightRed().a("Game has ended! Your score: ").fgDefault()
+                .a(score.toString()));*/
     }
 
     public void setWinner() {
