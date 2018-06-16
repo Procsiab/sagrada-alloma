@@ -55,12 +55,11 @@ public class MainClient extends Application {
     public static void main(String[] args) {
         System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
-        WindowsSupport.setConsoleMode(512);
         AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
         // Use current seconds as UUID, allowing multiple connections from the same machine
-        uuid = String.valueOf(LocalTime.now().getSecond());
-        //uuid = getUuid();
+        //uuid = String.valueOf(LocalTime.now().getSecond());
+        uuid = getUuid();
         Logger.log("UUID: " + uuid);
 
         AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the connection type ('Rmi' | 'Socket')").fgDefault());

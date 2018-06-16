@@ -2,7 +2,7 @@ package shared.network;
 
 public interface Connection extends AutoCloseable {
 
-    String SERVER_ADDRESS = "10.";
+    String SERVER_ADDRESS = "10.14.2.103";
 
     void export(Object o, String name);
 
