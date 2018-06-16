@@ -740,19 +740,25 @@ public class GameManager extends GeneralTask {
     }
 
     private void scoringPhase() {
-        int points = 0;
+        int score = 0;
         int temp;
 
 
         for (Player player : vPlayers
                 ) {
             temp = player.getScore();
-            if (temp > points)
-                points = temp;
+            if (temp > score)
+                score = temp;
         }
+
+        //sort for score then send the two below sorted
+
+        ArrayList<String> nickNames = new ArrayList<>();
+        ArrayList<Integer> points = new ArrayList<>();
+
         for (Player play : vPlayers
                 ) {
-            middlewareServer.printScore(play.getuUID(), play.getComputatedScore());
+            middlewareServer.printScore(play.getuUID(), nickNames,points);
             if (play.getScore().equals(points)) {
                 Logger.log(this + " the winner is player: " + play.getuUID() + "." +
                         "Congratulations!.");
