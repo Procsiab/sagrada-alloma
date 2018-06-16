@@ -756,7 +756,6 @@ public class GameManager extends GeneralTask {
                 max = temp;
         }
 
-
         Collections.sort(playersS);
 
         for (Player play : vPlayers
@@ -769,7 +768,6 @@ public class GameManager extends GeneralTask {
             else
                 winner.add(false);
         }
-
 
         for (Player play : vPlayers
                 ) {

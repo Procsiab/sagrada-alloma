@@ -4,7 +4,7 @@ import server.threads.MainServer;
 
 import java.io.Serializable;
 
-public class Position implements Serializable {
+public final class Position implements Serializable {
     private static final long serialVersionUID = 1524857704L;
     private Integer row;
     private Integer column;

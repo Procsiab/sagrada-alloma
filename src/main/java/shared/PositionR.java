@@ -4,7 +4,7 @@ import javafx.geometry.Pos;
 
 import java.io.Serializable;
 
-public class PositionR implements Serializable {
+public final class PositionR implements Serializable {
     private static final long serialVersionUID = 1524857752L;
     private Integer column;
     private Integer height;
