@@ -32,10 +32,13 @@ public class LogInScreenController implements Initializable {
     @FXML private TextField nicknameField;
 
 
+    public LogInScreenController(){
+        MainClient.logInScreenController = this;
+    }
+
     // Initialization
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MainClient.logInScreenController = this;
         animazioneSagrada();
         animazioneStartGame();
         startButton.setStyle("-fx-background-color: transparent;");

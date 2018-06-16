@@ -72,7 +72,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.chooseWindow(windows, matrices);
         } else {
-            if (MainClient.chooseWindowController != null)
+            if (MainClient.waitingRoomController != null)
                 MainClient.waitingRoomController.chooseWindow(windows);
         }
         return true;
