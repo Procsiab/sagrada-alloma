@@ -3,9 +3,8 @@ package shared.network.rmi;
 import shared.*;
 import shared.network.*;
 
-import java.net.InetAddress;
 import java.net.MalformedURLException;
-import java.net.UnknownHostException;
+import java.net.SocketException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
@@ -18,27 +17,36 @@ public class NetworkRmi implements Connection {
     private static final Integer RMI_METHOD_PORT = 1099;
     private static final Router router = new MethodRouter();
 
+    private static String serverAddress;
     private Registry rmiRegistry;
     private String ip;
     private Integer rmiObjectPort;
+
+    public static void setServerAddress(String address) {
+        serverAddress = address;
+    }
 
     private void startRegistrySetup(Integer port) {
         try {
             // Set the port to export RMI objects
             this.rmiObjectPort = port;
             // Get local ip
-            this.ip = InetAddress.getLocalHost().getHostAddress();
+            this.ip = Connection.getLocalIp("wl");
             // Setup permissive security policy
             System.setProperty("java.rmi.server.useCodebaseOnly", "false");
-        } catch (UnknownHostException uhe) {
+        } catch (SocketException se) {
             Logger.log("Unable to resolve local host name/address!");
         }
     }
 
     public NetworkRmi(Integer port) {
         startRegistrySetup(port);
+        if (serverAddress == null) {
+            serverAddress = this.ip;
+        }
+        Logger.log("RMI registry hostname: " + serverAddress);
         // Inform the registry about server's address
-        System.setProperty("java.rmi.server.hostname", Connection.SERVER_ADDRESS);
+        System.setProperty("java.rmi.server.hostname", serverAddress);
         try {
             // Start RMI registry on this machine
             this.rmiRegistry = LocateRegistry.createRegistry(port);
@@ -49,12 +57,13 @@ public class NetworkRmi implements Connection {
 
     public NetworkRmi(String server, Integer port) {
         startRegistrySetup(port);
+        serverAddress = server;
         // Inform the registry about client's address
         System.setProperty("java.rmi.server.hostname", this.ip);
         try {
             // Obtain RMI registry reference from server
             if (server.equals("")) {
-                rmiRegistry = LocateRegistry.getRegistry(SERVER_ADDRESS, port);
+                rmiRegistry = LocateRegistry.getRegistry("localhost", port);
             } else {
                 rmiRegistry = LocateRegistry.getRegistry(server, port);
             }
@@ -97,7 +106,7 @@ public class NetworkRmi implements Connection {
     @Override
     public void export(Object o, String n) {
         // Format an URL string to be used in RMI registry
-        String rmiUrl = "rmi://" + Connection.SERVER_ADDRESS + ":" + rmiObjectPort + "/" + n;
+        String rmiUrl = "rmi://" + serverAddress + ":" + rmiObjectPort + "/" + n;
         try {
             if (o == null) {
                 throw new NullPointerException();

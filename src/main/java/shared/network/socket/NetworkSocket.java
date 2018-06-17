@@ -5,9 +5,8 @@ import shared.network.Connection;
 import shared.network.MethodConnectionException;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketException;
 import java.util.*;
 
 public class NetworkSocket implements Connection {
@@ -27,24 +26,24 @@ public class NetworkSocket implements Connection {
     private void startConsumer(Integer port) {
         try {
             if (threadConsumer == null) {
-                this.ip = InetAddress.getLocalHost().getHostAddress();
+                this.ip = Connection.getLocalIp("wl");
                 // Setup the socket that will listen for incoming connections
                 SocketServer socketConsumer = new SocketServer(port, exportedObjects);
                 this.portConsumer = socketConsumer.getPort();
                 this.threadConsumer = new Thread(socketConsumer);
                 this.threadConsumer.start();
             }
-        } catch (UnknownHostException uhe) {
+        } catch (SocketException es) {
             Logger.log("Unable to resolve local host name/address!");
         }
     }
 
     private void startProducer(String server, Integer port) throws MethodConnectionException {
         try {
-            this.ip = InetAddress.getLocalHost().getHostAddress();
+            this.ip = Connection.getLocalIp("wl");
             // Setup the socket which will output data to the server
             if (server.equals("")) {
-                server = SERVER_ADDRESS;
+                server = "localhost";
             }
             if (port == 0) {
                 socketProducer = new Socket(server, SOCKET_PORT);

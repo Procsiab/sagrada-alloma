@@ -7,6 +7,7 @@ import server.threads.GameGenerator.GameGenerator1;
 import server.threads.GameGenerator.GameGenerator2;
 import shared.Logger;
 import server.concurrency.ConcurrencyManager;
+import shared.network.rmi.NetworkRmi;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 public class MainServer {
     //create an object of MainServer
     private static final MainServer instance = new MainServer();
-    public static ProxyServer proxyServer = ProxyServer.getInstance();
+    public static ProxyServer proxyServer;
     private static ArrayList<GameManager> gameManagers = new ArrayList<>();
     private static Integer gameManagerCode = 0;
     public static final Object obj = new Object();
@@ -101,6 +102,11 @@ public class MainServer {
             Logger.log("Can't read config. Server close now.");
             return;
         }
+
+        if (args.length > 0) {
+            NetworkRmi.setServerAddress(args[0]);
+        }
+        proxyServer = ProxyServer.getInstance();
 
         ConcurrencyManager.submit(new GameGenerator1());
         ConcurrencyManager.submit(new GameGenerator2());

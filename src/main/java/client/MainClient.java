@@ -52,6 +52,10 @@ public class MainClient extends Application {
     }
 
     public static void main(String[] args) {
+        String serverIp = "";
+        if (args.length > 0) {
+            serverIp = args[0];
+        }
         System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
         AnsiConsole.out().println();
@@ -70,11 +74,11 @@ public class MainClient extends Application {
         }
         if (connection.equals("rmi")){
             // Create new NetworkRmi client locating registry with default server IP and default object port
-            ProxyClient.setConnection(new NetworkRmi(""));
+            ProxyClient.setConnection(new NetworkRmi(serverIp));
         } else if (connection.equals("socket")){
             try {
                 // Create new NetworkSocket client connecting to default server IP and OS given port
-                ProxyClient.setConnection(new NetworkSocket("", 0));
+                ProxyClient.setConnection(new NetworkSocket(serverIp, 0));
             } catch (MethodConnectionException mce) {
                 Logger.strace(mce);
             }
@@ -94,6 +98,7 @@ public class MainClient extends Application {
         else if (interfaccia.equals("gui")){
             launch(args);
         }
+        System.exit(0);
     }
 
     private static String getUuid() {
