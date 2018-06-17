@@ -170,7 +170,6 @@ public class Player {
     public void hack() {
         if (nickName.equals("arna") || nickName.equals("fili") || nickName.equals("affo") || nickName.equals("cugola")) {
             this.window = MatchManager.getWindows().get(0);
-            System.out.println(window);
             this.setTokens();
         }
     }
