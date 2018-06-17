@@ -84,7 +84,7 @@ public class NetworkSocket implements Connection {
     }
 
     @Override
-    public String getIp() {
+    public String getLocalIp() {
         return this.ip;
     }
 

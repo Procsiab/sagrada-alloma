@@ -113,7 +113,7 @@ public class MainServer {
         }
 
         System.out.println();
-        Logger.log("Send 'exit' command to teardown...\n\n");
+        Logger.log("Send 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);
         while (!scan.nextLine().equals("exit")) {
             //
