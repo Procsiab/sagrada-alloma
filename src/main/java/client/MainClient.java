@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.fusesource.jansi.AnsiConsole;
-import org.fusesource.jansi.internal.WindowsSupport;
 import shared.Logger;
 import shared.network.MethodConnectionException;
 import shared.network.rmi.NetworkRmi;
@@ -70,10 +69,11 @@ public class MainClient extends Application {
             connection = scan.nextLine();
         }
         if (connection.equals("rmi")){
-            ProxyClient.setConnection(new NetworkRmi("", 0));
-        }
-        else if (connection.equals("socket")){
+            // Create new NetworkRmi client locating registry with default server IP and default object port
+            ProxyClient.setConnection(new NetworkRmi(""));
+        } else if (connection.equals("socket")){
             try {
+                // Create new NetworkSocket client connecting to default server IP and OS given port
                 ProxyClient.setConnection(new NetworkSocket("", 0));
             } catch (MethodConnectionException mce) {
                 Logger.strace(mce);
@@ -90,7 +90,6 @@ public class MainClient extends Application {
             isPrompt = true;
             cliController = new MainCLI();
             cliController.launch();
-
         }
         else if (interfaccia.equals("gui")){
             launch(args);

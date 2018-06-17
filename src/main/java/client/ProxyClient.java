@@ -11,7 +11,6 @@ import shared.network.Connection;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public final class ProxyClient implements SharedProxyClient {
@@ -44,7 +43,7 @@ public final class ProxyClient implements SharedProxyClient {
     @Override
     public String startGame(String nick) {
         Object stub = instance;
-        Integer port;
+        Integer port = -1;
         if (isSocket) {
             // First register the stub for remote calls, starting the consumer
             connection.export(stub, uuid);
@@ -53,12 +52,10 @@ public final class ProxyClient implements SharedProxyClient {
             // Set the stub to null, as without calling exportObject won't be passed as reference
             stub = null;
         } else {
-            // RMI has its objectMethodPort initialized at constructor time
-            port = connection.getListeningPort();
             // This static method calls UnicastRemoteObject's exportObject
-            NetworkRmi.remotize(stub, port);
+            NetworkRmi.remotize(stub, 0);
         }
-        Object[] args = {uuid, nick, connection.getIp(), port, isSocket, stub};
+        Object[] args = {uuid, nick, connection.getLocalIp(), port, isSocket, stub};
         String methodName = "startGame";
         try {
             return (String) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
@@ -79,7 +76,6 @@ public final class ProxyClient implements SharedProxyClient {
 
     @Override
     public Boolean chooseWindow(ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
-        Logger.log("Choose window test");
         if (MainClient.isPrompt()) {
             MainClient.cliController.chooseWindow(windows, matrices);
         } else {
@@ -96,7 +92,6 @@ public final class ProxyClient implements SharedProxyClient {
             if (MainClient.chooseWindowController != null)
                 MainClient.chooseWindowController.startGameViewForced();
         }
-        Logger.log("OK client start forced");
         return true;
     }
 

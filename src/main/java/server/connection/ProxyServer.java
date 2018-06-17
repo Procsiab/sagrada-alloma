@@ -10,14 +10,13 @@ import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.network.Connection;
 import shared.network.MethodConnectionException;
-import shared.network.SharedProxyClient;
 import shared.network.SharedProxyServer;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
 import java.util.ArrayList;
 
-public class ProxyServer implements SharedProxyServer {
+public final class ProxyServer implements SharedProxyServer {
     private static final String SERVER_INTERFACE = "ProxyServer";
 
     private static Connection serverSocket = new NetworkSocket();

@@ -28,8 +28,6 @@ public class NetworkRmi implements Connection {
             this.rmiObjectPort = port;
             // Get local ip
             this.ip = InetAddress.getLocalHost().getHostAddress();
-            // Inform the registry about server's address
-            System.setProperty("java.rmi.server.hostname", this.ip);
             // Setup permissive security policy
             System.setProperty("java.rmi.server.useCodebaseOnly", "false");
         } catch (UnknownHostException uhe) {
@@ -39,6 +37,8 @@ public class NetworkRmi implements Connection {
 
     public NetworkRmi(Integer port) {
         startRegistrySetup(port);
+        // Inform the registry about server's address
+        System.setProperty("java.rmi.server.hostname", Connection.SERVER_ADDRESS);
         try {
             // Start RMI registry on this machine
             this.rmiRegistry = LocateRegistry.createRegistry(port);
@@ -49,6 +49,8 @@ public class NetworkRmi implements Connection {
 
     public NetworkRmi(String server, Integer port) {
         startRegistrySetup(port);
+        // Inform the registry about client's address
+        System.setProperty("java.rmi.server.hostname", this.ip);
         try {
             // Obtain RMI registry reference from server
             if (server.equals("")) {
@@ -70,7 +72,7 @@ public class NetworkRmi implements Connection {
     }
 
     @Override
-    public String getIp() {
+    public String getLocalIp() {
         return this.ip;
     }
 
@@ -95,7 +97,7 @@ public class NetworkRmi implements Connection {
     @Override
     public void export(Object o, String n) {
         // Format an URL string to be used in RMI registry
-        String rmiUrl = "//" + Connection.SERVER_ADDRESS + ":" + RMI_METHOD_PORT.toString() + "/" + n;
+        String rmiUrl = "rmi://" + Connection.SERVER_ADDRESS + ":" + rmiObjectPort + "/" + n;
         try {
             if (o == null) {
                 throw new NullPointerException();
@@ -103,11 +105,11 @@ public class NetworkRmi implements Connection {
             // Bind the interface to that symbolic URL in the RMI registry
             Naming.rebind(rmiUrl, remotize(o, this.rmiObjectPort));
         } catch (RemoteException re) {
-            Logger.log("Error binding " + n + " in RMI Registry!");
+            Logger.log("Error binding " + n + " in RMI Registry (@" + this.ip + ")");
         } catch (MalformedURLException mue) {
             Logger.log("Error in URL formatting: " + rmiUrl);
         } catch (NullPointerException npe) {
-            Logger.log("Cannot export null object with name " + n);
+            Logger.log("Cannot export null object as " + n);
         }
     }
 

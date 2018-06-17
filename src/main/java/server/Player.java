@@ -1,6 +1,5 @@
 package server;
 
-import com.sun.tools.javac.Main;
 import server.executables.Tool;
 import server.threads.GameManager;
 import server.threads.MainServer;
