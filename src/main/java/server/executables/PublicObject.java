@@ -27,7 +27,7 @@ public class PublicObject {
             colors.clear();
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
-                if (dice != null && !colors.add(dice.getColor()))
+                if (dice == null || !colors.add(dice.getColor()))
                     esito = 0;
                 j++;
             }
@@ -54,7 +54,7 @@ public class PublicObject {
             colors.clear();
             while (j < 4) {
                 dice = overlay.getDicePositions()[j][i];
-                if (dice != null && !colors.add(dice.getColor()))
+                if (dice == null || !colors.add(dice.getColor()))
                     esito = 0;
                 j++;
             }
@@ -81,7 +81,7 @@ public class PublicObject {
             numbers.clear();
             while (j < 4) {
                 dice = overlay.getDicePositions()[j][i];
-                if (dice != null && !numbers.add(dice.getValue()))
+                if (dice == null || !numbers.add(dice.getValue()))
                     esito = 0;
                 j++;
             }
@@ -108,7 +108,7 @@ public class PublicObject {
             numbers.clear();
             while (j < 5) {
                 dice = overlay.getDicePositions()[i][j];
-                if (dice != null && !numbers.add(dice.getValue()))
+                if (dice == null || !numbers.add(dice.getValue()))
                     esito = 0;
                 j++;
             }
@@ -131,7 +131,6 @@ public class PublicObject {
         Set<Character> colors2 = new HashSet<>();
         Set<Character> colors3 = new HashSet<>();
         Set<Character> colors4 = new HashSet<>();
-        Set<Character> colors5 = new HashSet<>();
 
         while (i < 4) {
             while (j < 5) {
@@ -140,8 +139,7 @@ public class PublicObject {
                     if (!colors1.add(dice.getColor()))
                         if (!colors2.add(dice.getColor()))
                             if (!colors3.add(dice.getColor()))
-                                if (!colors4.add(dice.getColor()))
-                                    colors5.add(dice.getColor());
+                                colors4.add(dice.getColor());
                 j++;
             }
             j = 0;
@@ -155,8 +153,6 @@ public class PublicObject {
         if (colors3.size() == 5)
             sum = sum + 4;
         if (colors4.size() == 5)
-            sum = sum + 4;
-        if (colors5.size() == 5)
             sum = sum + 4;
 
         return sum;
