@@ -138,7 +138,7 @@ public final class ProxyServer implements SharedProxyServer {
 
     @Override
     public void printScore(String uuid, ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
-        forwardMethod(uuid, "printScore", new Object[]{nicks, scores});
+        forwardMethod(uuid, "printScore", new Object[]{nicks, scores, winner});
     }
 
     @Override

@@ -581,10 +581,10 @@ public class GameManager extends GeneralTask {
         Integer j;
         ArrayList<Integer> a = new ArrayList<>();
 
-        j = rand.nextInt(23);
+        j = 1 + rand.nextInt(23);
         while (i < 2 * players.size()) {
-            while (a.contains(j) || j % 2 == 1) {
-                j = rand.nextInt(23);
+            while (a.contains(j) || j % 2 == 0) {
+                j = 1 + rand.nextInt(23);
             }
             a.add(j);
             a.add(j + 1);
@@ -593,21 +593,12 @@ public class GameManager extends GeneralTask {
         i = 0;
 
         while (i < players.size()) {
-            Integer k;
             ArrayList<Integer> b = new ArrayList<>(a.subList(((i) * 4), ((i + 1) * 4)));
             ArrayList<Cell[][]> matrices = new ArrayList<>();
             SReferences.getPlayerRef(players.get(i)).setPossibleWindows(b);
             Logger.log("Player: " + players.get(i) + " can chose its Window among the following: " +
                     revealWindow(b.get(0)) + ", " + revealWindow(b.get(1)) +
                     ", " + revealWindow(b.get(2)) + ", " + revealWindow(b.get(3)));
-            k = 0;
-            for (Integer y :
-                    b) {
-                matrices.add(MatchManager.getWindows().get(y).getMatrices());
-                y++;
-                b.set(k, y);
-                k++;
-            }
 
             proxyServer.chooseWindow(players.get(i), b, matrices);
             b.clear();
@@ -759,10 +750,10 @@ public class GameManager extends GeneralTask {
 
         Collections.sort(playersS, Player.cmp);
 
-        for (Player play : vPlayers
+        for (Player play : playersS
                 ) {
             nickNames.add(play.getNickName());
-            int score = play.getScore();
+            int score = play.getComputatedScore();
             points.add(score);
             if (score == max)
                 winner.add(true);
@@ -773,7 +764,7 @@ public class GameManager extends GeneralTask {
         for (Player play : vPlayers
                 ) {
             proxyServer.printScore(play.getuUID(), nickNames, points, winner);
-            if (play.getScore().equals(max)) {
+            if (play.getComputatedScore().equals(max)) {
                 Logger.log(this + " the winner is player: " + play.getuUID() + "." +
                         "Congratulations!.");
             }

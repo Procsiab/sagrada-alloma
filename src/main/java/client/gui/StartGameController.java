@@ -605,6 +605,42 @@ public class StartGameController implements Initializable {
 
 
     public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
+        System.out.println("PRINTSCORE CHIAMATO!");
+
+        Platform.runLater(
+                () -> {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Winner.fxml"));
+                    WinnerController winnerController = new WinnerController(nicks,scores,winner);
+                    loader.setController(winnerController);
+                    if (loader!=null)
+                        System.out.println("LOADER NON NULL!!");
+
+                    try{
+                        System.out.println("ENTRO NEL TRY!");
+
+                        Parent root = (Parent) loader.load();
+                        if(root!=null)
+                            System.out.println("ROOT NON NULL!!");
+                        Scene startedGame = new Scene(root, 1280, 800, Color.WHITE);
+
+                        if(startedGame!=null)
+                            System.out.println("SCENE NON  NULL!");
+
+                        Stage window = (Stage) paneCarta0.getScene().getWindow();
+
+                        if (window!=null)
+                            System.out.println("WINDOW NOT NULL!!");
+
+                        window.setScene(startedGame);
+                        window.show();
+                    }
+                    catch (IOException Exception) {
+                        System.out.println("View not found. Error while loading");
+
+                    }
+                }
+        );
+
 
 
 
