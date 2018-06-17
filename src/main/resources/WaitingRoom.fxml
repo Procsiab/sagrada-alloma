@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="paneTest" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.WaitingRoomController">
+<AnchorPane fx:id="paneTest" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.gui.WaitingRoomController">
    <children>
       <ImageView fx:id="outerCircle" fitHeight="495.0" fitWidth="495.0" layoutX="393.0" layoutY="153.0">
          <image>

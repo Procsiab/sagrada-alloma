@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="paneWinner" fx:id="paneWinner" prefHeight="800.0" prefWidth="1280.0" stylesheets="@winner.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="paneWinner" fx:id="paneWinner" prefHeight="800.0" prefWidth="1280.0" stylesheets="@winner.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
    <children>
       <VBox fx:id="leaderBoard" layoutX="400.0" layoutY="175.0" prefHeight="451.0" prefWidth="481.0" spacing="10.0">
          <children>
