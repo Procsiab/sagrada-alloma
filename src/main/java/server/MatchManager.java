@@ -34,14 +34,15 @@ public class MatchManager {
         cells[2][1] = new Cell();
         cells[2][2] = new Cell('r');
         cells[2][3] = new Cell();
-        cells[2][4] = new Cell('b');
-        cells[3][0] = new Cell();
+        cells[2][4] = new Cell();
+        cells[3][0] = new Cell('b');
         cells[3][1] = new Cell();
         cells[3][2] = new Cell();
         cells[3][3] = new Cell();
         cells[3][4] = new Cell();
         windows.add(new Window(cells, "Window0", 50));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell('y');
         cells[0][1] = new Cell('b');
         cells[0][2] = new Cell();

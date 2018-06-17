@@ -11,12 +11,15 @@ public class Cell implements Serializable {
         this.value = shade;
         this.color = color;
     }
+
     public Cell(Integer shade) {
         this.value = shade;
     }
+
     public Cell(Character color) {
         this.color = color;
     }
+
     public Cell() {
     }
 
@@ -27,4 +30,5 @@ public class Cell implements Serializable {
     public Character getColor() {
         return color;
     }
+
 }

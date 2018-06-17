@@ -334,8 +334,9 @@ public class GameManager extends GeneralTask {
         if (i == null)
             return "null";
 
-        i++;
         switch (i) {
+            case 0:
+                return "Window0";
             case 1:
                 return "Window1";
             case 2:
@@ -600,6 +601,10 @@ public class GameManager extends GeneralTask {
                     revealWindow(b.get(0)) + ", " + revealWindow(b.get(1)) +
                     ", " + revealWindow(b.get(2)) + ", " + revealWindow(b.get(3)));
 
+            for (Integer y :
+                    b) {
+                matrices.add(MatchManager.getWindows().get(y).getMatrices());
+            }
             proxyServer.chooseWindow(players.get(i), b, matrices);
             b.clear();
             matrices.clear();
@@ -765,8 +770,8 @@ public class GameManager extends GeneralTask {
                 ) {
             proxyServer.printScore(play.getuUID(), nickNames, points, winner);
             if (play.getComputatedScore().equals(max)) {
-                Logger.log(this + " the winner is player: " + play.getuUID() + "." +
-                        "Congratulations!.");
+                Logger.log(this + " the winner is player: " + play.getuUID() + ". " +
+                        "Congratulazioni!.");
             }
         }
     }
@@ -820,6 +825,7 @@ public class GameManager extends GeneralTask {
         if (allQuit())
             return;
 
+        System.out.println();
         scoringPhase();
         closeGame();
         Logger.log(this + ". We are done here! Bye!");

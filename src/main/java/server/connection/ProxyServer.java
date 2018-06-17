@@ -199,7 +199,7 @@ public final class ProxyServer implements SharedProxyServer {
         try {
             SReferences.getGameRef(uuid).exitGame2(uuid);
         } catch (NullPointerException npe) {
-            Logger.log("Unable to log out player with UUID " + uuid);
+            //Logger.log("Unable to log out player with UUID " + uuid);
         }
     }
 

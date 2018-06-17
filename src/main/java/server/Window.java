@@ -227,5 +227,4 @@ public class Window implements Serializable {
         pool.setDice(index, null);
         return true;
     }
-
 }

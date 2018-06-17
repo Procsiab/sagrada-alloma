@@ -103,16 +103,12 @@ class MainServerTest {
         after();
         player.placeDice(0, new Position(1, 4));
         after();
-        //player.placeDice(10, new Position(2, 0));
-        //after();
         player.placeDice(0, new Position(2, 1));
         after();
         player.placeDice(0, new Position(2, 2));
         after();
         player.placeDice(0, new Position(2, 3));
         after();
-        //player.placeDice(0, new Position(2, 4));
-        //after();
         player.placeDice(0, new Position(3, 0));
         after();
         player.placeDice(0, new Position(3, 1));
