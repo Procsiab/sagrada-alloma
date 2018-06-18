@@ -308,12 +308,12 @@ public class Player {
         Dice dice;
         dice = pool.getDice(index);
         if (window.placeDiceFromPool(this, index, position)) {
+            placedDiceA();
             lastPlacedFromPool = position;
             Logger.log(game + " player " + uUID + " effectively placed dice " +
                     dice + " in position " + position);
             return true;
         }
-        placedDiceA();
         Logger.log(game + " player " + uUID + " attempt of unauthorized placement of dice " +
                 "in position " + position);
         return false;
