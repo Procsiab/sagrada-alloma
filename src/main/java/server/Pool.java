@@ -61,4 +61,13 @@ public class Pool {
         return index != null && index > -1 && index < poolOfDice.size() && poolOfDice.get(index) != null;
     }
 
+    @Override
+    public String toString() {
+        String s = "";
+        for (Dice d :
+                poolOfDice) {
+            s = s + d + "; ";
+        }
+        return s;
+    }
 }

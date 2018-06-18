@@ -431,6 +431,11 @@ public class GameManager extends GeneralTask {
 
         proxyServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
                 toolCsT, roundTrack, pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
+
+        System.out.println("(temporary print) " + pool);
+        System.out.println();
+        System.out.println("(temporary print) " + SReferences.getPlayerRef(uUID).getOverlay());
+
     }
 
     private void updateView() {

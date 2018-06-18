@@ -39,9 +39,9 @@ public class Player {
     public static Comparator<Player> cmp = new Comparator<Player>() {
         @Override
         public int compare(Player o1, Player o2) {
-            Integer r1 = o1.score.compareTo(o2.score);
+            Integer r1 = o2.score.compareTo(o1.score);
             if (r1 == 0) {
-                return o1.nickName.compareTo(o2.nickName);
+                return o2.nickName.compareTo(o1.nickName);
             }
             return r1;
         }
