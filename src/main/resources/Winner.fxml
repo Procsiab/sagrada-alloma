@@ -2,30 +2,63 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="paneWinner" fx:id="paneWinner" prefHeight="800.0" prefWidth="1280.0" stylesheets="@winner.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
    <children>
       <VBox fx:id="leaderBoard" layoutX="400.0" layoutY="175.0" prefHeight="451.0" prefWidth="481.0" spacing="10.0">
          <children>
-            <AnchorPane id="leaderBoardElement" prefHeight="200.0" prefWidth="200.0" stylesheets="@leaderBoard.css">
+            <AnchorPane id="leaderBoardElement" fx:id="card1" prefHeight="200.0" prefWidth="200.0" stylesheets="@leaderBoard.css">
                <children>
-                  <Text layoutX="60.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Text fx:id="player1" layoutX="50.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="32.0" />
+                     </font></Text>
+                  <Text fx:id="score1" layoutX="320.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
-            <AnchorPane id="leaderBoardElement" prefHeight="200.0" prefWidth="200.0" stylesheets="@leaderBoard.css">
+            <AnchorPane id="leaderBoardElement" fx:id="card2" prefHeight="200.0" prefWidth="200.0" stylesheets="@leaderBoard.css">
                <children>
-                  <Text layoutX="59.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Text fx:id="score2" layoutX="320.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="player2" layoutX="50.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="32.0" />
+                     </font></Text>
                </children>
             </AnchorPane>
-            <AnchorPane id="leaderBoardElement" prefHeight="200.0" prefWidth="200.0" stylesheets="@leaderBoard.css">
+            <AnchorPane id="leaderBoardElement" fx:id="card3" prefHeight="200.0" prefWidth="200.0" stylesheets="@leaderBoard.css">
                <children>
-                  <Text layoutX="59.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Text fx:id="player3" layoutX="50.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="32.0" />
+                     </font></Text>
+                  <Text fx:id="score3" layoutX="320.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
-            <AnchorPane id="leaderBoardElement" prefHeight="200.0" prefWidth="200.0" stylesheets="@leaderBoard.css">
+            <AnchorPane id="leaderBoardElement" fx:id="card4" prefHeight="200.0" prefWidth="200.0" stylesheets="@leaderBoard.css">
                <children>
-                  <Text layoutX="58.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Text fx:id="player4" layoutX="50.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="32.0" />
+                     </font></Text>
+                  <Text fx:id="score4" layoutX="320.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
          </children></VBox>
