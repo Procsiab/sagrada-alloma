@@ -13,6 +13,17 @@ import shared.network.socket.NetworkSocket;
 
 import java.util.ArrayList;
 
+/**
+ * <h1>Proxy Client</h1>
+ * <p>This class implements {@code SharedProxyClient} and all its methods, making them interact with the correct <b>view</b>
+ * components (if they are local) or routing them with the correct parameters to the server (if they are remote)</p><br>
+ * <p>This class implements the <strong>singleton</strong> design pattern, having just one instance of it available per JVM;
+ * this instance can be accessed through the static class' methods.</p><br>
+ * <p>Before calling {@link ProxyClient#getInstance()}, a client using this class should first set the {@code Connection}
+ * attribute by calling {@link ProxyClient#setConnection(Connection)}</p>
+ * @see SharedProxyClient
+ * @see Connection
+ */
 public final class ProxyClient implements SharedProxyClient {
     private static final String SERVER_INTERFACE = "ProxyServer";
 
@@ -21,18 +32,28 @@ public final class ProxyClient implements SharedProxyClient {
     private static Boolean isSocket = false;
     private static ProxyClient instance = new ProxyClient();
 
+    /**
+     * Private constructor, prevents external access and uncontrolled instantiation of the class: use the static method
+     * {@link ProxyClient#getInstance()} to obtain the reference to the internal instance
+     */
     private ProxyClient() {
         super();
     }
 
+    /**
+     * Obtain a reference to the class' instance
+     * @return always the same instance, saved as a {@code private static} reference in the class
+     */
     public static ProxyClient getInstance() {
         return instance;
     }
 
-    public static Connection getConnection() {
-        return connection;
-    }
-
+    /**
+     * Set the {@code Connection} attribute held by ths class, to either a {@link NetworkSocket} or a {@link NetworkRmi}
+     * instance with transparency, thanks to the implementation of the {@link Connection} interface
+     * @param c an instance implementing the {@code Connection} interface; if provided argument is of type {@code NetworkSocket}
+     *          then an internal flag {@code isSocket} is set
+     */
     public static void setConnection(Connection c) {
         if (connection == null) {
             connection = c;
@@ -40,6 +61,23 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * Getter method to obtain the saved {@code Connection} attribute
+     * @return internal class' connection, if set; otherwise returns {@code null}
+     */
+    public static Connection getConnection() {
+        return connection;
+    }
+
+    /**
+     * <strong>Remote</strong><br>
+     * When this method is called, it sets up the correct connection environment based on the player's decision (RMI or socket).
+     * In practice, the instance of the {@code ProxyClient} class on the client is exported on the server's RMI registry,
+     * or on the client's hash map inside the {@link NetworkSocket} class, to let the server call the {@code ProxyClient}'s methods
+     * @param nick {@code String}
+     * @return {@code String}
+     * @see shared.network.SharedProxyClient#startGame(String)
+     */
     @Override
     public String startGame(String nick) {
         Object stub = instance;
@@ -64,6 +102,11 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param gameManager {@link GameManagerT}
+     * @see shared.network.SharedProxyClient#updateView(GameManagerT)
+     */
     @Override
     public void updateView(GameManagerT gameManager) {
         if (MainClient.isPrompt()) {
@@ -74,6 +117,13 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param windows {@code ArrayList<Integer>}
+     * @param matrices {@code ArrayList<{@link Cell}[][]>}
+     * @return {@code true}
+     * @see shared.network.SharedProxyClient#chooseWindow(ArrayList, ArrayList)
+     */
     @Override
     public Boolean chooseWindow(ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
         if (MainClient.isPrompt()) {
@@ -85,6 +135,11 @@ public final class ProxyClient implements SharedProxyClient {
         return true;
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @return {@code true}
+     * @see shared.network.SharedProxyClient#startGameViewForced()
+     */
     public Boolean startGameViewForced() {
         if (MainClient.isPrompt()) {
             MainClient.cliController.startGameViewForced();
@@ -95,11 +150,20 @@ public final class ProxyClient implements SharedProxyClient {
         return true;
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @return {@code true}
+     * @see shared.network.SharedProxyClient#ping()
+     */
     @Override
     public Boolean ping() {
         return true;
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @see shared.network.SharedProxyClient#aPrioriWin()
+     */
     @Override
     public void aPrioriWin() {
         if (MainClient.isPrompt()) {
@@ -109,6 +173,10 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @see shared.network.SharedProxyClient#enable()
+     */
     @Override
     public void enable() {
         if (MainClient.isPrompt()) {
@@ -119,6 +187,10 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @see shared.network.SharedProxyClient#shut()
+     */
     @Override
     public void shut() {
         if (MainClient.isPrompt()) {
@@ -129,6 +201,13 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param nicks {@code Arraylist<String>}
+     * @param scores {@code Arraylist<Integer>}
+     * @param winner {@code Arraylist<Boolean>}
+     * @see shared.network.SharedProxyClient
+     */
     @Override
     public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
         if (MainClient.isPrompt()) {
@@ -138,6 +217,12 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param window {@code Integer}
+     * @return {@code true}
+     * @see shared.network.SharedProxyClient#chooseWindowBack(Integer)
+     */
     public Boolean chooseWindowBack(Integer window) {
         Object[] args = {uuid, window};
         String methodName = "chooseWindowBack";
@@ -148,6 +233,13 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param index {@code Integer}
+     * @param p {@link Position}
+     * @return {@code true}
+     * @see shared.network.SharedProxyClient
+     */
     public Boolean placeDice(Integer index, Position p) {
         Object[] args = {uuid, index, p};
         String methodName = "placeDice";
@@ -158,6 +250,19 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param i1 {@code Integer}
+     * @param p1 {@link Position}
+     * @param p2 {@link Position}
+     * @param p3 {@link Position}
+     * @param p4 {@link Position}
+     * @param pr {@link PositionR}
+     * @param i2 {@code Integer}
+     * @param i3 {@code Integer}
+     * @return {@code true}
+     * @see shared.network.SharedProxyClient
+     */
     @Override
     public Boolean useToolC(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         Object[] args = {uuid, i1, p1, p2, p3, p4, pr, i2, i3};
@@ -169,6 +274,10 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @see shared.network.SharedProxyClient#exitGame2()
+     */
     @Override
     public void exitGame2() {
         Object[] args = {uuid};
@@ -182,6 +291,10 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @see shared.network.SharedProxyClient#endTurn()
+     */
     @Override
     public void endTurn() {
         Object[] args = {uuid};
@@ -193,6 +306,10 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @see shared.network.SharedProxyClient#updateViewFromC()
+     */
     @Override
     public void updateViewFromC() {
         Object[] args = {uuid};
@@ -204,6 +321,10 @@ public final class ProxyClient implements SharedProxyClient {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @see shared.network.SharedProxyClient#exitGame1()
+     */
     @Override
     public void exitGame1() {
         Object[] args = {uuid};

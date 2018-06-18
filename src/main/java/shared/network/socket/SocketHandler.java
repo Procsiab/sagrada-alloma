@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.Map;
 
 class SocketHandler implements Runnable, Closeable {
@@ -43,7 +42,8 @@ class SocketHandler implements Runnable, Closeable {
             out.writeObject(resp);
             out.flush();
         } catch (IOException ioe) {
-            //TODO IO Exception manager
+            // IOException during socket communication could happen multiple times and for different reasons:
+            // no message will be logged in this case
         } catch (ClassNotFoundException cnfe) {
             Logger.log("Received data has unknown class!");
         } finally {

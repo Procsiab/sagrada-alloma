@@ -20,16 +20,20 @@ public class MainCLI {
     private Integer functionId = -1;
     private ArrayList<Integer> windows;
     private GameManagerT gm;
+    private PlayerT me = null;
+    private boolean runForever = true;
 
     public MainCLI() {
         super();
     }
 
     public void launch() {
+        // Start JANSI console
         System.setProperty("jansi.passthrough", "true");
         AnsiConsole.systemInstall();
         AnsiConsole.out().print(ansi().eraseScreen(Ansi.Erase.ALL).cursor(0, 0));
         String resp;
+        // Enter a nick name and try to connect on the server
         do {
             AnsiConsole.out().print(ansi().fgBrightRed().a("Enter your nickname before connecting: ").fgDefault());
             String nick = readInput.nextLine();
@@ -37,23 +41,22 @@ public class MainCLI {
             AnsiConsole.out().println(ansi().fgBrightRed().a("Server response: ").fgDefault().a(resp));
         } while (resp == null || resp.equals("NickName is not available.") ||
                 resp.equals("Please enter a valid NickName") || resp.equals("Connection error"));
-
-        boolean stop = false;
+        // Main command status loop
         do {
             try {
-                if (readInput.hasNextLine()) {
+                if (readInput.hasNextLine()) { // get user input
                     String s = readInput.nextLine();
-                    if (s.equals("exit")) {
-                        stop = true;
+                    if (s.equals("exit")) { // exit command
+                        runForever = false;
                         if (functionId == -1) {
                             ProxyClient.getInstance().exitGame1();
                         } else {
                             ProxyClient.getInstance().exitGame2();
                         }
                         AnsiConsole.out().println(ansi().fgBrightRed().a("[EXIT] ").fgBrightYellow()
-                                .a("You left the game: connect again to re-join the match").fgDefault());
+                                .a("You left the game").fgDefault());
                     } else {
-                        try {
+                        try { // other commands
                             useCommand(s);
                         } catch (NullPointerException npe) {
                             wrongCommand("server sent invalid data: check your connection");
@@ -65,7 +68,7 @@ public class MainCLI {
             } catch (NumberFormatException nfe) {
                 wrongCommand("you should enter a valid integer number!");
             }
-        } while (!stop);
+        } while (runForever);
     }
 
     private void useCommand(String s) {
@@ -409,7 +412,7 @@ public class MainCLI {
                     d = rt.getDice(new PositionR(j, i));
                 }
                 printDice(d, true);
-                AnsiConsole.out().print('\t');
+                AnsiConsole.out().print("  ");
             }
             AnsiConsole.out().print('\n');
         }
@@ -434,7 +437,12 @@ public class MainCLI {
         for (String s : gm.publicOCs) {
             AnsiConsole.out().println("\t" + s);
         }
-        AnsiConsole.out.println(ansi().fgBrightRed().a("Tokens: ").fgDefault().a(p.tokens));
+        AnsiConsole.out.print(ansi().fgBrightRed().a("Tokens: ").fgDefault());
+        if (p.tokens > 6) {
+            AnsiConsole.out().println("∞");
+        } else {
+            AnsiConsole.out().println(p.tokens);
+        }
         AnsiConsole.out.println(ansi().fgBrightRed().a("Tool cards:").fgDefault());
         for (ToolCT tc : gm.toolCards) {
             AnsiConsole.out().println("\t" + tc.name + " (" + tc.tokensRequired.toString() + ")");
@@ -461,7 +469,9 @@ public class MainCLI {
             AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:").fgDefault());
             this.gm = gm;
             // Obtain local player from GameManager
-            PlayerT me = gm.vPlayers.get(gm.pos);
+            if (me == null) {
+                me = gm.vPlayers.get(gm.pos);
+            }
             gm.vPlayers.remove(me);
             // Print other's windows
             for (PlayerT p : gm.vPlayers) {
@@ -513,12 +523,30 @@ public class MainCLI {
     }
 
     public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
-        /*AnsiConsole.out().println(ansi().fgBrightRed().a("Game has ended! Your score: ").fgDefault()
-                .a(score.toString()));*/
-    }
-
-    public void setWinner() {
-        AnsiConsole.out().println(ansi().fgBrightBlue().a("\n[WIN] ").fgBrightYellow()
-                .a("You won the match, making the highest score!").fgDefault());
+        // Stop the main loop
+        runForever = false;
+        AnsiConsole.out().println(ansi().fgBrightBlue().a("\nSCOREBOARD").fgDefault());
+        boolean youWon = false;
+        // loop on the players list, in the opposite order (they are ordered with respect to the score, increasing)
+        for (int i = nicks.size() - 1; i >= 0; i--) {
+            // Print current player's nick in bold
+            if (nicks.get(i).equals(me.nickName)) {
+                AnsiConsole.out().print(ansi().bold());
+                // If you have the winner flag set, set also youWon flag
+                if (winner.get(i)) {
+                    youWon = true;
+                    AnsiConsole.out().print(" ★");
+                }
+            } else if (winner.get(i)) {// Every winner will have a star badge on the left
+                AnsiConsole.out().print(" ★");
+            }
+            // Print nick name and score, on a single line
+            AnsiConsole.out().println(ansi().a("\t" + nicks.get(i)).fgBrightYellow()
+                    .a("\t" + scores.get(i).toString()).fgDefault().boldOff());
+        }
+        if (youWon) {
+            AnsiConsole.out().println(ansi().fgBrightBlue().a("\n[WIN] ").fgBrightYellow()
+                    .a("You won the match, making the highest score!").fgDefault());
+        }
     }
 }

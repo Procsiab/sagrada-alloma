@@ -73,7 +73,8 @@ public class MainServer {
     }
 
     public static Integer primeNumber(int n) {
-        int candidate, count;
+        int candidate;
+        int count;
         for (candidate = 2, count = 0; count < n; ++candidate) {
             if (isPrime(candidate)) {
                 ++count;
@@ -113,13 +114,12 @@ public class MainServer {
 
         try {
             Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException ie) {
+            Logger.strace(ie);
             Thread.currentThread().interrupt();
         }
 
-        System.out.println();
-        Logger.log("Send 'exit' command to teardown...");
+        Logger.log("\nSend 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);
         while (!scan.nextLine().equals("exit")) {
             //

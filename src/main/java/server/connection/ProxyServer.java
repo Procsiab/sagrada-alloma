@@ -16,6 +16,16 @@ import shared.network.socket.NetworkSocket;
 
 import java.util.ArrayList;
 
+/**
+ * <h1>Proxy Client</h1>
+ * <p>This class implements {@code SharedProxyServer} and all its methods, making them interact with the correct <b>controller</b>
+ * components (if they are local) or routing them with the correct parameters to the client (if they are remote)</p><br>
+ * <p>This class implements the <strong>singleton</strong> design pattern, having just one instance of it available per JVM;
+ * this instance can be accessed through the static class' methods.</p><br>
+ * <p>This class holds both a {@code NetworkRmi} and a {@code NetworkSocket} static references, constructed as servers</p>
+ * @see SharedProxyServer
+ * @see Connection
+ */
 public final class ProxyServer implements SharedProxyServer {
     private static final String SERVER_INTERFACE = "ProxyServer";
 
@@ -23,24 +33,47 @@ public final class ProxyServer implements SharedProxyServer {
     private static Connection serverRmi = new NetworkRmi();
     private static ProxyServer instance = new ProxyServer();
 
+    /**
+     * Private constructor, prevents external access and uncontrolled instantiation of the class: use the static method
+     * {@link ProxyServer#getInstance()} to obtain the reference to the internal instance
+     */
     private ProxyServer() {
         super();
         serverRmi.export(this, SERVER_INTERFACE);
         serverSocket.export(this, SERVER_INTERFACE);
     }
 
+    /**
+     * Obtain a reference to the class' instance
+     * @return always the same instance, saved as a {@code private static} reference in the class
+     */
     public static ProxyServer getInstance() {
         return instance;
     }
 
+    /**
+     * Getter method to obtain the saved {@code Connection} attribute which holds teh {@code NetworkSocket} instance
+     * @return internal class' socket connection, if set; otherwise returns {@code null}
+     */
     public static Connection getServerSocket() {
         return serverSocket;
     }
 
+    /**
+     * Getter method to obtain the saved {@code Connection} attribute which holds teh {@code NetworkRmi} instance
+     * @return internal class' RMI connection, if set; otherwise returns {@code null}
+     */
     public static Connection getServerRmi() {
         return serverRmi;
     }
 
+    /**
+     *
+     * @param uuid
+     * @param methodName
+     * @param args
+     * @return
+     */
     private Object forwardMethod(String uuid, String methodName, Object[] args) {
         boolean useSocket = false;
         try {
@@ -199,7 +232,7 @@ public final class ProxyServer implements SharedProxyServer {
         try {
             SReferences.getGameRef(uuid).exitGame2(uuid);
         } catch (NullPointerException npe) {
-            //Logger.log("Unable to log out player with UUID " + uuid);
+            //Logger.log("Player " + uuid + " has disconnected");
         }
     }
 

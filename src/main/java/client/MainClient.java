@@ -28,9 +28,6 @@ import static org.fusesource.jansi.Ansi.*;
 public class MainClient extends Application {
     public static String uuid = null;
     private static boolean isPrompt = false;
-    private static Console cnsl;
-    private static String connection;
-    private static String interfaccia;
 
     public static LogInScreenController logInScreenController;
     public static ChooseWindowController chooseWindowController;
@@ -60,14 +57,14 @@ public class MainClient extends Application {
         AnsiConsole.systemInstall();
         AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
-        // Use current seconds as UUID, allowing multiple connections from the same machine
+        //TODO Use current seconds as UUID, allowing multiple connections from the same machine
         uuid = String.valueOf(LocalTime.now().getSecond());
         //uuid = getUuid();
         Logger.log("UUID: " + uuid);
 
         AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the connection type ('Rmi' | 'Socket')").fgDefault());
         Scanner scan = new Scanner(System.in);
-        connection = scan.nextLine().toLowerCase();
+        String connection = scan.nextLine().toLowerCase();
         while(!connection.equals("rmi") && !connection.equals("socket") ){
             AnsiConsole.out().println(ansi().fgBrightRed().a("Please provide a valid choice").fgDefault());
             connection = scan.nextLine();
@@ -85,17 +82,17 @@ public class MainClient extends Application {
         }
 
         AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the input interface ('GUI' | 'CMD')").fgDefault());
-        interfaccia = scan.nextLine().toLowerCase();
-        while(!interfaccia.equals("cmd") && !interfaccia.equals("gui") ){
+        String inputMode = scan.nextLine().toLowerCase();
+        while(!inputMode.equals("cmd") && !inputMode.equals("gui") ){
             AnsiConsole.out().println(ansi().fgBrightRed().a("Please provide a valid choice").fgDefault());
-            interfaccia = scan.nextLine();
+            inputMode = scan.nextLine();
         }
-        if (interfaccia.equals("cmd")){
+        if (inputMode.equals("cmd")){
             isPrompt = true;
             cliController = new MainCLI();
             cliController.launch();
         }
-        else if (interfaccia.equals("gui")){
+        else if (inputMode.equals("gui")){
             launch(args);
         }
         System.exit(0);
@@ -119,7 +116,7 @@ public class MainClient extends Application {
                 uuid = uuid.substring(0,uuid.length()-1); // Remove blank
             } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
                 AnsiConsole.out().println(ansi().fgBrightRed().a("Please provide your root password to read the UUID").fgDefault());
-                cnsl = System.console();
+                Console cnsl = System.console();
                 char[] pwd = cnsl.readPassword("Password: ");
 
                 String pass = new String(pwd);

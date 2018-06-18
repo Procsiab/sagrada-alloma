@@ -5,10 +5,7 @@ import shared.network.*;
 
 import java.net.MalformedURLException;
 import java.net.SocketException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -149,6 +146,12 @@ public class NetworkRmi implements Connection {
     }
 
     public void close() {
-        //TODO teardown for RMI connection
+        if (serverAddress.equals(this.ip) && this.rmiRegistry != null) {
+            try {
+                UnicastRemoteObject.unexportObject(this.rmiRegistry, true);
+            } catch (NoSuchObjectException e) {
+                Logger.log("Error shutting registry down");
+            }
+        }
     }
 }

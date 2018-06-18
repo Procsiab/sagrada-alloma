@@ -9,18 +9,29 @@ import shared.TransferObjects.GameManagerT;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * <h1>Method Router</h1>
+ */
 public class MethodRouter implements Router {
+
+    /**
+     * Public constructor
+     */
     public MethodRouter() {
         super();
     }
 
+    /**
+     * Method implemented from the interface {@link Router}
+     * @see Router#route(Object, String, Object[])
+     */
     @Override
-    public Object route(Object e, String methodName, Object[] argList) throws RemoteException {
-        if (e == null) {
+    public Object route(Object callee, String methodName, Object[] argList) throws RemoteException {
+        if (callee == null) {
             throw new NullPointerException();
         }
-        if (e instanceof SharedProxyClient) {
-            SharedProxyClient o = (SharedProxyClient) e;
+        if (callee instanceof SharedProxyClient) {
+            SharedProxyClient o = (SharedProxyClient) callee;
             switch (methodName) {
                 case "startGame":
                     return o.startGame((String) argList[0]);
@@ -67,8 +78,8 @@ public class MethodRouter implements Router {
                     Logger.log("Requested wrong method " + methodName + " for interface SharedProxyClient!");
                     break;
             }
-        } else if (e instanceof SharedProxyServer) {
-            SharedProxyServer o = (SharedProxyServer) e;
+        } else if (callee instanceof SharedProxyServer) {
+            SharedProxyServer o = (SharedProxyServer) callee;
             switch (methodName) {
                 case "startGame":
                     return o.startGame((String) argList[0], (String) argList[1], (String) argList[2], (Integer) argList[3], (Boolean) argList[4], argList[5]);
