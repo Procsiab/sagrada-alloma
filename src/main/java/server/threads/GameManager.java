@@ -37,7 +37,7 @@ public class GameManager extends GeneralTask {
     private Set<String> active = new HashSet<>();
     private String expected = "none";
     private RoundTrack roundTrack = new RoundTrack();
-    private ArrayList<Dice> dices = new ArrayList<>();
+    private ArrayList<Dice> diceBag = new ArrayList<>();
     private Pool pool = new Pool();
     private final Object obj = new Object();
 
@@ -130,7 +130,7 @@ public class GameManager extends GeneralTask {
                 "Public Objective cards n° " + revealPublicOC(a.get(0)) + ", "
                 + revealPublicOC(a.get(1)) + ", " + revealPublicOC(a.get(2)));
 
-        //initialize some dices
+        //initialize some dice
         pool.addDice(new Dice('y', 2));
         pool.addDice(new Dice('b', 3));
         pool.addDice(new Dice('r', 6));
@@ -183,15 +183,15 @@ public class GameManager extends GeneralTask {
 
         while (i <= 90) {
             if (1 <= i && i <= 18)
-                dices.add(new Dice('r', 1 + rand.nextInt(6)));
+                diceBag.add(new Dice('r', 1 + rand.nextInt(6)));
             else if (19 <= i && i <= 36)
-                dices.add(new Dice('y', 1 + rand.nextInt(6)));
+                diceBag.add(new Dice('y', 1 + rand.nextInt(6)));
             else if (37 <= i && i <= 54)
-                dices.add(new Dice('g', 1 + rand.nextInt(6)));
+                diceBag.add(new Dice('g', 1 + rand.nextInt(6)));
             else if (55 <= i && i <= 72)
-                dices.add(new Dice('b', 1 + rand.nextInt(6)));
+                diceBag.add(new Dice('b', 1 + rand.nextInt(6)));
             else if (73 <= i)
-                dices.add(new Dice('v', 1 + rand.nextInt(6)));
+                diceBag.add(new Dice('v', 1 + rand.nextInt(6)));
             i++;
         }
     }
@@ -242,8 +242,8 @@ public class GameManager extends GeneralTask {
         }
     }
 
-    public ArrayList<Dice> getDices() {
-        return dices;
+    public ArrayList<Dice> getDiceBag() {
+        return diceBag;
     }
 
     public Pool getPool() {
@@ -431,6 +431,11 @@ public class GameManager extends GeneralTask {
 
         proxyServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
                 toolCsT, roundTrack, pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
+
+        System.out.println("(temporary print) " + pool);
+        System.out.println();
+        System.out.println("(temporary print) " + SReferences.getPlayerRef(uUID).getOverlay());
+
     }
 
     private void updateView() {
@@ -511,7 +516,7 @@ public class GameManager extends GeneralTask {
         Random rand = new Random();
 
         while (i < num) {
-            pool.addDice(dices.remove(rand.nextInt(dices.size())));
+            pool.addDice(diceBag.remove(rand.nextInt(diceBag.size())));
             i++;
         }
     }

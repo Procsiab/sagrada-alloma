@@ -39,9 +39,9 @@ public class Player {
     public static Comparator<Player> cmp = new Comparator<Player>() {
         @Override
         public int compare(Player o1, Player o2) {
-            Integer r1 = Integer.compare(o1.score, o2.score);
+            Integer r1 = o2.score.compareTo(o1.score);
             if (r1 == 0) {
-                return o1.nickName.compareTo(o2.nickName);
+                return o2.nickName.compareTo(o1.nickName);
             }
             return r1;
         }
@@ -167,7 +167,7 @@ public class Player {
         return score;
     }
 
-    public void hack() {
+    private void hack() {
         if (nickName.equals("arna") || nickName.equals("fili") || nickName.equals("affo") || nickName.equals("cugola")) {
             this.window = MatchManager.getWindows().get(0);
             this.setTokens();
@@ -272,14 +272,12 @@ public class Player {
             Logger.log("Player: " + uUID + " Server already assigned Window for this player");
             return false;
         }
-        if (n != null) {
-            if (this.possibleWindows.contains(n)) {
-                this.window = MatchManager.getWindows().get(n);
-                setTokens();
-                hack();
-                Logger.log("Player: " + uUID + " choose " + game.revealWindow(n) + ". It has: " + window.getTokens() + " tokens");
-                return true;
-            }
+        if (n != null && this.possibleWindows.contains(n)) {
+            this.window = MatchManager.getWindows().get(n);
+            setTokens();
+            hack();
+            Logger.log("Player: " + uUID + " choose " + game.revealWindow(n) + ". It has: " + window.getTokens() + " tokens");
+            return true;
         }
         Logger.log("Player: " + uUID + " Attempt to set improper Window");
         return false;
@@ -308,12 +306,12 @@ public class Player {
         Dice dice;
         dice = pool.getDice(index);
         if (window.placeDiceFromPool(this, index, position)) {
+            placedDiceA();
             lastPlacedFromPool = position;
             Logger.log(game + " player " + uUID + " effectively placed dice " +
                     dice + " in position " + position);
             return true;
         }
-        placedDiceA();
         Logger.log(game + " player " + uUID + " attempt of unauthorized placement of dice " +
                 "in position " + position);
         return false;
