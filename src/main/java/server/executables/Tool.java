@@ -159,7 +159,7 @@ public class Tool {
     public static Boolean use11(Integer i1, Player player, Position p1, Integer i2, Integer i3) {
 
         GameManager game = player.getGame();
-        ArrayList<Dice> diceBag = game.getDices();
+        ArrayList<Dice> diceBag = game.getDiceBag();
         Pool pool = game.getPool();
         Overlay overlay = player.getOverlay();
 
