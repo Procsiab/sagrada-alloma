@@ -58,6 +58,11 @@ public final class ProxyClient implements SharedProxyClient {
         if (connection == null) {
             connection = c;
             isSocket = c instanceof NetworkSocket;
+            if (!isSocket) {
+                // This static method calls UnicastRemoteObject's exportObject to make the reference to instance
+                // exportable over RMI
+                NetworkRmi.remotize(instance, 0);
+            }
         }
     }
 
@@ -89,9 +94,6 @@ public final class ProxyClient implements SharedProxyClient {
             port = connection.getListeningPort();
             // Set the stub to null, as without calling exportObject won't be passed as reference
             stub = null;
-        } else {
-            // This static method calls UnicastRemoteObject's exportObject
-            NetworkRmi.remotize(stub, 0);
         }
         Object[] args = {uuid, nick, connection.getLocalIp(), port, isSocket, stub};
         String methodName = "startGame";
