@@ -2,7 +2,6 @@ package shared.network.socket;
 
 import shared.Logger;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,7 +9,18 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SocketServer implements Closeable, Runnable {
+/**
+ * <h1>Socket Server</h1>
+ * <p>This class implements {@code Runnable} to make its instances assignable to a background {@code Thread}; moreover,
+ * it implements {@code AutoCloseable} to gracefully terminate without user interaction the network components if needed</p><br>
+ * <p>Instances of this class work by looping in the {@code run} method, waiting for an incoming connection: when a client
+ * is accepted, its socket is passed as the parameter of the {@link SocketHandler} constructor; the constructed object is
+ * then submitted to the {@code ExecutorService pool} attribute's thread pool</p>
+ * @see NetworkSocket
+ * @see SocketHandler
+ * @see shared.network.Connection
+ */
+public class SocketServer implements AutoCloseable, Runnable {
     private ServerSocket socketConsumer;
     private Integer port;
     private ExecutorService pool;

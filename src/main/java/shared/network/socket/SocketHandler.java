@@ -4,14 +4,27 @@ import shared.*;
 import shared.network.MethodRouter;
 import shared.network.Router;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Map;
 
-class SocketHandler implements Runnable, Closeable {
+/**
+ * <h1>Socket Handler</h1>
+ * <p>This class implements {@code Runnable} to make its instances assignable to a background {@code Thread}; moreover,
+ * it implements {@code AutoCloseable} to gracefully terminate without user interaction the network components if needed</p><br>
+ * <p>Instances of this class work by obtaining an {@link ObjectInputStream} and an {@link ObjectOutputStream} instance
+ * from the socket passed to the constructor; then an object is read from the input stream, and if it was an {@link ObjectRequestPacket}
+ * then the return value of {@link SocketHandler#getExported(String)} is written on the output stream; if an instance of
+ * {@link MethodRequestPacket} is read from the input stream instead, then the return value of the
+ * {@link SocketHandler#invokeMethod(String, String, Object[])} method is written on the output stream. Then all the network
+ * resources are released</p>
+ * @see NetworkSocket
+ * @see SocketServer
+ * @see shared.network.Connection
+ */
+class SocketHandler implements AutoCloseable, Runnable {
     private Socket client;
     private Map<String, Object> exportedObjects;
     private static final Router router = new MethodRouter();
@@ -43,7 +56,7 @@ class SocketHandler implements Runnable, Closeable {
             out.flush();
         } catch (IOException ioe) {
             // IOException during socket communication could happen multiple times and for different reasons:
-            // no message will be logged in this case
+            // no message will be logged on the console in this case
         } catch (ClassNotFoundException cnfe) {
             Logger.log("Received data has unknown class!");
         } finally {

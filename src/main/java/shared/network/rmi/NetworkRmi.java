@@ -17,12 +17,13 @@ import java.rmi.server.UnicastRemoteObject;
  * <p>Using the constructor with no parameters or just an {@code Integer} representing the RMI port, the instance will act
  * as a server, creating also an RMI registry on teh same machine;</p>
  * <p>using the constructor with only a {@code String} parameter representing the server's hostname, or also with an
- * {@code Integer} parameter representing the server's port, the instance will act as a client, trying to connect to the
- * specified hostname.</p><br>
+ * {@code Integer} parameter representing the server's inbound port, the instance will act as a client, trying to connect
+ * to the specified hostname.</p><br>
  * <p>To choose the server's address from the outside (even from user input) a static setter is provided (
  * {@link NetworkRmi#setServerAddress(String)}); is <b>must</b> be used before calling the constructor, otherwise the
  * server will be started on localhost</p>
  * @see SharedProxyServer
+ * @see SharedProxyClient
  * @see Connection
  */
 public class NetworkRmi implements Connection {
@@ -63,6 +64,7 @@ public class NetworkRmi implements Connection {
 
     /**
      * Constructor for the <b>server</b> instance
+     * @param port the listening port for incoming connections
      */
     public NetworkRmi(Integer port) {
         startRegistrySetup(port);
@@ -82,6 +84,8 @@ public class NetworkRmi implements Connection {
 
     /**
      * Constructor for the <b>client</b> instance
+     * @param server the server's address or hostname
+     * @param port the server's port for accepting the client's socket
      */
     public NetworkRmi(String server, Integer port) {
         startRegistrySetup(port);
@@ -109,6 +113,7 @@ public class NetworkRmi implements Connection {
 
     /**
      * Constructor for the <b>client</b> instance
+     * @param server the server's address or hostname
      */
     public NetworkRmi(String server) {
         this(server, RMI_METHOD_PORT);

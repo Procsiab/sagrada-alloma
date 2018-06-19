@@ -528,7 +528,7 @@ public class MainCLI {
         AnsiConsole.out().println(ansi().fgBrightBlue().a("\nSCOREBOARD").fgDefault());
         boolean youWon = false;
         // loop on the players list, in the opposite order (they are ordered with respect to the score, increasing)
-        for (int i = nicks.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < nicks.size(); i++) {
             // Print current player's nick in bold
             if (nicks.get(i).equals(me.nickName)) {
                 AnsiConsole.out().print(ansi().bold());
