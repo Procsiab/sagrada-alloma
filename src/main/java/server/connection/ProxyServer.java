@@ -14,15 +14,16 @@ import shared.network.SharedProxyServer;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
+import java.rmi.Remote;
 import java.util.ArrayList;
 
 /**
- * <h1>Proxy Client</h1>
+ * <h1>Proxy Server</h1>
  * <p>This class implements {@code SharedProxyServer} and all its methods, making them interact with the correct <b>controller</b>
  * components (if they are local) or routing them with the correct parameters to the client (if they are remote)</p><br>
  * <p>This class implements the <strong>singleton</strong> design pattern, having just one instance of it available per JVM;
  * this instance can be accessed through the static class' methods.</p><br>
- * <p>This class holds both a {@code NetworkRmi} and a {@code NetworkSocket} static references, constructed as servers</p>
+ * <p>This class holds both a {@code NetworkRmi} and a {@code NetworkSocket} static references, constructed as servers.</p>
  * @see SharedProxyServer
  * @see Connection
  */
@@ -39,6 +40,7 @@ public final class ProxyServer implements SharedProxyServer {
      */
     private ProxyServer() {
         super();
+        NetworkRmi.remotize(this, serverRmi.getListeningPort());
         serverRmi.export(this, SERVER_INTERFACE);
         serverSocket.export(this, SERVER_INTERFACE);
     }
@@ -67,12 +69,22 @@ public final class ProxyServer implements SharedProxyServer {
         return serverRmi;
     }
 
-    /**
-     *
-     * @param uuid
-     * @param methodName
-     * @param args
-     * @return
+    /**true
+     * <strong>Remote</strong><br>
+     * This method will choose the {@code Connection} attribute, among the Socket or RMI one, to call a method on the
+     * client with; since the player communicates its connection preferences when it calls {@link SharedProxyServer#startGame(String, String, String, Integer, Boolean, Remote)}
+     * the server will register it in an {@link SReferences} class instance, allowing any object on the server to use
+     * static getters to access those data.<br>
+     * If the player connected using RMI, the method call is performed straightforward using {@link Connection#invokeMethod(String, String, Object[])};
+     * however, if the player connected using Socket, it is the necessary to connect the server to the player's client
+     * with a new {@link NetworkSocket} instance, constructed on the player's IP and listening port
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @param methodName text representing the method name, should be the same as in the signature
+     * @param args array of object representing the method's parameters, in the exact order as in the signature
+     * @return the return value from the method invocation (if the invoked method was void, it will be {@code null})
+     * @see SReferences#getIsSocketRef(String)
+     * @see SReferences#getIpRef(String)
+     * @see SReferences#getPortRef(String)
      */
     private Object forwardMethod(String uuid, String methodName, Object[] args) {
         boolean useSocket = false;
@@ -103,6 +115,14 @@ public final class ProxyServer implements SharedProxyServer {
         return null;
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * Whenever a client calls a method on the server, this method should be called first, to check if the client involved
+     * in the call has been authorized to call methods (e.g. a player will not have such authorization unless during its turn)
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @return boolean value representing the <b>denial</b> of the authorization: it will be {@code true} if the player
+     *         with UUID {@code uuid} has no authorization
+     */
     private Boolean deniedAccess(String uuid) {
         try {
             GameManager game = SReferences.getGameRef(uuid);
@@ -120,8 +140,22 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * This method is called whenever a player asks to register on the server; moreover, if that player connected using
+     * RMI, its remote reference (passed as the {@code stub} parameter) is exported on the registry. The player is then
+     * registered binding all its configuration parameters to its Unique User ID
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @param nick {@code String}
+     * @param ip {@code String}
+     * @param port {@code Integer}
+     * @param isSocket {@code Boolean}
+     * @param stub {@code Remote}
+     * @return server's response to the client's registration request
+     * @see SharedProxyServer#startGame(String, String, String, Integer, Boolean, Remote)
+     */
     @Override
-    public String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, Object stub) {
+    public String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, Remote stub) {
         if (!isSocket) {
             // Export given stub to let the server call the client's methods
             serverRmi.export(stub, uuid);
@@ -129,11 +163,25 @@ public final class ProxyServer implements SharedProxyServer {
         return MatchManager.startGame(uuid, nick, ip, port, isSocket);
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @param gameManager {@link GameManagerT}
+     * @see shared.network.SharedProxyServer#updateView(String, GameManagerT)
+     */
     @Override
     public void updateView(String uuid, GameManagerT gameManager) {
         forwardMethod(uuid, "updateView", new Object[]{gameManager});
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @param windows {@code ArrayList<Integer>}
+     * @param matrices {@code ArrayList<{@link Cell}[][]>}
+     * @return {@code Boolean}
+     * @see shared.network.SharedProxyServer#chooseWindow(String, ArrayList, ArrayList)
+     */
     @Override
     public Boolean chooseWindow(String uuid, ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
         Boolean ret = (Boolean) forwardMethod(uuid, "chooseWindow", new Object[]{windows, matrices});
@@ -144,6 +192,12 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @return {@code Boolean}
+     * @see shared.network.SharedProxyServer#ping(String)
+     */
     @Override
     public Boolean ping(String uuid) {
         Boolean ret = (Boolean) forwardMethod(uuid, "ping", null);
@@ -154,26 +208,53 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @see shared.network.SharedProxyServer#tavoloWin(String)
+     */
     @Override
     public void tavoloWin(String uuid) {
         forwardMethod(uuid, "tavoloWin", null);
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @see shared.network.SharedProxyServer#enable(String)
+     */
     @Override
     public void enable(String uuid) {
         forwardMethod(uuid, "enable", null);
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @see shared.network.SharedProxyServer#shut(String)
+     */
     @Override
     public void shut(String uuid) {
         forwardMethod(uuid, "shut", null);
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @see shared.network.SharedProxyServer#printScore(String, ArrayList, ArrayList, ArrayList)
+     */
     @Override
     public void printScore(String uuid, ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
         forwardMethod(uuid, "printScore", new Object[]{nicks, scores, winner});
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @param window {@code Integer}
+     * @return {@code Boolean}
+     * @see shared.network.SharedProxyServer#chooseWindow(String, ArrayList, ArrayList)
+     */
     @Override
     public Boolean chooseWindowBack(String uuid, Integer window) {
         try {
@@ -185,6 +266,12 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @return {@code Boolean}
+     * @see shared.network.SharedProxyServer#startGameViewForced(String)
+     */
     @Override
     public Boolean startGameViewForced(String uuid) {
         Boolean ret = (Boolean) forwardMethod(uuid, "startGameViewForced", null);
@@ -195,6 +282,14 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @param index {@code Integer}
+     * @param p {@link Position}
+     * @return {@code Boolean}
+     * @see shared.network.SharedProxyServer#placeDice(String, Integer, Position)
+     */
     @Override
     public Boolean placeDice(String uuid, Integer index, Position p) {
         try {
@@ -211,6 +306,20 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @param i1 {@code Integer}
+     * @param p1 {@link Position}
+     * @param p2 {@link Position}
+     * @param p3 {@link Position}
+     * @param p4 {@link Position}
+     * @param pr {@link PositionR}
+     * @param i2 {@code Integer}
+     * @param i3 {@code Integer}
+     * @return {@code Boolean}
+     * @see shared.network.SharedProxyServer#useToolC(String, Integer, Position, Position, Position, Position, PositionR, Integer, Integer)
+     */
     @Override
     public Boolean useToolC(String uuid, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         try {
@@ -227,6 +336,11 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @see shared.network.SharedProxyServer#exitGame2(String)
+     */
     @Override
     public void exitGame2(String uuid) {
         try {
@@ -236,6 +350,11 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @see shared.network.SharedProxyServer#endTurn(String)
+     */
     @Override
     public void endTurn(String uuid) {
         try {
@@ -250,6 +369,11 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @see shared.network.SharedProxyServer#updateViewFromC(String)
+     */
     @Override
     public void updateViewFromC(String uuid) {
         try {
@@ -264,6 +388,12 @@ public final class ProxyServer implements SharedProxyServer {
         }
     }
 
+    /**
+     * <strong>Local</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @return {@code Boolean}
+     * @see shared.network.SharedProxyServer#exitGame1(String)
+     */
     @Override
     public Boolean exitGame1(String uuid) {
         try {
@@ -273,5 +403,4 @@ public final class ProxyServer implements SharedProxyServer {
         }
         return false;
     }
-
 }

@@ -29,7 +29,7 @@ public interface SharedProxyServer extends Remote {
      * <strong>Local</strong><br>
      * First method that {@code SharedProxyClient} should call towards the server: it will perform the registration of
      * the player on the server, checking if he has already logged in or he was playing (and in case the player will join
-     * again his suspended match). If socket RMI connection is being used, the parameter {@code Object stub} is passed after
+     * again his suspended match). If socket RMI connection is being used, the parameter {@code Remote stub} is passed after
      * {@link shared.network.rmi.NetworkRmi#remotize(Object, Integer)} was called on its reference; otherwise it will be null
      * @param uuid see {@link SharedProxyClient} for more about the first parameter
      * @param nick {@code String}
@@ -39,9 +39,9 @@ public interface SharedProxyServer extends Remote {
      * @param stub {@code Object}
      * @return string of text representing the server response to the client's registration request
      * @throws RemoteException see {@link SharedProxyClient} for more about this throw
-     * @see server.connection.ProxyServer#startGame(String, String, String, Integer, Boolean, Object)
+     * @see SharedProxyServer#startGame(String, String, String, Integer, Boolean, Remote)
      */
-    String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, Object stub) throws RemoteException;
+    String startGame(String uuid, String nick, String ip, Integer port, Boolean isSocket, Remote stub) throws RemoteException;
 
     /**
      * <strong>Remote</strong><br>

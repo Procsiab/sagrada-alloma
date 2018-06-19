@@ -112,7 +112,7 @@ public interface SharedProxyClient extends Remote {
      * choice
      * @param window an {@code Integer} representing the chosen window; this must be contained in {@link SharedProxyClient#chooseWindow(ArrayList, ArrayList)}
      *               first parameter, which holds the list of available window numbers
-     * @return
+     * @return a {@code Boolean} value representing the success of the call
      * @throws RemoteException see {@link SharedProxyClient} for more about this throw
      * @see client.ProxyClient#chooseWindowBack(Integer)
      */
@@ -134,13 +134,14 @@ public interface SharedProxyClient extends Remote {
      * its client. Dices in the pool are addressed by an index between 1 and 9, and the position on the window is a {@link Position}
      * @param index index of the dice in the pool
      * @param p position of the destination position for thee selected dice on player's window
+     * @return a {@code Boolean} value representing the success of the call
      * @throws RemoteException see {@link SharedProxyClient} for more about this throw
      * @see client.ProxyClient#placeDice(Integer, Position)
      */
     Boolean placeDice(Integer index, Position p) throws RemoteException;
 
     /**
-     * <strong>Local</strong><br>
+     * <strong>Remote</strong><br>
      * Whenever a player wants to use one of the tool cards, it must call this method, providing the correct parameters
      * for that tool card. If one or more parameters are not needed by the selected tool card, you just need to set them
      * to {@code null}; however, this method accepts every possible parameter that a tool card could need
@@ -153,6 +154,7 @@ public interface SharedProxyClient extends Remote {
      * @param pr dice {@link PositionR} in the round track
      * @param i2 dice index from the pool
      * @param i3 value to increment or decrement a dice
+     * @return a {@code Boolean} value representing the success of the call
      * @throws RemoteException see {@link SharedProxyClient} for more about this throw
      * @see client.ProxyClient#useToolC(Integer, Position, Position, Position, Position, PositionR, Integer, Integer)
      */
@@ -189,5 +191,5 @@ public interface SharedProxyClient extends Remote {
      * @throws RemoteException see {@link SharedProxyClient} for more about this throw
      * @see client.ProxyClient#exitGame1()
      */
-    void exitGame1() throws RemoteException;
+    Boolean exitGame1() throws RemoteException;
 }

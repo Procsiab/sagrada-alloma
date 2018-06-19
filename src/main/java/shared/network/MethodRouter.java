@@ -6,6 +6,7 @@ import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -82,7 +83,7 @@ public class MethodRouter implements Router {
             SharedProxyServer o = (SharedProxyServer) callee;
             switch (methodName) {
                 case "startGame":
-                    return o.startGame((String) argList[0], (String) argList[1], (String) argList[2], (Integer) argList[3], (Boolean) argList[4], argList[5]);
+                    return o.startGame((String) argList[0], (String) argList[1], (String) argList[2], (Integer) argList[3], (Boolean) argList[4], (Remote) argList[5]);
                 case "updateView":
                     o.updateView((String) argList[0], (GameManagerT) argList[1]);
                     break;

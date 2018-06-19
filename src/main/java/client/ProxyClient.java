@@ -11,6 +11,7 @@ import shared.network.Connection;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
 
+import java.rmi.Remote;
 import java.util.ArrayList;
 
 /**
@@ -50,7 +51,9 @@ public final class ProxyClient implements SharedProxyClient {
 
     /**
      * Set the {@code Connection} attribute held by ths class, to either a {@link NetworkSocket} or a {@link NetworkRmi}
-     * instance with transparency, thanks to the implementation of the {@link Connection} interface
+     * instance with transparency, thanks to the implementation of the {@link Connection}. interface<br>
+     * If the parameter {@code c} is an instance of {@code NetworkRmi}, the method {@link NetworkRmi#remotize(Object, Integer)}
+     * is called on the private class attribute {@code instance}, making it exportable over RMI
      * @param c an instance implementing the {@code Connection} interface; if provided argument is of type {@code NetworkSocket}
      *          then an internal flag {@code isSocket} is set
      */
@@ -85,7 +88,7 @@ public final class ProxyClient implements SharedProxyClient {
      */
     @Override
     public String startGame(String nick) {
-        Object stub = instance;
+        Remote stub = instance;
         Integer port = -1;
         if (isSocket) {
             // First register the stub for remote calls, starting the consumer
@@ -123,7 +126,7 @@ public final class ProxyClient implements SharedProxyClient {
      * <strong>Local</strong><br>
      * @param windows {@code ArrayList<Integer>}
      * @param matrices {@code ArrayList<{@link Cell}[][]>}
-     * @return {@code true}
+     * @return {@code Boolean}
      * @see shared.network.SharedProxyClient#chooseWindow(ArrayList, ArrayList)
      */
     @Override
@@ -139,7 +142,7 @@ public final class ProxyClient implements SharedProxyClient {
 
     /**
      * <strong>Local</strong><br>
-     * @return {@code true}
+     * @return {@code Boolean}
      * @see shared.network.SharedProxyClient#startGameViewForced()
      */
     public Boolean startGameViewForced() {
@@ -154,7 +157,7 @@ public final class ProxyClient implements SharedProxyClient {
 
     /**
      * <strong>Local</strong><br>
-     * @return {@code true}
+     * @return {@code Boolean}
      * @see shared.network.SharedProxyClient#ping()
      */
     @Override
@@ -222,7 +225,7 @@ public final class ProxyClient implements SharedProxyClient {
     /**
      * <strong>Remote</strong><br>
      * @param window {@code Integer}
-     * @return {@code true}
+     * @return {@code Boolean}
      * @see shared.network.SharedProxyClient#chooseWindowBack(Integer)
      */
     public Boolean chooseWindowBack(Integer window) {
@@ -239,7 +242,7 @@ public final class ProxyClient implements SharedProxyClient {
      * <strong>Remote</strong><br>
      * @param index {@code Integer}
      * @param p {@link Position}
-     * @return {@code true}
+     * @return {@code Boolean}
      * @see shared.network.SharedProxyClient
      */
     public Boolean placeDice(Integer index, Position p) {
@@ -262,7 +265,7 @@ public final class ProxyClient implements SharedProxyClient {
      * @param pr {@link PositionR}
      * @param i2 {@code Integer}
      * @param i3 {@code Integer}
-     * @return {@code true}
+     * @return {@code Boolean}
      * @see shared.network.SharedProxyClient
      */
     @Override
@@ -325,18 +328,20 @@ public final class ProxyClient implements SharedProxyClient {
 
     /**
      * <strong>Remote</strong><br>
+     * @return {@code Boolean}
      * @see shared.network.SharedProxyClient#exitGame1()
      */
     @Override
-    public void exitGame1() {
+    public Boolean exitGame1() {
         Object[] args = {uuid};
         String methodName = "exitGame1";
         try {
-            connection.invokeMethod(SERVER_INTERFACE, methodName, args);
+            return (Boolean) connection.invokeMethod(SERVER_INTERFACE, methodName, args);
         } catch (MethodConnectionException mce) {
             Logger.log("Unable to inform server of the log out");
         } finally {
             connection.close();
         }
+        return false;
     }
 }
