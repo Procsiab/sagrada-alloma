@@ -98,10 +98,10 @@ public class ChooseWindowController implements Initializable {
 
 
         // IMPORTANT: use "+ variable +" in order to use a variable and not a fixed value!
-        card1.setStyle("-fx-background-image: url('Window"+i+".png');-fx-background-size: 100% 100% ;");
-        card2.setStyle("-fx-background-image: url('Window"+j+".png');-fx-background-size: 100% 100%;");
-        card3.setStyle("-fx-background-image: url('Window"+k+".png');-fx-background-size: 100% 100%;");
-        card4.setStyle("-fx-background-image: url('Window"+g+".png');-fx-background-size: 100% 100%;");
+        card1.setStyle("-fx-background-image: url('Windows/Window"+i+".png');-fx-background-size: 100% 100% ;");
+        card2.setStyle("-fx-background-image: url('Windows/Window"+j+".png');-fx-background-size: 100% 100%;");
+        card3.setStyle("-fx-background-image: url('Windows/Window"+k+".png');-fx-background-size: 100% 100%;");
+        card4.setStyle("-fx-background-image: url('Windows/Window"+g+".png');-fx-background-size: 100% 100%;");
 
 
     }

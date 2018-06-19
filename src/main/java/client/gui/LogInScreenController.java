@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import shared.Logger;
@@ -30,6 +31,8 @@ public class LogInScreenController implements Initializable {
     @FXML private ImageView sagradaImage;
     @FXML private Button startButton, okButton;
     @FXML private TextField nicknameField;
+    @FXML private Text status;
+
 
 
     public LogInScreenController(){
@@ -53,6 +56,7 @@ public class LogInScreenController implements Initializable {
 
         String message1 = ProxyClient.getInstance().startGame(nickname);
         Logger.log("Server responded as: " + message1);
+        status.setText(message1);
 
         if (message1.equals("Connections successful. Please wait for other players to connect")) {
             Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
