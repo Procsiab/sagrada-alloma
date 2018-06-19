@@ -214,4 +214,6 @@ public interface SharedProxyServer extends Remote {
      * @see server.connection.ProxyServer#exitGame1(String)
      */
     Boolean exitGame1(String uuid) throws RemoteException;
+
+    void onTimeStatus(String uuid, String s1, String s2);
 }

@@ -1,6 +1,7 @@
 package server.threads;
 
 import server.*;
+import server.concurrency.ConcurrencyManager;
 import server.connection.ProxyServer;
 import server.executables.PublicObject;
 import server.Window;
@@ -794,6 +795,9 @@ public class GameManager extends GeneralTask {
         super.run();
 
         handleWindows();
+
+        RealTimeStatus realTimeStatus = new RealTimeStatus(players);
+        ConcurrencyManager.submit(realTimeStatus);
 
         int i;
         int j = 1;
