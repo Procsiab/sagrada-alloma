@@ -134,6 +134,7 @@ public class MatchManager {
         cells[3][4] = new Cell('r');
         windows.add(new Window(cells, "Window4", 5));
 
+        cells = new Cell[4][5];
         cells[0][0] = new Cell();
         cells[0][1] = new Cell();
         cells[0][2] = new Cell(1);
