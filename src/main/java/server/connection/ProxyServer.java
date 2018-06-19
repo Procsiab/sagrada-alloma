@@ -403,4 +403,14 @@ public final class ProxyServer implements SharedProxyServer {
         }
         return false;
     }
+
+    /**
+     * <strong>Remote</strong><br>
+     * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @see shared.network.SharedProxyServer#onTimeStatus(String, String, String)
+     */
+    @Override
+    public void onTimeStatus(String uuid, String s1, String s2) {
+        forwardMethod(uuid, "onTimeStatus", new Object[]{s1, s2});
+    }
 }

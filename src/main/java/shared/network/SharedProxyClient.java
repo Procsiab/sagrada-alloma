@@ -192,4 +192,14 @@ public interface SharedProxyClient extends Remote {
      * @see client.ProxyClient#exitGame1()
      */
     Boolean exitGame1() throws RemoteException;
+
+    /**
+     * <strong>Local</strong><br>
+     * TODO DESCRIPTION
+     * @param s1
+     * @param s2
+     * @throws RemoteException see {@link SharedProxyClient} for more about this throw
+     * @see client.ProxyClient#onTimeStatus(String, String)
+     */
+    void onTimeStatus(String s1, String s2) throws RemoteException;
 }

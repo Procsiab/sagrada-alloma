@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 /**
  * <h1>Method Router</h1>
+ * <p>This class will route the method calls, using the provided method name</p>
+ * @see Router
  */
 public class MethodRouter implements Router {
 
@@ -73,7 +75,9 @@ public class MethodRouter implements Router {
                     o.updateViewFromC();
                     break;
                 case "exitGame1":
-                    o.exitGame1();
+                    return o.exitGame1();
+                case "onTimeStatus":
+                    o.onTimeStatus((String) argList[0], (String) argList[1]);
                     break;
                 default:
                     Logger.log("Requested wrong method " + methodName + " for interface SharedProxyClient!");
@@ -121,7 +125,9 @@ public class MethodRouter implements Router {
                     o.updateViewFromC((String) argList[0]);
                     break;
                 case "exitGame1":
-                    o.exitGame1((String) argList[0]);
+                    return o.exitGame1((String) argList[0]);
+                case "onTimeStatus":
+                    o.onTimeStatus((String) argList[0], (String) argList[1], (String) argList[2]);
                     break;
                 default:
                     Logger.log("Requested wrong method " + methodName + " for interface SharedProxyServer!");

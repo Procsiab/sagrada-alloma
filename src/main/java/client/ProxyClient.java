@@ -344,4 +344,19 @@ public final class ProxyClient implements SharedProxyClient {
         }
         return false;
     }
+
+    /**
+     * <strong>Local</strong><br>
+     * @param s1
+     * @param s2
+     * @see shared.network.SharedProxyClient#onTimeStatus(String, String)
+     */
+    @Override
+    public void onTimeStatus(String s1, String s2) {
+        if (MainClient.isPrompt()) {
+            //TODO Call CLI method
+        } else {
+            //TODO Call GUI method
+        }
+    }
 }
