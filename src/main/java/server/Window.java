@@ -78,11 +78,15 @@ public class Window implements Serializable {
     }
 
     private Boolean checkAdjDicesFull(Overlay overlay, Position position, Dice dice) {
-        return checkSideBySide(overlay, position, dice) && !checkNotAdjacentToAny(overlay, position);
+        return checkSideBySide(overlay, position, dice) && checkAdjacentToAny(overlay, position);
     }
 
-    private Boolean checkNotAdjacentToAny(Overlay overlay, Position position1) {
-        return !(overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() - 1)) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() + 1))));
+    private Boolean checkAdjacentToAny(Overlay overlay, Position position1) {
+        return (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() - 1)) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() + 1))));
+    }
+
+    private Boolean checkFreeSpaceAround(Overlay overlay, Position position1) {
+        return overlay.validateFree(new Position(position1.getRow() - 1, position1.getColumn() - 1)) && (overlay.validateFree(new Position(position1.getRow(), position1.getColumn() - 1))) && (overlay.validateFree(new Position(position1.getRow() + 1, position1.getColumn() - 1))) && (overlay.validateFree(new Position(position1.getRow() - 1, position1.getColumn()))) && (overlay.validateFree(new Position(position1.getRow() + 1, position1.getColumn()))) && (overlay.validateFree(new Position(position1.getRow() - 1, position1.getColumn() + 1))) && (overlay.validateFree(new Position(position1.getRow(), position1.getColumn() + 1))) && (overlay.validateFree(new Position(position1.getRow() + 1, position1.getColumn() + 1)));
     }
 
     private Boolean checkPlaceColorRequirements(Dice dice, Position position) {
@@ -220,11 +224,11 @@ public class Window implements Serializable {
         Overlay overlay = player.getOverlay();
 
         Dice dice = pool.getDice(index);
-        if (!(!checkFirstTurn(player) && checkNotAdjacentToAny(overlay, position) || checkFirstTurn(player) && checkEdgePosTurn(position)) && checkPlaceRequirements(dice, position))
-            return false;
-
-        player.getOverlay().setDicePosition(dice, position);
-        pool.setDice(index, null);
-        return true;
+        if ((!checkFirstTurn(player) && checkFreeSpaceAround(overlay, position) || checkFirstTurn(player) && checkEdgePosTurn(position)) && checkPlaceRequirements(dice, position)) {
+            player.getOverlay().setDicePosition(dice, position);
+            pool.setDice(index, null);
+            return true;
+        }
+        return false;
     }
 }

@@ -1,21 +1,30 @@
 package shared;
 
+
 import java.io.*;
 
 public class Overlay implements Serializable {
 
     private Dice[][] dicePositions = new Dice[4][5];
 
+    private Boolean validateInBounds(Position position) {
+        return position.getRow() > -1 && position.getRow() < 4 && position.getColumn() > -1 && position.getColumn() < 5;
+    }
 
-    public Overlay(){}
+    private Boolean validateValid(Position position) {
+        return position != null && position.getRow() != null && position.getColumn() != null;
+    }
 
     public Boolean validateEmpty(Position position) {
-        return position != null && position.getRow() != null && position.getColumn() != null && position.getRow() > -1 && position.getRow() < 4 && position.getColumn() > -1 && position.getColumn() < 5 && dicePositions[position.getRow()][position.getColumn()] == null;
+        return validateValid(position) && validateInBounds(position) && dicePositions[position.getRow()][position.getColumn()] == null;
+    }
+
+    public Boolean validateFree(Position position) {
+        return validateValid(position) && (!validateInBounds(position) || dicePositions[position.getRow()][position.getColumn()] == null);
     }
 
     public Boolean validateBusy(Position position) {
-        Boolean esit = position != null && position.getRow() != null && position.getColumn() != null && position.getRow() > -1 && position.getRow() < 4 && position.getColumn() > -1 && position.getColumn() < 5 && dicePositions[position.getRow()][position.getColumn()] != null;
-    return esit;
+        return validateValid(position) && validateInBounds(position) && dicePositions[position.getRow()][position.getColumn()] != null;
     }
 
     public Dice getDice(Position pos) {

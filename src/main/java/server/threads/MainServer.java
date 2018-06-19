@@ -119,7 +119,8 @@ public class MainServer {
             Thread.currentThread().interrupt();
         }
 
-        Logger.log("\nSend 'exit' command to teardown...");
+        System.out.println();
+        Logger.log("Send 'exit' command to teardown...");
         Scanner scan = new Scanner(System.in);
         while (!scan.nextLine().equals("exit")) {
             //

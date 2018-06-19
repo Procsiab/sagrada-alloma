@@ -255,6 +255,7 @@ public class GameManager extends GeneralTask {
     }
 
     public void setPublicOCs(List<Integer> publicOCs) {
+        this.publicOCs.clear();
         this.publicOCs.addAll(publicOCs);
     }
 
