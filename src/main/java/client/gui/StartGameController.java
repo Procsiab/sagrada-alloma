@@ -2,6 +2,7 @@ package client.gui;
 
 import client.MainClient;
 import client.ProxyClient;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
@@ -14,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -150,6 +152,7 @@ public class StartGameController implements Initializable {
                     //LOAD DICES INTO ROUNDTRACK
                     loadDiceRoundTrack(gameManager);
 
+
                 });
     }
 
@@ -265,7 +268,7 @@ public class StartGameController implements Initializable {
             String nomeToolCard = gameManager.toolCards.get(i).name;
             System.out.println("NOME TOOCARD:" + nomeToolCard);
 
-            Image image = new Image(nomeToolCard + ".png");
+            Image image = new Image("ToolC/" + nomeToolCard + ".png");
             System.out.println("CARICAMENTO TOOLCARD");
 
             listToolCard.get(i).setImage(image);
@@ -480,7 +483,12 @@ public class StartGameController implements Initializable {
         diceGridPosition.setRow(rowIndex);
         diceGridPosition.setColumn(colIndex);
 
-        proxyClient.placeDice(posizionePoolDice, diceGridPosition);
+        Boolean placed = proxyClient.placeDice(posizionePoolDice, diceGridPosition);
+        if(placed==false){
+            CustomAlert failedPlacement = new CustomAlert(Alert.AlertType.ERROR, "Error placing dice!" , "Dice placed in an unhautorized position!");
+
+        }
+        else proxyClient.updateViewFromC();
         clearPosizioni();
         System.out.print("\"Dado Posizionato\"");
 
@@ -562,8 +570,12 @@ public class StartGameController implements Initializable {
         System.out.print("Valore di incrementvalue:" + incrementValue + "\n");
 
 
-        proxyClient.useToolC(indexofToolCard, posizioni[0], posizioni[1], posizioni[2], posizioni[3], posizioneDadoRoundTrack, posizionePoolDice, incrementValue);
+        Boolean usedToolC = proxyClient.useToolC(indexofToolCard, posizioni[0], posizioni[1], posizioni[2], posizioni[3], posizioneDadoRoundTrack, posizionePoolDice, incrementValue);
+        if(usedToolC==false){
+            CustomAlert failedUse = new CustomAlert(Alert.AlertType.ERROR, "Error using ToolCard!" , "Toolcard can't be used! Wrong parameters or violating rules!");
 
+        }
+        else proxyClient.updateViewFromC();
 
     }
 
@@ -646,6 +658,10 @@ public class StartGameController implements Initializable {
     }
 
     public void aPrioriWin() {
+
+    }
+    public void OnTimeStatus(String s1, String s2){
+
 
     }
 }
