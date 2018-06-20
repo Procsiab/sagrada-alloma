@@ -42,8 +42,8 @@ public class Window implements Serializable {
     }
 
     /**
-     * check whether the player is at his very first turn
-     * @param player is the player who will be checked
+     * check whether
+     * @param player hasn't placed dices yet.
      * @return gives true if this is tha case, false otherwise
      */
     private Boolean checkFirstTurn(Player player) {
