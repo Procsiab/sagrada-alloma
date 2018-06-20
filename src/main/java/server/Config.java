@@ -12,6 +12,7 @@ public class Config {
     public static Integer timeout2;
     public static Integer timeout3;
     public static Integer timeout4;
+    public static Integer timeout5;
     public static Integer maxActivePlayerRefs;
 
 
@@ -32,6 +33,9 @@ public class Config {
         timeout2 = timers.remove(0);
         timeout3 = timers.remove(0);
         timeout4 = timers.remove(0);
+        timeout5 = timers.remove(0);
+        maxActivePlayerRefs = timers.remove(0);
+
         return true;
     }
 

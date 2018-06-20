@@ -691,7 +691,6 @@ public class GameManager extends GeneralTask {
                 proxyServer.tavoloWin(tavolo);
                 closeGame();
                 Logger.log(this + " the winner is " + tavolo + "! Bye");
-                pause(15000);
                 return true;
             } else {
                 Logger.log(this + " the only player is offline!");
@@ -839,7 +838,6 @@ public class GameManager extends GeneralTask {
         scoringPhase();
         closeGame();
         Logger.log(this + ". We are done here! Bye!");
-        pause(10000);
     }
 
 }

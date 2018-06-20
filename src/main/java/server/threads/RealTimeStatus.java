@@ -1,5 +1,6 @@
 package server.threads;
 
+import server.Config;
 import server.SReferences;
 import server.concurrency.GeneralTask;
 import server.connection.ProxyServer;
@@ -10,13 +11,15 @@ import java.util.List;
 import java.util.Set;
 
 public class RealTimeStatus extends GeneralTask {
-    ProxyServer proxyServer = ProxyServer.getInstance();
-    List<String> players;
-    Set<String> online = new HashSet<>();
-    Set<String> offline = new HashSet<>();
+    private ProxyServer proxyServer = ProxyServer.getInstance();
+    private List<String> players;
+    private Set<String> online = new HashSet<>();
+    private Set<String> offline = new HashSet<>();
+    private Integer time;
 
     public RealTimeStatus(List<String> players) {
         this.players = players;
+        this.time = Config.timeout5;
     }
 
     private void spread(String s1, String s2) {
@@ -50,7 +53,7 @@ public class RealTimeStatus extends GeneralTask {
                 }
 
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(time);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     Logger.log("Interrupted Exception");
