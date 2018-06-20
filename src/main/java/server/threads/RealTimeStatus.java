@@ -1,6 +1,7 @@
 package server.threads;
 
 import server.Config;
+import server.Player;
 import server.SReferences;
 import server.concurrency.GeneralTask;
 import server.connection.ProxyServer;
@@ -24,7 +25,7 @@ public class RealTimeStatus extends GeneralTask {
 
     private void spread(String s1, String s2) {
         for (String player :
-                online) {
+                players) {
             proxyServer.onTimeStatus(player, s1, s2);
         }
     }
@@ -35,8 +36,10 @@ public class RealTimeStatus extends GeneralTask {
         String nick;
 
         while (t) {
-            for (String player :
-                    players) {
+            int i = 0;
+            String player;
+            while (i < players.size()) {
+                player = players.get(i);
                 nick = SReferences.getNickNameRef(player);
 
                 if (nick == null)
@@ -60,6 +63,7 @@ public class RealTimeStatus extends GeneralTask {
                 }
                 if (Thread.interrupted())
                     return;
+                i++;
             }
         }
     }
