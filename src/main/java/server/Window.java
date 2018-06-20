@@ -41,6 +41,11 @@ public class Window implements Serializable {
         return name;
     }
 
+    /**
+     * check whether the player is at his very first turn
+     * @param player is the player who will be checked
+     * @return gives true if this is tha case, false otherwise
+     */
     private Boolean checkFirstTurn(Player player) {
         return player.getLastPlacedFromPool().equals(new Position(-1, -1));
     }
