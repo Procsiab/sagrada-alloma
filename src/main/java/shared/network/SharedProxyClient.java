@@ -195,9 +195,13 @@ public interface SharedProxyClient extends Remote {
 
     /**
      * <strong>Local</strong><br>
-     * TODO DESCRIPTION
-     * @param s1
-     * @param s2
+     * Whenever the connection status of a player changes, this method is called by the server on the other active players,
+     * in the same match; only one of the arguments will be passed at a time.<br>
+     * Note that this method will be only called only on the GUI's view, as not to interfere with the CLI in the middle
+     * of a turn: in fact, the connection status of all players can be observed through the {@link GameManagerT} instance
+     * sent by {@link SharedProxyClient#updateView(GameManagerT)}, but this happens only at the end of each turn
+     * @param s1 will contain the nick name of the player who reconnected (in this case {@code s2} will be {@code null})
+     * @param s2 will contain the nick name of the player who disconnected (in this case {@code s1} will be {@code null})
      * @throws RemoteException see {@link SharedProxyClient} for more about this throw
      * @see client.ProxyClient#onTimeStatus(String, String)
      */

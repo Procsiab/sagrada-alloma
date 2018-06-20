@@ -347,15 +347,13 @@ public final class ProxyClient implements SharedProxyClient {
 
     /**
      * <strong>Local</strong><br>
-     * @param s1
-     * @param s2
+     * @param s1 {@code String}
+     * @param s2 {@code String}
      * @see shared.network.SharedProxyClient#onTimeStatus(String, String)
      */
     @Override
     public void onTimeStatus(String s1, String s2) {
-        if (MainClient.isPrompt()) {
-            //TODO Call CLI method
-        } else {
+        if (!MainClient.isPrompt()) {
             //TODO Call GUI method
         }
     }
