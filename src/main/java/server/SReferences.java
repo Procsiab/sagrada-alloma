@@ -120,11 +120,11 @@ public class SReferences {
         return true;
     }
 
-    public static synchronized boolean contains(String s) {
+    public static synchronized Boolean contains(String s) {
         return uuidRef.contains(s);
     }
 
-    public static synchronized boolean checkNickNameRef(String nickNameRef, List<String> queue) {
+    public static synchronized Boolean checkNickNameRef(String nickNameRef, List<String> queue) {
         for (String uUID :
                 queue) {
             if (getNickNameRef(uUID).equals(nickNameRef))

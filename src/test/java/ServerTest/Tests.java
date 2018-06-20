@@ -57,7 +57,7 @@ class Tests {
     }
 
     @org.junit.Test
-    public void testCards() {
+    private void testWindowsAndCards() {
         ArrayList<String> players = new ArrayList<>();
         players.add("player1");
         players.add("player2");
@@ -462,7 +462,7 @@ class Tests {
     }
 
     @Test
-    public boolean testHashCode() {
+    private boolean testHashCode() {
         HashSet<Integer> hashSet = new HashSet<>();
         Dice dice = new Dice('g', 1);
         int i = 1;
@@ -534,7 +534,7 @@ class Tests {
         MainServer.simulation();
         obj = MainServer.obj;
         if (testHashCode()) {
-            testCards();
+            testWindowsAndCards();
         } else
             assert (false);
     }

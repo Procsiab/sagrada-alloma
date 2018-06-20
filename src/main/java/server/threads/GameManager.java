@@ -24,6 +24,7 @@ public class GameManager extends GeneralTask {
     private final Integer timeout2; //connection issue config
     private final Integer timeout3; //pausetta config
     private final Integer timeout4; //for window back
+    private final Integer showTime;
     private final ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
     private boolean action = false;
@@ -51,6 +52,7 @@ public class GameManager extends GeneralTask {
         this.timeout2 = Config.timeout2;
         this.timeout3 = Config.timeout3;
         this.timeout4 = Config.timeout4;
+        this.showTime = Config.timeout6;
 
         System.out.println("\n");
 
