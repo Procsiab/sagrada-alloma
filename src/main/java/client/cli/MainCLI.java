@@ -469,9 +469,8 @@ public class MainCLI {
             AnsiConsole.out().println(ansi().fgBrightRed().a("Game status update from server:").fgDefault());
             this.gm = gm;
             // Obtain local player from GameManager
-            if (me == null) {
-                me = gm.vPlayers.get(gm.pos);
-            }
+            me = gm.vPlayers.get(gm.pos);
+            // Remove current player from the match 's player list
             gm.vPlayers.remove(me);
             // Print other's windows
             for (PlayerT p : gm.vPlayers) {
