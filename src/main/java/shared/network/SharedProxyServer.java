@@ -218,10 +218,11 @@ public interface SharedProxyServer extends Remote {
 
     /**
      * <strong>Remote</strong><br>
-     * TODO DESCRIPTION
+     * Whenever the connection status of a player changes, this method should be called the other active players,
+     * in the same match; only one of the arguments will be passed at a time
      * @param uuid see {@link SharedProxyServer} for more about the first parameter
-     * @param s1
-     * @param s2
+     * @param s1 will contain the nick name of the player who reconnected (in this case {@code s2} will be {@code null})
+     * @param s2 will contain the nick name of the player who disconnected (in this case {@code s1} will be {@code null})
      * @throws RemoteException see {@link SharedProxyServer} for more about this throw
      * @see server.connection.ProxyServer#onTimeStatus(String, String, String)
      */

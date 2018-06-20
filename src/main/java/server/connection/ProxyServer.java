@@ -407,6 +407,8 @@ public final class ProxyServer implements SharedProxyServer {
     /**
      * <strong>Remote</strong><br>
      * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
+     * @param s1 {@code String}
+     * @param s2 {@code String}
      * @see shared.network.SharedProxyServer#onTimeStatus(String, String, String)
      */
     @Override
