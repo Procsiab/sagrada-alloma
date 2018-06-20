@@ -660,8 +660,11 @@ public class StartGameController implements Initializable {
     public void aPrioriWin() {
 
     }
-    public void OnTimeStatus(String s1, String s2){
+    public void onTimeStatus(String s1, String s2){
+        Platform.runLater(
+                () -> {
+                    CustomAlert connectionPlayers = new CustomAlert(Alert.AlertType.INFORMATION,"Connected and disconnected players", "Connected:" + s1 + "\n" + "Disconnected:" + s2);
 
-
+                });
     }
 }

@@ -355,6 +355,7 @@ public final class ProxyClient implements SharedProxyClient {
     public void onTimeStatus(String s1, String s2) {
         if (!MainClient.isPrompt()) {
             //TODO Call GUI method
+            MainClient.startGameController.onTimeStatus(s1, s2);
         }
     }
 }
