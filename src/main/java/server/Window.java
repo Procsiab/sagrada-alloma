@@ -11,6 +11,12 @@ public class Window implements Serializable {
     private final Integer tokens;
     private final String name;
 
+    /**
+     * build a new window, where
+     * @param matrices is the matrix of cells
+     * @param name is the name of the window
+     * @param tokens is the number of tokens the card give the player
+     */
     public Window(Cell[][] matrices, String name, Integer tokens) {
         this.name = name;
         this.matrices = matrices;
@@ -122,14 +128,13 @@ public class Window implements Serializable {
 
         Overlay overlay = player.getOverlay();
         Dice dice1 = overlay.getDice(p1);
+        overlay.setDicePosition(null, p1);
 
         if (checkDice(player, dice1, p2)) {
             overlay.setDicePosition(dice1, p2);
-            overlay.setDicePosition(null, p1);
             return true;
         }
         overlay.setDicePosition(dice1, p1);
-        overlay.setDicePosition(null, p2);
         return false;
     }
 
@@ -138,20 +143,18 @@ public class Window implements Serializable {
 
         Dice dice1 = overlay.getDice(p1);
         Dice dice2 = overlay.getDice(p3);
+        overlay.setDicePosition(null, p1);
 
         if (checkDice(player, dice1, p2)) {
             overlay.setDicePosition(dice1, p2);
-            overlay.setDicePosition(null, p1);
+            overlay.setDicePosition(null, p3);
             if (checkDice(player, dice2, p4)) {
                 overlay.setDicePosition(dice2, p4);
-                overlay.setDicePosition(null, p3);
                 return true;
             }
+            overlay.setDicePosition(dice2, p3);
         }
         overlay.setDicePosition(dice1, p1);
-        overlay.setDicePosition(null, p2);
-        overlay.setDicePosition(dice2, p3);
-        overlay.setDicePosition(null, p4);
         return false;
     }
 
@@ -164,12 +167,12 @@ public class Window implements Serializable {
 
         Overlay overlay = player.getOverlay();
         Dice dice = overlay.getDice(p1);
-
+        overlay.setDicePosition(null, p1);
         if (checkDiceNoShade(player, dice, p2)) {
             overlay.setDicePosition(dice, p2);
-            overlay.setDicePosition(null, p1);
             return true;
         }
+        overlay.setDicePosition(dice, p1);
         return false;
     }
 
@@ -184,12 +187,12 @@ public class Window implements Serializable {
 
         Overlay overlay = player.getOverlay();
         Dice dice = overlay.getDice(p1);
-
+        overlay.setDicePosition(null, p1);
         if (checkDiceNoColor(player, dice, p2)) {
             overlay.setDicePosition(dice, p2);
-            overlay.setDicePosition(null, p1);
             return true;
         }
+        overlay.setDicePosition(dice, p1);
         return false;
     }
 
