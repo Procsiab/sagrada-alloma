@@ -36,7 +36,6 @@ public class ChooseWindowController implements Initializable {
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        // Add transition and other stuff
         loadCards();
 
     }
@@ -47,7 +46,7 @@ public class ChooseWindowController implements Initializable {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
-        Parent root1 = loader.load();
+        Parent root = loader.load();
         System.out.println("Button pressed " + ((Button) event.getSource()).getId());
         tempSelectedCard = tempSelectedCard.parseInt(((Button) event.getSource()).getText());
         selectedCard = MainClient.choosenCards.get(tempSelectedCard-1);
@@ -55,7 +54,7 @@ public class ChooseWindowController implements Initializable {
         System.out.println(selectedCard);
         StartGameController controller = loader.getController();
 
-        Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
+        Scene startedGame = new Scene(root, 1280, 800, Color.WHITE);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(startedGame);
         window.setOnHidden(e -> controller.shutdown());
@@ -71,9 +70,9 @@ public class ChooseWindowController implements Initializable {
                 () -> {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
                     try{
-                    Parent root1 = loader.load();
+                    Parent root = loader.load();
                     StartGameController controller = loader.getController();
-                    Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
+                    Scene startedGame = new Scene(root, 1280, 800, Color.WHITE);
                     Stage window = (Stage) chooseWindowPane.getScene().getWindow();
                     window.setScene(startedGame);
                     window.setOnHidden(e -> controller.shutdown());
@@ -88,7 +87,6 @@ public class ChooseWindowController implements Initializable {
     }
 
     private void loadCards(){
-       // TODO: Implement call to method which return the 4 randomic cardsShared chosen by server.
         int i,j,k,g;
         i = MainClient.choosenCards.get(0);
         j = MainClient.choosenCards.get(1);

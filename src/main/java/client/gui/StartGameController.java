@@ -2,7 +2,6 @@ package client.gui;
 
 import client.MainClient;
 import client.ProxyClient;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
@@ -68,7 +67,7 @@ public class StartGameController implements Initializable {
     private TextField changeValueField;
 
     // Utility Variables
-    private int posizionePoolDice, indexofToolCard;
+    private int positionPoolDice, indexofToolCard;
     private Integer colIndex;
     private Integer rowIndex;
     private int incrementValue;
@@ -78,9 +77,9 @@ public class StartGameController implements Initializable {
     private ArrayList<ComboBox> listaComboBox = new ArrayList<>();
     private ArrayList<ImageView> listPublicOC = new ArrayList<>();
 
-    private PositionR posizioneDadoRoundTrack = new PositionR();
-    private Position posizioni[];
-    private int counterPosizione = 0;
+    private PositionR positionDiceRoundTrack = new PositionR();
+    private Position positions[];
+    private int counterPosition = 0;
     private int singleton=0;
 
 
@@ -92,15 +91,14 @@ public class StartGameController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //loadBackground();
         // backGroundTransition();
-        posizioni = new Position[4];
+        positions = new Position[4];
         initMapCards();
-        loadDadi();
+        initDice();
         initToolCards();
-        loadComboBox();
+        initComboBox();
         initPublicOC();
         shut();
-        loadPool();
-        System.out.print("INIZIALIZZAZIONE COMPLETATA");
+        initPool();
 
     }
 
@@ -110,16 +108,11 @@ public class StartGameController implements Initializable {
                 () -> {
                     System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
 
-                    // Useful variables
                     clearPosizioni();
-                    counterPosizione = 0;
-                    String numeroTokens;
-                    int numDadi;
+                    counterPosition = 0;
                     ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
                     int counterPosition = gameManager.pos;
 
-                    System.out.println("Valore counterPosition:" + counterPosition);
-                    System.out.println("Valore gameManager:" + gameManager.pos);
                     if(singleton==0){
                         //Loading mapCards into view
                         addMapCards(gameManager);
@@ -157,7 +150,6 @@ public class StartGameController implements Initializable {
     }
 
     private void loadDiceRoundTrack(GameManagerT gameManager) {
-        //Arraylist made of arraylist containing the data I need
         ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
         System.out.println(roundTrackData);
         final Map<String, WeakReference<Image>> cache = new HashMap<>();
@@ -168,19 +160,13 @@ public class StartGameController implements Initializable {
             ObservableList<String> options = FXCollections.observableArrayList();
 
             List<Dice> testing = roundTrackData.get(h);
-            System.out.println(" Testing:" + testing);
-            System.out.println(" Testing size:" + testing.size());
 
             for (Dice die : testing) {
-                System.out.println(" Inside cicle ");
                 String color = Character.toString(die.getColor());
                 String value = die.getValue().toString();
                 String diceRound ="Dices/" + value + color + ".png";
 
                 options.add(diceRound);
-                //listaComboBox is an array list containing 10 comboboxes
-                System.out.println("Dice color " + color);
-                System.out.println("Dice value" + value);
             }
 
             combo.setItems(options);
@@ -193,13 +179,8 @@ public class StartGameController implements Initializable {
 
 
 
-        System.out.println("Valore counterPosition:" + counterPosition);
-        System.out.println("Valore gameManager:" + gameManager.pos);
-
-
         for (int i = 0; i < playersLocal.size(); i++) {
-            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
-            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
+
 
             if (counterPosition > playersLocal.size() - 1)
                 counterPosition = 0;
@@ -210,24 +191,18 @@ public class StartGameController implements Initializable {
             for (int k = 0; k < 4; k++) {
                 for (int y = 0; y < 5; y++) {
 
-                    System.out.println("NEL CICLO, PRIMA DELL'IF");
 
                     if (myOverlay[k][y] != null) {
-                        System.out.println("APPENA ENTRATO NELL'IF ");
                         char mycolor = myOverlay[k][y].getColor();
-                        System.out.println("Stampo Colore" + mycolor);
                         int mynumber = myOverlay[k][y].getValue();
-                        System.out.println("Stampo Numero" + mynumber);
 
                         myGrid.get(z).setStyle(("-fx-background-image: url('Dices/" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
                         myGrid.get(z).setOpacity(100);
-                        System.out.println("ASSEGNAZIONE DADO FATTA ");
 
                     } else {
                         myGrid.get(z).setStyle(("-fx-background-color: transparent;-fx-background-size: 100% 100%;"));
 
                     }
-                    System.out.println("FUORI IF ");
 
 
                     z++;
@@ -251,10 +226,8 @@ public class StartGameController implements Initializable {
     private void loadPublicOC(GameManagerT gameManager) {
         for (int i = 0; i < gameManager.publicOCs.size(); i++) {
             String namePublicOC = gameManager.publicOCs.get(i);
-            System.out.println("NOME PublicOC:" + namePublicOC);
 
             Image image = new Image("PublicOC/" + namePublicOC + ".png");
-            System.out.println("CARICAMENTO PublicOC");
 
             listPublicOC.get(i).setImage(image);
 
@@ -266,10 +239,8 @@ public class StartGameController implements Initializable {
     private void loadToolCards(GameManagerT gameManager) {
         for (int i = 0; i < gameManager.toolCards.size(); i++) {
             String nomeToolCard = gameManager.toolCards.get(i).name;
-            System.out.println("NOME TOOCARD:" + nomeToolCard);
 
             Image image = new Image("ToolC/" + nomeToolCard + ".png");
-            System.out.println("CARICAMENTO TOOLCARD");
 
             listToolCard.get(i).setImage(image);
         }
@@ -282,13 +253,11 @@ public class StartGameController implements Initializable {
         int counterPosition = gameManager.pos;
         for (int i = 0; i < playersLocal.size(); i++) {
             String nomeCarta;
-            System.out.println("Valore counterPosition dentro al ciclo:" + counterPosition);
-            System.out.println("Valore gameManager dentro al ciclo:" + gameManager.pos);
+
 
             if (counterPosition > playersLocal.size() - 1)
                 counterPosition = 0;
-            System.out.println("Valore counterPosition dentro al ciclo dopo reset :" + counterPosition);
-            System.out.println(playersLocal.get(counterPosition).window.getName());
+
             nomeCarta = playersLocal.get(counterPosition).window.getName();
 
             listMapCard.get(i).setStyle("-fx-background-image: url('Windows/" + nomeCarta + ".png');-fx-background-size: 100% 100%;");
@@ -309,7 +278,6 @@ public class StartGameController implements Initializable {
 
     private void loadPoolDice(GameManagerT gameManager) {
         int numDadi = gameManager.pool.size();
-        System.out.println("Numero di dadi :" + numDadi);
         for (int i = 0; i < numDadi; i++) {
 
             System.out.println("Valore di i nel ciclo:" + i);
@@ -317,8 +285,7 @@ public class StartGameController implements Initializable {
             if (gameManager.pool.get(i) != null) {
                 int numero = gameManager.pool.get(i).getValue();
                 char color = gameManager.pool.get(i).getColor();
-                System.out.println("Numero :" + numero + "\n");
-                System.out.println("Colore :" + color + "\n");
+
                 listDice.get(i).setStyle("-fx-background-image: url('Dices/" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
             } else {
                 listDice.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
@@ -335,20 +302,18 @@ public class StartGameController implements Initializable {
     }
 
 
-    private void aggiungiPosizione(int row, int column) {
-        if (counterPosizione < 4) {
-            posizioni[counterPosizione] = new Position(row, column);
-            counterPosizione++;
+    private void addPosition(int row, int column) {
+        if (counterPosition < 4) {
+            positions[counterPosition] = new Position(row, column);
+            counterPosition++;
         } else {
-            System.out.println("Superato limite posizioni!");
+            System.out.println("Superato limite!");
 
         }
 
     }
 
     public void shutdown() {
-        // cleanup code here...
-        System.out.println("CHIUSURA FINESTRA");
         proxyClient.exitGame2();
 
 
@@ -369,7 +334,7 @@ public class StartGameController implements Initializable {
 
     }
 
-    private void loadDadi() {
+    private void initDice() {
         listDice.add(dice1);
         listDice.add(dice2);
         listDice.add(dice3);
@@ -390,7 +355,7 @@ public class StartGameController implements Initializable {
 
     }
 
-    private void loadComboBox() {
+    private void initComboBox() {
         listaComboBox.add(comboBox1);
         listaComboBox.add(comboBox2);
         listaComboBox.add(comboBox3);
@@ -410,36 +375,15 @@ public class StartGameController implements Initializable {
         listPublicOC.add(publicOC3);
     }
 
-    private void loadPool() {
+    private void initPool() {
         for (int i = 0; i < listDice.size(); i++) {
             listDice.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
         }
     }
 
-
-  /*  private void loadBackground() {
-        BackgroundImage myBI = new BackgroundImage(new Image("https://www.freevector.com/uploads/vector/preview/27785/Sagrada_Familia_Building.jpg", 1280, 800, false, true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        paneBackground.setBackground(new Background(myBI));
-
-    } */
-
-    private void backGroundTransition() {
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), paneBackground);
-        ft.setFromValue(1.0);
-        ft.setToValue(0.3);
-        ft.setCycleCount(2);
-        ft.setAutoReverse(true);
-
-        ft.play();
-
-    }
-
-
     private void clearPosizioni() {
-        for (int i = 0; i < posizioni.length; i++) {
-            posizioni[i] = null;
+        for (int i = 0; i < positions.length; i++) {
+            positions[i] = null;
         }
     }
 
@@ -447,20 +391,18 @@ public class StartGameController implements Initializable {
     //FXML METHODS
     @FXML
     private void fineTurno(ActionEvent event) throws IOException {
-        System.out.print("\"Turno Finito\"");
         proxyClient.endTurn();
 
     }
 
     @FXML
     private void onClickMap(ActionEvent e) {
-        System.out.println("MouseEntered");
         Node source = (Node) e.getSource();
         System.out.println(source);
 
         colIndex = paneCarta0.getColumnIndex(source);
         rowIndex = paneCarta0.getRowIndex(source);
-        aggiungiPosizione(rowIndex, colIndex);
+        addPosition(rowIndex, colIndex);
         System.out.println(colIndex);
         System.out.println(rowIndex);
     }
@@ -471,26 +413,24 @@ public class StartGameController implements Initializable {
         String nomeDado = selectedDice.getId();
         System.out.println(nomeDado);
 
-        posizionePoolDice = listDice.indexOf(selectedDice);
-        System.out.println(posizionePoolDice);
+        positionPoolDice = listDice.indexOf(selectedDice);
+        System.out.println(positionPoolDice);
     }
 
     @FXML
     private void placeDice(ActionEvent event) {
-        System.out.print("\"Entrata Dado \"");
 
         Position diceGridPosition = new Position();
         diceGridPosition.setRow(rowIndex);
         diceGridPosition.setColumn(colIndex);
 
-        Boolean placed = proxyClient.placeDice(posizionePoolDice, diceGridPosition);
+        Boolean placed = proxyClient.placeDice(positionPoolDice, diceGridPosition);
         if(placed==false){
             CustomAlert failedPlacement = new CustomAlert(Alert.AlertType.ERROR, "Error placing dice!" , "Dice placed in an unhautorized position!");
 
         }
         else proxyClient.updateViewFromC();
         clearPosizioni();
-        System.out.print("\"Dado Posizionato\"");
 
     }
 
@@ -528,49 +468,20 @@ public class StartGameController implements Initializable {
 
     @FXML
     private void selectedRoundDice(ActionEvent event) {
-        System.out.print("\"Dado Selezionato dal round dice!\"");
         int comboboxselected = listaComboBox.indexOf(event.getSource());
-        System.out.print("Combobox selezionato:" + comboboxselected);
         int indextest = listaComboBox.get(comboboxselected).getSelectionModel().getSelectedIndex();
-        System.out.print("Item all'interno del combobox:" + indextest);
-        posizioneDadoRoundTrack.setColumn(comboboxselected);
-        posizioneDadoRoundTrack.setHeight(indextest);
-
-        System.out.print("Colonna in positionR:" + posizioneDadoRoundTrack.getColumn());
-        System.out.print("Altezza colonna in positionR:" + posizioneDadoRoundTrack.getHeight());
-
+        positionDiceRoundTrack.setColumn(comboboxselected);
+        positionDiceRoundTrack.setHeight(indextest);
     }
 
     @FXML
     private void selectToolCard(MouseEvent event) {
         indexofToolCard = listToolCard.indexOf(event.getSource());
-        System.out.print("Posizione toolCard" + indexofToolCard);
     }
 
     @FXML
     private void useToolCard(ActionEvent event) {
-        System.out.print("\"Using toolCard!\"");
-        //i1 è la posizione della toolcard selezionata
-        //p1,p2,p3,p4 sono le posizioni nella griglia mappa. Le dispari sono la posizione finale, le pari la finale
-        //pr è la posizione nel roundtrack, già inserita
-        //i2 è la posizione del dado nel pool
-        //i3 è il cambio valore o incremento
-        System.out.print("Valore di indexToolCard:" + indexofToolCard + "\n");
-        for (int i = 0; i < posizioni.length; i++) {
-            if (posizioni[i] != null) {
-                System.out.print("Valore di posizioni[" + i + "]:" + posizioni[i].getRow() + posizioni[i].getColumn() + "\n");
-            } else
-                System.out.print("Valore di posizioni[" + i + "]:NULL\n");
-
-
-        }
-
-        System.out.print("Valore di posizioneDadoRoundTrack:" + posizioneDadoRoundTrack + "\n");
-        System.out.print("Valore di posizionePoolDice:" + posizionePoolDice + "\n");
-        System.out.print("Valore di incrementvalue:" + incrementValue + "\n");
-
-
-        Boolean usedToolC = proxyClient.useToolC(indexofToolCard, posizioni[0], posizioni[1], posizioni[2], posizioni[3], posizioneDadoRoundTrack, posizionePoolDice, incrementValue);
+        Boolean usedToolC = proxyClient.useToolC(indexofToolCard, positions[0], positions[1], positions[2], positions[3], positionDiceRoundTrack, positionPoolDice, incrementValue);
         if(usedToolC==false){
             CustomAlert failedUse = new CustomAlert(Alert.AlertType.ERROR, "Error using ToolCard!" , "Toolcard can't be used! Wrong parameters or violating rules!");
 
@@ -583,7 +494,6 @@ public class StartGameController implements Initializable {
     private void sendDataValue(ActionEvent event) {
 
         incrementValue = Integer.parseInt(changeValueField.getText());
-        System.out.print("Valore di incremento:" + incrementValue);
 
     }
 
@@ -604,32 +514,19 @@ public class StartGameController implements Initializable {
 
 
     public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
-        System.out.println("PRINTSCORE CHIAMATO!");
 
         Platform.runLater(
                 () -> {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Winner.fxml"));
                     WinnerController winnerController = new WinnerController(nicks,scores,winner);
                     loader.setController(winnerController);
-                    if (loader!=null)
-                        System.out.println("LOADER NON NULL!!");
+
 
                     try{
-                        System.out.println("ENTRO NEL TRY!");
 
-                        Parent root = (Parent) loader.load();
-                        if(root!=null)
-                            System.out.println("ROOT NON NULL!!");
+                        Parent root = loader.load();
                         Scene startedGame = new Scene(root, 1280, 800, Color.WHITE);
-
-                        if(startedGame!=null)
-                            System.out.println("SCENE NON  NULL!");
-
                         Stage window = (Stage) paneCarta0.getScene().getWindow();
-
-                        if (window!=null)
-                            System.out.println("WINDOW NOT NULL!!");
-
                         window.setScene(startedGame);
                         window.show();
                     }

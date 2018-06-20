@@ -15,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import shared.Logger;
@@ -42,8 +41,8 @@ public class LogInScreenController implements Initializable {
     // Initialization
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        animazioneSagrada();
-        animazioneStartGame();
+        animationSagrada();
+        animationStartGame();
         startButton.setStyle("-fx-background-color: transparent;");
 
     }
@@ -86,7 +85,7 @@ public class LogInScreenController implements Initializable {
 
 
     // Support methods for animation
-    private void animazioneStartGame() {
+    private void animationStartGame() {
         FadeTransition ft = new FadeTransition(Duration.millis(3000), startButton);
         ft.setFromValue(1.0);
         ft.setToValue(0.3);
@@ -97,7 +96,7 @@ public class LogInScreenController implements Initializable {
 
     }
 
-    private void animazioneSagrada(){
+    private void animationSagrada(){
         ScaleTransition scaleTransition = new ScaleTransition();
 
         //Setting the duration for the transition

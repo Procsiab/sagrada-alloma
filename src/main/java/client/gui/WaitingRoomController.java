@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 public class WaitingRoomController implements Initializable {
 
     @FXML
-    private AnchorPane paneTest;
+    private AnchorPane paneBackground;
     @FXML
     private ImageView outerCircle;
     @FXML
@@ -46,30 +46,29 @@ public class WaitingRoomController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadArray();
         rotateTransition();
-        int attesa=0;
+        int wait=0;
         for(int i=0; i<bars.size();i++){
-            barTransitions(attesa, bars.get(i));
-            attesa=attesa+100;
+            barTransitions(wait, bars.get(i));
+            wait=wait+100;
 
 
         }
 
 
     }
-    public void chooseWindow(ArrayList<Integer> listaCarte) {
-        System.out.println("CHIAMATA IN WAITING ROOM");
+    public void chooseWindow(ArrayList<Integer> listCard) {
 
         Platform.runLater(
                 () -> {
                     
-                    MainClient.choosenCards = listaCarte;
+                    MainClient.choosenCards = listCard;
 
                     // Loading of ChooseWindow view, where you can choose your own map
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChooseWindow.fxml"));
                     try {
                         Parent root1 = loader.load();
                         Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
-                        Stage window = (Stage) paneTest.getScene().getWindow();
+                        Stage window = (Stage) paneBackground.getScene().getWindow();
                         window.setScene(startedGame);
                         window.show();
                     } catch (IOException Exception) {
@@ -110,14 +109,13 @@ public class WaitingRoomController implements Initializable {
 
     @FXML
     private void disconnect(ActionEvent event){
-        Logger.log("Mi sto disconnettendo");
         proxyClient.exitGame1();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/LogInScreen.fxml"));
         try {
             Parent root1 = loader.load();
             Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
-            Stage window = (Stage) paneTest.getScene().getWindow();
+            Stage window = (Stage) paneBackground.getScene().getWindow();
             window.setScene(startedGame);
             window.show();
         } catch (IOException Exception) {
