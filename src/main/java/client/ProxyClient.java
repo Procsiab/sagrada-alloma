@@ -10,7 +10,6 @@ import shared.network.SharedProxyClient;
 import shared.network.Connection;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
-import sun.applet.Main;
 
 import java.rmi.Remote;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 public final class ProxyClient implements SharedProxyClient {
     private static final String SERVER_INTERFACE = "ProxyServer";
 
-    private static String uuid = MainClient.uuid;
+    private static String uuid = MainClient.getUuid();
     private static Connection connection = null;
     private static Boolean isSocket = false;
     private static ProxyClient instance = new ProxyClient();
@@ -116,7 +115,7 @@ public final class ProxyClient implements SharedProxyClient {
     @Override
     public void updateView(GameManagerT gameManager) {
         if (MainClient.isPrompt()) {
-            MainClient.cliController.updateView(gameManager);
+            MainClient.getCliController().updateView(gameManager);
         } else {
             if (MainClient.getStartGameController() != null)
                 MainClient.getStartGameController().updateView(gameManager);
@@ -133,7 +132,7 @@ public final class ProxyClient implements SharedProxyClient {
     @Override
     public Boolean chooseWindow(ArrayList<Integer> windows, ArrayList<Cell[][]> matrices) {
         if (MainClient.isPrompt()) {
-            MainClient.cliController.chooseWindow(windows, matrices);
+            MainClient.getCliController().chooseWindow(windows, matrices);
         } else {
             if (MainClient.getWaitingRoomController() != null)
                 MainClient.getWaitingRoomController().chooseWindow(windows);
@@ -148,7 +147,7 @@ public final class ProxyClient implements SharedProxyClient {
      */
     public Boolean startGameViewForced() {
         if (MainClient.isPrompt()) {
-            MainClient.cliController.startGameViewForced();
+            MainClient.getCliController().startGameViewForced();
         } else {
             if (MainClient.getChooseWindowControllerController() != null)
                 MainClient.getChooseWindowControllerController().startGameViewForced();
@@ -173,7 +172,7 @@ public final class ProxyClient implements SharedProxyClient {
     @Override
     public void aPrioriWin() {
         if (MainClient.isPrompt()) {
-            MainClient.cliController.aPrioriWin();
+            MainClient.getCliController().aPrioriWin();
         } else {
             MainClient.getStartGameController().aPrioriWin();
         }
@@ -186,7 +185,7 @@ public final class ProxyClient implements SharedProxyClient {
     @Override
     public void enable() {
         if (MainClient.isPrompt()) {
-            MainClient.cliController.enable();
+            MainClient.getCliController().enable();
         } else {
             if (MainClient.getStartGameController() != null)
                 MainClient.getStartGameController().enable();
@@ -200,7 +199,7 @@ public final class ProxyClient implements SharedProxyClient {
     @Override
     public void shut() {
         if (MainClient.isPrompt()) {
-            MainClient.cliController.shut();
+            MainClient.getCliController().shut();
         } else {
             if (MainClient.getStartGameController() != null)
                 MainClient.getStartGameController().shut();
@@ -217,7 +216,7 @@ public final class ProxyClient implements SharedProxyClient {
     @Override
     public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
         if (MainClient.isPrompt()) {
-            MainClient.cliController.printScore(nicks, scores, winner);
+            MainClient.getCliController().printScore(nicks, scores, winner);
         } else {
             MainClient.getStartGameController().printScore(nicks, scores, winner);
         }
@@ -355,7 +354,6 @@ public final class ProxyClient implements SharedProxyClient {
     @Override
     public void onTimeStatus(String s1, String s2) {
         if (!MainClient.isPrompt()) {
-            //TODO Call GUI method
             MainClient.getStartGameController().onTimeStatus(s1, s2);
         }
     }

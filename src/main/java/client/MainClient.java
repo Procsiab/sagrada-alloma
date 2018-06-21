@@ -27,17 +27,59 @@ import java.io.Console;
 import static org.fusesource.jansi.Ansi.*;
 
 public class MainClient extends Application {
-    public static String uuid = null;
+    private static String uuid = null;
     private static boolean isPrompt = false;
 
     private static ChooseWindowController chooseWindowController;
     private static StartGameController startGameController;
     private static WaitingRoomController waitingRoomController;
-    public static MainCLI cliController;
+    private static MainCLI cliController;
     private static ArrayList<Integer> choosenCards;
+
+    /* Public getters and setters */
 
     public static boolean isPrompt() {
         return isPrompt;
+    }
+
+    public static void setWaitingRoomController(WaitingRoomController waitingRoomController){
+        MainClient.waitingRoomController = waitingRoomController;
+    }
+
+    public static WaitingRoomController getWaitingRoomController(){
+        return  waitingRoomController;
+    }
+
+    public static void setChooseWindowController(ChooseWindowController chooseWindowController){
+        MainClient.chooseWindowController = chooseWindowController;
+    }
+
+    public static ChooseWindowController getChooseWindowControllerController(){
+        return chooseWindowController;
+    }
+
+    public static StartGameController getStartGameController(){
+        return startGameController;
+    }
+
+    public static void setStartGameController(StartGameController startGameController){
+        MainClient.startGameController = startGameController;
+    }
+
+    public static MainCLI getCliController() {
+        return MainClient.cliController;
+    }
+
+    public static String getUuid() {
+        return MainClient.uuid;
+    }
+
+    public static void setChoosenCards(ArrayList<Integer> choosenCards){
+        MainClient.choosenCards = choosenCards;
+    }
+
+    public static ArrayList<Integer> getChoosenCards(){
+        return choosenCards;
     }
 
     @Override
@@ -59,7 +101,7 @@ public class MainClient extends Application {
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
         //TODO Use current seconds as UUID, allowing multiple connections from the same machine
         uuid = String.valueOf(LocalTime.now().getSecond());
-        //uuid = getUuid();
+        //uuid = readUuid();
         Logger.log("UUID: " + uuid);
 
         AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the connection type ('Rmi' | 'Socket')").fgDefault());
@@ -98,7 +140,7 @@ public class MainClient extends Application {
         System.exit(0);
     }
 
-    private static String getUuid() {
+    private static String readUuid() {
         Process process;
         String os = System.getProperty("os.name").toLowerCase();
         try {
@@ -149,42 +191,5 @@ public class MainClient extends Application {
         uuid = uuid.substring(0,uuid.length()-1); // Remove newline
         return uuid;
     }
-
-
-
-
-    public static void setWaitingRoomController(WaitingRoomController waitingRoomController){
-        MainClient.waitingRoomController = waitingRoomController;
-    }
-
-    public static WaitingRoomController getWaitingRoomController(){
-        return  waitingRoomController;
-    }
-
-    public static void setChooseWindowController(ChooseWindowController chooseWindowController){
-        MainClient.chooseWindowController = chooseWindowController;
-    }
-
-    public static ChooseWindowController getChooseWindowControllerController(){
-        return chooseWindowController;
-
-    }
-
-    public static StartGameController getStartGameController(){
-        return startGameController;
-    }
-    public static void setStartGameController(StartGameController startGameController){
-        MainClient.startGameController = startGameController;
-    }
-
-    public static void setChoosenCards(ArrayList<Integer> choosenCards){
-        MainClient.choosenCards = choosenCards;
-    }
-    public static ArrayList<Integer> getChoosenCards(){
-        return choosenCards;
-    }
-
-
-
 }
 
