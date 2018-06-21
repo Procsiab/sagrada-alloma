@@ -31,7 +31,7 @@ public class ChooseWindowController implements Initializable {
     @FXML  private AnchorPane chooseWindowPane;
 
     public ChooseWindowController() {
-        MainClient.chooseWindowController = this;
+        MainClient.setChooseWindowController(this);
     }
 
 
@@ -49,7 +49,7 @@ public class ChooseWindowController implements Initializable {
         Parent root = loader.load();
         System.out.println("Button pressed " + ((Button) event.getSource()).getId());
         tempSelectedCard = tempSelectedCard.parseInt(((Button) event.getSource()).getText());
-        selectedCard = MainClient.choosenCards.get(tempSelectedCard-1);
+        selectedCard = MainClient.getChoosenCards().get(tempSelectedCard-1);
         middlewareClient.chooseWindowBack(selectedCard);
         System.out.println(selectedCard);
         StartGameController controller = loader.getController();
@@ -88,10 +88,10 @@ public class ChooseWindowController implements Initializable {
 
     private void loadCards(){
         int i,j,k,g;
-        i = MainClient.choosenCards.get(0);
-        j = MainClient.choosenCards.get(1);
-        k = MainClient.choosenCards.get(2);
-        g = MainClient.choosenCards.get(3);
+        i = MainClient.getChoosenCards().get(0);
+        j = MainClient.getChoosenCards().get(1);
+        k = MainClient.getChoosenCards().get(2);
+        g = MainClient.getChoosenCards().get(3);
 
 
 

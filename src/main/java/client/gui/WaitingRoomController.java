@@ -18,7 +18,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import shared.Logger;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class WaitingRoomController implements Initializable {
 
 
     public WaitingRoomController() {
-        MainClient.waitingRoomController = this;
+        MainClient.setWaitingRoomController(this);
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,7 +60,7 @@ public class WaitingRoomController implements Initializable {
         Platform.runLater(
                 () -> {
                     
-                    MainClient.choosenCards = listCard;
+                    MainClient.setChoosenCards(listCard);
 
                     // Loading of ChooseWindow view, where you can choose your own map
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChooseWindow.fxml"));

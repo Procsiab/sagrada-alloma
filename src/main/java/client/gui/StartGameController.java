@@ -84,7 +84,7 @@ public class StartGameController implements Initializable {
 
 
     public StartGameController() {
-        MainClient.startGameController = this;
+        MainClient.setStartGameController(this);
     }
 
 
@@ -151,7 +151,6 @@ public class StartGameController implements Initializable {
 
     private void loadDiceRoundTrack(GameManagerT gameManager) {
         ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
-        System.out.println(roundTrackData);
         final Map<String, WeakReference<Image>> cache = new HashMap<>();
 
         for (int h = 0; h < roundTrackData.size(); h++) {
@@ -206,7 +205,6 @@ public class StartGameController implements Initializable {
 
 
                     z++;
-                    System.out.println(z);
 
                 }
 
@@ -280,7 +278,6 @@ public class StartGameController implements Initializable {
         int numDadi = gameManager.pool.size();
         for (int i = 0; i < numDadi; i++) {
 
-            System.out.println("Valore di i nel ciclo:" + i);
             // INSERIRE EFFETIVO VALORE DEL DADO
             if (gameManager.pool.get(i) != null) {
                 int numero = gameManager.pool.get(i).getValue();
@@ -398,23 +395,16 @@ public class StartGameController implements Initializable {
     @FXML
     private void onClickMap(ActionEvent e) {
         Node source = (Node) e.getSource();
-        System.out.println(source);
-
         colIndex = paneCarta0.getColumnIndex(source);
         rowIndex = paneCarta0.getRowIndex(source);
         addPosition(rowIndex, colIndex);
-        System.out.println(colIndex);
-        System.out.println(rowIndex);
     }
 
     @FXML
     private void setSelectedDice(ActionEvent event) {
         Node selectedDice = (Node) event.getSource();
         String nomeDado = selectedDice.getId();
-        System.out.println(nomeDado);
-
         positionPoolDice = listDice.indexOf(selectedDice);
-        System.out.println(positionPoolDice);
     }
 
     @FXML

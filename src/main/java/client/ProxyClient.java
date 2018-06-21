@@ -10,6 +10,7 @@ import shared.network.SharedProxyClient;
 import shared.network.Connection;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
+import sun.applet.Main;
 
 import java.rmi.Remote;
 import java.util.ArrayList;
@@ -117,8 +118,8 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.updateView(gameManager);
         } else {
-            if (MainClient.startGameController != null)
-                MainClient.startGameController.updateView(gameManager);
+            if (MainClient.getStartGameController() != null)
+                MainClient.getStartGameController().updateView(gameManager);
         }
     }
 
@@ -134,8 +135,8 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.chooseWindow(windows, matrices);
         } else {
-            if (MainClient.waitingRoomController != null)
-                MainClient.waitingRoomController.chooseWindow(windows);
+            if (MainClient.getWaitingRoomController() != null)
+                MainClient.getWaitingRoomController().chooseWindow(windows);
         }
         return true;
     }
@@ -149,8 +150,8 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.startGameViewForced();
         } else {
-            if (MainClient.chooseWindowController != null)
-                MainClient.chooseWindowController.startGameViewForced();
+            if (MainClient.getChooseWindowControllerController() != null)
+                MainClient.getChooseWindowControllerController().startGameViewForced();
         }
         return true;
     }
@@ -174,7 +175,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.aPrioriWin();
         } else {
-            //TODO Call GUI method, ensure it is != null with the same pattern as updateviw for example
+            MainClient.getStartGameController().aPrioriWin();
         }
     }
 
@@ -187,8 +188,8 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.enable();
         } else {
-            if (MainClient.startGameController != null)
-                MainClient.startGameController.enable();
+            if (MainClient.getStartGameController() != null)
+                MainClient.getStartGameController().enable();
         }
     }
 
@@ -201,8 +202,8 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.shut();
         } else {
-            if (MainClient.startGameController != null)
-                MainClient.startGameController.shut();
+            if (MainClient.getStartGameController() != null)
+                MainClient.getStartGameController().shut();
         }
     }
 
@@ -218,7 +219,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.cliController.printScore(nicks, scores, winner);
         } else {
-            MainClient.startGameController.printScore(nicks, scores, winner);
+            MainClient.getStartGameController().printScore(nicks, scores, winner);
         }
     }
 
@@ -355,7 +356,7 @@ public final class ProxyClient implements SharedProxyClient {
     public void onTimeStatus(String s1, String s2) {
         if (!MainClient.isPrompt()) {
             //TODO Call GUI method
-            MainClient.startGameController.onTimeStatus(s1, s2);
+            MainClient.getStartGameController().onTimeStatus(s1, s2);
         }
     }
 }

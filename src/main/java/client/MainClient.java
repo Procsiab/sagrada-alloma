@@ -15,6 +15,7 @@ import shared.Logger;
 import shared.network.MethodConnectionException;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
+import sun.applet.Main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,12 +30,11 @@ public class MainClient extends Application {
     public static String uuid = null;
     private static boolean isPrompt = false;
 
-    public static LogInScreenController logInScreenController;
-    public static ChooseWindowController chooseWindowController;
-    public static StartGameController startGameController;
-    public static WaitingRoomController waitingRoomController;
+    private static ChooseWindowController chooseWindowController;
+    private static StartGameController startGameController;
+    private static WaitingRoomController waitingRoomController;
     public static MainCLI cliController;
-    public static ArrayList<Integer> choosenCards;
+    private static ArrayList<Integer> choosenCards;
 
     public static boolean isPrompt() {
         return isPrompt;
@@ -149,4 +149,42 @@ public class MainClient extends Application {
         uuid = uuid.substring(0,uuid.length()-1); // Remove newline
         return uuid;
     }
+
+
+
+
+    public static void setWaitingRoomController(WaitingRoomController waitingRoomController){
+        MainClient.waitingRoomController = waitingRoomController;
+    }
+
+    public static WaitingRoomController getWaitingRoomController(){
+        return  waitingRoomController;
+    }
+
+    public static void setChooseWindowController(ChooseWindowController chooseWindowController){
+        MainClient.chooseWindowController = chooseWindowController;
+    }
+
+    public static ChooseWindowController getChooseWindowControllerController(){
+        return chooseWindowController;
+
+    }
+
+    public static StartGameController getStartGameController(){
+        return startGameController;
+    }
+    public static void setStartGameController(StartGameController startGameController){
+        MainClient.startGameController = startGameController;
+    }
+
+    public static void setChoosenCards(ArrayList<Integer> choosenCards){
+        MainClient.choosenCards = choosenCards;
+    }
+    public static ArrayList<Integer> getChoosenCards(){
+        return choosenCards;
+    }
+
+
+
 }
+

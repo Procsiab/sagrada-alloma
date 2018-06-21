@@ -35,7 +35,7 @@ public class LogInScreenController implements Initializable {
 
 
     public LogInScreenController(){
-        MainClient.logInScreenController = this;
+
     }
 
     // Initialization
