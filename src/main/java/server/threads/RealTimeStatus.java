@@ -1,5 +1,6 @@
 package server.threads;
 
+import com.sun.org.apache.xalan.internal.xsltc.dom.SimpleResultTreeImpl;
 import server.Config;
 import server.Player;
 import server.SReferences;
@@ -36,10 +37,8 @@ public class RealTimeStatus extends GeneralTask {
         String nick;
 
         while (t) {
-            int i = 0;
-            String player;
-            while (i < players.size()) {
-                player = players.get(i);
+            for (String player :
+                    players) {
                 nick = SReferences.getNickNameRef(player);
 
                 if (nick == null)
@@ -63,7 +62,6 @@ public class RealTimeStatus extends GeneralTask {
                 }
                 if (Thread.interrupted())
                     return;
-                i++;
             }
         }
     }

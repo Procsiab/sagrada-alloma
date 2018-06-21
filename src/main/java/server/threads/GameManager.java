@@ -159,7 +159,7 @@ public class GameManager extends GeneralTask {
         pool.addDice(new Dice('b', 5));
 
         Logger.log(this + " Initialization sequence completed\n");
-        pause(5000);
+        pause(showTime);
 
     }
 
@@ -221,14 +221,6 @@ public class GameManager extends GeneralTask {
 
     public Vector<String> getJump() {
         return jump;
-    }
-
-    public String getTavolo() {
-        return tavolo;
-    }
-
-    public Integer getTimeout1() {
-        return timeout1;
     }
 
     private synchronized void setExpected(String access) {
@@ -678,29 +670,14 @@ public class GameManager extends GeneralTask {
     }
 
     private Boolean onlyOne() {
-        int p = 1;
-        while (players2.size() == 1) {
-            if (p == 1)
-                Logger.log(this + " we're having a victory decided by arbitration");
+        if (players2.size() == 1) {
+            Logger.log(this + " we're having a victory decided by arbitration");
 
             tavolo = players2.get(0);
-            if (proxyServer.ping(tavolo)) {
-                proxyServer.tavoloWin(tavolo);
-                closeGame();
-                Logger.log(this + " the winner is " + tavolo + "! Bye");
-                return true;
-            } else {
-                Logger.log(this + " the only player is offline!");
-            }
-
-            pause(timeout2);
-
-            if (p == 5) {
-                Logger.log(this + " after 5 attempts game closes");
-                closeGame();
-                return true;
-            }
-            p++;
+            proxyServer.tavoloWin(tavolo);
+            closeGame();
+            Logger.log(this + " the winner is " + tavolo + "! Bye");
+            return true;
         }
         return false;
     }
