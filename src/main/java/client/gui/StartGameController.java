@@ -3,7 +3,9 @@ package client.gui;
 import client.MainClient;
 import client.ProxyClient;
 import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -427,7 +429,7 @@ public class StartGameController implements Initializable {
     // CHANGE TO ABSOLUTE VALUES THE TRANSITION, TO AVOID BUGS WHEN THE USER KEEPS MOVING AROUND OVER THE CARDS
     @FXML
     private void zoomToolCard(MouseEvent event) {
-        ScaleTransition st = new ScaleTransition(Duration.millis(2000), (Node) event.getSource());
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), (Node) event.getSource());
         st.setToX(3.5f);
         st.setToY(3.5f);
         st.setCycleCount(1);
@@ -439,13 +441,74 @@ public class StartGameController implements Initializable {
 
     @FXML
     private void zoomOutToolCard(MouseEvent event) {
-        ScaleTransition st = new ScaleTransition(Duration.millis(2000), (Node) event.getSource());
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), (Node) event.getSource());
         st.setToX(1f);
         st.setToY(1f);
         st.setCycleCount(1);
         st.setAutoReverse(true);
         st.play();
     }
+
+    @FXML
+    private void zoomOC(MouseEvent event) {
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), (Node) event.getSource());
+        st.setToX(3.5f);
+        st.setToY(3.5f);
+        st.setCycleCount(1);
+        st.setAutoReverse(true);
+
+        //Creating Translate Transition
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), (Node) event.getSource());
+
+
+
+        //Setting the value of the transition along the x axis.
+        translateTransition.setToX(100);
+        translateTransition.setToY(-100);
+
+
+
+        //Setting the cycle count for the transition
+        translateTransition.setCycleCount(1);
+
+
+        //Playing the animation
+
+        ((Node) event.getSource()).toFront();
+        ParallelTransition zoom = new ParallelTransition(st,translateTransition);
+        zoom.play();
+    }
+
+    @FXML
+    private void zoomOutOC(MouseEvent event) {
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), (Node) event.getSource());
+        st.setToX(1f);
+        st.setToY(1f);
+        st.setCycleCount(1);
+        st.setAutoReverse(true);
+
+        //Creating Translate Transition
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), (Node) event.getSource());
+
+
+
+        //Setting the value of the transition along the x axis.
+        translateTransition.setToX(0);
+        translateTransition.setToY(0);
+
+
+        //Setting the cycle count for the transition
+        translateTransition.setCycleCount(1);
+
+
+        //Playing the animation
+
+        ((Node) event.getSource()).toFront();
+        ParallelTransition zoom = new ParallelTransition(st,translateTransition);
+        zoom.play();
+    }
+
+
 
     @FXML
     private void showRoundTrack(ActionEvent event) {
@@ -545,6 +608,23 @@ public class StartGameController implements Initializable {
     }
 
     public void aPrioriWin() {
+        Platform.runLater(
+                () -> {
+
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/WinnerAlone.fxml"));
+                    try {
+                        Parent root1 = loader.load();
+                        Scene startedGame = new Scene(root1, 1280, 800, Color.WHITE);
+                        Stage window = (Stage) paneCarta0.getScene().getWindow();
+                        window.setScene(startedGame);
+                        window.show();
+                    } catch (IOException Exception) {
+                        System.out.println("View not found. Error while loading");
+
+                    }
+                }
+        );
 
     }
     public void onTimeStatus(String s1, String s2){

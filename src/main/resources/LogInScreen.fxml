@@ -16,7 +16,7 @@
       </ImageView>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="66.0" fitWidth="281.0" layoutX="500.0" layoutY="512.0">
+            <ImageView fitHeight="166.0" fitWidth="514.0" layoutX="383.0" layoutY="476.0">
                <image>
                   <Image url="@StartGame.png" />
                </image>

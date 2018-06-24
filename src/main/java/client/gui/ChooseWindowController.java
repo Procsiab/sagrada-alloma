@@ -38,6 +38,7 @@ public class ChooseWindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadCards();
 
+
     }
 
 
