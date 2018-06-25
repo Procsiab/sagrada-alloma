@@ -26,27 +26,13 @@ public class MainServer {
         return instance;
     }
 
-    public static Integer addGameManagerCode() {
-        gameManagerCode++;
-        return gameManagerCode;
-    }
-
-    public static ArrayList<GameManager> getGameManagers() {
-        return gameManagers;
-    }
-
-    public static Integer addGameManagers(GameManager gameManager) {
-        synchronized (obj) {
-            MainServer.gameManagers.add(gameManager);
-            obj.notifyAll();
-        }
-        return addGameManagerCode();
-    }
-
     private MainServer() {
         super();
     }
 
+    /**
+     * emulate the mainserver to allow testing
+     */
     public static void simulation() {
         if (!Config.read()) {
             Logger.log("Can't read config. Server close now.");
@@ -58,6 +44,10 @@ public class MainServer {
 
     }
 
+    /**
+     * @return a real copy of object of type
+     * @param <T>
+     * */
     public static <T> T deepClone(T type) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -70,31 +60,6 @@ public class MainServer {
         } catch (IOException | ClassNotFoundException e) {
             return null;
         }
-    }
-
-    public static Integer primeNumber(int n) {
-        int candidate;
-        int count;
-        for (candidate = 2, count = 0; count < n; ++candidate) {
-            if (isPrime(candidate)) {
-                ++count;
-            }
-        }
-        // The candidate has been incremented once after the count reached n
-        return candidate - 1;
-    }
-
-    private static boolean isPrime(int n) {
-        if (n % 2 == 0) return n == 2;
-        if (n % 3 == 0) return n == 3;
-        int step = 4;
-        int m = (int) Math.sqrt(n) + 1;
-        for (int i = 5; i < m; step = 6 - step, i += step) {
-            if (n % i == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static void main(String[] args) {

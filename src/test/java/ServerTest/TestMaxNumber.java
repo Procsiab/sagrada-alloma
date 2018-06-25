@@ -61,7 +61,7 @@ class TestMaxNumber {
         MainServer.simulation();
         maxUsers = Config.maxActivePlayerRefs;
         Integer i = 1;
-        while (i <= maxUsers + 1) {
+        while (i < maxUsers + 1) {
             startGame(i.toString());
             i++;
         }

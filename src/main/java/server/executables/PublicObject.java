@@ -13,6 +13,11 @@ public class PublicObject {
     private PublicObject() {
     }
 
+    /**
+     * player gains points for each row completed with different colors
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use1(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -40,6 +45,11 @@ public class PublicObject {
         return sum;
     }
 
+    /**
+     * player gains points for each column completed with different colors
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use2(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -67,6 +77,11 @@ public class PublicObject {
         return sum;
     }
 
+    /**
+     * player gains points for each column completed with different numbers
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use3(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -94,6 +109,11 @@ public class PublicObject {
         return sum;
     }
 
+    /**
+     * player gains points for each row completed with different numbers
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use4(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -121,6 +141,11 @@ public class PublicObject {
         return sum;
     }
 
+    /**
+     * player gains points for each set of one of each colors
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use5(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -158,6 +183,11 @@ public class PublicObject {
         return sum;
     }
 
+    /**
+     * player gains points for each set of one of each number
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use6(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -194,7 +224,11 @@ public class PublicObject {
 
         return sum;
     }
-
+    /**
+     * player gains points for each set of a pair of 5 and 6
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use7(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -222,7 +256,11 @@ public class PublicObject {
 
         return Math.min(shades5.size(), shades6.size()) * 2;
     }
-
+    /**
+     * player gains points for each set of a pair of 3 and 4
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use8(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -250,7 +288,11 @@ public class PublicObject {
 
         return Math.min(shades3.size(), shades4.size()) * 2;
     }
-
+    /**
+     * player gains points for each set of a pair of 1 and 2
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use9(Overlay overlay) {
         int i = 0;
         int j = 0;
@@ -279,6 +321,11 @@ public class PublicObject {
         return Math.min(shades1.size(), shades2.size()) * 2;
     }
 
+    /**
+     * player gains points for every diagonally adjacent and same color dice
+     * @param overlay is where the dices are placed
+     * @return the score gained
+     */
     public static Integer use10(Overlay overlay) {
         Dice[][] dices = MainServer.deepClone(overlay.getDicePositions());
         int i = 0;
@@ -295,6 +342,15 @@ public class PublicObject {
         return sum;
     }
 
+    /**
+     * @see #use10(Overlay)'s core
+     * @param dices the matrix that resides in overlay
+     * @param color the color of the dice
+     * @param r row in the matrix
+     * @param c column in the matrix
+     * @param firstTime of ot it is the first call
+     * @return the score gained
+     */
     private static Integer computate(Dice[][] dices, Character color,
                                      Integer r, Integer c, Boolean firstTime) {
 

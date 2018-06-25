@@ -13,6 +13,9 @@ import server.concurrency.GeneralTask;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * this class regulates the events in the game, and let them happen
+ */
 public class GameManager extends GeneralTask {
 
     private Integer code;
@@ -43,9 +46,13 @@ public class GameManager extends GeneralTask {
     private Pool pool = new Pool();
     private final Object obj = new Object();
 
+    /**
+     * build a new Game with
+     *
+     * @param players which are the unique string referring to each player
+     */
     public GameManager(List<String> players) {
 
-        this.code = MainServer.addGameManagers(this);
         this.players.addAll(players);
         this.publicRef.addAll(Collections.unmodifiableList(players));
         this.timeout1 = Config.timeout1;
@@ -53,6 +60,13 @@ public class GameManager extends GeneralTask {
         this.timeout3 = Config.timeout3;
         this.timeout4 = Config.timeout4;
         this.showTime = Config.timeout6;
+
+        for (String p :
+                publicRef) {
+            SReferences.addGameRef(p, this);
+        }
+
+        this.code = SReferences.getIndexOfGameRef(this);
 
         System.out.println("\n");
 
@@ -163,6 +177,14 @@ public class GameManager extends GeneralTask {
 
     }
 
+    /**
+     * following parameters are auto-explicative
+     *
+     * @param lowerBound
+     * @param upperBound
+     * @param size
+     * @return an arraylist of non repeated random integer
+     */
     private ArrayList<Integer> set(Integer lowerBound, Integer upperBound, Integer size) {
         ArrayList<Integer> a = new ArrayList<>();
         Random rand = new Random();
@@ -180,6 +202,9 @@ public class GameManager extends GeneralTask {
         return a;
     }
 
+    /**
+     * generates for the first time the dicebag
+     */
     private void setDicesBag() {
         int i = 1;
         Random rand = new Random();
@@ -199,6 +224,12 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * corresponds to the end of the turn of each player
+     *
+     * @param action can be false, before the turn start,
+     *               true, when the player finishes or timer runs out
+     */
     private void setAction(boolean action) {
         synchronized (obj) {
             this.action = action;
@@ -206,10 +237,17 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * @return if the turn has finished or not
+     */
     private Boolean getAction() {
         return action;
     }
 
+    /**
+     * @return the arraylist of the threads (multiple)
+     * of the player in his allowed time
+     */
     public AtomicInteger getThreads() {
         return threads;
     }
@@ -219,15 +257,28 @@ public class GameManager extends GeneralTask {
         return "GameManager: " + code.toString();
     }
 
+    /**
+     * @return the arraylist  of the players that have to jump a turn
+     */
     public Vector<String> getJump() {
         return jump;
     }
 
+    /**
+     * allow
+     *
+     * @param access to interact with the game.
+     */
     private synchronized void setExpected(String access) {
         Logger.log(this + " Access granted to: " + access);
         this.expected = access;
     }
 
+    /**
+     * customized version of sleep for
+     *
+     * @param millis ms
+     */
     private void pause(Integer millis) {
         try {
             Thread.sleep(millis);
@@ -237,14 +288,23 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * @return the diceBag
+     */
     public ArrayList<Dice> getDiceBag() {
         return diceBag;
     }
 
+    /**
+     * @return the pool where the current dices are stored
+     */
     public Pool getPool() {
         return pool;
     }
 
+    /**
+     * @return the current roundtrack
+     */
     public RoundTrack getRoundTrack() {
         return roundTrack;
     }
@@ -386,6 +446,10 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * @return the player that can play in this time
+     * @see ProxyServer#deniedAccess(String)
+     */
     public synchronized String getExpected() {
         return expected;
     }
@@ -398,6 +462,11 @@ public class GameManager extends GeneralTask {
         tCtokens.set(pos, 2);
     }
 
+    /**
+     * this give the player
+     *
+     * @param uUID te current status of the game
+     */
     public void updateView(String uUID) {
         ArrayList<PlayerT> vPlayersT = new ArrayList<>();
         for (Player player :
@@ -429,6 +498,9 @@ public class GameManager extends GeneralTask {
                 toolCsT, roundTrack, pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
     }
 
+    /**
+     * this calls the update only to active players
+     */
     private void updateView() {
 
         for (String player :
@@ -512,6 +584,11 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * by giving the column
+     *
+     * @param col, this move the remaining dice on the roundtrack
+     */
     private void settleRoundtrack(Integer col) {
         for (Dice dice :
                 pool.getDices()) {
@@ -520,14 +597,27 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * @see #setAction(boolean)
+     */
     public void endTurn() {
         setAction(true);
     }
 
+    /**
+     * this is called only when a player exit game.
+     * Although quite similar, net issues are treated in a different way.
+     *
+     * @param loser is the payer who asked to quit
+     */
     public synchronized void exitGame2(String loser) {
         this.left.add(loser);
     }
 
+    /**
+     * simply pings every player that are not quit and update
+     * the online and the temporary offline, but in game
+     */
     private void checkActive() {
         for (String pla : players2
                 ) {
@@ -545,6 +635,9 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * let the server know the status of the game
+     */
     private void printStatusOfClients() {
 
         Logger.log(this + " players online are " + active.size() +
@@ -572,6 +665,12 @@ public class GameManager extends GeneralTask {
 
     }
 
+    /**
+     * this generates the windows to send to the clients,
+     * wait for the specified time, and then assign to
+     * every client randomly (within every possible windows
+     * to avoid repetitions)
+     */
     private void handleWindows() {
         Random rand = new Random();
         Integer i = 0;
@@ -626,6 +725,11 @@ public class GameManager extends GeneralTask {
         pause(timeout3);
     }
 
+    /**
+     * scan through all the players in this game
+     * to allow quit players to reenter the game.
+     * this happens only at the beginning of each round.
+     */
     private synchronized void resetPlayers() {
         players2.clear();
         unrespAltoughP.clear();
@@ -640,6 +744,11 @@ public class GameManager extends GeneralTask {
         players2.removeAll(left);
     }
 
+    /**
+     * check if every player of the playing ones are offline
+     *
+     * @return if this is the case or not.
+     */
     private Boolean globalBlackOut() {
         int p = 1;
         //check if global blackout
@@ -660,6 +769,11 @@ public class GameManager extends GeneralTask {
         return false;
     }
 
+    /**
+     * check if every player quit the game.
+     *
+     * @return if this is the case or not.
+     */
     private Boolean allQuit() {
         if (players2.isEmpty()) {
             Logger.log(this + " seems that all quit the game. Bye.");
@@ -669,8 +783,13 @@ public class GameManager extends GeneralTask {
         return false;
     }
 
+    /**
+     * check if there is only one player in the active ones.
+     *
+     * @return if this is the case or not.
+     */
     private Boolean onlyOne() {
-        if (players2.size() == 1) {
+        if (active.size() + unrespAltoughP.size() == 1) {
             Logger.log(this + " we're having a victory decided by arbitration");
 
             tavolo = players2.get(0);
@@ -682,6 +801,13 @@ public class GameManager extends GeneralTask {
         return false;
     }
 
+    /**
+     * reset and adjust variables relative to each player. Namely the private turn, the turn to jump.
+     * then allow the player to play within its time scope.
+     *
+     * @param remotePlayer is the client reference with the UUID
+     * @param localPlayer  is the virtual player represented in this game
+     */
     private void handleEffectiveTurn(String remotePlayer, Player localPlayer) {
         if (jump.remove(remotePlayer)) {
             Logger.log(this + " player: " + remotePlayer +
@@ -715,6 +841,9 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * this scores each player, using the private card, the tokens left, ant the private objective cards
+     */
     private void scoringPhase() {
         int max = 0;
         int temp;
@@ -756,6 +885,9 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * clean end of the game. When the game closes each reference of the player are permanently deleted
+     */
     private void closeGame() {
         for (String player :
                 players) {
@@ -763,6 +895,9 @@ public class GameManager extends GeneralTask {
         }
     }
 
+    /**
+     * main thread of execution of the Multi-Match server, for each game.
+     */
     @Override
     public void run() {
         super.run();

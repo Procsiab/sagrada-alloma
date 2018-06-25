@@ -71,6 +71,10 @@ public class SReferences {
         SReferences.gameRef.set(index, gameRef);
     }
 
+    public static synchronized Integer getIndexOfGameRef(GameManager gameManager){
+        return gameRef.indexOf(gameManager);
+    }
+
     public static synchronized void addIpRef(String s, String ipRef) {
         Integer index = uuidRef.indexOf(s);
         SReferences.ipRef.set(index, ipRef);

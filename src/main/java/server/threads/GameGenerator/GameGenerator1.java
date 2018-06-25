@@ -15,10 +15,16 @@ public class GameGenerator1 extends GeneralTask {
     private final Object obj = MatchManager.getObj();
     private static boolean start = false;
 
+    /**
+     * @param value is set if the Game has started or not
+     */
     static synchronized void setStart(Boolean value) {
         start = value;
     }
 
+    /**
+     * handle the connections request under timing scope. Timer starts when queue has two player and generates the game when timer runs out.
+     */
     @Override
     public void run() {
         super.run();

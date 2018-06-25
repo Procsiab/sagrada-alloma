@@ -99,7 +99,7 @@ public final class ProxyServer implements SharedProxyServer {
                 client = new NetworkSocket(SReferences.getIpRef(uuid), SReferences.getPortRef(uuid));
                 return client.invokeMethod(uuid, methodName, args);
             } catch (MethodConnectionException mce) {
-                Logger.log(SReferences.getGameRef(uuid) + ", player " + uuid + " socket error occurred while invoking method " + methodName);
+                Logger.log(SReferences.getGameRef(uuid) + " player " + uuid + " socket error occurred while invoking method " + methodName);
             } finally {
                 if (client != null) {
                     client.close();
@@ -109,7 +109,7 @@ public final class ProxyServer implements SharedProxyServer {
             try {
                 return serverRmi.invokeMethod(uuid, methodName, args);
             } catch (MethodConnectionException mce) {
-                Logger.log(SReferences.getGameRef(uuid) + ", player " + uuid + " RMI error occurred while invoking method " + methodName);
+                Logger.log(SReferences.getGameRef(uuid) + " player " + uuid + " RMI error occurred while invoking method " + methodName);
             }
         }
         return null;

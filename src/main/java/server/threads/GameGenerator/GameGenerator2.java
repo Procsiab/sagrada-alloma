@@ -13,10 +13,19 @@ import java.util.Queue;
 public class GameGenerator2 extends GeneralTask {
     private final Object obj = MatchManager.getObj();
 
+    /**
+     * notify
+     *
+     * @see GameGenerator1 that the Game has started
+     */
     private static synchronized void setStart() {
         GameGenerator1.setStart(false);
     }
 
+
+    /**
+     * allows immediate generation of 4 players match
+     */
     @Override
     public void run() {
         super.run();

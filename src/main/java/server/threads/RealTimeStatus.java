@@ -29,6 +29,7 @@ public class RealTimeStatus extends GeneralTask {
                 players) {
             proxyServer.onTimeStatus(player, s1, s2);
         }
+        Logger.log(SReferences.getGameRef(players.get(0)) + " notify players");
     }
 
     @Override
