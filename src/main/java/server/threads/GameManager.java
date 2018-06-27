@@ -789,15 +789,12 @@ public class GameManager extends GeneralTask {
      * @return if this is the case or not.
      */
     private Boolean onlyOne() {
-        if (active.size() + unrespAltoughP.size() == 1) {
+        if (active.size() == 1) {
             Logger.log(this + " we're having a victory decided by arbitration");
-            if (active.isEmpty()) {
-                tavolo = (String) active.toArray()[0];
-            } else
-                tavolo = (String) unrespAltoughP.toArray()[0];
+            tavolo = (String) active.toArray()[0];
             proxyServer.tavoloWin(tavolo);
-            closeGame();
             Logger.log(this + " the winner is " + tavolo + "! Bye");
+            closeGame();
             return true;
         }
         return false;
@@ -906,8 +903,7 @@ public class GameManager extends GeneralTask {
 
         handleWindows();
 
-        RealTimeStatus realTimeStatus = new RealTimeStatus(players);
-        ConcurrencyManager.submit(realTimeStatus);
+        ConcurrencyManager.submit(new RealTimeStatus(players));
 
         int i;
         int j = 1;
@@ -927,9 +923,9 @@ public class GameManager extends GeneralTask {
 
                     checkActive();
                     printStatusOfClients();
-                    if (onlyOne())
-                        return;
                     if (globalBlackOut())
+                        return;
+                    if (onlyOne())
                         return;
                     handleEffectiveTurn(remotePlayer, localPlayer);
                     i++;
