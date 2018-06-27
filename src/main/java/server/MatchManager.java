@@ -640,7 +640,7 @@ public class MatchManager {
     public static synchronized boolean exitGame1(String uUID) {
         synchronized (obj) {
             if (q.remove(uUID)) {
-                Logger.log("Player: " + uUID + " leaved platform before game started. Bye.");
+                Logger.log("Player: " + uUID + " left platform before game started. Bye.");
                 SReferences.removeRef(uUID);
                 return true;
             }

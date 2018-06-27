@@ -789,10 +789,10 @@ public class GameManager extends GeneralTask {
      * @return if this is the case or not.
      */
     private Boolean onlyOne() {
-        if (active.size() + unrespAltoughP.size() == 1) {
+        if (active.size() == 1) {
             Logger.log(this + " we're having a victory decided by arbitration");
 
-            tavolo = players2.get(0);
+            tavolo = (String) active.toArray()[0];
             proxyServer.tavoloWin(tavolo);
             closeGame();
             Logger.log(this + " the winner is " + tavolo + "! Bye");
