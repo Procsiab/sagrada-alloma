@@ -224,6 +224,7 @@ public class PublicObject {
 
         return sum;
     }
+
     /**
      * player gains points for each set of a pair of 5 and 6
      * @param overlay is where the dices are placed
@@ -256,6 +257,7 @@ public class PublicObject {
 
         return Math.min(shades5.size(), shades6.size()) * 2;
     }
+
     /**
      * player gains points for each set of a pair of 3 and 4
      * @param overlay is where the dices are placed
@@ -288,6 +290,7 @@ public class PublicObject {
 
         return Math.min(shades3.size(), shades4.size()) * 2;
     }
+
     /**
      * player gains points for each set of a pair of 1 and 2
      * @param overlay is where the dices are placed
