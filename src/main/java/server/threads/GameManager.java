@@ -760,6 +760,12 @@ public class GameManager extends GeneralTask {
             checkActive();
             if (p == 3) {
                 Logger.log(this + " After 3 attempts game closes. Bye");
+                ArrayList<String> str = new ArrayList<>();
+                str.add(tavolo);
+                for(String player:
+                        players){
+                    proxyServer.printScore(player, str,null,null);
+                }
                 closeGame();
                 return true;
             }
