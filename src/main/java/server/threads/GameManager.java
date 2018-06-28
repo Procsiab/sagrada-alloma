@@ -745,37 +745,6 @@ public class GameManager extends GeneralTask {
     }
 
     /**
-     * check if every player of the playing ones are offline
-     *
-     * @return if this is the case or not.
-     */
-    private Boolean globalBlackOut() {
-        int p = 1;
-        //check if global blackout
-        while (active.isEmpty()) {
-            if (p == 1)
-                Logger.log(this + " seems all are having issues over the net");
-            Logger.log(this + " attempt to reconnect n° " + p);
-
-            checkActive();
-            if (p == 3) {
-                Logger.log(this + " After 3 attempts game closes. Bye");
-                ArrayList<String> str = new ArrayList<>();
-                str.add(tavolo);
-                for(String player:
-                        players){
-                    proxyServer.printScore(player, str,null,null);
-                }
-                closeGame();
-                return true;
-            }
-            pause(timeout2);
-            p++;
-        }
-        return false;
-    }
-
-    /**
      * check if every player quit the game.
      *
      * @return if this is the case or not.
@@ -799,6 +768,13 @@ public class GameManager extends GeneralTask {
             Logger.log(this + " we're having a victory decided by arbitration");
             tavolo = (String) active.toArray()[0];
             proxyServer.tavoloWin(tavolo);
+            ArrayList<String> str = new ArrayList<>();
+            str.add(tavolo);
+            for (String player :
+                    players) {
+                if (!player.equals(tavolo))
+                    proxyServer.printScore(player, str, null, null);
+            }
             Logger.log(this + " the winner is " + tavolo + "! Bye");
             closeGame();
             return true;
@@ -929,8 +905,6 @@ public class GameManager extends GeneralTask {
 
                     checkActive();
                     printStatusOfClients();
-                    if (globalBlackOut())
-                        return;
                     if (onlyOne())
                         return;
                     handleEffectiveTurn(remotePlayer, localPlayer);
