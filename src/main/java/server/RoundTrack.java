@@ -20,6 +20,10 @@ public class RoundTrack implements Serializable {
         return dices;
     }
 
+    /**
+     * check if in
+     * @param positionR there is a dice
+     */
     public Boolean validateBusy(PositionR positionR) {
         return positionR != null && positionR.getColumn() != null && positionR.getHeight() != null && positionR.getColumn() > -1 && positionR.getColumn() < dices.size() && positionR.getHeight() > -1 && positionR.getHeight() < dices.get(positionR.getColumn()).size();
     }

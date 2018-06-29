@@ -328,7 +328,7 @@ public final class ProxyServer implements SharedProxyServer {
             Boolean value;
             GameManager game = SReferences.getGameRef(uuid);
             game.getThreads().incrementAndGet();
-            value = SReferences.getPlayerRef(uuid).useTool(uuid, i1, p1, p2, p3, p4, pr, i2, i3);
+            value = SReferences.getPlayerRef(uuid).useTool(i1, p1, p2, p3, p4, pr, i2, i3);
             game.getThreads().decrementAndGet();
             return value;
         } catch (NullPointerException npe) {

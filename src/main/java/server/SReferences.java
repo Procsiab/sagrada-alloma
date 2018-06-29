@@ -5,6 +5,10 @@ import server.threads.GameManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this is where every information about the clients is stored. It gives the number of currently playing clients,
+ * the reference of the virtual player, and the reference of the gameManager, among high granularity details
+ */
 public class SReferences {
 
     //CAUTION: Do not synchronize on MatchManager.obj2, possible deadlock

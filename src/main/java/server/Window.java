@@ -50,6 +50,12 @@ public class Window implements Serializable {
         return player.getLastPlacedFromPool().equals(new Position(-1, -1));
     }
 
+    /**
+     * check wheter in the
+     * @param overlay in the
+     * @param position there is a diagonally adjacent dice which has the same color or shade of the following
+     * @param dice
+     */
     private Boolean checkSideBySide(Overlay overlay, Position position, Dice dice) {
         Position positionAdj;
         Dice adj;
@@ -84,6 +90,10 @@ public class Window implements Serializable {
         return esito;
     }
 
+    /**
+     * check if the
+     * @param position is on the edge of the overlay
+     */
     private Boolean checkEdgePosTurn(Position position) {
         return position.getRow().equals(0) || position.getRow().equals(3) || position.getColumn().equals(0) || position.getColumn().equals(4);
     }
@@ -92,20 +102,39 @@ public class Window implements Serializable {
         return checkSideBySide(overlay, position, dice) && checkAdjacentToAny(overlay, position);
     }
 
+    /**
+     * check if in the
+     * @param overlay, on
+     * @param position1 there is at least an adjacent dice
+     */
     private Boolean checkAdjacentToAny(Overlay overlay, Position position1) {
         return (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() - 1)) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() - 1))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn()))) || (overlay.validateBusy(new Position(position1.getRow() - 1, position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow(), position1.getColumn() + 1))) || (overlay.validateBusy(new Position(position1.getRow() + 1, position1.getColumn() + 1))));
     }
 
+    /**
+     * check if in the
+     * @param overlay on
+     * @param position1 there are no adjacent dices
+     */
     private Boolean checkFreeSpaceAround(Overlay overlay, Position position1) {
         return overlay.validateFree(new Position(position1.getRow() - 1, position1.getColumn() - 1)) && (overlay.validateFree(new Position(position1.getRow(), position1.getColumn() - 1))) && (overlay.validateFree(new Position(position1.getRow() + 1, position1.getColumn() - 1))) && (overlay.validateFree(new Position(position1.getRow() - 1, position1.getColumn()))) && (overlay.validateFree(new Position(position1.getRow() + 1, position1.getColumn()))) && (overlay.validateFree(new Position(position1.getRow() - 1, position1.getColumn() + 1))) && (overlay.validateFree(new Position(position1.getRow(), position1.getColumn() + 1))) && (overlay.validateFree(new Position(position1.getRow() + 1, position1.getColumn() + 1)));
     }
 
+    /**
+     * check if the
+     * @param dice in
+     * @param position match the color of the window
+     */
     private Boolean checkPlaceColorRequirements(Dice dice, Position position) {
         if (getCell(position).getColor() == null)
             return true;
         return dice.getColor().equals(getCell(position).getColor());
     }
-
+    /**
+     * check if the
+     * @param dice in
+     * @param position match the shade of the window
+     */
     private Boolean checkPlaceValueRequirements(Dice dice, Position position) {
         if (getCell(position).getValue() == null)
             return true;
@@ -116,6 +145,13 @@ public class Window implements Serializable {
         return checkPlaceValueRequirements(dice, position) && checkPlaceColorRequirements(dice, position);
     }
 
+    /**
+     * after the appropriate checks,
+     * @param player takes a dice in position
+     * @param index among the dices in the pool and place it on
+     * @param position in the overlay
+     * @return if this happened correctly
+     */
     public Boolean placeDiceFromPool(Player player, Integer index, Position position) {
 
         Pool pool = player.getPool();
@@ -129,6 +165,11 @@ public class Window implements Serializable {
         return true;
     }
 
+    /**
+     * @param player move its dice (if allowed) from
+     * @param p1 to
+     * @param p2 in the overlay
+     */
     public Boolean moveDice(Player player, Position p1, Position p2) {
 
         Overlay overlay = player.getOverlay();
@@ -142,7 +183,11 @@ public class Window implements Serializable {
         overlay.setDicePosition(dice1, p1);
         return false;
     }
-
+    /**
+     * @param player move its dices (if allowed) from
+     * @param p1 to
+     * @param p2 in the overlay
+     */
     public Boolean moveDice(Player player, Position p1, Position p2, Position p3, Position p4) {
         Overlay overlay = player.getOverlay();
 

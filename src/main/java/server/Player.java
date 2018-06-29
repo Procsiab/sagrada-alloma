@@ -36,6 +36,9 @@ public class Player {
         this.nickName = SReferences.getNickNameRef(uUID);
     }
 
+    /**
+     * sort players according to score. If they have the same score it sort by it nickname
+     */
     public static Comparator<Player> cmp = new Comparator<Player>() {
         @Override
         public int compare(Player o1, Player o2) {
@@ -47,7 +50,15 @@ public class Player {
         }
     };
 
-    public synchronized Boolean useTool(String uUID, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
+    /**
+     * this is where the card to use is chosen among the three allowed
+     * @param i1 specifies the position of the card among the three allowed
+     * @see GameManager#toolCards
+     * the parameters can be generally described since they take different meaning according to which card is requested
+     * @see Tool
+     * @return
+     */
+    public synchronized Boolean useTool(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         Boolean esito = false;
         Integer nCard;
 
@@ -132,10 +143,18 @@ public class Player {
 
     }
 
+    /**
+     * this is a updateview called from client. It comes in handy when the client want to know immediately how things are.
+     * each player can request this only in their turn.
+     * @param uUID is the code of the player
+     */
     public synchronized void updateViewFromC(String uUID) {
         game.updateView(uUID);
     }
 
+    /**
+     * @param possibleWindows are the windows the server allows to each player during initialization of game
+     */
     public void setPossibleWindows(List<Integer> possibleWindows) {
         this.possibleWindows = new ArrayList<>(possibleWindows);
     }
@@ -144,6 +163,9 @@ public class Player {
         return nickName;
     }
 
+    /**
+     * @return the score of this player, computed considering private card, tokens, and public cards
+     */
     public Integer getScore() {
 
         score = game.usePublicO(this.overlay);
@@ -167,6 +189,9 @@ public class Player {
         return score;
     }
 
+    /**
+     * nice cheats..
+     */
     private void hack() {
         if (nickName.equals("arna") || nickName.equals("fili") || nickName.equals("affo") || nickName.equals("cugola")) {
             this.window = MatchManager.getWindows().get(0);
@@ -267,6 +292,11 @@ public class Player {
                 "assigned with color " + ch);
     }
 
+    /**
+     * player chose window
+     * @param n in the arraylist of windows
+     * @return true if it is allowed to do so, false otherwise
+     */
     public synchronized boolean setWindowFromC(Integer n) {
         if (this.window != null) {
             Logger.log("Player: " + uUID + " Server already assigned Window for this player");
@@ -283,6 +313,10 @@ public class Player {
         return false;
     }
 
+    /**
+     * set window
+     * @param n to this player
+     */
     public synchronized void setWindow(Integer n) {
         this.window = MatchManager.getWindows().get(n);
         setTokens();
@@ -299,6 +333,13 @@ public class Player {
         return pool;
     }
 
+    /**
+     * check if can be placed a dice from the pool in the position
+     * @param index of the pool and in the position
+     * @param position of the
+     * @see Overlay
+     * @return whether this can be done or not
+     */
     public synchronized Boolean placeDice(Integer index, Position position) {
 
         if (placedDiceQ() || !pool.validateBusy(index) || !overlay.validateEmpty(position))
