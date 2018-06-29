@@ -21,9 +21,15 @@ public class RealTimeStatus extends GeneralTask {
 
     public RealTimeStatus(List<String> players) {
         this.players = players;
-        this.time = Config.timeout5;
+        this.time = Config.timeout6;
     }
 
+    /**
+     * give each player notfication
+     * @param s1 is the connected player
+     * @param s2 is the disconected player.
+     *           either one of them is null.
+     */
     private void spread(String s1, String s2) {
         for (String player :
                 players) {

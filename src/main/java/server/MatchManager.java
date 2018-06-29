@@ -14,6 +14,9 @@ public class MatchManager {
     private static final Object obj = new Object();
     private static MatchManager instance = new MatchManager();
 
+    /**
+     * this is where every player ask for connection.
+     */
     private MatchManager() {
         super();
 
@@ -599,6 +602,15 @@ public class MatchManager {
         return instance;
     }
 
+    /**
+     * allow a client to  connect to the server
+     * @param uUID is the unique code of the player
+     * @param nickName is the unique name, within the queue
+     * @param ip
+     * @param port
+     * @param isSocket
+     * @return a string that specifies if the player is connect or why it is not.
+     */
     public static synchronized String startGame(String uUID, String nickName, String ip, Integer port, boolean isSocket) {
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
@@ -637,6 +649,11 @@ public class MatchManager {
         return "Connections successful. Please wait for other players to connect";
     }
 
+    /**
+     * allow a player to exit before the game has started
+     * @param uUID is the code of the player
+     * @return whether it was possible or not
+     */
     public static synchronized boolean exitGame1(String uUID) {
         synchronized (obj) {
             if (q.remove(uUID)) {

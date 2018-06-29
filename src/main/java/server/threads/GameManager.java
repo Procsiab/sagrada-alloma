@@ -24,10 +24,9 @@ public class GameManager extends GeneralTask {
     private final ArrayList<String> players = new ArrayList<>();
     private ArrayList<String> players2 = new ArrayList<>();
     private final Integer timeout1; //timer to play for each player config
-    private final Integer timeout2; //connection issue config
-    private final Integer timeout3; //pausetta config
-    private final Integer timeout4; //for window back
-    private final Integer showTime;
+    private final Integer timeout2; //for window back
+    private final Integer timeout3; //time for graphics
+    private final Integer timeout4;
     private final ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
     private boolean action = false;
@@ -55,11 +54,10 @@ public class GameManager extends GeneralTask {
 
         this.players.addAll(players);
         this.publicRef.addAll(Collections.unmodifiableList(players));
-        this.timeout1 = Config.timeout1;
-        this.timeout2 = Config.timeout2;
-        this.timeout3 = Config.timeout3;
-        this.timeout4 = Config.timeout4;
-        this.showTime = Config.timeout6;
+        this.timeout1 = Config.timeout2;
+        this.timeout2 = Config.timeout3;
+        this.timeout3 = Config.timeout4;
+        this.timeout4 = Config.timeout5;
 
         for (String p :
                 publicRef) {
@@ -81,9 +79,8 @@ public class GameManager extends GeneralTask {
         System.out.println(this + ", those are the configuration parameters: \n" +
                 "time given to\n" +
                 "\teach player to choose what to do: " + timeout1 / 1000 + "s\n" +
-                "\tsolve connection issue: " + timeout2 / 1000 + "s\n" +
-                "\tallow initialization of GUI environment " + timeout3 / 1000 + "s\n" +
-                "\teach player to choose the appropriate window: " + timeout4 / 1000 + "s\n");
+                "\tallow initialization of GUI environment " + timeout2 / 1000 + "s\n" +
+                "\teach player to choose the appropriate window: " + timeout3 / 1000 + "s\n");
 
         int i = 0;
 
@@ -173,7 +170,7 @@ public class GameManager extends GeneralTask {
         pool.addDice(new Dice('b', 5));
 
         Logger.log(this + " Initialization sequence completed\n");
-        pause(showTime);
+        pause(timeout4);
 
     }
 
@@ -495,7 +492,7 @@ public class GameManager extends GeneralTask {
         }
 
         proxyServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
-                toolCsT, roundTrack, pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
+                toolCsT, roundTrack.getDices(), pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
     }
 
     /**
@@ -519,6 +516,11 @@ public class GameManager extends GeneralTask {
         return i;
     }
 
+    /**
+     * given the
+     * @param overlay
+     * @return the score given by public objective cards
+     */
     public Integer usePublicO(Overlay overlay) {
         Integer score = 0;
         for (Integer card :
@@ -572,6 +574,9 @@ public class GameManager extends GeneralTask {
         return toolCards;
     }
 
+    /**
+     * throw a number of dices equals to the player left
+     */
     private void throwDice() {
         pool.clear();
         Integer num = 2 * players2.size() + 1;
@@ -707,7 +712,7 @@ public class GameManager extends GeneralTask {
         }
 
         setExpected("all");
-        pause(timeout4);
+        pause(timeout2);
         setExpected("none");
 
         i = 0;

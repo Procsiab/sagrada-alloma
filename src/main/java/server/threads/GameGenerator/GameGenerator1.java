@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 public class GameGenerator1 extends GeneralTask {
-    private Integer sleepTime = Config.timeout1GG; //config
+    private Integer sleepTime = Config.timeout1;
     private final Object obj = MatchManager.getObj();
     private static boolean start = false;
 

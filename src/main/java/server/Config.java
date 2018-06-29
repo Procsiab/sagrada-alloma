@@ -6,8 +6,15 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Config {
-
-    public static Integer timeout1GG;
+    /**
+     * respectively,
+     * timeout of the GameGenerator
+     * timeout for each player to play
+     * timeout for initialization of graphics
+     * timeout to show server status after its initialization
+     * timeout of each real time online check
+     * max number of players the server currently handles
+     */
     public static Integer timeout1;
     public static Integer timeout2;
     public static Integer timeout3;
@@ -29,7 +36,6 @@ public class Config {
         } catch (FileNotFoundException e) {
             return false;
         }
-        timeout1GG = timers.remove(0);
         timeout1 = timers.remove(0);
         timeout2 = timers.remove(0);
         timeout3 = timers.remove(0);
