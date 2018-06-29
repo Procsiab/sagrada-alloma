@@ -525,27 +525,32 @@ public class MainCLI {
         // Stop the main loop
         runForever = false;
         AnsiConsole.out().println(ansi().fgBrightBlue().a("\nSCOREBOARD").fgDefault());
-        boolean youWon = false;
-        // loop on the players list, in the opposite order (they are ordered with respect to the score, increasing)
-        for (int i = 0; i < nicks.size(); i++) {
-            // Print current player's nick in bold
-            if (nicks.get(i).equals(me.nickName)) {
-                AnsiConsole.out().print(ansi().bold());
-                // If you have the winner flag set, set also youWon flag
-                if (winner.get(i)) {
-                    youWon = true;
+        if (scores == null && winner == null) {
+            AnsiConsole.out().println(ansi().fgBrightBlue().a("\n[END] ").fgBrightYellow()
+                    .a("The player " + nicks.get(0) + " won the match, being the only one who stayed online").fgDefault());
+        } else {
+            boolean youWon = false;
+            // loop on the players list, in the opposite order (they are ordered with respect to the score, increasing)
+            for (int i = 0; i < nicks.size(); i++) {
+                // Print current player's nick in bold
+                if (nicks.get(i).equals(me.nickName)) {
+                    AnsiConsole.out().print(ansi().bold());
+                    // If you have the winner flag set, set also youWon flag
+                    if (winner.get(i)) {
+                        youWon = true;
+                        AnsiConsole.out().print(" ★");
+                    }
+                } else if (winner.get(i)) {// Every winner will have a star badge on the left
                     AnsiConsole.out().print(" ★");
                 }
-            } else if (winner.get(i)) {// Every winner will have a star badge on the left
-                AnsiConsole.out().print(" ★");
+                // Print nick name and score, on a single line
+                AnsiConsole.out().println(ansi().a("\t" + nicks.get(i)).fgBrightYellow()
+                        .a("\t" + scores.get(i).toString()).fgDefault().boldOff());
             }
-            // Print nick name and score, on a single line
-            AnsiConsole.out().println(ansi().a("\t" + nicks.get(i)).fgBrightYellow()
-                    .a("\t" + scores.get(i).toString()).fgDefault().boldOff());
-        }
-        if (youWon) {
-            AnsiConsole.out().println(ansi().fgBrightBlue().a("\n[WIN] ").fgBrightYellow()
-                    .a("You won the match, making the highest score!").fgDefault());
+            if (youWon) {
+                AnsiConsole.out().println(ansi().fgBrightBlue().a("\n[WIN] ").fgBrightYellow()
+                        .a("You won the match, making the highest score!").fgDefault());
+            }
         }
     }
 }
