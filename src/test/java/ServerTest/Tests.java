@@ -224,26 +224,26 @@ class Tests {
 
 
         //test tc1
-        player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
+        player.useTool(0, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 0, new Position(5, 0), null, null, null, null, 0, +1);
+        player.useTool(0, new Position(5, 0), null, null, null, null, 0, +1);
         after();
-        player.useTool(players.get(0), 0, new Position(2, 5), null, null, null, null, 0, +1);
+        player.useTool(0, new Position(2, 5), null, null, null, null, 0, +1);
         after();
-        player.useTool(players.get(0), 0, new Position(2, 0), null, null, null, null, 0, +1);
+        player.useTool(0, new Position(2, 0), null, null, null, null, 0, +1);
         after();
         overlayTest[2][0] = new Dice('b', 3);
         assertArrayEquals(overlayTest, player.getOverlay().getDicePositions());
 
         //use tc2
-        player.useTool(players.get(0), 1, null, null, null, null, null, null, null);
+        player.useTool(1, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 1, new Position(0, 4), new Position(3, 2), null
+        player.useTool(1, new Position(0, 4), new Position(3, 2), null
                 , null, null, null, null);
         after();
         player.getOverlay().setDicePosition(new Dice('b', 6), new Position(0, 3));
         player.getOverlay().setDicePosition(null, new Position(3, 3));
-        player.useTool(players.get(0), 1, new Position(0, 3), new Position(3, 3), null
+        player.useTool(1, new Position(0, 3), new Position(3, 3), null
                 , null, null, null, null);
         after();
         overlayTest[0][3] = null;
@@ -251,12 +251,12 @@ class Tests {
         assertArrayEquals(overlayTest, player.getOverlay().getDicePositions());
 
         //use tc3
-        player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
+        player.useTool(2, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 2, new Position(0, 0), new Position(2, -1), null, null, null, null, null);
+        player.useTool(2, new Position(0, 0), new Position(2, -1), null, null, null, null, null);
         player.getOverlay().setDicePosition(null, new Position(2, 0));
         after();
-        player.useTool(players.get(0), 2, new Position(0, 2), new Position(2, 0), null, null, null, null, null);
+        player.useTool(2, new Position(0, 2), new Position(2, 0), null, null, null, null, null);
         after();
         overlayTest[2][0] = overlayTest[0][2];
         overlayTest[0][2] = null;
@@ -268,9 +268,9 @@ class Tests {
         gameManager.setToolCards(ais);
 
         //use tc4
-        player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
+        player.useTool(0, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 0, new Position(1, 1), new Position(0, 2), new Position(1, 4), new Position(0, 3), null, null, null);
+        player.useTool(0, new Position(1, 1), new Position(0, 2), new Position(1, 4), new Position(0, 3), null, null, null);
         after();
         overlayTest[0][2] = overlayTest[1][1];
         overlayTest[0][3] = overlayTest[1][4];
@@ -279,23 +279,23 @@ class Tests {
         assertArrayEquals(overlayTest, player.getOverlay().getDicePositions());
 
         //use tc5
-        player.useTool(players.get(0), 1, null, null, null, null, null, null, null);
+        player.useTool(1, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 1, new Position(1, null), null, null, null, new PositionR(4, 0), 0, null);
+        player.useTool(1, new Position(1, null), null, null, null, new PositionR(4, 0), 0, null);
         after();
         gameManager.getRoundTrack().addDice(new Dice('r', 6), 4);
-        player.useTool(players.get(0), 1, new Position(1, 1), null, null, null, new PositionR(4, 0), 0, null);
+        player.useTool(1, new Position(1, 1), null, null, null, new PositionR(4, 0), 0, null);
         after();
         overlayTest[1][1] = new Dice('r', 6);
         assertArrayEquals(overlayTest, player.getOverlay().getDicePositions());
 
         //use tc6
-        player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
+        player.useTool(2, null, null, null, null, null, null, null);
         after();
         player.getOverlay().setDicePosition(null, new Position(0, 4));
         player.getOverlay().setDicePosition(null, new Position(1, 3));
         player.getWindow().getMatrices()[1][4] = new Cell('b');
-        player.useTool(players.get(0), 2, new Position(1, 4), null, null, null, null, 2, null);
+        player.useTool(2, new Position(1, 4), null, null, null, null, 2, null);
         after();
         player.getOverlay().setDicePosition(null, new Position(1, 4));
         overlayTest[0][4] = null;
@@ -309,46 +309,46 @@ class Tests {
         gameManager.setToolCards(ais);
 
         //use tc7
-        player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
+        player.useTool(0, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 5, null, null, null, null, null, null, null);
+        player.useTool(5, null, null, null, null, null, null, null);
         after();
         player.incrementTurn();
         player.incrementTurn();
-        player.useTool(players.get(0), 0, null, null, null, null, null, null, null);
+        player.useTool(0, null, null, null, null, null, null, null);
         after();
         assertArrayEquals(overlayTest, player.getOverlay().getDicePositions());
 
         //use tc8
-        player.useTool(players.get(0), 1, null, null, null, null, null, null, null);
+        player.useTool(1, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 1, new Position(4, 4), null, null, null, null, 15, null);
+        player.useTool(1, new Position(4, 4), null, null, null, null, 15, null);
         after();
         player.clearUsedTcAndPlacedDice();
         player.getOverlay().setDicePosition(null, new Position(1, 4));
-        player.useTool(players.get(0), 1, new Position(1, 4), null, null, null, null, -1, null);
+        player.useTool(1, new Position(1, 4), null, null, null, null, -1, null);
         after();
         player.getOverlay().setDicePosition(null, new Position(1, 4));
         after();
         player.getWindow().getMatrices()[1][4] = new Cell('y');
         player.incrementTurn();
-        player.useTool(players.get(0), 1, new Position(1, 4), null, null, null, null, 0, null);
+        player.useTool(1, new Position(1, 4), null, null, null, null, 0, null);
         after();
         player.getOverlay().setDicePosition(null, new Position(1, 4));
         overlayTest[1][4] = null;
         assertArrayEquals(overlayTest, player.getOverlay().getDicePositions());
 
         //use tc9
-        player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
+        player.useTool(2, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 2, new Position(1, -1), new Position(null, 4), null, null, null, 0, null);
+        player.useTool(2, new Position(1, -1), new Position(null, 4), null, null, null, 0, null);
         after();
         player.getOverlay().setDicePosition(null, new Position(1, 4));
         player.getOverlay().setDicePosition(null, new Position(1, 3));
         player.getOverlay().setDicePosition(null, new Position(2, 3));
         player.getOverlay().setDicePosition(null, new Position(3, 3));
         player.getOverlay().setDicePosition(null, new Position(3, 4));
-        player.useTool(players.get(0), 2, new Position(1, 0), new Position(2, 4), null, null, null, 0, null);
+        player.useTool(2, new Position(1, 0), new Position(2, 4), null, null, null, 0, null);
         after();
         gameManager.getPool().setDice(0, new Dice('r', 1));
         System.out.println("wweeeee");
@@ -356,7 +356,7 @@ class Tests {
         player.getOverlay().setDicePosition(null, new Position(1, 0));
         player.getWindow().getMatrices()[2][4] = new Cell();
         after();
-        player.useTool(players.get(0), 2, new Position(2, 4), null, null, null, null, 0, null);
+        player.useTool(2, new Position(2, 4), null, null, null, null, 0, null);
         after();
         overlayTest[2][4] = new Dice('r', 1);
         overlayTest[1][0] = null;
@@ -375,16 +375,16 @@ class Tests {
         gameManager.setToolCards(ais);
 
         //use tc10
-        player.useTool(players.get(0), 5, null, null, null, null, null, null, null);
+        player.useTool(5, null, null, null, null, null, null, null);
         after();
-        player.useTool(players.get(0), 0, new Position(14, 4), null, null, null, null, 0, null);
+        player.useTool(0, new Position(14, 4), null, null, null, null, 0, null);
         after();
         player.getOverlay().setDicePosition(new Dice('g', 3), new Position(2, 4));
-        player.useTool(players.get(0), 0, new Position(1, 4), null, null, null, null, 0, null);
+        player.useTool(0, new Position(1, 4), null, null, null, null, 0, null);
         after();
         gameManager.getPool().addDice(new Dice('r', 3));
         player.getWindow().getMatrices()[1][4] = new Cell('r');
-        player.useTool(players.get(0), 0, new Position(1, 4), null, null, null, null, 0, null);
+        player.useTool(0, new Position(1, 4), null, null, null, null, 0, null);
         after();
 
         overlayTest[2][4] = new Dice('g', 3);
@@ -392,17 +392,17 @@ class Tests {
         assertArrayEquals(overlayTest, player.getOverlay().getDicePositions());
 
         //use tc11
-        player.useTool(players.get(0), 1, null, null, null, null, null, null, null);
+        player.useTool(1, null, null, null, null, null, null, null);
         after();
         player.getOverlay().setDicePosition(null, new Position(0, 3));
         player.getOverlay().setDicePosition(null, new Position(0, 4));
-        player.useTool(players.get(0), 1, new Position(0, 3), null, null, null, null, 0, 4);
+        player.useTool(1, new Position(0, 3), null, null, null, null, 0, 4);
         after();
         gameManager.getPool().addDice(new Dice('v', 6));
         player.getOverlay().setDicePosition(null, new Position(0, 2));
         player.getOverlay().setDicePosition(null, new Position(0, 3));
         player.getOverlay().setDicePosition(null, new Position(0, 4));
-        player.useTool(players.get(0), 1, new Position(0, 3), null, null, null, null, 0, 4);
+        player.useTool(1, new Position(0, 3), null, null, null, null, 0, 4);
         after();
 
         player.getOverlay().setDicePosition(null, new Position(0, 3));
@@ -412,17 +412,17 @@ class Tests {
         assertArrayEquals(overlayTest, player.getOverlay().getDicePositions());
 
         //use tc12
-        player.useTool(players.get(0), 2, null, null, null, null, null, null, null);
+        player.useTool(2, null, null, null, null, null, null, null);
         after();
         player.getWindow().getMatrices()[3][3] = new Cell('g');
-        player.useTool(players.get(0), 2, new Position(2, 0), new Position(0, 2), new Position(2, 2), new Position(3, 3), new PositionR(4, 0), 0, null);
+        player.useTool(2, new Position(2, 0), new Position(0, 2), new Position(2, 2), new Position(3, 3), new PositionR(4, 0), 0, null);
         after();
         player.getOverlay().setDicePosition(new Dice('g', 6), new Position(2, 0));
         player.getOverlay().setDicePosition(new Dice('g', 6), new Position(2, 2));
         player.getOverlay().setDicePosition(new Dice('b', 5), new Position(1, 2));
         player.getWindow().getMatrices()[3][3] = new Cell('g');
         after();
-        player.useTool(players.get(0), 2, new Position(2, 0), new Position(0, 2), new Position(2, 2), new Position(3, 3), new PositionR(4, 0), 0, null);
+        player.useTool(2, new Position(2, 0), new Position(0, 2), new Position(2, 2), new Position(3, 3), new PositionR(4, 0), 0, null);
         after();
         overlayTest[2][0] = new Dice('g', 6);
         overlayTest[2][2] = new Dice('g', 6);
