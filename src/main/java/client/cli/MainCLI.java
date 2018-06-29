@@ -404,12 +404,12 @@ public class MainCLI {
         AnsiConsole.out().print('\n'); // New line after the last column of the last row
     }
 
-    private void printRoundTrack(RoundTrack rt) {
+    private void printRoundTrack(ArrayList<ArrayList<Dice>> rt) {
         for (int i = 8; i >= 0; i--) {
             for (int j = 0; j < 9; j++) {
                 Dice d = null;
-                if (rt.getDices().get(j).size() > i) {
-                    d = rt.getDice(new PositionR(j, i));
+                if (rt.get(j).size() > i) {
+                    d = rt.get(j).get(i);
                 }
                 printDice(d, true);
                 AnsiConsole.out().print("  ");

@@ -152,7 +152,7 @@ public class StartGameController implements Initializable {
     }
 
     private void loadDiceRoundTrack(GameManagerT gameManager) {
-        ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack.getDices();
+        ArrayList<ArrayList<Dice>> roundTrackData = gameManager.roundTrack;
         final Map<String, WeakReference<Image>> cache = new HashMap<>();
 
         for (int h = 0; h < roundTrackData.size(); h++) {
