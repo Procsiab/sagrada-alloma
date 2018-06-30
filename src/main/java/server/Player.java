@@ -51,9 +51,8 @@ public class Player {
      * this is where the card to use is chosen among the three allowed
      * @param i1 specifies the position of the card among the three allowed
      * @see GameManager#toolCards
-     * the parameters can be generally described since they take different meaning according to which card is requested
+     * the parameters can't be be generally described since they take different meaning according to which card is requested
      * @see Tool
-     * @return
      */
     public synchronized Boolean useTool(Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         Boolean esito = false;
@@ -143,6 +142,7 @@ public class Player {
     /**
      * this is a updateview called from client. It comes in handy when the client want to know immediately how things are.
      * each player can request this only in their turn.
+     *
      * @param uUID is the code of the player
      */
     public synchronized void updateViewFromC(String uUID) {
@@ -291,6 +291,7 @@ public class Player {
 
     /**
      * player chose window
+     *
      * @param n in the arraylist of windows
      * @return true if it is allowed to do so, false otherwise
      */
@@ -312,6 +313,7 @@ public class Player {
 
     /**
      * set window
+     *
      * @param n to this player
      */
     public synchronized void setWindow(Integer n) {
@@ -332,23 +334,24 @@ public class Player {
 
     /**
      * check if can be placed a dice from the pool in the position
-     * @param index of the pool and in the position
+     *
+     * @param index    of the pool and in the position
      * @param position of the
      * @see Overlay
      * @return whether this can be done or not
      */
     public synchronized Boolean placeDice(Integer index, Position position) {
 
-        if (placedDiceQ() || !pool.validateBusy(index) || !overlay.validateEmpty(position))
-            return false;
-        Dice dice;
-        dice = pool.getDice(index);
-        if (window.placeDiceFromPool(this, index, position)) {
-            placedDiceA();
-            lastPlacedFromPool = position;
-            Logger.log(game + " player " + uUID + " effectively placed dice " +
-                    dice + " in position " + position);
-            return true;
+        if (!(placedDiceQ() || !pool.validateBusy(index) || !overlay.validateEmpty(position))) {
+            Dice dice;
+            dice = pool.getDice(index);
+            if (window.placeDiceFromPool(this, index, position)) {
+                placedDiceA();
+                lastPlacedFromPool = position;
+                Logger.log(game + " player " + uUID + " effectively placed dice " +
+                        dice + " in position " + position);
+                return true;
+            }
         }
         Logger.log(game + " player " + uUID + " attempt of unauthorized placement of dice " +
                 "in position " + position);

@@ -33,6 +33,7 @@ public final class ProxyServer implements SharedProxyServer {
     private static Connection serverSocket = new NetworkSocket();
     private static Connection serverRmi = new NetworkRmi();
     private static ProxyServer instance = new ProxyServer();
+    private static Boolean test = false;
 
     /**
      * Private constructor, prevents external access and uncontrolled instantiation of the class: use the static method
@@ -67,6 +68,10 @@ public final class ProxyServer implements SharedProxyServer {
      */
     public static Connection getServerRmi() {
         return serverRmi;
+    }
+
+    public static void setTest(){
+        test = true;
     }
 
     /**true
@@ -200,6 +205,9 @@ public final class ProxyServer implements SharedProxyServer {
      */
     @Override
     public Boolean ping(String uuid) {
+        if(test)
+            return true;
+
         Boolean ret = (Boolean) forwardMethod(uuid, "ping", null);
         if (ret != null) {
             return ret;

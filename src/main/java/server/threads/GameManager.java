@@ -64,7 +64,7 @@ public class GameManager extends GeneralTask {
             SReferences.addGameRef(p, this);
         }
 
-        this.code = SReferences.getIndexOfGameRef(this);
+        this.code = SReferences.getIndexOfGameRef(this) + 1;
 
         System.out.println("\n");
 

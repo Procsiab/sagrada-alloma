@@ -1,6 +1,8 @@
 package ServerTest;
 
 import client.ProxyClient;
+import server.Config;
+import server.MatchManager;
 import server.Player;
 import server.SReferences;
 import server.connection.ProxyServer;
@@ -9,25 +11,26 @@ import server.threads.GameManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 
 import org.junit.jupiter.api.Test;
 import shared.*;
 import shared.network.SharedProxyClient;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 class Tests {
 
     public static ArrayList<GameManager> gameManagers = new ArrayList<>();
     public static ProxyServer proxyServer = ProxyServer.getInstance();
     public static Object obj;
-    public static Integer timeout;
     public GameManager gameManager;
     public Player player;
+    public int maxUsers;
 
+    //adopted config parameters
+    //25000@10@10000@5000@5000@200@6
 
     private void pause(Integer millis) {
         try {
@@ -39,7 +42,7 @@ class Tests {
 
     public void startGame(String player) {
         SharedProxyClient p = ProxyClient.getInstance();
-        proxyServer.startGame(player, player, "192.168.223.1", -1, false, p);
+        proxyServer.startGame(player, player, "localhost", -1, false, p);
     }
 
     public void after() {
@@ -529,12 +532,56 @@ class Tests {
     }
 
     @Test
+    private boolean simulateGame() {
+        startGame("player1");
+        startGame("player2");
+        startGame("player3");
+
+        Random rand = new Random();
+
+
+        pause(45000);
+
+
+        int i = 0;
+        while (i < 10000) {
+            if(i == 500)
+                proxyServer.exitGame2("player2");
+            proxyServer.placeDice("player1", i % 9, new Position(rand.nextInt(4), rand.nextInt(5)));
+            proxyServer.useToolC("player1", i % 3, new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new PositionR(rand.nextInt(10), rand.nextInt(11)), rand.nextInt(10), -10 + rand.nextInt(21));
+            proxyServer.placeDice("player2", i % 9, new Position(rand.nextInt(4), rand.nextInt(5)));
+            proxyServer.useToolC("player2", i % 3, new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new PositionR(rand.nextInt(10), rand.nextInt(11)), rand.nextInt(10), -10 + rand.nextInt(21));
+            proxyServer.placeDice("player3", i % 9, new Position(rand.nextInt(4), rand.nextInt(5)));
+            proxyServer.useToolC("player3", i % 3, new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new Position(rand.nextInt(4), rand.nextInt(5)), new PositionR(rand.nextInt(10), rand.nextInt(11)), rand.nextInt(10), -10 + rand.nextInt(21));
+
+            i++;
+        }
+        pause(2000);
+        return true;
+    }
+
+    @Test
+    private void testMaxNumber(){
+        maxUsers = Config.maxActivePlayerRefs;
+        Integer i = 1;
+        while (i < maxUsers + 1) {
+            startGame(i.toString());
+            i++;
+        }
+
+        Integer maxUserTest = maxUsers + 1;
+        assertFalse(SReferences.contains(maxUserTest.toString()));
+    }
+
+    @Test
     void main() {
 
         MainServer.simulation();
+        ProxyServer.setTest();
         obj = MainServer.obj;
-        if (testHashCode()) {
+        if (simulateGame() && testHashCode()) {
             testWindowsAndCards();
+            testMaxNumber();
         } else
             assert (false);
     }
