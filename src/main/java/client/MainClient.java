@@ -1,7 +1,6 @@
 package client;
 
 import client.cli.MainCLI;
-import client.gui.LogInScreenController;
 import client.gui.StartGameController;
 import client.gui.ChooseWindowController;
 import client.gui.WaitingRoomController;
@@ -15,7 +14,6 @@ import shared.Logger;
 import shared.network.MethodConnectionException;
 import shared.network.rmi.NetworkRmi;
 import shared.network.socket.NetworkSocket;
-import sun.applet.Main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
