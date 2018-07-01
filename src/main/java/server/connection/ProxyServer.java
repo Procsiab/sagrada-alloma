@@ -24,6 +24,8 @@ import java.util.ArrayList;
  * <p>This class implements the <strong>singleton</strong> design pattern, having just one instance of it available per JVM;
  * this instance can be accessed through the static class' methods.</p><br>
  * <p>This class holds both a {@code NetworkRmi} and a {@code NetworkSocket} static references, constructed as servers.</p>
+ * <p>Finally, the private attribute {@code Boolean test} is used to determine whether this class should be used in a testing
+ * environment: this means that some methods which try to use a connection will instead fallback to a mock</p>
  * @see SharedProxyServer
  * @see Connection
  */
@@ -70,6 +72,9 @@ public final class ProxyServer implements SharedProxyServer {
         return serverRmi;
     }
 
+    /**
+     * Setter method to enable the "test mode" for this class, assigning {@code true} to the attribute
+     */
     public static void setTest(){
         test = true;
     }
@@ -199,20 +204,23 @@ public final class ProxyServer implements SharedProxyServer {
 
     /**
      * <strong>Remote</strong><br>
+     * If the attribute {@code test} is true, this method will just return {@code true} without performing a connection
+     * to the client, assuming that it will always succeed
      * @param uuid see {@link shared.network.SharedProxyClient} for more about the first parameter
      * @return {@code Boolean}
      * @see shared.network.SharedProxyServer#ping(String)
      */
     @Override
     public Boolean ping(String uuid) {
-        if(test)
+        if(test) {
             return true;
-
-        Boolean ret = (Boolean) forwardMethod(uuid, "ping", null);
-        if (ret != null) {
-            return ret;
         } else {
-            return false;
+            Boolean ret = (Boolean) forwardMethod(uuid, "ping", null);
+            if (ret != null) {
+                return ret;
+            } else {
+                return false;
+            }
         }
     }
 
