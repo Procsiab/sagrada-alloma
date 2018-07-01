@@ -20,17 +20,17 @@ import shared.network.SharedProxyClient;
 
 import static org.junit.Assert.*;
 
+/**
+ * adopted config parameters
+ *     25000@10@10000@5000@5000@200@6
+ */
 class Tests {
 
-    public static ArrayList<GameManager> gameManagers = new ArrayList<>();
-    public static ProxyServer proxyServer = ProxyServer.getInstance();
-    public static Object obj;
-    public GameManager gameManager;
-    public Player player;
-    public int maxUsers;
+    private static ProxyServer proxyServer = ProxyServer.getInstance();
+    private GameManager gameManager;
+    private Player player;
+    private int maxUsers;
 
-    //adopted config parameters
-    //25000@10@10000@5000@5000@200@6
 
     private void pause(Integer millis) {
         try {
@@ -40,12 +40,12 @@ class Tests {
         }
     }
 
-    public void startGame(String player) {
+    private void startGame(String player) {
         SharedProxyClient p = ProxyClient.getInstance();
         proxyServer.startGame(player, player, "localhost", -1, false, p);
     }
 
-    public void after() {
+    private void after() {
         while (gameManager.getPool().remove(null)) {
         }
         String s = "";
@@ -578,7 +578,6 @@ class Tests {
 
         MainServer.simulation();
         ProxyServer.setTest();
-        obj = MainServer.obj;
         if (simulateGame() && testHashCode()) {
             testWindowsAndCards();
             testMaxNumber();
