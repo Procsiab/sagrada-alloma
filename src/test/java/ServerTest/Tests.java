@@ -563,8 +563,12 @@ class Tests {
     @Test
     private void testMaxNumber(){
         maxUsers = Config.maxActivePlayerRefs;
+        SReferences.removeRef("player1");
+        SReferences.removeRef("player2");
+        SReferences.removeRef("player3");
+        MatchManager.getQ().clear();
         Integer i = 1;
-        while (i < maxUsers + 1) {
+        while (i <= maxUsers + 1) {
             startGame(i.toString());
             i++;
         }
