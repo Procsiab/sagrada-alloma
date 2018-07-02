@@ -659,6 +659,7 @@ public class MatchManager {
             if (q.remove(uUID)) {
                 Logger.log("Player: " + uUID + " left platform before game started. Bye.");
                 SReferences.removeRef(uUID);
+                obj.notifyAll();
                 return true;
             }
         }
