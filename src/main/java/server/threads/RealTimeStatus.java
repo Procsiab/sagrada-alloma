@@ -8,24 +8,26 @@ import server.concurrency.GeneralTask;
 import server.connection.ProxyServer;
 import shared.Logger;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class RealTimeStatus extends GeneralTask {
     private ProxyServer proxyServer = ProxyServer.getInstance();
-    private List<String> players;
+    private List<String> players = new ArrayList<>();
     private Set<String> online = new HashSet<>();
     private Set<String> offline = new HashSet<>();
     private Integer time;
 
     public RealTimeStatus(List<String> players) {
-        this.players = players;
+        this.players.addAll(players);
         this.time = Config.timeout6;
     }
 
     /**
      * give each player notfication
+     *
      * @param s1 is the connected player
      * @param s2 is the disconected player.
      *           either one of them is null.
@@ -33,7 +35,8 @@ public class RealTimeStatus extends GeneralTask {
     private void spread(String s1, String s2) {
         for (String player :
                 players) {
-            proxyServer.onTimeStatus(player, s1, s2);
+            if (!player.equals(s1) && !player.equals(s2))
+                proxyServer.onTimeStatus(player, s1, s2);
         }
         Logger.log(SReferences.getGameRef(players.get(0)) + " notify players");
     }
