@@ -35,11 +35,10 @@ public class RealTimeStatus extends GeneralTask {
     private void spread(String s1, String s2) {
         for (String player :
                 players) {
-            String rem1 = SReferences.getNickNameRef(s1);
-            String rem2 = SReferences.getNickNameRef(s2);
-            if (s2 == null && !player.equals(rem1)) {
+            String rem = SReferences.getNickNameRef(player);
+            if (s2 == null && !s1.equals(rem)) {
                 proxyServer.onTimeStatus(player, s1, null);
-            } else if (s1 == null && !player.equals(rem2))
+            } else if (s1 == null && !s2.equals(rem))
                 proxyServer.onTimeStatus(player, null, s2);
         }
         Logger.log(SReferences.getGameRef(players.get(0)) + " notify players");
