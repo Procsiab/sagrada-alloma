@@ -11,7 +11,6 @@ import java.net.Socket;
 import java.util.Map;
 
 /**
- * <h1>Socket Handler</h1>
  * <p>This class implements {@code Runnable} to make its instances assignable to a background {@code Thread}; moreover,
  * it implements {@code AutoCloseable} to gracefully terminate without user interaction the network components if needed</p><br>
  * <p>Instances of this class work by obtaining an {@link ObjectInputStream} and an {@link ObjectOutputStream} instance

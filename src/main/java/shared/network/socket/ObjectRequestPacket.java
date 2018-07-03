@@ -3,7 +3,6 @@ package shared.network.socket;
 import java.io.Serializable;
 
 /**
- * <h1>Object Request Packet</h1>
  * <p>When a host wants to know if on another one an object has been exported and bound to the name {@code objectName},
  * it should send and instance of this class to that host: the {@link SocketHandler} instance on the endpoint will answer
  * sending back the requested object, if it is bound to that name</p><br>

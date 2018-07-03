@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
- * <h1>Method Router</h1>
  * <p>This class will route the method calls, using the provided method name</p>
  * @see Router
  */

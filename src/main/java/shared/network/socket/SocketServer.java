@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * <h1>Socket Server</h1>
  * <p>This class implements {@code Runnable} to make its instances assignable to a background {@code Thread}; moreover,
  * it implements {@code AutoCloseable} to gracefully terminate without user interaction the network components if needed</p><br>
  * <p>Instances of this class work by looping in the {@code run} method, waiting for an incoming connection: when a client

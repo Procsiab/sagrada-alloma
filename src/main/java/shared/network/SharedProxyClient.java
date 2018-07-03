@@ -10,7 +10,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
- * <h1>Shared Proxy Client</h1>
  * <p>This interface will be the client-side relay for receiving and making method calls from and to the server.
  * Methods marked as <strong>Local</strong> are called by the server's proxy, while methods marked as
  * <strong>Remote</strong> are called from the client towards the server.</p><br>
