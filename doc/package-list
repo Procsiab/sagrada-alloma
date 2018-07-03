@@ -1,0 +1,13 @@
+client
+client.cli
+client.gui
+server
+server.concurrency
+server.connection
+server.executables
+server.threads
+shared
+shared.TransferObjects
+shared.network
+shared.network.rmi
+shared.network.socket

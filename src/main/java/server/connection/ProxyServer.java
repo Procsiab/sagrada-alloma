@@ -18,7 +18,6 @@ import java.rmi.Remote;
 import java.util.ArrayList;
 
 /**
- * <h1>Proxy Server</h1>
  * <p>This class implements {@code SharedProxyServer} and all its methods, making them interact with the correct <b>controller</b>
  * components (if they are local) or routing them with the correct parameters to the client (if they are remote)</p><br>
  * <p>This class implements the <strong>singleton</strong> design pattern, having just one instance of it available per JVM;

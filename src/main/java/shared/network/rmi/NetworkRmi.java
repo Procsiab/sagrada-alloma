@@ -11,7 +11,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- * <h1>Network RMI</h1>
  * <p>This class implements {@code Connection} and all its methods, using the Remote Method Invocation networking to set
  * up the connection components.</p><br>
  * <p>Using the constructor with no parameters or just an {@code Integer} representing the RMI port, the instance will act

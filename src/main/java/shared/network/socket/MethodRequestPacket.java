@@ -3,7 +3,6 @@ package shared.network.socket;
 import java.io.Serializable;
 
 /**
- * <h1>Method Request Packet</h1>
  * <p>When a host wants to call a method of an object on another host, it should send and instance of this class to that
  * host: the {@link SocketHandler} instance on the endpoint will answer sending back the return value of that method, if
  * the object name, the method name and the arguments are correct.</p><br>

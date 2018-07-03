@@ -25,7 +25,6 @@ import java.io.Console;
 import static org.fusesource.jansi.Ansi.*;
 
 /**
- * <h1>Main Client</h1>
  * <p>This class will act as the client's launcher, allowing the user to choose the connection and the interface type,
  * before starting the game; moreover, this class will act as a container for the selected settings, and it will retrieve
  * the user's system UUID</p>

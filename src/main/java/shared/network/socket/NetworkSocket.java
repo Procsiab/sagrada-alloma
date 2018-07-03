@@ -10,7 +10,6 @@ import java.net.SocketException;
 import java.util.*;
 
 /**
- * <h1>Network Socket</h1>
  * <p>This class implements {@code Connection} and all its methods, using the Socket networking to set up the connection
  * components.</p><br>
  * <p>Using the constructor with no parameters or just an {@code Integer} representing the socket port, the instance will

@@ -9,7 +9,6 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 /**
- * <h1>Connection Interface</h1>
  * <p>This interface can be used to abstract the {@link shared.network.rmi.NetworkRmi} and {@link shared.network.socket.NetworkSocket}
  * classes, and use them in a transparent way; they both implement the following methods, however you <i><b>should</b></i> look at the
  * class' specific documentation to learn the differences on how to call these methods</p>

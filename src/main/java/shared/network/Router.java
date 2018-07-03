@@ -3,7 +3,6 @@ package shared.network;
 import java.rmi.RemoteException;
 
 /**
- * <h1>Router</h1>
  * <p>This interface will route method calls performed on some object, based on the method name as string and on parameters
  * as an array. Routing is also based on the object's nature, among {@code SharedProxyClient} or {@code SharedProxyServer}</p>
  * @see SharedProxyClient
