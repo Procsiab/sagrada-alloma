@@ -60,7 +60,7 @@ public class WaitingRoomController implements Initializable {
         Platform.runLater(
                 () -> {
                     
-                    MainClient.setChoosenCards(listCard);
+                    MainClient.setChosenCards(listCard);
 
                     // Loading of ChooseWindow view, where you can choose your own map
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChooseWindow.fxml"));

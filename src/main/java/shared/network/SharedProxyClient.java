@@ -188,6 +188,7 @@ public interface SharedProxyClient extends Remote {
     /**
      * <strong>Remote</strong><br>
      * Whenever a player quits the waiting room through an interaction with the <b>view</b>, this method should be called by its client
+     * @return a {@code Boolean} value representing the success of the call
      * @throws RemoteException see {@link SharedProxyClient} for more about this throw
      * @see client.ProxyClient#exitGame1()
      */

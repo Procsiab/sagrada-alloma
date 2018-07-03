@@ -96,6 +96,8 @@ public class NetworkSocket implements Connection {
      * Constructor for the <b>client</b> instance
      * @param server {@code String}
      * @param port {@code Integer}
+     * @throws MethodConnectionException occurs when it was impossible to set up the client; this exception wraps a network
+     * or I/O error in the {@link NetworkSocket#startProducer(String, Integer)} method
      * @see NetworkSocket#startProducer(String, Integer)
      */
     public NetworkSocket(String server, Integer port) throws MethodConnectionException {
@@ -107,6 +109,8 @@ public class NetworkSocket implements Connection {
     /**
      * Constructor for the <b>client</b> instance
      * @param server {@code String}
+     * @throws MethodConnectionException occurs when it was impossible to set up the client; this exception wraps a network
+     * or I/O error in the {@link NetworkSocket#startProducer(String, Integer)} method
      * @see NetworkSocket#startProducer(String, Integer)
      */
     public NetworkSocket(String server) throws MethodConnectionException {

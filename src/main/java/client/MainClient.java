@@ -24,6 +24,12 @@ import java.io.Console;
 
 import static org.fusesource.jansi.Ansi.*;
 
+/**
+ * <h1>Main Client</h1>
+ * <p>This class will act as the client's launcher, allowing the user to choose the connection and the interface type,
+ * before starting the game; moreover, this class will act as a container for the selected settings, and it will retrieve
+ * the user's system UUID</p>
+ */
 public class MainClient extends Application {
     private static String uuid = null;
     private static boolean isPrompt = false;
@@ -32,52 +38,94 @@ public class MainClient extends Application {
     private static StartGameController startGameController;
     private static WaitingRoomController waitingRoomController;
     private static MainCLI cliController;
-    private static ArrayList<Integer> choosenCards;
+    private static ArrayList<Integer> chosenCards;
 
-    /* Public getters and setters */
-
+    /**
+     * Getter for a user setting
+     * @return {@code true} whether ths user wants to play through CLI
+     */
     public static boolean isPrompt() {
         return isPrompt;
     }
 
-    public static void setWaitingRoomController(WaitingRoomController waitingRoomController){
-        MainClient.waitingRoomController = waitingRoomController;
-    }
-
-    public static WaitingRoomController getWaitingRoomController(){
-        return  waitingRoomController;
-    }
-
-    public static void setChooseWindowController(ChooseWindowController chooseWindowController){
-        MainClient.chooseWindowController = chooseWindowController;
-    }
-
-    public static ChooseWindowController getChooseWindowControllerController(){
-        return chooseWindowController;
-    }
-
-    public static StartGameController getStartGameController(){
-        return startGameController;
-    }
-
-    public static void setStartGameController(StartGameController startGameController){
-        MainClient.startGameController = startGameController;
-    }
-
+    /**
+     * Getter for a CLI controller
+     * @return cliController the controller to handle the CLI
+     */
     public static MainCLI getCliController() {
         return MainClient.cliController;
     }
 
+    /**
+     * Getter for a user setting
+     * @return {@code String} containing the UUID from the user's OS
+     */
     public static String getUuid() {
         return MainClient.uuid;
     }
 
-    public static void setChoosenCards(ArrayList<Integer> choosenCards){
-        MainClient.choosenCards = choosenCards;
+    /**
+     * Setter for a user setting
+     * @param chosenCards contains the objective cards available to the players
+     */
+    public static void setChosenCards(ArrayList<Integer> chosenCards){
+        MainClient.chosenCards = chosenCards;
     }
 
-    public static ArrayList<Integer> getChoosenCards(){
-        return choosenCards;
+    /**
+     * Getter for a user setting
+     * @return chosenCards contains the objective cards available to the players
+     */
+    public static ArrayList<Integer> getChosenCards(){
+        return chosenCards;
+    }
+
+    /**
+     * Setter for a GUI controller
+     * @param waitingRoomController the controller to handle the WaitingRoom scene
+     */
+    public static void setWaitingRoomController(WaitingRoomController waitingRoomController){
+        MainClient.waitingRoomController = waitingRoomController;
+    }
+
+    /**
+     * Getter for a GUI controller
+     * @return waitingRoomController the controller to handle the WaitingRoom scene
+     */
+    public static WaitingRoomController getWaitingRoomController(){
+        return  waitingRoomController;
+    }
+
+    /**
+     * Setter for a GUI controller
+     * @param chooseWindowController the controller to handle the ChooseWindow scene
+     */
+    public static void setChooseWindowController(ChooseWindowController chooseWindowController){
+        MainClient.chooseWindowController = chooseWindowController;
+    }
+
+    /**
+     * Getter for a GUI controller
+     * @return chooseWindowController the controller to handle the ChooseWindow scene
+     */
+    public static ChooseWindowController getChooseWindowControllerController(){
+        return chooseWindowController;
+    }
+
+    /**
+     * Setter for a GUI controller
+     * @param startGameController the controller to handle the StartGame scene
+     */
+    public static void setStartGameController(StartGameController startGameController){
+        MainClient.startGameController = startGameController;
+    }
+
+    /**
+     * Getter for a GUI controller
+     * @return startGameController the controller to handle the StartGame scene
+     */
+    public static StartGameController getStartGameController(){
+        return startGameController;
     }
 
     @Override

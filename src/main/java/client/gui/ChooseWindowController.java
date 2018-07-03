@@ -50,7 +50,7 @@ public class ChooseWindowController implements Initializable {
         Parent root = loader.load();
         System.out.println("Button pressed " + ((Button) event.getSource()).getId());
         tempSelectedCard = tempSelectedCard.parseInt(((Button) event.getSource()).getText());
-        selectedCard = MainClient.getChoosenCards().get(tempSelectedCard-1);
+        selectedCard = MainClient.getChosenCards().get(tempSelectedCard-1);
         middlewareClient.chooseWindowBack(selectedCard);
         System.out.println(selectedCard);
         StartGameController controller = loader.getController();
@@ -89,10 +89,10 @@ public class ChooseWindowController implements Initializable {
 
     private void loadCards(){
         int i,j,k,g;
-        i = MainClient.getChoosenCards().get(0);
-        j = MainClient.getChoosenCards().get(1);
-        k = MainClient.getChoosenCards().get(2);
-        g = MainClient.getChoosenCards().get(3);
+        i = MainClient.getChosenCards().get(0);
+        j = MainClient.getChosenCards().get(1);
+        k = MainClient.getChosenCards().get(2);
+        g = MainClient.getChosenCards().get(3);
 
 
 
