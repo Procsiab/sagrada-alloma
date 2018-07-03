@@ -2,7 +2,7 @@ package server.executables;
 
 import server.threads.MainServer;
 import shared.Dice;
-import shared.Overlay;
+import server.Overlay;
 
 import java.util.ArrayList;
 import java.util.HashSet;

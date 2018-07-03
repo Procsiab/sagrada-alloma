@@ -470,7 +470,7 @@ public class GameManager extends GeneralTask {
                 this.vPlayersFixed) {
             Window window = player.getWindow();
             WindowT windowT = new WindowT(window.getName(), window.getMatrices());
-            PlayerT playerT = new PlayerT(player.getNickName(), player.getPrivateO(), windowT, player.getOverlay(),
+            PlayerT playerT = new PlayerT(player.getNickName(), player.getPrivateO(), windowT, player.getOverlay().getDicePositions(),
                     player.getTokens(), player.getTurno(), player.getComputatedScore(), player.getPrivateTurn(),
                     player.getLastPlacedFromPool());
             vPlayersT.add(playerT);

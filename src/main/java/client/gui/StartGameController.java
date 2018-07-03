@@ -185,7 +185,7 @@ public class StartGameController implements Initializable {
 
             if (counterPosition > playersLocal.size() - 1)
                 counterPosition = 0;
-            Dice[][] myOverlay = playersLocal.get(counterPosition).overlay.getDicePositions();
+            Dice[][] myOverlay = playersLocal.get(counterPosition).overlay;
 
             ObservableList<Node> myGrid = listMapCard.get(i).getChildren();
             int z = 0;

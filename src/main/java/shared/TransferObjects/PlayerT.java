@@ -1,6 +1,6 @@
 package shared.TransferObjects;
 
-import shared.Overlay;
+import shared.Dice;
 import shared.Position;
 
 import java.io.Serializable;
@@ -9,7 +9,7 @@ public class PlayerT implements Serializable {
     public final String nickName;
     public final Character privateO;
     public final WindowT window;
-    public final Overlay overlay;
+    public final Dice[][] overlay;
     public final Integer tokens;
     public final Integer turno;
     public final Integer score;
@@ -17,7 +17,7 @@ public class PlayerT implements Serializable {
     public final Position lastPlaced;
 
     public PlayerT(String nickName, Character privateOC,
-                   WindowT window, Overlay overlay,
+                   WindowT window, Dice[][] overlay,
                    Integer tokens, Integer turno,
                    Integer score, Integer privateTurn,
                    Position lastPlaced) {

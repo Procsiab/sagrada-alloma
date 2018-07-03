@@ -1,5 +1,8 @@
-package shared;
+package server;
 
+
+import shared.Dice;
+import shared.Position;
 
 import java.io.*;
 
@@ -7,22 +10,42 @@ public class Overlay implements Serializable {
 
     private Dice[][] dicePositions = new Dice[4][5];
 
+    /**
+     * check whether the position
+     * @param position refer to a in bound dice
+     */
     private Boolean validateInBounds(Position position) {
         return position.getRow() > -1 && position.getRow() < 4 && position.getColumn() > -1 && position.getColumn() < 5;
     }
 
+    /**
+     * check if
+     * @param position is written properly
+     */
     private Boolean validateValid(Position position) {
         return position != null && position.getRow() != null && position.getColumn() != null;
     }
 
+    /**
+     * check if there is no dice in the position
+     * @param position
+     */
     public Boolean validateEmpty(Position position) {
         return validateValid(position) && validateInBounds(position) && dicePositions[position.getRow()][position.getColumn()] == null;
     }
 
+    /**
+     * check if there is empty space in the position
+     * @param position
+     */
     public Boolean validateFree(Position position) {
         return validateValid(position) && (!validateInBounds(position) || dicePositions[position.getRow()][position.getColumn()] == null);
     }
 
+    /**
+     * check if there is a dice in the position
+     * @param position
+     */
     public Boolean validateBusy(Position position) {
         return validateValid(position) && validateInBounds(position) && dicePositions[position.getRow()][position.getColumn()] != null;
     }

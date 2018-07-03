@@ -4,10 +4,7 @@ import client.ProxyClient;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import shared.*;
-import shared.TransferObjects.GameManagerT;
-import shared.TransferObjects.PlayerT;
-import shared.TransferObjects.ToolCT;
-import shared.TransferObjects.WindowT;
+import shared.TransferObjects.*;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -370,14 +367,14 @@ public class MainCLI {
         }
     }
 
-    private void printWindow(WindowT w, Overlay o) {
+    private void printWindow(WindowT w, Dice[][] o) {
         final int COLS = 5;
         final int ROWS = 4;
         for (int i = 0; i < ROWS; i++) {
             AnsiConsole.out().print(' '); // Space before every row
             for (int j = 0; j < COLS; j++) {
                 Cell c = w.cells[i][j];
-                Dice d = o.getDicePositions()[i][j];
+                Dice d = o[i][j];
                 if (d == null) { // In case no dice is placed
                     printCell(c);
                 } else {
