@@ -16,4 +16,5 @@ We proudly present a full working software version of the well-known table-game:
 _What do I need to know?_ -The packages are split in three: Server, Client, Shared. You will need to have either Server or Client and Shared on each host. If you want to play over LAN then you need to...
 
 
-`7/2018 Polytechnic of Milan, Italy`
+`7/2018`
+`Polytechnic of Milan, Italy`
