@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * this is where every information about the clients is stored. It gives the number of currently playing clients,
- * the reference of the virtual player, and the reference of the gameManager, among high granularity details
+ * this is where every information about the clients is stored. It gives
+ * the number of currently playing clients,
+ * the reference of the virtual player, and the reference of the gameManager,
+ * among high granular details
  */
 public class SReferences {
+
+    private SReferences(){}
 
     //CAUTION: Do not synchronize on MatchManager.obj2, possible deadlock
 
@@ -135,7 +139,8 @@ public class SReferences {
     public static synchronized Boolean checkNickNameRef(String nickNameRef, List<String> queue) {
         for (String uUID :
                 queue) {
-            if (getNickNameRef(uUID).equals(nickNameRef))
+            String nick = getNickNameRef(uUID);
+            if (nick != null && nick.equals(nickNameRef))
                 return false;
         }
         return true;

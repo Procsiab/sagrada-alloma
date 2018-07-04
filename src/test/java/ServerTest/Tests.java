@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  * adopted config parameters
  *     25000@10@10000@5000@5000@200@6
  */
-class Tests {
+public class Tests {
 
     private static ProxyServer proxyServer = ProxyServer.getInstance();
     private GameManager gameManager;
@@ -59,7 +59,7 @@ class Tests {
 
     }
 
-    @org.junit.Test
+
     private void testWindowsAndCards() {
         ArrayList<String> players = new ArrayList<>();
         players.add("player1");
@@ -464,7 +464,7 @@ class Tests {
 
     }
 
-    @Test
+
     private boolean testHashCode() {
         HashSet<Integer> hashSet = new HashSet<>();
         Dice dice = new Dice('g', 1);
@@ -531,7 +531,7 @@ class Tests {
         return true;
     }
 
-    @Test
+
     private boolean simulateGame() {
         startGame("player1");
         startGame("player2");
@@ -560,9 +560,9 @@ class Tests {
         return true;
     }
 
-    @Test
+
     private void testMaxNumber(){
-        maxUsers = Config.maxActivePlayerRefs;
+        maxUsers = Config.getConfig().maxActivePlayerRefs;
         SReferences.removeRef("player1");
         SReferences.removeRef("player2");
         SReferences.removeRef("player3");
@@ -578,7 +578,7 @@ class Tests {
     }
 
     @Test
-    void main() {
+    public void main() {
 
         MainServer.simulation();
         ProxyServer.setTest();

@@ -8,14 +8,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MatchManager {
-    private static final Integer MAX_ACTIVE_PLAYER_REFS = Config.maxActivePlayerRefs;
+    private static final Integer MAX_ACTIVE_PLAYER_REFS = Config.getConfig().maxActivePlayerRefs;
     private static LinkedList<String> q = new LinkedList<>();
     private static ArrayList<Window> windows = new ArrayList<>();
     private static final Object obj = new Object();
     private static MatchManager instance = new MatchManager();
 
     /**
-     * this is where every player ask for connection.
+     * this is where every player ask for first connection.
      */
     private MatchManager() {
         super();

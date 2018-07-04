@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 public class GameGenerator extends GeneralTask {
-    private Integer sleepTime = Config.timeout1;
+    private Integer sleepTime = Config.getConfig().timeout1;
     private final Object obj = MatchManager.getObj();
     private ArrayList<String> clients;
     private Queue<String> queue = MatchManager.getQ();
@@ -25,7 +25,8 @@ public class GameGenerator extends GeneralTask {
     }
 
     /**
-     * handle the connections request under timing scope. Timer starts when queue has two player and generates the game when timer runs out.
+     * handle the connections request under timing scope.
+     * Timer starts when queue has two player and generates the game (if possible) when timer runs out.
      */
     @Override
     public void run() {
@@ -72,7 +73,7 @@ public class GameGenerator extends GeneralTask {
                 }
             } catch (Exception e) {
                 Logger.log("Error waiting on lock!");
-                e.printStackTrace();
+                Logger.strace(e);
             }
         }
     }

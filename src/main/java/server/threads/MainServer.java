@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class MainServer {
     //create an object of MainServer
     private static final MainServer instance = new MainServer();
-    public static ProxyServer proxyServer;
+    private static ProxyServer proxyServer;
 
     public static MainServer getInstance() {
         return instance;

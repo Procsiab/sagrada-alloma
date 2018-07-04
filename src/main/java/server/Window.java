@@ -53,7 +53,8 @@ public class Window {
     /**
      * check wheter in the
      * @param overlay in the
-     * @param position there is a diagonally adjacent dice which has the same color or shade of the following
+     * @param position there is a diagonally adjacent dice which has
+     *                the same color or shade of the following
      * @param dice
      */
     private Boolean checkSideBySide(Overlay overlay, Position position, Dice dice) {

@@ -36,7 +36,7 @@ public class Player {
     /**
      * sort players according to score. If they have the same score it sort by it nickname
      */
-    public static Comparator<Player> cmp = new Comparator<Player>() {
+    public static final Comparator<Player> cmp = new Comparator<Player>() {
         @Override
         public int compare(Player o1, Player o2) {
             Integer r1 = o2.score.compareTo(o1.score);
@@ -140,7 +140,8 @@ public class Player {
     }
 
     /**
-     * this is a updateview called from client. It comes in handy when the client want to know immediately how things are.
+     * this is a updateview called from client. It comes in handy when the client
+     * want to know immediately how things are.
      * each player can request this only in their turn.
      *
      * @param uUID is the code of the player
@@ -150,7 +151,8 @@ public class Player {
     }
 
     /**
-     * @param possibleWindows are the windows the server allows to each player during initialization of game
+     * @param possibleWindows are the windows the server allows to each player
+     *                        during initialization of game
      */
     public void setPossibleWindows(List<Integer> possibleWindows) {
         this.possibleWindows = new ArrayList<>(possibleWindows);

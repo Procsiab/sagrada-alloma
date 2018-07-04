@@ -9,9 +9,6 @@ import java.util.Random;
 public class Pool {
     private ArrayList<Dice> poolOfDice = new ArrayList<>();
 
-    public Pool() {
-    }
-
     public List<Dice> getDices() {
         return poolOfDice;
     }

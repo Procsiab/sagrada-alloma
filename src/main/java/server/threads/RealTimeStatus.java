@@ -22,7 +22,7 @@ public class RealTimeStatus extends GeneralTask {
 
     public RealTimeStatus(List<String> players) {
         this.players.addAll(players);
-        this.time = Config.timeout6;
+        this.time = Config.getConfig().timeout6;
     }
 
     /**

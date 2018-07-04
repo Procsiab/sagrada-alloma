@@ -36,7 +36,6 @@ public class GameManager extends GeneralTask {
     private Set<String> left = Collections.synchronizedSet(new HashSet<>());
     private Vector<String> jump = new Vector<>();
     private AtomicInteger threads = new AtomicInteger(0);
-    private String tavolo;
     private Set<String> unrespAltoughP = new HashSet<>();
     private Set<String> active = new HashSet<>();
     private String expected = "none";
@@ -54,10 +53,10 @@ public class GameManager extends GeneralTask {
 
         this.players.addAll(players);
         this.publicRef.addAll(Collections.unmodifiableList(players));
-        this.timeout1 = Config.timeout2;
-        this.timeout2 = Config.timeout3;
-        this.timeout3 = Config.timeout4;
-        this.timeout4 = Config.timeout5;
+        this.timeout1 = Config.getConfig().timeout2;
+        this.timeout2 = Config.getConfig().timeout3;
+        this.timeout3 = Config.getConfig().timeout4;
+        this.timeout4 = Config.getConfig().timeout5;
 
         for (String p :
                 publicRef) {
@@ -770,6 +769,7 @@ public class GameManager extends GeneralTask {
      */
     private Boolean onlyOne() {
         if (active.size() == 1) {
+            String tavolo;
             Logger.log(this + " we're having a victory decided by arbitration");
             tavolo = (String) active.toArray()[0];
             proxyServer.tavoloWin(tavolo);
