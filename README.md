@@ -3,12 +3,16 @@ Progetto di ingegneria del software, a.a. 2018
 
 ********************************************************
 
-RMI + SOCKET + CLI: Lorenzo Prosseda
+RMI + SOCKET + CLI: **_Lorenzo Prosseda_**
 
-GUI: Mattia Surricchio
+GUI: **_Mattia Surricchio_**
 
-SERVER + multi-match handling: Alberto Tiraboschi
+SERVER + multi-match handling: **_Alberto Tiraboschi_**
 
 ********************************************************
 
 We proudly present a full working software version of the well-known table-game: SAGRADA.
+
+
+
+                                                                `Polytechnic of Milan, Italy`
