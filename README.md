@@ -4,7 +4,9 @@ Progetto di ingegneria del software, a.a. 2018
 ********************************************************
 
 RMI + SOCKET + CLI: Lorenzo Prosseda
+
 GUI: Mattia Surricchio
+
 SERVER + multi-match handling: Alberto Tiraboschi
 
 ********************************************************
