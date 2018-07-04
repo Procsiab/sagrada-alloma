@@ -1,6 +1,7 @@
 .idea/*
 !.idea/artifacts/
 target/
+out/
 *.class
 *.iml
 *.plantuml
