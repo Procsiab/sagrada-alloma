@@ -3,11 +3,11 @@ Progetto di ingegneria del software, a.a. 2018
 
 ********************************************************
 
-**RMI + SOCKET + CLI: _Lorenzo Prosseda_**
+**_RMI + SOCKET + CLI_: Lorenzo Prosseda**
 
-**GUI: _Mattia Surricchio_**
+**_GUI_: Mattia Surricchio**
 
-**SERVER + multi-match handling: _Alberto Tiraboschi_**
+**_SERVER + multi-match handling_: Alberto Tiraboschi**
 
 ********************************************************
 
@@ -15,4 +15,4 @@ We proudly present a full working software version of the well-known table-game:
 
 
 
-                                                                                     `7/2018 Polytechnic of Milan, Italy`
+                                                                                    `7/2018 Polytechnic of Milan, Italy`
