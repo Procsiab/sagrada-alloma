@@ -23,6 +23,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+    This class is the controller associated with {@code WaitingRoom.fxml}. It shows a simple animation and gives the user the opportunity for disconnecting.
+    Once the loading has been completed the {@code chooseWindow(...)} method is called from {@link ProxyClient#chooseWindow(ArrayList, ArrayList)}.
+    {@code chooseWindow(...)} saves the 4 cards to be chosen by the user in {@link MainClient#chosenCards} and then, once the cards have been saved,
+    it loads the next view and the {@link ChooseWindowController}.
+ */
+
 public class WaitingRoomController implements Initializable {
 
     @FXML
@@ -42,6 +49,10 @@ public class WaitingRoomController implements Initializable {
         MainClient.setWaitingRoomController(this);
     }
 
+
+    /**
+     Initialize with transition and loads the array containing the imageViews of the bars
+     */
     public void initialize(URL location, ResourceBundle resources) {
         loadArray();
         rotateTransition();
@@ -55,6 +66,7 @@ public class WaitingRoomController implements Initializable {
 
 
     }
+
     public void chooseWindow(ArrayList<Integer> listCard) {
 
         Platform.runLater(

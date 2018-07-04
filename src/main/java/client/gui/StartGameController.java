@@ -630,8 +630,12 @@ public class StartGameController implements Initializable {
     public void onTimeStatus(String s1, String s2){
         Platform.runLater(
                 () -> {
-                    CustomAlert connectionPlayers = new CustomAlert(Alert.AlertType.INFORMATION,"Connected and disconnected players", "Connected:" + s1 + "\n" + "Disconnected:" + s2);
-
+                    if(s2==null) {
+                        CustomAlert connectionPlayers = new CustomAlert(Alert.AlertType.INFORMATION, "Connected players", "Connected: " + s1 + "\n" );
+                    }
+                    else {
+                        CustomAlert connectionPlayers = new CustomAlert(Alert.AlertType.INFORMATION, "Disconnected players", "Disconnected: " + s2);
+                    }
                 });
     }
 }

@@ -75,7 +75,9 @@ public class WinnerController implements Initializable {
     private void setData(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
         for(int i=0;i<nicks.size();i++){
             nicknames.get(i).setText(nicks.get(i));
-            scoresText.get(i).setText(scores.get(i).toString());
+            if(scores!=null) {
+                scoresText.get(i).setText(scores.get(i).toString());
+            }
             cards.get(i).setVisible(true);
         }
 
@@ -89,12 +91,5 @@ public class WinnerController implements Initializable {
 
 
     }
-
-    public void setVariables(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner){
-        System.out.println("Settin variables");
-
-    }
-
-
 
 }

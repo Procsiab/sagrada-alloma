@@ -1,5 +1,4 @@
 package client.gui;
-import client.MainClient;
 import client.ProxyClient;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -18,11 +17,16 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import shared.Logger;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
+/**
+ * <p>This class is the controller of the first view launched. It's associated with LogInScreen.fxml. The class allows you to enter a nickname and then start to queue for a game</p>
+ *
+ *
+ */
 public class LogInScreenController implements Initializable {
 
     // Logic Variables
@@ -33,20 +37,20 @@ public class LogInScreenController implements Initializable {
     @FXML private TextField nicknameField;
 
 
-
-    public LogInScreenController(){
-
-    }
-
-    // Initialization
+    /**
+     * Initialization of view, starts a simple transition and sets button color.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         animationSagrada();
-        animationStartGame();
         startButton.setStyle("-fx-background-color: transparent;");
 
     }
 
+    /**
+     * Method triggered when the {@code startButton} is clicked. It calls the {@link ProxyClient#getInstance().startGame}, then, based on the response of this method, it starts
+     * the queue (moving to the {@link WaitingRoomController}) or return an error and creates a {@link CustomAlert} with the error message.
+     */
     @FXML public void LogIn(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/WaitingRoom.fxml"));
@@ -63,7 +67,6 @@ public class LogInScreenController implements Initializable {
             window.show();
         }
         if (message1.equals("You already playing! Hold on while the server calls you again")){
-        //todo: start StartGameController
             FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
             Parent root2  = loader1.load();
             StartGameController controller = loader1.getController();
@@ -84,17 +87,6 @@ public class LogInScreenController implements Initializable {
     }
 
 
-    // Support methods for animation
-    private void animationStartGame() {
-        FadeTransition ft = new FadeTransition(Duration.millis(3000), startButton);
-        ft.setFromValue(1.0);
-        ft.setToValue(0.3);
-        ft.setCycleCount(2);
-        ft.setAutoReverse(true);
-
-        ft.play();
-
-    }
 
     private void animationSagrada(){
         ScaleTransition scaleTransition = new ScaleTransition();
