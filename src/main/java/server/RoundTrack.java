@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoundTrack implements Serializable {
+public class RoundTrack {
     private List<ArrayList<Dice>> dices = new ArrayList<>();
 
     public RoundTrack() {

@@ -611,7 +611,8 @@ public class MatchManager {
      * @param isSocket
      * @return a string that specifies if the player is connect or why it is not.
      */
-    public static synchronized String startGame(String uUID, String nickName, String ip, Integer port, boolean isSocket) {
+    public static synchronized String startGame(String uUID, String nickName,
+                                                String ip, Integer port, boolean isSocket) {
 
         if (SReferences.getActivePlayer().equals(MAX_ACTIVE_PLAYER_REFS)) {
             Logger.log("Player: " + uUID + " has connection refused: too many players.");

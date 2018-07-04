@@ -6,7 +6,7 @@ import shared.Position;
 
 import java.io.*;
 
-public class Overlay implements Serializable {
+public class Overlay {
 
     private Dice[][] dicePositions = new Dice[4][5];
 

@@ -26,7 +26,7 @@ public class GameManager extends GeneralTask {
     private final Integer timeout1; //timer to play for each player config
     private final Integer timeout2; //for window back
     private final Integer timeout3; //time for graphics
-    private final Integer timeout4;
+    private final Integer timeout4; //to show results
     private final ArrayList<Player> vPlayersFixed = new ArrayList<>();
     private ArrayList<Player> vPlayers = new ArrayList<>();
     private boolean action = false;

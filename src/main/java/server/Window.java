@@ -5,7 +5,7 @@ import shared.*;
 
 import java.io.Serializable;
 
-public class Window implements Serializable {
+public class Window {
 
     private final Cell[][] matrices;
     private final Integer tokens;
