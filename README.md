@@ -15,4 +15,5 @@ We proudly present a full working software version of the well-known table-game:
 
 
 
-                                                                `Polytechnic of Milan, Italy`
+                                                                 `Polytechnic of Milan, Italy
+                                                                                        5/2018`
