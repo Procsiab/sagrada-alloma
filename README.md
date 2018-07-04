@@ -9,4 +9,4 @@ SERVER + multi-match handling: Alberto Tiraboschi
 
 ********************************************************
 
-We proudly present a full working software version of the well-known game: SAGRADA.
+We proudly present a full working software version of the well-known table-game: SAGRADA.
