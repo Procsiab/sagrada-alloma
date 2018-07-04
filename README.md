@@ -3,11 +3,11 @@ Progetto di ingegneria del software, a.a. 2018
 
 ********************************************************
 
-_RMI + SOCKET + CLI_:               **Lorenzo Prosseda**
+_NETWORK + CLI_:               **Lorenzo Prosseda**
 
 _GUI_:                              **Mattia Surricchio**
 
-_SERVER + multi-match handling_:    **Alberto Tiraboschi**
+_SERVER_:    **Alberto Tiraboschi**
 
 ********************************************************
 
