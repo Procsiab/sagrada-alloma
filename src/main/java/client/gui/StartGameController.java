@@ -2,7 +2,6 @@ package client.gui;
 
 import client.MainClient;
 import client.ProxyClient;
-import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -33,8 +32,6 @@ import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.TransferObjects.PlayerT;
-
-
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
