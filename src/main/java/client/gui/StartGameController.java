@@ -81,7 +81,7 @@ public class StartGameController implements Initializable {
     private ArrayList<ImageView> listPublicOC = new ArrayList<>();
     private PositionR positionDiceRoundTrack = new PositionR();
     private Position positions[];
-    private int counterPosition = 0;
+    private int counterPositionGame = 0;
     private int singleton=0;
 
 
@@ -117,7 +117,7 @@ public class StartGameController implements Initializable {
                     System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
 
                     clearPosizioni();
-                    counterPosition = 0;
+                    counterPositionGame = 0;
                     ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
                     int counterPosition = gameManager.pos;
 
@@ -329,9 +329,9 @@ public class StartGameController implements Initializable {
      Creates a new {@link Position}, it's used in {@link StartGameController#onClickMap(ActionEvent)}
       */
     private void addPosition(int row, int column) {
-        if (counterPosition < 4) {
-            positions[counterPosition] = new Position(row, column);
-            counterPosition++;
+        if (counterPositionGame < 4) {
+            positions[counterPositionGame] = new Position(row, column);
+            counterPositionGame++;
         } else {
             System.out.println("Superato limite!");
 
