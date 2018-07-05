@@ -34,7 +34,6 @@ public class WinnerController implements Initializable {
 
 
     public WinnerController(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
-        System.out.println("Costructor WINNER");
         this.nicks=nicks;
         this.scores=scores;
         this.winner=winner;
@@ -43,12 +42,10 @@ public class WinnerController implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources)  {
-        System.out.println("Inizializzazione WINNER");
-        System.out.println("Contenuto nicks WINNER" + nicks);
         initNicknames();
         initCards();
         initScores();
-        setData(nicks,scores,winner);
+        setData(nicks,scores);
 
 
 
@@ -75,7 +72,7 @@ public class WinnerController implements Initializable {
 
     }
 
-    private void setData(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
+    private void setData(ArrayList<String> nicks, ArrayList<Integer> scores) {
         for(int i=0;i<nicks.size();i++){
             nicknames.get(i).setText(nicks.get(i));
             if(scores!=null) {

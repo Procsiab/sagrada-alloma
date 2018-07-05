@@ -28,10 +28,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import shared.Dice;
+import shared.Logger;
 import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.TransferObjects.PlayerT;
+import sun.rmi.runtime.Log;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
@@ -114,7 +117,7 @@ public class StartGameController implements Initializable {
     public void updateView(GameManagerT gameManager) {
         Platform.runLater(
                 () -> {
-                    System.out.print("I was updated, receiving the GameManager object:\n" + gameManager.toString());
+                    Logger.log("I was updated, receiving the GameManager object:\n" + gameManager.toString());
 
                     clearPosizioni();
                     counterPositionGame = 0;
@@ -333,7 +336,7 @@ public class StartGameController implements Initializable {
             positions[counterPositionGame] = new Position(row, column);
             counterPositionGame++;
         } else {
-            System.out.println("Superato limite!");
+            Logger.log("Over limit of positions!");
 
         }
 
@@ -435,7 +438,6 @@ public class StartGameController implements Initializable {
     @FXML
     private void setSelectedDice(ActionEvent event) {
         Node selectedDice = (Node) event.getSource();
-        String nomeDado = selectedDice.getId();
         positionPoolDice = listDice.indexOf(selectedDice);
     }
 
@@ -455,7 +457,7 @@ public class StartGameController implements Initializable {
 
         Boolean placed = proxyClient.placeDice(positionPoolDice, diceGridPosition);
         if(placed==false){
-            CustomAlert failedPlacement = new CustomAlert(Alert.AlertType.ERROR, "Error placing dice!" , "Dice placed in an unhautorized position!");
+            new CustomAlert(Alert.AlertType.ERROR, "Error placing dice!" , "Dice placed in an unhautorized position!");
 
         }
         else proxyClient.updateViewFromC();
@@ -573,7 +575,7 @@ public class StartGameController implements Initializable {
     private void useToolCard(ActionEvent event) {
         Boolean usedToolC = proxyClient.useToolC(indexofToolCard, positions[0], positions[1], positions[2], positions[3], positionDiceRoundTrack, positionPoolDice, incrementValue);
         if(usedToolC==false){
-            CustomAlert failedUse = new CustomAlert(Alert.AlertType.ERROR, "Error using ToolCard!" , "Toolcard can't be used! Wrong parameters or violating rules!");
+            new CustomAlert(Alert.AlertType.ERROR, "Error using ToolCard!" , "Toolcard can't be used! Wrong parameters or violating rules!");
 
         }
         else proxyClient.updateViewFromC();
@@ -648,7 +650,7 @@ public class StartGameController implements Initializable {
                         window.show();
                     }
                     catch (IOException Exception) {
-                        System.out.println("View not found. Error while loading");
+                        Logger.log("View not found. Error while loading");
 
                     }
                 }
@@ -679,7 +681,7 @@ public class StartGameController implements Initializable {
                         window.setScene(startedGame);
                         window.show();
                     } catch (IOException Exception) {
-                        System.out.println("View not found. Error while loading");
+                        Logger.log("View not found. Error while loading");
 
                     }
                 }
@@ -690,10 +692,10 @@ public class StartGameController implements Initializable {
         Platform.runLater(
                 () -> {
                     if(s2==null) {
-                        CustomAlert connectionPlayers = new CustomAlert(Alert.AlertType.INFORMATION, "Connected players", "Connected: " + s1 + "\n" );
+                        new CustomAlert(Alert.AlertType.INFORMATION, "Connected players", "Connected: " + s1 + "\n" );
                     }
                     else {
-                        CustomAlert connectionPlayers = new CustomAlert(Alert.AlertType.INFORMATION, "Disconnected players", "Disconnected: " + s2);
+                        new CustomAlert(Alert.AlertType.INFORMATION, "Disconnected players", "Disconnected: " + s2);
                     }
                 });
     }

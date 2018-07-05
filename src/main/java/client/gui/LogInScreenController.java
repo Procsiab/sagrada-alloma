@@ -79,11 +79,11 @@ public class LogInScreenController implements Initializable {
             window.show();
             }
             if(message1.equals("NickName is not available.")){
-            CustomAlert notAvailable = new CustomAlert(Alert.AlertType.WARNING,message1,"Please select another nickname!");
+            new CustomAlert(Alert.AlertType.WARNING,message1,"Please select another nickname!");
 
             }
         if(message1.equals("Please enter a valid NickName")){
-            CustomAlert notAvailable = new CustomAlert(Alert.AlertType.WARNING,message1,"Please enter a valid NickName");
+            new CustomAlert(Alert.AlertType.WARNING,message1,"Please enter a valid NickName");
 
         }
 
