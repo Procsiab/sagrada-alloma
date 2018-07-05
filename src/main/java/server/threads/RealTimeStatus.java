@@ -54,9 +54,8 @@ public class RealTimeStatus extends GeneralTask {
                     players) {
                 nick = SReferences.getNickNameRef(player);
 
-                if (nick == null){
-
-                    return;}
+                if (nick == null)
+                    return;
 
                 if (proxyServer.ping(player)) {
                     if (online.add(player)) {
