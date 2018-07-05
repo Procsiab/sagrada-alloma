@@ -283,7 +283,7 @@ public class StartGameController implements Initializable {
                         myGrid.get(z).setOpacity(100);
 
                     } else {
-                        myGrid.get(z).setStyle(("-fx-background-color: transparent;-fx-background-size: 100% 100%;"));
+                        myGrid.get(z).setStyle((transparentBackround));
 
                     }
 
@@ -400,7 +400,7 @@ public class StartGameController implements Initializable {
 
     private void initPool() {
         for (int i = 0; i < listDice.size(); i++) {
-            listDice.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+            listDice.get(i).setStyle(transparentBackround);
         }
     }
 
