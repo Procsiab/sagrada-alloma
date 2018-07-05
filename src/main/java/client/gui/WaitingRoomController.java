@@ -18,6 +18,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import shared.Logger;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -86,7 +88,7 @@ public class WaitingRoomController implements Initializable {
                         window.setScene(startedGame);
                         window.show();
                     } catch (IOException Exception) {
-                        System.out.println("View not found. Error while loading");
+                        Logger.log("View not found. Error while loading");
 
                     }
                 }
@@ -136,7 +138,7 @@ public class WaitingRoomController implements Initializable {
             window.setScene(startedGame);
             window.show();
         } catch (IOException Exception) {
-            System.out.println("View not found. Error while loading");
+            Logger.log("View not found. Error while loading");
 
         }
 

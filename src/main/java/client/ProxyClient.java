@@ -217,7 +217,7 @@ public final class ProxyClient implements SharedProxyClient {
         if (MainClient.isPrompt()) {
             MainClient.getCliController().printScore(nicks, scores, winner);
         } else {
-            MainClient.getStartGameController().printScore(nicks, scores, winner);
+            MainClient.getStartGameController().printScore(nicks, scores);
         }
     }
 
