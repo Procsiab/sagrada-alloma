@@ -33,7 +33,6 @@ import shared.Position;
 import shared.PositionR;
 import shared.TransferObjects.GameManagerT;
 import shared.TransferObjects.PlayerT;
-import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -86,6 +85,8 @@ public class StartGameController implements Initializable {
     private Position positions[];
     private int counterPositionGame = 0;
     private int singleton=0;
+    private String sizeBackground = ".png');-fx-background-size: 100% 100%;";
+    private String transparentBackround = "-fx-background-color: transparent;-fx-background-size: 100% 100%;";
 
 
     public StartGameController() {
@@ -173,7 +174,7 @@ public class StartGameController implements Initializable {
 
             nomeCarta = playersLocal.get(counterPosition).window.getName();
 
-            listMapCard.get(i).setStyle("-fx-background-image: url('Windows/" + nomeCarta + ".png');-fx-background-size: 100% 100%;");
+            listMapCard.get(i).setStyle("-fx-background-image: url('Windows/" + nomeCarta + sizeBackground);
             counterPosition++;
 
         }
@@ -244,15 +245,15 @@ public class StartGameController implements Initializable {
                 int numero = gameManager.pool.get(i).getValue();
                 char color = gameManager.pool.get(i).getColor();
 
-                listDice.get(i).setStyle("-fx-background-image: url('Dices/" + numero + "" + color + ".png');-fx-background-size: 100% 100%;");
+                listDice.get(i).setStyle("-fx-background-image: url('Dices/" + numero + "" + color + sizeBackground);
             } else {
-                listDice.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+                listDice.get(i).setStyle(transparentBackround);
 
             }
 
         }
         for (int i = numDadi; i < listDice.size(); i++) {
-            listDice.get(i).setStyle("-fx-background-color: transparent;-fx-background-size: 100% 100%;");
+            listDice.get(i).setStyle(transparentBackround);
 
         }
 
@@ -282,7 +283,7 @@ public class StartGameController implements Initializable {
                         char mycolor = myOverlay[k][y].getColor();
                         int mynumber = myOverlay[k][y].getValue();
 
-                        myGrid.get(z).setStyle(("-fx-background-image: url('Dices/" + mynumber + "" + mycolor + ".png');-fx-background-size: 100% 100%;"));
+                        myGrid.get(z).setStyle(("-fx-background-image: url('Dices/" + mynumber + "" + mycolor + sizeBackground));
                         myGrid.get(z).setOpacity(100);
 
                     } else {

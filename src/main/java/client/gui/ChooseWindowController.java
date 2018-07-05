@@ -96,16 +96,18 @@ public class ChooseWindowController implements Initializable {
      Retrieves the available cards from the {@link MainClient#chosenCards}, then sets the corresponding image as background of the buttons.
      */
     private void loadCards(){
-        int i,j,k,g;
-        i = MainClient.getChosenCards().get(0);
-        j = MainClient.getChosenCards().get(1);
-        k = MainClient.getChosenCards().get(2);
-        g = MainClient.getChosenCards().get(3);
+        String i,j,k,g;
+        String rootString = "-fx-background-image: url('Windows/Window";
+        String leafString = ".png');-fx-background-size: 100% 100%;";
+        i = MainClient.getChosenCards().get(0).toString();
+        j = MainClient.getChosenCards().get(1).toString();
+        k = MainClient.getChosenCards().get(2).toString();
+        g = MainClient.getChosenCards().get(3).toString();
         // IMPORTANT: use "+ variable +" in order to use a variable and not a fixed value!
-        card1.setStyle("-fx-background-image: url('Windows/Window"+i+".png');-fx-background-size: 100% 100% ;");
-        card2.setStyle("-fx-background-image: url('Windows/Window"+j+".png');-fx-background-size: 100% 100%;");
-        card3.setStyle("-fx-background-image: url('Windows/Window"+k+".png');-fx-background-size: 100% 100%;");
-        card4.setStyle("-fx-background-image: url('Windows/Window"+g+".png');-fx-background-size: 100% 100%;");
+        card1.setStyle( rootString+i+leafString );
+        card2.setStyle( rootString+j+leafString );
+        card3.setStyle( rootString+k+leafString );
+        card4.setStyle( rootString+g+leafString );
 
 
     }
