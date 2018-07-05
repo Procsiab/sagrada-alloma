@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="winnerAlone" prefHeight="800.0" prefWidth="1280.0" stylesheets="@winnerAlone.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.WinnerAloneController">
-
+<AnchorPane id="winnerAlone" prefHeight="800.0" prefWidth="1280.0" stylesheets="@winnerAlone.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="732.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nobody is answering" />
+   </children>
 </AnchorPane>

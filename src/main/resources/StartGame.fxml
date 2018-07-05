@@ -527,7 +527,7 @@
                         <Font name="Castellar" size="33.0" />
                      </font>
                   </Button>
-                  <Button fx:id="fineTurno" layoutY="126.0" mnemonicParsing="false" onAction="#fineTurno" prefHeight="25.0" prefWidth="428.0" text="Fine Turno">
+                  <Button fx:id="fineTurno" layoutY="126.0" mnemonicParsing="false" onAction="#endTurn" prefHeight="25.0" prefWidth="428.0" text="Fine Turno">
                      <font>
                         <Font name="Castellar" size="33.0" />
                      </font>

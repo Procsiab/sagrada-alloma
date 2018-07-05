@@ -11,8 +11,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 // I TRIED SO HARD, AND GOT SO FAR, IN THE END I CAN'T DYNAMYCALLY ALLOCATE CUSTOM FXML ITEMS.
 
+/**
+ * Controller associated with {@code Winner.fxml}. Shows the leaderboard with nicknames and scores.
+ */
 public class WinnerController implements Initializable {
     private ArrayList<String> nicks;
     private ArrayList<Integer> scores;
@@ -20,8 +24,7 @@ public class WinnerController implements Initializable {
     private ArrayList<Text> nicknames = new ArrayList<>();
     private ArrayList<Text> scoresText = new ArrayList<>();
     private ArrayList<AnchorPane> cards = new ArrayList<>();
-    @FXML
-    public VBox leaderBoard;
+
     @FXML
     private Text player1,player2,player3,player4;
     @FXML
