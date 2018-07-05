@@ -414,7 +414,7 @@ public class StartGameController implements Initializable {
 
     //FXML METHODS
     @FXML
-    private void endTurn(ActionEvent event) throws IOException {
+    private void endTurn(ActionEvent event)  {
         proxyClient.endTurn();
     }
 
