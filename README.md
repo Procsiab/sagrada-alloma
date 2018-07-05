@@ -48,11 +48,11 @@ Total coverage (75%)
 Server Class Diagram
 ![Server Class Diagram](https://github.com/Procsiab/ing-sw-2018-Prosseda-Surricchio-Tiraboschi/blob/master/umls.jpg)
 
+Network Class Diagram
+![Network Class Diagram](https://github.com/Procsiab/ing-sw-2018-Prosseda-Surricchio-Tiraboschi/blob/master/umln.png)
+
 Client Class Diagram
 ![Client Class Diagram]()
-
-Network Class Diagram
-![Network Class Diagram]()
 
 ## 4.Features
 
@@ -69,5 +69,7 @@ _Advanced_
 - [ ] Dynamic cards
 - [ ] Single player
 
+
 `7/2018`
+
 `Polytechnic of Milan, Italy`
