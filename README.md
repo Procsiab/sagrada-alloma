@@ -33,7 +33,7 @@ Note that by omitting this argument for the client, it will run assuming that th
 ```
 java -jar sagrada_server.jar "my.server.com"
 ```
-the same should be done with the client's JAR.
+the same should be done with the client's JAR. **Note** that it is only possible to play over WAN by using the socket connection method, and by setting up port forwarding and firewall whitelisting on the server machine's network.
 
 ## 2.Test Coverage
 
