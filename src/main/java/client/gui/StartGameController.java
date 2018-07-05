@@ -49,8 +49,6 @@ public class StartGameController implements Initializable {
 
     // FXML GUI Variables
     @FXML
-    private GridPane paneBackground;
-    @FXML
     private GridPane paneCarta0, paneCarta1, paneCarta2, paneCarta3;
     @FXML
     private Button placeDice, fineTurno, useToolCard;
@@ -122,8 +120,6 @@ public class StartGameController implements Initializable {
 
                     clearPosizioni();
                     counterPositionGame = 0;
-                    ArrayList<PlayerT> playersLocal = gameManager.vPlayers;
-                    int counterPosition = gameManager.pos;
 
                     if(singleton==0){
                         // LOAD MAPCARDS
@@ -458,7 +454,7 @@ public class StartGameController implements Initializable {
 
         Boolean placed = proxyClient.placeDice(positionPoolDice, diceGridPosition);
         if(placed==false){
-            new CustomAlert(Alert.AlertType.ERROR, "Error placing dice!" , "Dice placed in an unhautorized position!");
+            new CustomAlert(Alert.AlertType.ERROR, "Error placing dice!" , "Unauthorized placement of dice!");
 
         }
         else proxyClient.updateViewFromC();
