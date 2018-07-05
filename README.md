@@ -3,16 +3,13 @@ Progetto di ingegneria del software, a.a. 2018
 
 ********************************************************
 
-_NETWORK + CLI_: **Lorenzo Prosseda** 
+_NETWORK + CLI_: **Lorenzo Prosseda** @Procsiab
 
-_GUI_: **Mattia Surricchio** 
+_GUI_: **Mattia Surricchio** @mattiasu96
 
-_SERVER_: **Alberto Tiraboschi** 
+_SERVER_: **Alberto Tiraboschi** @Bertox94
 
 ********************************************************
-@Procsiab
-@mattiasu96
-@Bertox94
 
 We proudly present a full working software version of the well-known table-game: SAGRADA.
 
