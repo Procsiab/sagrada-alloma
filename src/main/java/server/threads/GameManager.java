@@ -490,7 +490,7 @@ public class GameManager extends GeneralTask {
         }
 
         proxyServer.updateView(uUID, new GameManagerT(vPlayersT, publicOCsT,
-                toolCsT, roundTrack.getDices(), pool.getDices(), tCtokens, active, players, publicRef.indexOf(uUID)));
+                toolCsT, roundTrack.getDices(), pool.getDices(), active, players, publicRef.indexOf(uUID)));
     }
 
     /**
