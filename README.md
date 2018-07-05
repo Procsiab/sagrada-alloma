@@ -45,6 +45,9 @@ Total coverage (75%)
 
 ## 3.UML Class Diagrams
 
+Initial Class DIagram
+![Initial Class DIagram](https://github.com/Procsiab/ing-sw-2018-Prosseda-Surricchio-Tiraboschi/blob/master/uml1.jpg)
+
 Server Class Diagram
 ![Server Class Diagram](https://github.com/Procsiab/ing-sw-2018-Prosseda-Surricchio-Tiraboschi/blob/master/umls.jpg)
 
