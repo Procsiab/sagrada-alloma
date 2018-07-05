@@ -94,7 +94,6 @@ public class GameManager extends GeneralTask {
 
         for (String p :
                 publicRef) {
-            SReferences.addGameRef(p, this);
             SReferences.addPlayerRef(p, vPlayers.get(i - 1));
             i++;
         }
