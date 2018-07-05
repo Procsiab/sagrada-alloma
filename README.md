@@ -55,7 +55,7 @@ Network Class Diagram
 ![Network Class Diagram](https://github.com/Procsiab/ing-sw-2018-Prosseda-Surricchio-Tiraboschi/blob/master/umln.png)
 
 Client Class Diagram
-![Client Class Diagram]()
+![Client Class Diagram](https://github.com/Procsiab/ing-sw-2018-Prosseda-Surricchio-Tiraboschi/blob/master/umlg.png)
 
 ## 4.Features
 
