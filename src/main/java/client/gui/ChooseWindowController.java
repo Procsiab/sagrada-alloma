@@ -54,11 +54,9 @@ public class ChooseWindowController implements Initializable {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartGame.fxml"));
         Parent root = loader.load();
-        System.out.println("Button pressed " + ((Button) event.getSource()).getId());
         tempSelectedCard = tempSelectedCard.parseInt(((Button) event.getSource()).getText());
         selectedCard = MainClient.getChosenCards().get(tempSelectedCard-1);
         proxyClient.chooseWindowBack(selectedCard);
-        System.out.println(selectedCard);
         StartGameController controller = loader.getController();
 
         Scene startedGame = new Scene(root, 1280, 800, Color.WHITE);
@@ -87,7 +85,7 @@ public class ChooseWindowController implements Initializable {
                     window.setOnHidden(e -> controller.shutdown());
                     window.show();}
                     catch (IOException Exception) {
-                        System.out.println("View not found. Error while loading");
+                        Logger.log("View not found. Error while loading");
 
                     }
                 }
