@@ -144,9 +144,7 @@ public class MainClient extends Application {
         AnsiConsole.systemInstall();
         AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
-        //TODO Use current seconds as UUID, allowing multiple connections from the same machine
-        uuid = String.valueOf(LocalTime.now().getSecond());
-        //uuid = readUuid();
+        uuid = readUuid();
         Logger.log("UUID: " + uuid);
 
         AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the connection type ('Rmi' | 'Socket')").fgDefault());
