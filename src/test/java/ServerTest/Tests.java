@@ -21,7 +21,7 @@ import shared.network.SharedProxyClient;
 import static org.junit.Assert.*;
 
 /**
- * adopted config parameters
+ * adopted config parameters (automatic set)
  *     25000@10@10000@5000@5000@200@6
  */
 public class Tests {

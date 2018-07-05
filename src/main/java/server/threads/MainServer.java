@@ -28,11 +28,7 @@ public class MainServer {
      * emulate the mainserver to allow testing
      */
     public static void simulation() {
-        if (!Config.read()) {
-            Logger.log("Can't read config. Server close now.");
-            return;
-        }
-
+        Config.test();
         ConcurrencyManager.submit(new GameGenerator());
 
     }

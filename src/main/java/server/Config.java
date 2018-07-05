@@ -25,6 +25,21 @@ public class Config {
     public final Integer timeout6;
     public final Integer maxActivePlayerRefs;
 
+    public Config(Boolean test) {
+
+        this.timeout1 = 25000;
+        this.timeout2 = 10;
+        this.timeout3 = 10000;
+        this.timeout4 = 5000;
+        this.timeout5 = 5000;
+        this.timeout6 = 200;
+        this.maxActivePlayerRefs = 6;
+    }
+
+    public static void test(){
+        config = new Config(true);
+    }
+
     private Config(List<Integer> timers) {
 
         timeout1 = timers.remove(0);
