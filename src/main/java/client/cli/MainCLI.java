@@ -522,7 +522,7 @@ public class MainCLI {
         // Stop the main loop
         runForever = false;
         AnsiConsole.out().println(ansi().fgBrightBlue().a("\nSCOREBOARD").fgDefault());
-        if (scores == null && winner == null) {
+        if (scores == null || winner == null) {
             AnsiConsole.out().println(ansi().fgBrightBlue().a("\n[END] ").fgBrightYellow()
                     .a("The player " + nicks.get(0) + " won the match, being the only one who stayed online").fgDefault());
         } else {
