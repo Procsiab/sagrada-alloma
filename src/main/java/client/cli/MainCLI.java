@@ -52,18 +52,16 @@ public class MainCLI {
                         }
                         AnsiConsole.out().println(ansi().fgBrightRed().a("[EXIT] ").fgBrightYellow()
                                 .a("You left the game").fgDefault());
-                    } else {
-                        try { // other commands
-                            useCommand(s);
-                        } catch (NullPointerException npe) {
-                            wrongCommand("server sent invalid data: check your connection");
-                        }
+                    } else { // other commands
+                        useCommand(s);
                     }
                 }
             } catch (InputMismatchException ime) {
                 wrongCommand("command format not recognized!");
             } catch (NumberFormatException nfe) {
                 wrongCommand("you should enter a valid integer number!");
+            } catch (NullPointerException npe) {
+                wrongCommand("server sent invalid data: check your connection");
             }
         } while (runForever);
     }

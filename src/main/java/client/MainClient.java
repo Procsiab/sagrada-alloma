@@ -17,7 +17,6 @@ import shared.network.socket.NetworkSocket;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Console;
@@ -144,8 +143,7 @@ public class MainClient extends Application {
         AnsiConsole.systemInstall();
         AnsiConsole.out().println();
         AnsiConsole.out().println(ansi().fgYellow().a("Sagrada").fgBrightBlue().a(" board game\n").fgDefault());
-        uuid = String.valueOf(LocalTime.now().getSecond());
-        //uuid = readUuid();
+        uuid = readUuid();
         Logger.log("UUID: " + uuid);
 
         AnsiConsole.out().println(ansi().fgBrightRed().a("Choose the connection type ('Rmi' | 'Socket')").fgDefault());
