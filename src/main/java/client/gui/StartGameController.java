@@ -632,12 +632,12 @@ public class StartGameController implements Initializable {
      * so on the winning user (the only that remains in the game) {@link StartGameController#aPrioriWin()} is called, while the reconnected one will just see a scoreboard
      * with the winner in the first position, without scores (because the game has ended because of disconnections)
      */
-    public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
+    public void printScore(ArrayList<String> nicks, ArrayList<Integer> scores) {
 
         Platform.runLater(
                 () -> {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Winner.fxml"));
-                    WinnerController winnerController = new WinnerController(nicks,scores,winner);
+                    WinnerController winnerController = new WinnerController(nicks,scores);
                     loader.setController(winnerController);
 
 

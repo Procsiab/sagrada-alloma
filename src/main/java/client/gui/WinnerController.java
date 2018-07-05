@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 public class WinnerController implements Initializable {
     private ArrayList<String> nicks;
     private ArrayList<Integer> scores;
-    private ArrayList<Boolean> winner;
     private ArrayList<Text> nicknames = new ArrayList<>();
     private ArrayList<Text> scoresText = new ArrayList<>();
     private ArrayList<AnchorPane> cards = new ArrayList<>();
@@ -33,10 +32,9 @@ public class WinnerController implements Initializable {
     private AnchorPane card1,card2,card3,card4;
 
 
-    public WinnerController(ArrayList<String> nicks, ArrayList<Integer> scores, ArrayList<Boolean> winner) {
+    public WinnerController(ArrayList<String> nicks, ArrayList<Integer> scores) {
         this.nicks=nicks;
         this.scores=scores;
-        this.winner=winner;
 
     }
 
