@@ -773,7 +773,7 @@ public class GameManager extends GeneralTask {
             tavolo = (String) active.toArray()[0];
             proxyServer.tavoloWin(tavolo);
             ArrayList<String> str = new ArrayList<>();
-            str.add(tavolo);
+            str.add(SReferences.getNickNameRef(tavolo));
             for (String player :
                     players) {
                 if (!player.equals(tavolo))

@@ -621,8 +621,10 @@ public class MatchManager {
 
         if (SReferences.contains(uUID)) {
             Logger.log("Player: " + uUID + " has connection refused: already playing.");
-            if (SReferences.getIsSocketRef(uUID) != isSocket)
+            if (SReferences.getIsSocketRef(uUID) != isSocket) {
                 SReferences.addIsSocketRef(uUID, isSocket);
+                SReferences.addPortRef(uUID,port);
+            }
             return "You already playing! Hold on while the server calls you again";
         }
 
