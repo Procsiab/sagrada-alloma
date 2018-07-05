@@ -3,11 +3,11 @@ Progetto di ingegneria del software, a.a. 2018
 
 ********************************************************
 
-_NETWORK + CLI_: **Lorenzo Prosseda, @Procsiab**
+_NETWORK + CLI_: **Lorenzo Prosseda** @Procsiab
 
-_GUI_: **Mattia Surricchio, @mattiasu96**
+_GUI_: **Mattia Surricchio** @mattiasu96
 
-_SERVER_: **Alberto Tiraboschi, @Bertox94**
+_SERVER_: **Alberto Tiraboschi** @Bertox94
 
 ********************************************************
 

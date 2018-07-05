@@ -5,7 +5,6 @@ import server.concurrency.GeneralTask;
 public class Timer extends GeneralTask {
 
     private final Integer time;
-    private Boolean toInterrupt = false;
     private Boolean expired = false;
     private final Object obj;
 
