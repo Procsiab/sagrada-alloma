@@ -337,7 +337,7 @@ public class PublicObject {
         while (i < 4) {
             j = 0;
             while (j < 5) {
-                sum = sum + computate(dices, 'a', i, j, true);
+                sum = sum + computate(dices, 'a', i, j);
                 j++;
             }
             i++;
@@ -351,26 +351,22 @@ public class PublicObject {
      * @param color the color of the dice
      * @param r row in the matrix
      * @param c column in the matrix
-     * @param firstTime of ot it is the first call
      * @return the score gained
      */
     private static Integer computate(Dice[][] dices, Character color,
-                                     Integer r, Integer c, Boolean firstTime) {
+                                     Integer r, Integer c) {
 
         if (r > 3 || r < 0 || c > 4 || c < 0)
             return 0;
         if (dices[r][c] == null)
             return 0;
         if (!dices[r][c].getColor().equals(color))
-            return computate(dices, dices[r][c].getColor(), r, c, true);
+            return computate(dices, dices[r][c].getColor(), r, c);
         dices[r][c] = null;
-        Integer ul = computate(dices, color, r - 1, c - 1, false);
-        Integer ur = computate(dices, color, r - 1, c + 1, false);
-        Integer dr = computate(dices, color, r + 1, c + 1, false);
-        Integer dl = computate(dices, color, r + 1, c - 1, false);
-        if (firstTime && ul + ur + dr + dl == 0)
-            return 0;
-        return 1 + ul + ur + dr + dl;
+        return 1 + computate(dices, color, r - 1, c - 1) +
+                computate(dices, color, r - 1, c + 1) +
+                computate(dices, color, r + 1, c + 1) +
+                computate(dices, color, r + 1, c - 1);
     }
 
 }
