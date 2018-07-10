@@ -35,7 +35,6 @@ public class GameManager extends GeneralTask {
     private ArrayList<Integer> tCtokens = new ArrayList<>();
     private Set<String> left = Collections.synchronizedSet(new HashSet<>());
     private Vector<String> jump = new Vector<>();
-    private AtomicInteger threads = new AtomicInteger(0);
     private Set<String> unrespAltoughP = new HashSet<>();
     private Set<String> active = new HashSet<>();
     private String expected = "none";
@@ -237,14 +236,6 @@ public class GameManager extends GeneralTask {
      */
     private Boolean getAction() {
         return action;
-    }
-
-    /**
-     * @return the arraylist of the threads (multiple)
-     * of the player in his allowed time
-     */
-    public AtomicInteger getThreads() {
-        return threads;
     }
 
     @Override
@@ -819,8 +810,6 @@ public class GameManager extends GeneralTask {
                 }
                 setExpected("none");
                 proxyServer.shut(remotePlayer);
-                while (threads.get() != 0) {
-                }
                 setAction(false);
             }
         }

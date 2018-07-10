@@ -308,15 +308,11 @@ public final class ProxyServer implements SharedProxyServer {
     @Override
     public Boolean placeDice(String uuid, Integer index, Position p) {
         try {
-            GameManager game = SReferences.getGameRef(uuid);
-            game.getThreads().incrementAndGet();
             if (deniedAccess(uuid)) {
-                game.getThreads().decrementAndGet();
                 return false;
             }
             Boolean value;
             value = SReferences.getPlayerRef(uuid).placeDice(index, p);
-            game.getThreads().decrementAndGet();
             return value;
         } catch (NullPointerException npe) {
             return false;
@@ -340,15 +336,11 @@ public final class ProxyServer implements SharedProxyServer {
     @Override
     public Boolean useToolC(String uuid, Integer i1, Position p1, Position p2, Position p3, Position p4, PositionR pr, Integer i2, Integer i3) {
         try {
-            GameManager game = SReferences.getGameRef(uuid);
-            game.getThreads().incrementAndGet();
             if (deniedAccess(uuid)) {
-                game.getThreads().decrementAndGet();
                 return false;
             }
             Boolean value;
             value = SReferences.getPlayerRef(uuid).useTool(i1, p1, p2, p3, p4, pr, i2, i3);
-            game.getThreads().decrementAndGet();
             return value;
         } catch (NullPointerException npe) {
             return false;
@@ -377,14 +369,10 @@ public final class ProxyServer implements SharedProxyServer {
     @Override
     public void endTurn(String uuid) {
         try {
-            GameManager game = SReferences.getGameRef(uuid);
-            game.getThreads().incrementAndGet();
             if (deniedAccess(uuid)) {
-                game.getThreads().decrementAndGet();
                 return;
             }
             SReferences.getGameRef(uuid).endTurn();
-            game.getThreads().decrementAndGet();
         } catch (NullPointerException npe) {
             Logger.log("Unable to terminate turn for player with UUID " + uuid);
         }
@@ -398,14 +386,10 @@ public final class ProxyServer implements SharedProxyServer {
     @Override
     public void updateViewFromC(String uuid) {
         try {
-            GameManager game = SReferences.getGameRef(uuid);
-            game.getThreads().incrementAndGet();
             if (deniedAccess(uuid)) {
-                game.getThreads().decrementAndGet();
                 return;
             }
             SReferences.getPlayerRef(uuid).updateViewFromC(uuid);
-            game.getThreads().decrementAndGet();
         } catch (NullPointerException npe) {
             Logger.log("Unable to update teh view of player with UUID " + uuid);
         }
