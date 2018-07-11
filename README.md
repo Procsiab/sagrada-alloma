@@ -1,12 +1,6 @@
 # ing-sw-2018-Prosseda-Surricchio-Tiraboschi
 Progetto di ingegneria del software, a.a. 2018
 
-Nome | Matricola | Cod. Persona
------|-----------|-------------
-Alberto Tiraboschi | 844869 | 10519773
-Lorenzo Prosseda | 844580 | 10523794
-Mattia Surricchio | 844558 | 10495606
-
 ********************************************************
 
 _NETWORK + CLI_: **Lorenzo Prosseda** [@procsiab](https://github.com/Procsiab)
