@@ -7,7 +7,7 @@ _NETWORK + CLI_: **Lorenzo Prosseda** [@procsiab](https://github.com/Procsiab)
 
 _GUI_: **Mattia Surricchio** [@mattiasu96](https://github.com/mattiasu96)
 
-_SERVER_: **Alberto Tiraboschi** [@bertox94](https://github.com/Bertox94)
+_SERVER + TESTS_: **Alberto Tiraboschi** [@bertox94](https://github.com/Bertox94)
 
 ********************************************************
 
