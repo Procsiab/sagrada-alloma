@@ -460,7 +460,8 @@ public class Tests {
 
         sum = player.getScore();
 
-        assertTrue(33 == sum);
+
+        assertTrue(39 == sum);
 
     }
 
